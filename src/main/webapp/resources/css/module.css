@@ -15,7 +15,7 @@ element.style {
 .cols-content {margin-top:25px;} /* 20140508 LineMap 상단 이동으로 인한 값 추가 */
 *+html .cols-content{ zoom:1;}
 .cols-content:after{ content:''; clear:both; display:block;}
-.cols-content .col-detail{ position:relative; width:800px; float:left}
+.cols-content .col-detail{ position:relative; width:801px; float:left}
 .cols-content .col-aside{width:160px; float:right}
 
 .cols-content .col-detail:first-child{ float:left; }
