@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.memberMapper">
+
+<!-- <insert id="registerMember"> 회원가입에서 얻은 정보 DB에 삽입  -->
+<!-- 		insert into MEMBERS(member_id,member_pass,member_name, -->
+<!-- 		                    member_gender,member_phone,member_email,member_birth) -->
+		                    
+<!-- 		values(#{member_id},#{member_pass},#{member_name},#{member_gender}, -->
+<!-- 		       #{member_phone},#{member_email},#{member_birth}) 	 -->
+<!--   	</insert> -->
+  	
+<!--   	<select id="memberCheck" resultType="com.itwillbs.domain.MemberDTO"> 아이디 비밀번호 일치 조회  -->
+<!--   		select * from MEMBERS -->
+<!--   		where member_id = #{member_id} and member_pass = #{member_pass}  -->
+<!--   	</select> -->
+  
+<!--     <select id="getMemberId" resultType="com.itwillbs.domain.MemberDTO">  아이디값 가져오기 위함  -->
+<!--     	select * from MEMBERS -->
+<!--     	where member_id = #{member_id} -->
+<!--     </select>  -->
+    
+<!--     <select id="getMemberNickname" resultType="com.itwillbs.domain.MemberDTO">  닉네임값 가져오기 위함  -->
+<!--     	select * from MEMBERS -->
+<!--     	where member_nickname = #{member_nickname} -->
+<!--     </select> -->
+
+
+	<insert id="registerMember"> <!--회원가입에서 얻은 정보 DB에 삽입  -->
+		insert into MEMBERSTEST(member_id,member_pass,member_name,
+		                    member_gender,member_phone,member_email,member_birth)
+		                    
+		values(#{member_id},#{member_pass},#{member_name},#{member_gender},
+		       #{member_phone},#{member_email},#{member_birth}) 	
+  	</insert>
+  	
+  	<select id="memberCheck" resultType="com.itwillbs.domain.MemberDTO"> <!--아이디 비밀번호 일치 조회  -->
+  		select * from MEMBERSTEST
+  		where member_id = #{member_id} and member_pass = #{member_pass} 
+  	</select>
+  
+    <select id="getMemberId" resultType="com.itwillbs.domain.MemberDTO">  <!-- 아이디값 가져오기 위함  -->
+    	select * from MEMBERSTEST
+    	where member_id = #{member_id}
+    </select> 
+    
+    <select id="getMemberNickname" resultType="com.itwillbs.domain.MemberDTO">  <!-- 닉네임값 가져오기 위함  -->
+    	select * from MEMBERSTEST
+    	where member_nickname = #{member_nickname}
+    </select>
+
+</mapper>  

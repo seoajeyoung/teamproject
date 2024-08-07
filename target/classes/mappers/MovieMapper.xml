@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MovieMapper">
+	
+	
+	<!-- 영화 리스트 -->
+	<select id="getMovie" resultType="com.itwillbs.domain.MovieDTO">
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		order by m.rank
+	</select>
+	
+	<!-- 상영전 영화 -->
+	<select id="getMovie2" resultType="com.itwillbs.domain.MovieDTO">
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		WHERE NOW() &lt; releaseDts
+		order by m.rank
+	</select>
+	
+	
+	
+	<!-- 상영중인 영화 -->
+	<select id="getShowMovies" resultType="com.itwillbs.domain.MovieDTO">
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		WHERE NOW() BETWEEN DATE(releaseDts) AND DATE(releaseDte + 1)
+		order by m.rank;
+	</select>
+	
+	<!-- 정렬 -->
+		<!-- 예매율순 -->
+	<select id="getSortMovies1" resultType="com.itwillbs.domain.MovieDTO" >
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		order by m.rank
+	</select>
+		<!-- 평점순 -->
+	<select id="getSortMovies2" resultType="com.itwillbs.domain.MovieDTO" >
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		where MOVIE_NUM = 4
+		order by m.rank
+	</select>
+		<!-- 관람객순 -->
+	<select id="getSortMovies3" resultType="com.itwillbs.domain.MovieDTO">
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		where releaseDts = '2024-07-18'
+		order by m.rank
+	</select>
+	
+	
+	
+	
+	
+	<!-- 영화 상세정보 -->
+	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
+		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
+				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
+				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		FROM MOVIE m
+		Where MOVIE_NUM = #{num}
+		order by m.rank;
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
