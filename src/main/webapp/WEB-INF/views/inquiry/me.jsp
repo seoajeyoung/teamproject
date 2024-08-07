@@ -53,12 +53,12 @@
 								</a></li>
 								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-								<li class=""><a
+								<li class="on"><a
 									href="${pageContext.request.contextPath}/inquiry/write">1 :
 										1 문의하기<i></i>
 								</a></li>
 
-								<li class="on"><a
+								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/list"
 									title="현재선택">문의/답변<i></i></a></li>
 
@@ -86,16 +86,16 @@
 
 					<div class="col-detail">
 						<div class="customer_top">
-							<h2 class="tit">문의/답변</h2>
+							<h2 class="tit">나의문의내역</h2>
 							<p class="stit">
-								회원님들께서 가장 자주하시는 질문을 모았습니다. <br>문의 전 궁금하신 내용에 대해 검색해보세요.
+								빠른시간안에 답변드리겠습니다. <br>@@@TODO@@뭔가 더 할말있음 적기@@.
 							</p>
 						</div>
 						<div class="search_area">
 							<legend>
 								<label for="searchtext">검색</label>
 							</legend>
-						<form action="${pageContext.request.contextPath}/inquiry/list" method="get" id="searchForm">
+						<form action="${pageContext.request.contextPath}/inquiry/me" method="get" id="searchForm">
 							<input id="searchtext" type="text" name="search" class="c_input" title="검색어 입력"
 								placeholder="검색어를 입력해 주세요" value="" style="width: 275px;">
 							<button type="button" class="round inblack" title="검색하기"
@@ -164,30 +164,22 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">닉네임</th>
+										<th scope="col">등록일</th>
 										<th scope="col" class="tit">제목</th>
-										<th scope="col">답변 여부</th>
+										<th scope="col">답변여부</th>
 									</tr>
 								</thead>
 								<!-- 				@@@@@@@@@@@@@@@ -->
-								<c:forEach var="inquiryDTO" items="${inquiryList}">
+								<c:forEach var="inquiryDTO" items="${mylist}">
 									<tbody>
-
 										<tr class="first">
 											<!--순번 오름차순으로 변경-->
 											<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->
-											
 											<td >${inquiryDTO.RN}</td>
-											<td>${inquiryDTO.MEMBER_NICKNAME}</td>
-											<c:if test="${sessionScope.member_name eq 'admin'}">
+											<td>${inquiryDTO.INQUIRY_DATE_FORMAT}</td>
 											<td id="title0" class="txt"><a
-												href="${pageContext.request.contextPath}/inquiry/answer?inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
-											</c:if>
-											<c:if test="${sessionScope.member_name ne 'admin'}">
-											<td id="title0" class="txt"><a
-												href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
-											</c:if>
-											<td class="num">${inquiryDTO.AS_NUM}</td>
+												href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${inquiryDTO.inquiry_num}">${inquiryDTO.inquiry_name}</a></td>
+											<td class="num">${inquiryDTO.AS_R}</td>
 										</tr>
 																								
 
@@ -205,42 +197,25 @@
 								<li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
 								<li>
 								
-<%-- 								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${i}">${i}</a> --%>
+<%-- 								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${i}">${i}</a> --%>
 
 							<c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
-								<a href="${pageCountext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
+								<a href="${pageCountext.request.contextPath}/inquiry/me?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
 							</c:if>
 						
 							<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${i}"> ${i}</a>
+								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${i}"> ${i}</a>
 							</c:forEach>
 						
 							<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
-								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
+								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
 							</c:if>
 
 								</li>
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=3&amp;type=0&amp;searchtext=">3</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=4&amp;type=0&amp;searchtext=">4</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=5&amp;type=0&amp;searchtext=">5</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=6&amp;type=0&amp;searchtext=">6</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=7&amp;type=0&amp;searchtext=">7</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=8&amp;type=0&amp;searchtext=">8</a> -->
-<!-- 								</li> -->
+
 							</ul>
 							<button class="btn-paging end" type="button"
-								onclick="${pageContext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">끝</button>
+								onclick="${pageContext.request.contextPath}/inquiry/me?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">끝</button>
 						</div>
 						<div class="search_order">
 							<ol>
@@ -260,6 +235,7 @@
 				<!-- //Contents End -->
 			</div>
 			<!-- //Contents Area -->
+
 <script type="text/javascript">
 
 $(function(){
@@ -270,6 +246,7 @@ $('#btn_search').on('click', function() {
 		});
 		
      function Search() {
+			debugger;
 	        // 폼 제출
 	        $('#searchForm').submit();
 	    }		
@@ -279,12 +256,18 @@ $('#btn_search').on('click', function() {
 </script>
 
 
+
 <!-- <script type="text/javascript"> -->
-<![CDATA[
-							
-// $('#btn_search').on('click', function() {
-// 	alert("fddfdffd");
-// 			debugger;
+// 				//<![CDATA[
+
+//  (function($) {
+//  	$(function() {
+		
+ 		
+ 		
+		
+//  		$('#btn_search').on('click', function() {
+
 //  			//                if ($('#searchtext').val() == "") {
 //  			//                    alert("검색어를 입력해 주세요.");
 //  			//                    $('#searchtext').focus();
@@ -294,20 +277,10 @@ $('#btn_search').on('click', function() {
 //  			//                }
 
 //  			Search();
+			
+			
 //  		});
- 		
-//  		function Search() {
-//  			debugger;
-//  	        // 폼 제출
-//  	        $('#searchForm').submit();
-//  	    }
-					
-					
-//  (function($) {
-//  	$(function() {
 		
-	
- 		
 		
 		
    	 	
@@ -386,7 +359,7 @@ $('#btn_search').on('click', function() {
 //  })(jQuery);
 
 // ]]>
-<!--   </script>  -->
+  </script> 
 
 
 			<!--/ Contents End -->

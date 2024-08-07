@@ -28,14 +28,13 @@
 	<div class="cols-content">
 		
 <div class="col-aside">
-    <h2>
-        고객센터 메뉴</h2>
+    <h2>고객센터 메뉴</h2>
     <div class="snb">
         <ul>
             <li class="on"><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often" title="현재선택">자주찾는 질문<i></i></a></li>
-            <li class=""><a href="/support/news/default.aspx">공지/뉴스<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의<i></i></a></li>
+            <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
+            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
             
@@ -86,12 +85,12 @@
 				<div class="c_box email_inquiry" style="cursor:pointer;">
 					<strong class="c_tit">이메일 문의</strong>
 					<span class="c_txt">24시간 365일 언제든지 문의해주세요.</span>
-					<a href="/support/qna/default.aspx">문의하기</a>
+					<a href="${pageContext.request.contextPath}/inquiry/write">문의하기</a>
                 </div>
 				<div class="c_box my_advice" style="cursor:pointer;">
 					<strong class="c_tit">내 상담 내역 확인</strong>
 					<span class="c_txt">문의하신 내용을 확인하실 수 있습니다.</span>
-					<a href="/user/mycgv/inquiry/qna/list.aspx?g=1#contaniner" target="_blank" title="새창열기">문의내역 조회</a>
+					<a href="${pageContext.request.contextPath}/inquiry/me" target="_blank" title="새창열기">문의내역 조회</a>
                 </div>
 			</div>
 			<div class="customer_notice_area">
@@ -119,7 +118,7 @@
 					</ul>
 				</div>
 				<div class="notice_area">
-                    <a href="/support/news/default.aspx">
+                    <a href="${pageContext.request.contextPath}/inquiry/news">
 					    <span class="tit">공지/뉴스</span>
                     </a>
 					<ul class="txt">
@@ -135,7 +134,7 @@
                             <li><a href="/support/news/detail-view.aspx?idx=8026&amp;type=1">[시스템점검] 2024년 7월 시스템공지</a><span class="day">2024.06.28</span></li>
                         
 					</ul>
-					<a href="/support/news/default.aspx" class="more">공지/뉴스 더보기</a>
+					<a href="${pageContext.request.contextPath}/inquiry/news" class="more">공지/뉴스 더보기</a>
 					<div class="noti_ban_area">
 						<a href="/culture-event/event/preview/?menu=7" class="ban_preview">CGV PREVIEW 시사회/무대인사</a>
 						<a href="/discount/discountlist.aspx" class="ban_discount">DISCOUNT INFO 할인카드 및 혜택 안내</a>

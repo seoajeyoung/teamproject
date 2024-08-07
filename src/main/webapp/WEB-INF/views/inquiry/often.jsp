@@ -7,7 +7,6 @@
 <title>views/contact.jsp</title>
 <link href="${pageContext.request.contextPath}/resources/css/customer.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/content.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/giftstore.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
@@ -34,8 +33,8 @@
         <ul>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
             <li class="on"><a href="${pageContext.request.contextPath}/inquiry/often" title="현재선택">자주찾는 질문<i></i></a></li>
-            <li class=""><a href="/support/news/default.aspx">공지/뉴스<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의<i></i></a></li>
+            <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
+            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
             
