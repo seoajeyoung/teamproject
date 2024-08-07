@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum,
+		sans-serif;;
+}
+
+body {
+	background-image: #34495e;
+}
+
+.signupForm {
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	padding: 30px 20px;
+	background-color: #FFFFFF;
+	text-align: center;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 15px;
+}
+
+.signupForm h2 {
+	text-align: center;
+	margin: 30px;
+}
+
+.textForm {
+	border-bottom: 2px solid #adadad;
+	margin: 30px;
+	padding: 10px 10px;
+	position: relative;
+	width: 100%; /* 부모 요소의 너비 설정 */
+}
+
+.essentialtf {
+	border-bottom: 2px solid #adadad;
+	margin: 30px;
+	padding: 10px 10px;
+	position: relative;
+	width: 100%; /* 부모 요소의 너비 설정 */
+}
+
+.essentialtf::after {
+	content: "*";
+	color: red;
+	position: absolute;
+	left: 0px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 20px; /* 크기 조절 */
+	pointer-events: none; /* 입력에 영향을 주지 않도록 설정 */
+}
+
+.id {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+	padding-right: 20px; /* 여유 공간을 확보하기 위해 패딩 추가 */
+	box-sizing: border-box; /* 패딩을 포함하도록 박스 크기 설정 */
+}
+
+#idbtn {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border: none;
+	background-color: #fb4357; /* 버튼 배경색 변경 */
+	color: #ffffff; /* 버튼 텍스트 색상 변경 */
+	font-size: 13px;
+	cursor: pointer;
+	padding: 0 9px; /* 버튼 내부 패딩 */
+	border-radius: 5px; /* 버튼 모서리 둥글게 */
+}
+
+.idhint {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	font-size: 12px; /* 조절할 크기 */
+	color: gray;
+}
+
+.checkText {
+	font-size: 11px;
+	position: absolute;
+	top: 0%; /* 힌트텍스트와 겹치지 않게 위로 설정 */
+	left: 0;
+}
+
+.pass {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+}
+
+.passhint {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	font-size: 12px; /* 조절할 크기 */
+	color: gray;
+}
+
+#confirmPasswdResult {
+    position: absolute;
+    right: 0; /* 오른쪽 끝으로 정렬 */
+    top: 100%; /* 입력 필드 아래에 위치 */
+    font-size: 12px; /* 글자 크기 작게 */
+    color: #636e72; /* 기본 색상 */
+}
+
+.name {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+}
+
+.emailContainer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.email {
+	flex: 2;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+	box-sizing: border-box;
+	margin-right: 5px;
+}
+
+.emailDomain {
+	flex: 2;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+	box-sizing: border-box;
+	margin-left: 20px;
+	display: none; /* 기본적으로 숨김 */
+}
+
+.domainList {
+	flex: 1;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+}
+
+.nickname {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+}
+
+#nickbtn {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border: none;
+	background-color: #fb4357; /* 버튼 배경색 변경 */
+	color: #ffffff; /* 버튼 텍스트 색상 변경 */
+	font-size: 13px;
+	cursor: pointer;
+	padding: 0 9px; /* 버튼 내부 패딩 */
+	border-radius: 5px; /* 버튼 모서리 둥글게 */
+}
+
+.cellphoneNo {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+}
+
+.birth {
+	width: 100%;
+	border: none;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 25px;
+	background: none;
+}
+
+.genderContainer {
+	 position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border: none;
+}
+
+.gender {
+	display: none;
+}
+
+.genderlabel {
+	display:inline-block;
+	border: 1px solid #c6c6c6;
+  	width: 5em;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.btn {
+	position: relative;
+	left: 47%;
+	transform: translateX(-50%);
+	margin-top: 15px; margin-bottom : 40px;
+	width: 80%;
+	height: 40px;
+	background-color: #fb4357;
+	font-size: 16px;
+	color: #ffffff;;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	display: inline;
+	color: #ffffff;
+	margin-bottom: 40px;
+}

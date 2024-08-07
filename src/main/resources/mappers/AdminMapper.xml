@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.AdminMapper">
+
+<!-- 	<insert id="insertMember"> -->
+<!-- 		insert into MEMBERS(member_num, member_id, member_pass, member_name, -->
+<!-- 							member_nickname, member_gender, member_phone, member_input, -->
+<!-- 							member_out, member_status, member_address, member_admin, -->
+<!-- 							member_grade, member_birth, member_email) -->
+<!-- 		values(#{member_num}, #{member_id}, #{member_pass}, #{member_name}, -->
+<!-- 			   #{member_nickname}, #{member_gender}, #{member_phone}, #{member_input}, -->
+<!-- 			   #{member_out}, #{member_status}, #{member_address}, #{member_admin}, -->
+<!-- 			   #{member_grade}, #{member_birth}, #{member_email}) -->
+<!-- 	</insert> -->
+
+		<insert id="registerMember">
+			insert into EXMEMBERS(member_id,
+								  member_pass, 
+								  member_name,
+								  member_phone, 
+								  member_email)
+						   values(#{member_id}, 
+						   		  #{member_pass}, 
+						   		  #{member_name}, 
+						   		  #{member_phone},
+				   				  #{member_email})
+		</insert>
+
+	
+	<select id="getMemberList" resultType="com.itwillbs.domain.MemberDTO">
+		select * from EXMEMBERS 	
+	</select>
+	
+	<select id="getMemberInfo" resultType="com.itwillbs.domain.MemberDTO">
+		select * from EXMEMBERS where member_id = #{member_id}
+	</select>
+	
+	<select id="getGradeList" resultType="com.itwillbs.domain.MemberDTO">
+		select distinct member_grade from EXMEMBERS;
+	</select>
+	
+	<update id="updateMember">
+		update EXMEMBERS set member_pass = #{member_pass}, 
+						     member_name = #{member_name},
+						     member_phone = #{member_phone},
+						     member_email = #{member_email},
+						     member_address = #{member_address},
+						     member_grade = #{member_grade}
+					   where member_id = #{member_id} 
+	</update>
+	
+
+
+
+</mapper>  

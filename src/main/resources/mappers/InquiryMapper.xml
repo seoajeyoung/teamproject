@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.InquiryMapper">
+
+	<insert id="insertInquiry">
+		insert into INQUIRY(inquiry_num, member_num, inquiry_name, inquiry_detail, inquiry_picture, inquiry_date, inquiry_type, theater_num)
+		values(#{inquiry_num},#{member_num},#{inquiry_name},#{inquiry_detail},#{inquiry_picture},#{inquiry_date},#{inquiry_type},#{theater_num})
+	</insert>
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		select max(inquiry_num) from INQUIRY 
+	</select>
+	
+	<select id="getInquiryList" resultType="com.itwillbs.domain.InquiryDTO">
+		select * from INQUIRY
+		order by inquiry_num desc
+		limit #{startRow},#{pageSize}
+	</select>
+	
+	<select id="getInquiryCount" resultType="java.lang.Integer">
+		select count(*) from INQUIRY			
+	</select>
+	
+	<select id="getInquiry" resultType="com.itwillbs.domain.InquiryDTO">
+		select * from INQUIRY
+		where inquiry_num = #{inquiry_num}
+	</select>
+	
+	<update id="updateInquiry">
+		update INQUIRY
+		set inquiry_name = #{inquiry_name}, inquiry_detail = #{inquiry_detail}
+		where inquiry_num = #{inquiry_num}
+	</update>
+	
+	<delete id="deleteBoard">
+		delete from INQUIRY
+		where inquiry_num = #{inquiry_num}
+	</delete>
+
+</mapper>  
