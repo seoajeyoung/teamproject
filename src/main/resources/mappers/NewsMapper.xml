@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.NewsMapper">
+
+	<insert id="insertNews" parameterType="com.itwillbs.domain.NewsDTO">
+		INSERT INTO NEWS(NEWS_NUM
+						 , NEWS_SECTION
+						 , NEWS_NAME
+						 , NEWS_CONTENT
+						 , NEWS_DATE)
+				    VALUES(#{NEWS_NUM}
+				         , #{NEWS_SECTION}
+				         , #{NEWS_NAME}
+				         , #{NEWS_CONTENT}
+				         , CAST(#{NEWS_DATE} AS DATE))
+	</insert>
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT MAX(CAST(NEWS_NUM AS UNSIGNED)) AS NEWS_NUM 
+		  FROM NEWS 
+	</select>
+	
+	<select id="getNewsList" resultType="java.util.LinkedHashMap" parameterType="Map">
+		SELECT NEWS_NUM
+			 , NEWS_NAME
+			 , NEWS_CONTENT
+			 , NEWS_DATE
+			 , ROW_NUMBER() OVER(ORDER BY CAST(NEWS_NUM AS UNSIGNED)) AS RN
+			 , CASE
+       		   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+        	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+        	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+        	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+			   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+			   ELSE NEWS_SECTION
+    		   END AS NEWS_SECTION
+		  FROM NEWS 
+		  WHERE 1 = 1
+		  
+		 <if test="searchtext != null and !searchtext.equals('')">
+		   AND NEWS_NAME LIKE CONCAT('%', #{searchtext}, '%')
+		 </if>
+		 <if test="newsSection != null and !newsSection.equals('')">
+		   AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
+		 </if>
+		  ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC
+		  LIMIT ${startRow}, ${pageSize}
+	</select>
+			
+	<update id="updateNews" parameterType="com.itwillbs.domain.NewsDTO">
+		UPDATE NEWS
+		   SET NEWS_DATE = #{NEWS_DATE}
+		   	 , NEWS_SECTION = #{NEWS_SECTION}
+		   	 , NEWS_NAME = #{NEWS_NAME}
+		     , NEWS_CONTENT = #{NEWS_CONTENT}
+		 WHERE NEWS_NUM = #{NEWS_NUM}
+	</update>
+	
+	<delete id="deleteNews" parameterType="java.lang.String">
+		DELETE FROM NEWS
+		WHERE NEWS_NUM = #{NEWS_NUM}
+	</delete>
+	
+	<select id="getNewsCount" resultType="java.lang.Integer" parameterType="Map">
+		SELECT COUNT(*)
+		FROM NEWS
+		WHERE 1 = 1
+		<if test="searchtext != null and !searchtext.equals('')">
+		 AND NEWS_NAME LIKE CONCAT('%',#{search},'%') 
+		</if>
+		<if test="newsSection != null and !newsSection.equals('')">
+		 AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
+		</if>
+		ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC			
+	</select>
+	
+	<select id="getNews" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+		SELECT NEWS_NUM
+			 , NEWS_NAME
+			 , NEWS_CONTENT
+			 , NEWS_DATE
+			 , CASE
+       		   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+        	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+        	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+        	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+			   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+			   ELSE NEWS_SECTION
+    		   END AS NEWS_SECTION
+	 	  FROM NEWS
+		  WHERE NEWS_NUM = #{NEWS_NUM}
+	</select>
+	
+	<select id="getNewsPrev" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+		SELECT NEWS_NUM
+			 , NEWS_NAME
+			 , NEWS_CONTENT
+			 , NEWS_DATE
+			 , CASE
+       		   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+        	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+        	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+        	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+			   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+			   ELSE NEWS_SECTION
+    		   END AS NEWS_SECTION
+	      FROM NEWS
+	 WHERE CAST(NEWS_NUM AS UNSIGNED) < #{NEWS_NUM} 
+	 ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC
+	 LIMIT 1
+	]]>
+	</select>
+	
+	<select id="getNewsNext" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+	SELECT NEWS_NUM
+		 , NEWS_NAME
+		 , NEWS_CONTENT
+         , NEWS_DATE
+         , CASE
+    	   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+       	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+       	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+       	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+		   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+		   ELSE NEWS_SECTION
+   		   END AS NEWS_SECTION
+	  FROM NEWS
+	 WHERE CAST(NEWS_NUM AS UNSIGNED) > #{NEWS_NUM}
+	 ORDER BY CAST(NEWS_NUM AS UNSIGNED) 
+	 LIMIT 1
+	]]>
+	</select>
+	
+<!-- 	<select id="getNewsSection" resultType="java.util.LinkedHashMap" parameterType="Map"> -->
+<!-- 		SELECT NEWS_NUM -->
+<!-- 			 , NEWS_NAME -->
+<!-- 			 , NEWS_CONTENT -->
+<!-- 			 , NEWS_DATE -->
+<!-- 			 , ROW_NUMBER() OVER(ORDER BY CAST(NEWS_NUM AS UNSIGNED)) AS RN -->
+<!-- 			 , CASE -->
+<!--        		   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검' -->
+<!--         	   WHEN NEWS_SECTION = 'TH' THEN '극장' -->
+<!--         	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트' -->
+<!--         	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트' -->
+<!-- 			   WHEN NEWS_SECTION = 'ECT' THEN '기타' -->
+<!-- 			   ELSE NEWS_SECTION -->
+<!--     		   END AS NEWS_SECTION -->
+<!-- 		  FROM NEWS  -->
+<!-- 		 <if test="newsDTO.NEWS_SECTION != null"> -->
+<!-- 		   WHERE NEWS_SECTION LIKE CONCAT('%',#{newsDTO.NEWS_SECTION},'%')  -->
+<!-- 		 </if> -->
+<!-- 		  ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC -->
+<!-- 		  LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize} -->
+<!-- 	</select> -->
+	
+	
+
+</mapper>  

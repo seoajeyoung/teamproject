@@ -8,16 +8,19 @@ public class InquiryDTO {
 	private String inquiry_name;//문의 제목
 	private String inquiry_detail;//파일,사진 추가
 	private String inquiry_picture;
-	private String inquiry_type;//비밀글/공개글
 	private Timestamp inquiry_date;
+	private String inquiry_type;//비밀글/공개글
 	private String theater_num;//영화번호
+	private String inquiry_date_format;
+	private String rn;
+	//private String member_nickname;
 	
 	@Override
 	public String toString() {
 		return "InquiryDTO [inquiry_num=" + inquiry_num + ", member_num=" + member_num + ", inquiry_name="
 				+ inquiry_name + ", inquiry_detail=" + inquiry_detail + ", inquiry_picture=" + inquiry_picture
-				+ ", inquiry_type=" + inquiry_type + ", inquiry_date=" + inquiry_date + ", theater_num=" + theater_num
-				+ "]";
+				+ ", inquiry_date=" + inquiry_date + ", inquiry_type=" + inquiry_type + ", theater_num=" + theater_num
+				+ ", inquiry_date_format=" + inquiry_date_format + ", rn=" + rn + "]";
 	}
 	public String getInquiry_num() {
 		return inquiry_num;
@@ -67,11 +70,17 @@ public class InquiryDTO {
 	public void setTheater_num(String theater_num) {
 		this.theater_num = theater_num;
 	}
-	
-	
-
-	
-	
-	
+	public String getInquiry_date_format() {
+		return inquiry_date_format;
+	}
+	public void setInquiry_date_format(String inquiry_date_format) {
+		this.inquiry_date_format = inquiry_date_format;
+	}
+	public String getRn() {
+		return rn;
+	}
+	public void setRn(String rn) {
+		this.rn = rn;
+	}
 	
 }

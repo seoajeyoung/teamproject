@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.AnswerMapper">
+
+	<insert id="insertAnswer">
+		INSERT INTO ANSWER(AS_NUM
+						 , IQ_NUM
+						 , AS_DETAIL
+						 , AS_DATE)
+				    VALUES(#{AS_NUM}
+				         , #{IQ_NUM}
+				         , #{AS_DETAIL}
+				         , CAST(#{AS_DATE} AS DATE))
+	</insert>
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT MAX(CAST(AS_NUM AS UNSIGNED)) AS AS_NUM 
+		  FROM ANSWER 
+	</select>
+		
+	<update id="updateAnswer">
+		UPDATE ANSWER
+		   SET AS_DATE = #{AS_DATE}
+		     , AS_DETAIL = #{AS_DETAIL}
+		 WHERE AS_NUM = #{AS_NUM}
+	</update>
+	
+	<delete id="deleteAs" parameterType="java.lang.String">
+		DELETE FROM ANSWER
+		WHERE AS_NUM = #{AS_NUM}
+	</delete>
+	
+	<select id="getAdminCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ANSWER			
+	</select>
+
+</mapper>  
