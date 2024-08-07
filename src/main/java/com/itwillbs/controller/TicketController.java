@@ -34,6 +34,7 @@ public class TicketController {
 
 		return "ticket/ticket";
 	}
+	
 
 	 
 	@GetMapping("/fff")  // 탑 
