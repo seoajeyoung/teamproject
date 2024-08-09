@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	box-sizing: border-box; /* box-sizing을 border-box로 설정 */
+	font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum, sans-serif;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0; /* margin을 0으로 설정하여 전체 화면이 꽉 차도록 */
+}
+
+.naverRegister {
+	position: relative; /* 절대 위치를 사용하기보다 relative로 변경하여 내부 요소를 중앙 정렬 */
+	width: 400px; /* 폼의 너비를 고정 */
+	padding: 20px;
+	text-align: center;
+	background-color: #f9f9f9;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.leadtext {
+	font-size: 14px;
+	color: #666666;
+	margin-bottom: 15px;
+}
+
+.naverNickTf {
+	text-align: center;
+	margin-bottom: 20px; /* 닉네임 입력 필드와 버튼 사이에 여백 추가 */
+}
+
+#nickname {
+	width: 50%; /* 너비를 조정하여 버튼과의 간격을 맞춤 */
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 40px;
+	padding: 10px;
+}
+
+#nickbtn {
+	border: none;
+	background-color: #fb4357; /* 버튼 배경색 변경 */
+	color: #ffffff; /* 버튼 텍스트 색상 변경 */
+	font-size: 13px;
+	cursor: pointer;
+	padding: 10px 20px; /* 버튼 내부 패딩 */
+	border-radius: 5px; /* 버튼 모서리 둥글게 */
+	margin-left: 10px; /* 닉네임 입력 필드와 버튼 사이에 여백 추가 */
+}
+
+#naverNickBtn {
+	width: 50%; /* 버튼 너비를 50%로 설정 */
+	height: 45px;
+	background-color: #fb4357;
+	font-size: 16px;
+	color: #ffffff;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.4s;
+	border-radius: 5px;
+	margin: 20px auto 0; /* 상단 여백 20px, 하단 여백 0, 좌우 중앙 정렬 */
+	display: block; /* 버튼을 블록 레벨 요소로 설정하여 margin: auto가 적용되도록 */
+}
+
+#naverNickBtn:hover {
+	background-color: #e03e4e;
+}

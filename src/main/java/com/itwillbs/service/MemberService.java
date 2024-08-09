@@ -36,6 +36,39 @@ public class MemberService {
 		
 		return memberDAO.memberCheck(memberDTO);
 	}
+
+	public MemberDTO getMemberPhone(String member_phone) { // 닉네임값 조회 -> memberDAO.getMemberNickname 실행
+		System.out.println("MemberService getMemberPhone()");
+		
+		return memberDAO.getMemberPhone(member_phone);
+	}
+
+	public void saveNaverNickname(MemberDTO existingMember) {
+		System.out.println("MemberService saveNaverNickname()");
+		
+		memberDAO.saveNaverNickname(existingMember);
+		
+	}
+
+	public MemberDTO findId(MemberDTO memberDTO) {
+		System.out.println("MemberService findId()");
+		
+		return memberDAO.findId(memberDTO);
+	}
+
+	public MemberDTO findPass(MemberDTO memberDTO) {
+		System.out.println("MemberService findPass()");
+		
+		return memberDAO.findPass(memberDTO);
+	}
+
+	public void getTempPass(String member_id, String tempPassword) {
+		System.out.println("MemberService getTempPass()");
+		
+		memberDAO.getTempPass(member_id, tempPassword);
+	}
+	
+	
 	
 	
 

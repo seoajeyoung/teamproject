@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+#findIdContainer, #findPassContainer {
+padding: 50px 0;
+    border-top: 1px solid #222;
+    background-color: #f8f8f8;
+    text-align: center;
+    font-size: 30px;
+}
+
+#idText, #tempPassword {
+	color: #ee6900;
+    font-weight: normal;
+}
+
+.findIdLink, .findPassLink { 
+	display: inline-block;
+    min-width: 128px;
+    height: 38px;
+    margin: 0 3px;
+    padding: 0 15px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    line-height: 38px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: border .5s, background .5s, color .5s;
+    text-decoration: none; /* 밑줄 제거 */
+    font-size: 15px;
+    margin-top: 25px;
+}
+
+#loginLink {
+	background-color: #333;
+	color : #fff;
+}

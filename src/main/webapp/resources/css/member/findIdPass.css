@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	box-sizing: border-box;
+	font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum,
+		sans-serif;
+}
+
+.findForm {
+	text-align: center;
+}
+
+
+body {
+/* 	background-color: #f5f5f5; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.findPassField{
+	margin: 10px 0;
+	text-align: center;
+}
+
+.findIdField {
+	margin: 20px 0;
+}
+#leadtext {
+	font-size: 14px;
+	color: #666666;
+	display: block;
+	margin-bottom: 15px;
+}
+
+#name, #id, #birth, #phone {
+	width: 60%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 40px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.findBtn {
+	width: 60%;
+	height: 45px;
+	background-color: #fb4357;
+	font-size: 16px;
+	color: #ffffff;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+.findBtn:hover {
+	background-color: #e03e4e;
+}
+
+.error-message {
+	margin-top: 15px;
+	color: red;
+	font-weight: bold;
+	text-align: center;
+}

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
-<link href="${pageContext.request.contextPath}/resources/css/findResult.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/member/findResult.css" rel="stylesheet">
 </head>
 <body>
 <div id="findIdContainer">

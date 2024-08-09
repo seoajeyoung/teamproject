@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link href="${pageContext.request.contextPath}/resources/css/register.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/member/register.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/script/register.js"></script>
 </head>

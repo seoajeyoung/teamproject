@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link href="${pageContext.request.contextPath}/resources/css/findIdPass.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/member/findIdPass.css" rel="stylesheet">
 
 </head>
 <body>

@@ -27,13 +27,14 @@
 <!--     	where member_nickname = #{member_nickname} -->
 <!--     </select> -->
 
+<!-- 나중에 테이블 MEMBERS로 바꿀 것 -->
 
 	<insert id="registerMember"> <!--회원가입에서 얻은 정보 DB에 삽입  -->
 		insert into MEMBERSTEST(member_id,member_pass,member_name,
-		                    member_gender,member_phone,member_email,member_birth)
+		                    member_gender,member_phone,member_email,member_birth,member_nickname,member_sns)
 		                    
 		values(#{member_id},#{member_pass},#{member_name},#{member_gender},
-		       #{member_phone},#{member_email},#{member_birth}) 	
+		       #{member_phone},#{member_email},#{member_birth},#{member_nickname},#{member_sns}) 	
   	</insert>
   	
   	<select id="memberCheck" resultType="com.itwillbs.domain.MemberDTO"> <!--아이디 비밀번호 일치 조회  -->
@@ -51,4 +52,30 @@
     	where member_nickname = #{member_nickname}
     </select>
 
+	<select id="getMemberPhone" resultType="com.itwillbs.domain.MemberDTO"> <!-- 폰번호값 가져오기 위함  -->
+        SELECT * FROM MEMBERSTEST 
+        WHERE member_phone = #{member_phone}
+    </select>
+    
+    <update id="saveNaverNickname"> <!-- 네이버로 가져온 데이터에 닉네임 추가 -->
+    	UPDATE MEMBERSTEST
+        SET member_nickname = #{member_nickname}
+        WHERE member_id = #{member_id}
+    </update>
+    
+    <select id="findId" resultType="com.itwillbs.domain.MemberDTO">
+    	SELECT member_id,member_sns from MEMBERSTEST
+    	WHERE member_name = #{member_name} and member_birth = #{member_birth}
+    </select>
+    
+    <select id="findPass" resultType="com.itwillbs.domain.MemberDTO">
+    	SELECT member_pass from MEMBERSTEST
+    	WHERE member_id = #{member_id} and member_birth = #{member_birth} and member_phone = #{member_phone}
+    </select>
+    
+    <update id="getTempPass">
+    	UPDATE MEMBERSTEST
+    	SET member_pass = #{tempPassword}
+    	WHERE member_id = #{member_id}
+    </update>
 </mapper>  

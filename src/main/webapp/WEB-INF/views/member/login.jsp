@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>login</title>
-<link href="${pageContext.request.contextPath}/resources/css/login.css"
+<link href="${pageContext.request.contextPath}/resources/css/member/login.css"
 	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>

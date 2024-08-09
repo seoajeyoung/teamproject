@@ -1,5 +1,8 @@
 package com.itwillbs.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -37,6 +40,40 @@ public class MemberDAO {
 		System.out.println("MemberDAO getMemberNickname()");
 		
 		return sqlSession.selectOne(namespace + ".getMemberNickname", member_nickname);
+	}
+
+	public MemberDTO getMemberPhone(String member_phone) {
+		System.out.println("MemberDAO getMemberPhone()");
+		
+		return sqlSession.selectOne(namespace + ".getMemberPhone", member_phone);
+	}
+
+	public void saveNaverNickname(MemberDTO existingMember) {
+		System.out.println("MemberDAO saveNaverNickname()");
+		
+		sqlSession.update(namespace + ".saveNaverNickname", existingMember);
+	}
+
+	public MemberDTO findId(MemberDTO memberDTO) {
+		System.out.println("MemberDAO findId()");
+		
+		return sqlSession.selectOne(namespace + ".findId", memberDTO);
+	}
+
+	public MemberDTO findPass(MemberDTO memberDTO) {
+		System.out.println("MemberDAO findPass()");
+		
+		return sqlSession.selectOne(namespace + ".findPass", memberDTO);
+	}
+
+	public void getTempPass(String member_id, String tempPassword) {
+		System.out.println("MemberDAO getTempPass()");
+		
+		Map<String, String> params = new HashMap<String, String>();
+	    params.put("member_id", member_id);
+	    params.put("tempPassword", tempPassword);
+		
+		sqlSession.update(namespace + ".getTempPass", params);
 	}
 
 	
