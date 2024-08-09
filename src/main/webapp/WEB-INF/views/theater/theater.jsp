@@ -17,7 +17,7 @@
 
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
-<body class="" style="">
+<body>
 
 <!-- S Skip Navigation -->
 <div class="skipnaiv">
