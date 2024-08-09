@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>information</title>
 <link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/eggupdate.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/preegg.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/common.css" rel="stylesheet">

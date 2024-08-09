@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>theater</title>
 <link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/eggupdate.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/preegg.css" rel="stylesheet">
@@ -253,7 +253,7 @@ $(function() {
 	//특정 극장 클릭시
 	$('.area-link').on('click', function() {
 		$('.sect-showtimes>ul').html('')
-		$('.theater-tit span').text('CGV ' + $(this).attr('title'));
+		$('.theater-tit span').text($(this).attr('title') + '점');
 		
 		addr = $(this).find('input').val();
 		$('.title>span').text(addr);

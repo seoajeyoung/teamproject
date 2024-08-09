@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>movie</title>
 <link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/icon.css" rel=stylesheet>
 <link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel=stylesheet>
@@ -214,7 +214,7 @@ $(function() {
                         <strong class="rank"></strong>
                         <a href="${pageContext.request.contextPath}/movie/information?num=${movieDTO.MOVIE_NUM}">
                             <span class="thumb-image">
-                                <img src="${movieDTO.POSTERURL}" alt="???" onerror="errorImage(this)">
+                                <img src="${movieDTO.POSTERURL}" alt="???" onerror="errorImage(this)" style="min-height: 260px;">
                                 <!-- 영상물 등급 노출 변경 2022.08.24 -->
                                 <i class="cgvIcon etc age${movieDTO.RATING}">${movieDTO.RATING}</i>
                                 <span class="ico-grade ${movieDTO.RATING}">${movieDTO.RATING}</span>

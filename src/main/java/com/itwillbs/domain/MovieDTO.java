@@ -4,161 +4,156 @@ import java.time.LocalDate;
 
 
 public class MovieDTO {
-	private String movieNum;
-    private String title;
-    private String direcotrNm;
-    private String actorNm;
-    private String nation;
-    private String genre;
-    private LocalDate releaseDate;
-    private String posterUrl;
-    private String audiAcc;
-    private String plot;
-    private String runtime;
-    private String rating;
-    private String themsSong;
-    private String soundtrack;
-    private String Awards1;
-    private LocalDate releaseDts;
-    private LocalDate releaseDte;
-    private LocalDate targetDt;
-    private String rank;
-    private String movieNm;
+	private int MOVIE_NUM;
+    private String TITLE;
+    private String DIRECOTRNM;
+    private String ACTORNM;
+    private String NATION;
+    private String GENRE;
+    private LocalDate RELEASEDATE;
+    private String POSTERURL;
+    private String AUDIACC;
+    private String PLOT;
+    private String RUNTIME;
+    private String RATING;
+    private String THEMSSONG;
+    private String SOUNDTRACK;
+    private String AWARDS1;
+    private LocalDate TARGETDT;
+    private String RANK;
+    private String MOVIENM;
+    private String show;
+    private int rn;
     
     
     
     
-	@Override
-	public String toString() {
-		return "MovieDTO [movieNum=" + movieNum + ", title=" + title + ", direcotrNm=" + direcotrNm + ", actorNm="
-				+ actorNm + ", nation=" + nation + ", genre=" + genre + ", releaseDate=" + releaseDate + ", posterUrl="
-				+ posterUrl + ", audiAcc=" + audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating
-				+ ", themsSong=" + themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", releaseDts="
-				+ releaseDts + ", releaseDte=" + releaseDte + ", targetDt=" + targetDt + ", rank=" + rank + ", movieNm="
-				+ movieNm + "]";
+
+
+	public LocalDate getRELEASEDATE() {
+		return RELEASEDATE;
 	}
-	
-	
-	public String getMovieNum() {
-		return movieNum;
+	public void setGENRE(String gENRE) {
+		GENRE = gENRE;
 	}
-	public void setMovieNum(String movieNum) {
-		this.movieNum = movieNum;
+	public int getMOVIE_NUM() {
+		return MOVIE_NUM;
 	}
-	public String getTitle() {
-		return title;
+	public void setMOVIE_NUM(int mOVIE_NUM) {
+		MOVIE_NUM = mOVIE_NUM;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public String getTITLE() {
+		return TITLE;
 	}
-	public String getDirecotrNm() {
-		return direcotrNm;
+	public void setTITLE(String tITLE) {
+		TITLE = tITLE;
 	}
-	public void setDirecotrNm(String direcotrNm) {
-		this.direcotrNm = direcotrNm;
+	public String getDIRECOTRNM() {
+		return DIRECOTRNM;
 	}
-	public String getActorNm() {
-		return actorNm;
+	public void setDIRECOTRNM(String dIRECOTRNM) {
+		DIRECOTRNM = dIRECOTRNM;
 	}
-	public void setActorNm(String actorNm) {
-		this.actorNm = actorNm;
+	public String getACTORNM() {
+		return ACTORNM;
 	}
-	public String getNation() {
-		return nation;
+	public void setACTORNM(String aCTORNM) {
+		ACTORNM = aCTORNM;
 	}
-	public void setNation(String nation) {
-		this.nation = nation;
+	public String getNATION() {
+		return NATION;
 	}
-	public String getGenre() {
-		return genre;
+	public void setNATION(String nATION) {
+		NATION = nATION;
 	}
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public String getGENRE() {
+		return GENRE;
 	}
-	public LocalDate getReleaseDate() {
-		return releaseDate;
+	public void setRELEASEDATE(LocalDate rELEASEDATE) {
+		RELEASEDATE = rELEASEDATE;
 	}
-	public void setReleaseDate(LocalDate releaseDate) {
-		this.releaseDate = releaseDate;
+	public String getPOSTERURL() {
+		return POSTERURL;
 	}
-	public String getPosterUrl() {
-		return posterUrl;
+	public void setPOSTERURL(String pOSTERURL) {
+		POSTERURL = pOSTERURL;
 	}
-	public void setPosterUrl(String posterUrl) {
-		this.posterUrl = posterUrl;
+	public String getAUDIACC() {
+		return AUDIACC;
 	}
-	public String getAudiAcc() {
-		return audiAcc;
+	public void setAUDIACC(String aUDIACC) {
+		AUDIACC = aUDIACC;
 	}
-	public void setAudiAcc(String audiAcc) {
-		this.audiAcc = audiAcc;
+	public String getPLOT() {
+		return PLOT;
 	}
-	public String getPlot() {
-		return plot;
+	public void setPLOT(String pLOT) {
+		PLOT = pLOT;
 	}
-	public void setPlot(String plot) {
-		this.plot = plot;
+	public String getRUNTIME() {
+		return RUNTIME;
 	}
-	public String getRuntime() {
-		return runtime;
+	public void setRUNTIME(String rUNTIME) {
+		RUNTIME = rUNTIME;
 	}
-	public void setRuntime(String runtime) {
-		this.runtime = runtime;
+	public String getRATING() {
+		return RATING;
 	}
-	public String getRating() {
-		return rating;
+	public void setRATING(String rATING) {
+		RATING = rATING;
 	}
-	public void setRating(String rating) {
-		this.rating = rating;
+	public String getTHEMSSONG() {
+		return THEMSSONG;
 	}
-	public String getThemsSong() {
-		return themsSong;
+	public void setTHEMSSONG(String tHEMSSONG) {
+		THEMSSONG = tHEMSSONG;
 	}
-	public void setThemsSong(String themsSong) {
-		this.themsSong = themsSong;
+	public String getSOUNDTRACK() {
+		return SOUNDTRACK;
 	}
-	public String getSoundtrack() {
-		return soundtrack;
+	public void setSOUNDTRACK(String sOUNDTRACK) {
+		SOUNDTRACK = sOUNDTRACK;
 	}
-	public void setSoundtrack(String soundtrack) {
-		this.soundtrack = soundtrack;
+	public String getAWARDS1() {
+		return AWARDS1;
 	}
-	public String getAwards1() {
-		return Awards1;
+	public void setAWARDS1(String aWARDS1) {
+		AWARDS1 = aWARDS1;
 	}
-	public void setAwards1(String awards1) {
-		Awards1 = awards1;
+	public LocalDate getTARGETDT() {
+		return TARGETDT;
 	}
-	public LocalDate getReleaseDts() {
-		return releaseDts;
+	public void setTARGETDT(LocalDate tARGETDT) {
+		TARGETDT = tARGETDT;
 	}
-	public void setReleaseDts(LocalDate releaseDts) {
-		this.releaseDts = releaseDts;
+	public String getRANK() {
+		return RANK;
 	}
-	public LocalDate getReleaseDte() {
-		return releaseDte;
+	public void setRANK(String rANK) {
+		RANK = rANK;
 	}
-	public void setReleaseDte(LocalDate releaseDte) {
-		this.releaseDte = releaseDte;
+	public String getMOVIENM() {
+		return MOVIENM;
 	}
-	public LocalDate getTargetDt() {
-		return targetDt;
+	public void setMOVIENM(String mOVIENM) {
+		MOVIENM = mOVIENM;
 	}
-	public void setTargetDt(LocalDate targetDt) {
-		this.targetDt = targetDt;
+	public String getShow() {
+		return show;
 	}
-	public String getRank() {
-		return rank;
+	public void setShow(String show) {
+		this.show = show;
 	}
-	public void setRank(String rank) {
-		this.rank = rank;
+	public int getRn() {
+		return rn;
 	}
-	public String getMovieNm() {
-		return movieNm;
+	public void setRn(int rn) {
+		this.rn = rn;
 	}
-	public void setMovieNm(String movieNm) {
-		this.movieNm = movieNm;
-	}
+
+
+
+
     
     
 	
