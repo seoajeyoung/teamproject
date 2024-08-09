@@ -69,11 +69,6 @@ public class InquiryController {
 		return "inquiry/Imain";
 	}
 
-	@GetMapping("/often") //자주찾는 질문
-	public String often() {
-		return "inquiry/often";
-	}
-
 	@GetMapping("/news")//공지/뉴스
 	public String news(HttpServletRequest request,HttpSession session, Model model) {
 		String member_name = (String)session.getAttribute("member_name");
@@ -526,22 +521,13 @@ public class InquiryController {
 	@ResponseBody
 	@PostMapping("/newssection")
 	public Map<String, Object> newssection(HttpServletRequest request, @RequestBody Map<String, String> param) {
-		System.out.println("!@#!@#");
-		System.out.println(param);
-		
-		System.out.println("###################");
-	
+
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
+		
+		// 페이지 번호 가져오기
+	    String pageNum = param.get("pageNum");
 
-		// request에서 "pageNum"을 가져와서 변수에 String pageNum 저장
-//		String pageNum = request.getParameter("pageNum");
-		String pageNum = "1";
-		// pageNum == null 이면 => pageNum = 1 설정
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-		// int currentPage = pageNum을 정수형으로 변경해서 변수에 저장
 		int currentPage = Integer.parseInt(pageNum);
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = startRow + pageSize - 1;
@@ -574,18 +560,40 @@ public class InquiryController {
 		pageDTO.setStartPage(startPage);
 		pageDTO.setEndPage(endPage);
 		pageDTO.setPageCount(pageCount);
-		
-		
-		System.out.println("News List: " + newslist);
-		System.out.println("PageDTO: " + pageDTO);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
 		
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("newslist", newslist);
 		returnData.put("pageDTO", pageDTO);
 		
-		System.out.println(returnData);
-		
 		return returnData;
+	}
+	
+	@ResponseBody
+	@PostMapping("/PrevNextNews")
+	public Map<String, Object> PrevNextNews (@RequestBody Map<String, String> param){
+		Map<String, Object> content = newsService.getNewsContent(param);
+		Map<String, Object> prev = newsService.NewsPrev(param);
+		Map<String, Object> next = newsService.NewsNext(param);
+		
+		Map<String, Object> data =  new HashMap<String, Object>();
+		data.put("content", content);
+		data.put("prev", prev);
+		data.put("next", next);
+		
+		return data;
+	}
+	
+	@GetMapping("/often") //자주찾는 질문
+	public String often() {
+		return "inquiry/often";
+	}
+	
+	@GetMapping("/oftencontent")
+	public String oftencontent() {
+		
+		return "/inquiry/oftencontent";
 	}
 
 	
