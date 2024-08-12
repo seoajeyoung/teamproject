@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/resources/member/css/findResult.css" rel="stylesheet">
+</head>
+<body>
+<div id="findPassContainer">
+	<div id="findPassText">
+		<c:if test="${not empty tempPassword}">
+       		입시로 발급된 비밀번호는 <span id="tempPassword">${tempPassword}</span> 입니다.
+     	</c:if>  		
+    </div>
+
+<a href="${pageContext.request.contextPath}/member/login" class="findPassLink" id="loginLink">로그인</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.StoreMapper">
+
+	<select id="getProduct" resultType="com.itwillbs.domain.StoreDTO">
+	<![CDATA[
+		SELECT *
+		  FROM ( SELECT *
+		  			  , ROW_NUMBER() OVER (PARTITION BY st_type ORDER BY st_num DESC) AS row_num
+		  		   FROM STORETEST ) AS sub
+		 WHERE row_num <= 4
+		 ORDER BY st_type, row_num;
+	]]>
+	</select>
+	
+	<select id="getProductsByCategory" parameterType="String" resultType="com.itwillbs.domain.StoreDTO">
+        SELECT * 
+        FROM STORETEST 
+        WHERE st_type = #{st_type} 
+        ORDER BY st_num DESC;
+    </select>
+    
+  
+
+	
+
+
+</mapper>
