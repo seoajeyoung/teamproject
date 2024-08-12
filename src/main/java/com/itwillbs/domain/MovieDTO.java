@@ -25,8 +25,23 @@ public class MovieDTO {
     private LocalDate targetDt;
     private String rank;
     private String movieNm;
+    private String show;
+    private int rn;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    
+    public String getShow() {
+		return show;
+	}
+	public void setShow(String show) {
+		this.show = show;
+	}
+	public int getRn() {
+		return rn;
+	}
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDts;

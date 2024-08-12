@@ -2,88 +2,297 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MovieMapper">
-	
-	
+<mapper namespace="movieMapper">
 	<!-- 영화 리스트 -->
 	<select id="getMovie" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
-		FROM MOVIE m
-		order by m.rank
+		SELECT MOVIE_NUM
+		   , TITLE
+		   , DIRECOTRNM
+		   , ACTORNM
+		   , NATION
+		   , GENRE
+		   , RELEASEDATE
+		   , POSTERURL
+		   , AUDIACC
+		   , PLOT
+		   , RUNTIME
+		   , IF(LEFT(RATING, 2) = '전체', 'All', LEFT(RATING, 2)) AS RATING
+		   , THEMSSONG
+		   , SOUNDTRACK
+		   , AWARDS1
+		   , TARGETDT
+		   , a.RANK AS "RANK"
+		   , MOVIENM
+		   , IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
+				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
+				 FROM MOVIE m
+				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
+				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
+				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
+			 ), 'showMovie', 'notShow') AS 'show'
+			 , a.rn AS 'rn'
+		FROM (
+		    SELECT *, RANK() OVER (ORDER BY m.RANK) AS rn
+		    FROM MOVIE m
+		) a
+		ORDER BY a.rn;
 	</select>
 	
-	<!-- 상영전 영화 -->
+	<!-- 상영예정 영화 -->
 	<select id="getMovie2" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		SELECT MOVIE_NUM
+			, TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, m.RANK AS 'RANK'
+			, MOVIENM
 		FROM MOVIE m
-		WHERE NOW() &lt; releaseDts
-		order by m.rank
+		WHERE current_date() &lt; RELEASEDATE
+		ORDER BY RELEASEDATE, m.RANK
+	</select>
+	
+	<!-- 상영전 영화 날짜 분류 -->
+	<select id="getReleseDate" resultType="java.util.LinkedHashMap">
+		SELECT CONCAT(RELEASEDATE, 
+		           CASE DAYOFWEEK(RELEASEDATE)
+		               WHEN 1 THEN '(일)'
+		               WHEN 2 THEN '(월)'
+		               WHEN 3 THEN '(화)'
+		               WHEN 4 THEN '(수)'
+		               WHEN 5 THEN '(목)'
+		               WHEN 6 THEN '(금)'
+		               WHEN 7 THEN '(토)'
+		           END
+		    ) AS rDate
+			, CAST(COUNT(*) AS CHAR) AS 'COUNT'
+		FROM MOVIE
+		 WHERE NOW() &lt; RELEASEDATE
+		GROUP BY RELEASEDATE
+		ORDER BY RELEASEDATE;
+	</select>
+	
+	<!-- 상영전 영화 top 3 -->
+	<select id="getTop3" resultType="com.itwillbs.domain.MovieDTO">
+		SELECT MOVIE_NUM
+		    , TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, LEFT(RATING, 2) RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, TARGETDT
+			, m.RANK AS 'RANK'
+			, MOVIENM
+		FROM MOVIE m
+		WHERE NOW() &lt; RELEASEDATE
+<!-- 		and m.RANK &lt;= 3 -->
+		ORDER BY RELEASEDATE, m.RANK
+		limit 0, 3
 	</select>
 	
 	
-	
-	<!-- 상영중인 영화 -->
-	<select id="getShowMovies" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
-		FROM MOVIE m
-		WHERE NOW() BETWEEN DATE(releaseDts) AND DATE(releaseDte + 1)
-		order by m.rank;
-	</select>
 	
 	<!-- 정렬 -->
-		<!-- 예매율순 -->
+	<!-- 예매율순 -->
 	<select id="getSortMovies1" resultType="com.itwillbs.domain.MovieDTO" >
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
-		FROM MOVIE m
-		order by m.rank
+		SELECT MOVIE_NUM
+			, TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, a.RANK "RANK"
+			, MOVIENM
+			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
+				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
+				 FROM MOVIE m
+				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
+				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
+				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
+				 ), 'showMovie', 'notShow') AS 'show'
+            , a.rn as "rn"
+		FROM (SELECT *
+			 		, RANK() OVER(ORDER BY m.RANK) AS rn
+			  FROM MOVIE m) a
+		ORDER BY a.rn
 	</select>
 		<!-- 평점순 -->
 	<select id="getSortMovies2" resultType="com.itwillbs.domain.MovieDTO" >
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
-		FROM MOVIE m
-		where MOVIE_NUM = 4
-		order by m.rank
+		SELECT MOVIE_NUM
+			, TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, a.rank "rank"
+			, MOVIENM
+			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
+				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
+				 FROM MOVIE m
+				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
+				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
+				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
+			 	 ), 'showMovie', 'notShow') AS 'show'
+            , a.rn as "rn"
+		FROM (SELECT *
+			 		, RANK() OVER(ORDER BY m.RANK) as rn
+			  FROM MOVIE m) a
+		ORDER BY a.rn
 	</select>
 		<!-- 관람객순 -->
 	<select id="getSortMovies3" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-			releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-			soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
-		FROM MOVIE m
-		where releaseDts = '2024-07-18'
-		order by m.rank
+		SELECT MOVIE_NUM
+			, TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, a.rank "rank"
+			, MOVIENM
+			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
+				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
+				 FROM MOVIE m
+				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
+				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
+				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
+			 	 ), 'showMovie', 'notShow') AS SHOW
+            , a.RN as RN
+		FROM (SELECT *
+			 		, RANK() OVER(ORDER BY m.RANK) as RN
+			  FROM MOVIE m) a
+		ORDER BY a.RN
 	</select>
-	
-	
-	
-	
 	
 	<!-- 영화 상세정보 -->
 	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
-		SELECT MOVIE_NUM, title, direcotrNm, actorNm, nation, genre,
-				releaseDate, posterUrl, audiAcc, plot, runtime, rating, themsSong,
-				soundtrack, Awards1, releaseDts, releaseDte, targetDt, m.rank as 'rank', movieNm
+		SELECT MOVIE_NUM
+		    , TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, LEFT(RATING, 2) RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, m.RANK AS 'RANK'
+			, MOVIENM
 		FROM MOVIE m
-		Where MOVIE_NUM = #{num}
-		order by m.rank;
+		WHERE MOVIE_NUM = #{num}
+		ORDER by m.RANK;
 	</select>
 	
 	
+	<!-- 리뷰 -->
+	<select id="getReview" resultType="java.util.LinkedHashMap" parameterType="map">
+		select REVIEW_NUM
+			, MOVIE_NUM
+			, MEMBER_ID
+			, REVIEW_DATE
+			, REVIEW_CONTENT
+			, RECOMMEND
+		FROM REVIEW
+		WHERE MOVIE_NUM = #{MOVIE_NUM}
+		LIMIT #{startRow}, #{pageSize};
+	</select>
+	
+	<select id="getMaxPage" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM REVIEW
+		where MOVIE_NUM = #{num};
+	</select>
 	
 	
+	<update id="updateRecommend" >
+		UPDATE REVIEW
+		SET RECOMMEND = RECOMMEND + 1
+		WHERE REVIEW_NUM = #{REVIEW_NUM};
+	</update>
 	
+	<select id="getRecommend" resultType="String">
+		SELECT RECOMMEND
+		FROM REVIEW
+		WHERE REVIEW_NUM = #{REVIEW_NUM};
+	</select>
 	
+	<!-- 리뷰 추천 유저 정보 검색 및 저장 -->
+	<select id="reUserCheck" resultType="java.lang.Boolean">
+		SELECT if(count(*) = 0, 'true', 'false')
+		FROM RECOMMEND_CHECK
+		WHERE REVIEW_NUM = #{REVIEW_NUM}
+		AND MEMBER_ID = #{MEMBER_ID};
+	</select>
 	
+	<insert id="reUserinsert">
+		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEMBER_ID)
+		VALUES(#{REVIEW_NUM}, #{MEMBER_ID});
+	</insert>
 	
 	
 	

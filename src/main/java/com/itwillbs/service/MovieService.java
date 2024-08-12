@@ -1,6 +1,11 @@
 package com.itwillbs.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
@@ -16,21 +21,36 @@ public class MovieService {
 	private MovieDAO movieDAO;
 	
 	// 영화 리스트
-	public List<MovieDTO> getMovie(Integer getPage) {
-		// 상영 예정작 클릭시 page=2 넘겨받고 getPage 값이 2인지 판별해서
-		// 2일시 현재 날짜보다 개봉일이 크면 조건을 붙이는 getMovie2 호출
-		if(getPage == 2) {
+	public List<MovieDTO> getMovie(String page) {
+		// page값이 있으면
+		if(page != null && page.equals("")) {
+			//상영 예정작
 			return movieDAO.getMovie2();
 		} else {
 			return movieDAO.getMovie();
 		}
 	}
 	
+	// 상영 예정 영화의 상영일을 분류하기 위한 메서드
+	public List<LinkedHashMap<String, String>> getReleseDate() {
+		return movieDAO.getReleseDate();
+	}
+	// 상영 예정작 top3
+	public List<MovieDTO> getTop3() {
+		return movieDAO.getTop3();
+	}
+	
+	
+	
+	
+	
 	// 상영중인 영화 리스트
 	public List<MovieDTO> getShowMovies() {
 		
 		return movieDAO.getShowMovies();
 	}
+	
+	
 	
 //	 영화 정렬
 	public List<MovieDTO> getSortMovies(int val) {
@@ -46,12 +66,45 @@ public class MovieService {
 		}
 	}
 	
-
 	
 	// 영화 상세정보
 	public MovieDTO movieInfo(int num) {
-		return movieDAO.movieInfo(num);
+		MovieDTO movieDTO = movieDAO.movieInfo(num);
+		String str = movieDTO.getRating().equals("전체") ? "All" :
+					 Integer.parseInt(movieDTO.getRating()) >= 18 ? "18" : movieDTO.getRating();
+		movieDTO.setRating(str);
+		return movieDTO;
 	}
+//	public List<String> getRelMovies(int num) {
+//		 return movieDAO.getRelMovies(num);
+//	}
+	
+	
+	
+	// 리뷰
+	public ArrayList<Map<String, Object>> getReview(Map<String, Integer> rMap) {
+		return movieDAO.getReview(rMap);
+	}
+	// 최대페이지 구하기
+	public int getMaxPage(int num) {
+		return movieDAO.getMaxPage(num);
+	}
+	
+	// 리뷰 추천수 증가
+	public String updateRecommend(Map<String, String> rMap) {
+		return movieDAO.updateRecommend(rMap);
+	}
+	// 추천한 유저정보 검색
+	public boolean reUserCheck(Map<String, String> rMap) {
+		return movieDAO.reUserCheck(rMap);
+	}
+	// 추천한 유저정보 저장
+	public void reUserinsert(Map<String, String> rMap) {
+		movieDAO.reUserinsert(rMap);
+	}
+	
+
+	
 	
 
 }
