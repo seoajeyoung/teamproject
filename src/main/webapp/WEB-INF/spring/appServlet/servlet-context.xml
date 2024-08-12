@@ -6,8 +6,15 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task https://www.springframework.org/schema/task/spring-task.xsd">
+		
+		
+		<!-- ↑위의 구문에 스케쥴러 활성화를 위한 구문 추가 (7/24) 
+		http://www.springframework.org/schema/task https://www.springframework.org/schema/task/spring-task.xsd"
+		-->
+		
+		
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 
@@ -34,6 +41,14 @@
 		base-package="com.itwillbs.service" />
 	<context:component-scan
 		base-package="com.itwillbs.dao" />
+	<context:component-scan
+		 base-package="com.itwillbs.config" />
+		 
+	<!-- ↑위의 구문에 스케쥴러 활성화를 위한 구문 추가 (7/24) 
+		<context:component-scan
+		 base-package="com.itwillbs.config" />
+		-->
+		 
 
 	<!-- 파일업로드 객체생성, 업로드 파일 크기 10M 지정 -->
 	<beans:bean id="multipartResolver"

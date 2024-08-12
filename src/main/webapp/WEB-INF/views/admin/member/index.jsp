@@ -16,9 +16,12 @@
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<!--     <link -->
+<!--         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" -->
+<!--         rel="stylesheet"> -->
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/osticketAdmin.css" rel="stylesheet">
@@ -31,7 +34,7 @@
     <div id="wrapper">
     
    		<!--  sidebar include -->
-    	<jsp:include page = "/WEB-INF/views/inc/sidebar.jsp"/>
+    	<jsp:include page = "/WEB-INF/views/admin/inc/sidebar.jsp"/>
 
 <!--         Sidebar 시작 (원본 Sidebar 참고용으로 index page에 하나만 주석으로 유지) -->
 
@@ -163,7 +166,7 @@
         <!--  ======================================================================================== -->    
 
             <!--  Topbar include -->
-            <jsp:include page = "/WEB-INF/views/inc/top.jsp"/>
+            <jsp:include page = "/WEB-INF/views/admin/inc/top.jsp"/>
             
             <!-- Topbar 시작 (원본 Topbar 참고용으로 index page에 하나만 주석으로 유지) -->
             
@@ -710,7 +713,7 @@
         <!--  ======================================================================================== --> 
 
             <!-- Footer include -->
-            <jsp:include page="/WEB-INF/views/inc/bottom.jsp"/>
+            <jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp"/>
             
             <!-- Footer 시작 (원본 Footer 참고용으로 index page에 하나만 주석으로 유지)-->
             

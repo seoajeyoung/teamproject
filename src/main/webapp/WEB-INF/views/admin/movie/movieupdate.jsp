@@ -14,12 +14,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - Update</title>
+<title>OSTicket - MovieUpdate</title>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/admin/update.css">
+	href="${pageContext.request.contextPath}/resources/css/admin/movieupdate.css">
 
 <!-- Custom fonts for this template -->
 <link
@@ -30,6 +30,10 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
+<!-- <link -->
+<!-- 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" -->
+<!-- 	rel="stylesheet"> -->
+
 <!-- Custom styles for this template -->
 <link
 	href="${pageContext.request.contextPath}/resources/css/osticketAdmin.css"
@@ -65,82 +69,103 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">회원정보수정</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800">영화정보</h1>
+					<p class="mb-4">
+						넣을 것 있으면 넣기 <a target="_blank" href="https://datatables.net">하이퍼링크
+							넣을거면 넣기</a>.
+					</p>
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
-
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">영화정보</h6>
+						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 
 								<form
-									action="${pageContext.request.contextPath}/admin/member/updatePro"
+									action="${pageContext.request.contextPath}/admin/movie/movieupdatePro"
 									method="post">
+									<input type="hidden" name="MOVIE_NUM" value="${movieDTO.MOVIE_NUM}">
 
-									<table class="table table-infoboard" id="dataTable"
-										width="100%" cellspacing="0">
+									<table class="table table-infoboard" width="100%"
+										cellspacing="0">
 										<thead>
 											<tr>
-												<th colspan="4" class="column-header">상세정보</th>
+												<th colspan="9">${movieDTO.title}상세정보</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<th class="column-header">회원번호</th>
-												<td><input type="hidden" name="member_num"
-													value="${memberDTO.member_num}">${memberDTO.member_num}</td>
-												<th class="column-header">회원ID</th>
-												<td><input type="text" name="member_id"
-													value="${memberDTO.member_id}" readonly></td>
+												<th>영화코드</th>
+												<td colspan="7">${movieDTO.MOVIE_NUM}</td>
+												<th>영화포스터<br>[첨부하기]버튼생성
+												</th>
 											</tr>
 											<tr>
-												<th class="column-header">비밀번호</th>
-												<td><input type="password" name="member_pass"
-													value="${memberDTO.member_pass}"></td>
-												<th class="column-header">이름</th>
-												<td><input type="text" name="member_name"
-													value="${memberDTO.member_name }"></td>
+												<th>영화제목</th>
+												<td colspan="2"><input type="text" name="title"
+													value="${movieDTO.title}"></td>
+												<th>영문제목</th>
+												<td colspan="4"><input type="text" name="titleEng"
+													value="${movieDTO.titleEng}"></td>
+												<td rowspan="7"
+													style="text-align: center; width: 250px; height: 400px;">
+													<img
+													src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg"
+													onerror="errorImage(this)"
+													style="width: 100%; height: 100%; object-fit: contain;">
+												</td>
 											</tr>
 											<tr>
-												<th class="column-header">전화번호</th>
-												<td><input type="text" name="member_phone"
-													value="${memberDTO.member_phone }"></td>
-												<th class="column-header">이메일</th>
-												<td><input type="text" name="member_email"
-													value="${memberDTO.member_email}"></td>
+												<th>감독</th>
+												<td colspan="2"><input type="text" name="direcotrNm"
+													value="${movieDTO.direcotrNm}"></td>
+												<th>배우</th>
+												<td colspan="2"><input type="text" name="actorNm"
+													value="${movieDTO.actorNm}"></td>
 											</tr>
 											<tr>
-												<th class="column-header">주소</th>
-												<td><input type="text" name="member_address"
-													value="${memberDTO.member_address}"></td>
-												<th class="column-header">회원등급</th>
-												<td>${memberDTO.member_grade}</td>
+												<th>장르</th>
+												<td colspan="2"><input type="text" name="genre"
+													value="${movieDTO.genre}"></td>
+												<th>상영등급</th>
+												<td colspan="2"><input type="text" name="rating"
+													value="${movieDTO.rating}"></td>
 											</tr>
 											<tr>
-												<th class="column-header">보유포인트</th>
-												<td>${memberDTO.point_currentP}</td>
-												<th class="column-header">누적포인트</th>
-												<td>${memberDTO.point_cumulativeP}</td>
+												<th>런닝타임</th>
+												<td colspan="2"><input type="text" name="runtime"
+													value="${movieDTO.runtime}"></td>
+												<th>누적관객수</th>
+												<td colspan="2"><input type="text" name="audiAcc"
+													value="${movieDTO.audiAcc}"></td>
 											</tr>
 											<tr>
-												<th class="column-header">지급할포인트</th>
-												<td colspan="3"><input type="text" name="sPoint"
-													value="0"></td>
+												<th>등록일자</th>
+												<td><input type="date" name="releaseDate"
+													value="${movieDTO.releaseDate}"></td>
+												<th>상영일자</th>
+												<td><input type="date" name="releaseDts"
+													value="${movieDTO.releaseDts}"></td>
+												<th>종영일자</th>
+												<td><input type="date" name="releaseDte"
+													value="${movieDTO.releaseDte}"></td>
 											</tr>
 											<tr>
-												<th class="column-header">지급사유</th>
-												<td colspan="3"><select id="detailList"
-													name="point_detail">
-														<option value="">지급사유를 선택하세요</option>
-														<c:forEach var="list" items="${detailList}">
-															<option value="${list.point_detail}">${list.point_detail}</option>
-														</c:forEach>
-												</select></td>
+												<th>주제곡</th>
+												<td colspan="5"><input type="text" name="themsSong"
+													value="${movieDTO.themsSong}"></td>
 											</tr>
 											<tr>
-												<th class="column-header">포인트지급기록</th>
-												<td colspan="3"><pre>${memberDTO.point_history}</pre></td>
+												<th>삽입곡</th>
+												<td colspan="5"><input type="text" name="soundtrack"
+													value="${movieDTO.soundtrack}"></td>
+											</tr>
+											<tr>
+												<th>줄거리</th>
+												<td colspan="8"><textarea name="plot"
+														style="width: 100%;">${movieDTO.plot}</textarea></td>
 											</tr>
 										</tbody>
 									</table>

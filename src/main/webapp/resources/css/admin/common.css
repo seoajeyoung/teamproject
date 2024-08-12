@@ -1,0 +1,50 @@
+/* 기본 입력 필드 스타일 */
+input[type="text"], input[type="password"], input[type="email"] {
+    border: none; /* 테두리 없앰 */
+    border-bottom: 2px solid #ccc; /* 아래쪽에만 가는 테두리 추가 */
+    background-color: transparent; /* 배경색 투명 */
+    padding: 8px 0; /* 여백 추가 */
+    width: 100%; /* 입력 필드 너비 100% */
+    box-sizing: border-box; /* 패딩 포함 */
+    font-family: 'Noto Sans KR', sans-serif; /* 글꼴 설정 */
+    font-size: 16px; /* 글꼴 크기 */
+    transition: border-color 0.3s ease-in-out; /* 테두리 색상 변경 애니메이션 */
+    color: #333; /* 텍스트 색상 */
+}
+
+/* 입력 필드에 포커스가 있을 때 스타일 */
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    border-bottom: 2px solid #ff4b47; /* 포커스 시 아래쪽 테두리 색상 변경 */
+    outline: none; /* 기본 포커스 스타일 없앰 */
+}
+
+/* 입력 필드에 비활성화된 스타일 */
+input[type="text"]:disabled, input[type="password"]:disabled, input[type="email"]:disabled {
+    border-bottom: 2px solid #ddd; /* 비활성화된 상태에서의 테두리 색상 */
+    background-color: #f2f2f2; /* 비활성화된 상태에서의 배경색 */
+}
+
+/* placeholder 스타일 */
+input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
+    color: #aaa; /* placeholder 색상 */
+}
+
+/* 밑줄을 글씨 길이와 같게 하는 가상 요소 */
+.input-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%; /* 전체 너비 설정 */
+    background-color: #ccc; /* 밑줄 색상 */
+    transform-origin: left;
+    transform: scaleX(0); /* 초기 상태에서 밑줄을 숨김 */
+    transition: transform 0.3s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+/* 입력 필드에 텍스트가 있을 때 밑줄 표시 */
+.input-underline:focus::after, .input-underline:not(:placeholder-shown)::after {
+    transform: scaleX(1); /* 텍스트가 있을 때 밑줄을 표시 */
+    background-color: #ff4b47; /* 포커스 시 색상 변경 */
+}

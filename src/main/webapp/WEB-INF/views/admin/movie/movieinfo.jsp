@@ -7,6 +7,7 @@
 
 <head>
 
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -14,11 +15,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - Info</title>
+<title>OSTicket - MovieInfo</title>
 
-<!-- Custom fonts for this template -->
+
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/admin/info.css">
+	href="${pageContext.request.contextPath}/resources/css/admin/movieinfo.css">
+<!-- Custom fonts for this template -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -27,6 +29,9 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
+<!-- <link -->
+<!-- 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" -->
+<!-- 	rel="stylesheet"> -->
 
 <!-- Custom styles for this template -->
 <link
@@ -63,85 +68,85 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">회원상세정보</h1>
+					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">영화정보</h1>
 					<br>
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
+
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-infoboard" width="100%"
+								<table class="table table-infoboard" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="6">상세정보</th>
+											<th colspan="4">${movieDTO.title} 상세정보</th>
+											<th colspan="2">영화 포스터</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<th>회원번호</th>
-											<td>${memberDTO.member_num}</td>
-											<th>아이디</th>
-											<td>${memberDTO.member_id}</td>
-											<th>회원등급</th>
-											<td>${memberDTO.member_grade}</td>
+											<th>영화코드</th>
+											<td>${movieDTO.MOVIE_NUM}</td>
+											<th>영화제목</th>
+											<td>${movieDTO.title}</td>
+											<td colspan="2" rowspan="6">
+												<!-- 포스터 --> <img
+												src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg"
+												onerror="errorImage(this)" width="300">
+											</td>
 										</tr>
 										<tr>
-											<th>관리자유무</th>
-											<td>${memberDTO.member_admin}</td>
-											<th>닉네임</th>
-											<td>${memberDTO.member_nickname}</td>
-											<th>전화번호</th>
-											<td>${memberDTO.member_phone}</td>
+											<th>영문제목</th>
+											<td>${movieDTO.titleEng}</td>
+											<th>감독</th>
+											<td>${movieDTO.direcotrNm}</td>
 										</tr>
 										<tr>
-											<th>이메일</th>
-											<td colspan="3">${memberDTO.member_email}</td>
-											<th>비밀번호</th>
-											<td>${memberDTO.member_pass}</td>
+											<th>배우</th>
+											<td>${movieDTO.actorNm}</td>
+											<th>장르</th>
+											<td>${movieDTO.genre}</td>
 										</tr>
 										<tr>
-											<th>이름</th>
-											<td>${memberDTO.member_name}</td>
-											<th>성별</th>
-											<td>${memberDTO.member_gender}</td>
-											<th>생년월일</th>
-											<td>${memberDTO.member_birth}</td>
+											<th>상영등급</th>
+											<td>${movieDTO.rating}</td>
+											<th>런닝타임</th>
+											<td>${movieDTO.runtime}</td>
 										</tr>
 										<tr>
-											<th>주소</th>
-											<td colspan="5">${memberDTO.member_address}</td>
+											<th>누적관객수</th>
+											<td>${movieDTO.audiAcc}</td>
+											<th>등록일자</th>
+											<td>${movieDTO.releaseDate}</td>
 										</tr>
 										<tr>
-											<th>누적포인트</th>
-											<td>${memberDTO.point_cumulativeP}</td>
-											<th>보유포인트</th>
-											<td>${memberDTO.point_currentP}</td>
-											<th>가입시간</th>
-											<td>${memberDTO.member_input}</td>
+											<th>상영일자</th>
+											<td>${movieDTO.releaseDts}</td>
+											<th>종영일자</th>
+											<td>${movieDTO.releaseDte}</td>
 										</tr>
 										<tr>
-											<th>탈퇴여부</th>
-											<td>${memberDTO.member_status}</td>
-											<th>탈퇴유예시작시간</th>
-											<td>${memberDTO.member_respite}</td>
-											<th>자동탈퇴시간</th>
-											<td>${memberDTO.member_out}</td>
+											<th>주제곡</th>
+											<td colspan="4">${movieDTO.themsSong}</td>
 										</tr>
 										<tr>
-											<th>포인트지급기록</th>
-											<td colspan="5"><pre>${memberDTO.point_history}</pre></td>
+											<th>삽입곡</th>
+											<td colspan="4">${movieDTO.soundtrack}</td>
+										</tr>
+										<tr>
+											<th>줄거리</th>
+											<td colspan="4">${movieDTO.plot}</td>
 										</tr>
 									</tbody>
 								</table>
 
 								<div class="button-container">
 									<a
-										href="${pageContext.request.contextPath}/admin/member/update?member_num=${memberDTO.member_num}"
-										class="btn btn-success btn-user">회원정보수정</a> 
-									<a
-										href="${pageContext.request.contextPath}/admin/member/moviedeletePro?member_num=${memberDTO.member_num}"
-										class="btn btn-danger btn-user">회원정보삭제</a>
+										href="${pageContext.request.contextPath}/admin/movie/movieupdate?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
+										class="btn btn-success btn-user">영화정보수정</a> <a
+										href="${pageContext.request.contextPath}/admin/movie/moviedelete?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
+										class="btn btn-danger btn-user">영화정보삭제</a>
 								</div>
 
 							</div>
@@ -204,7 +209,7 @@
 
 	<!-- Custom scripts for all pages-->
 	<script
-		src="${pageContext.request.contextPath}/resources/script/sb-admin-2.min.js"></script>
+		src="${pageContext.request.contextPath}/resources/js/osticketAdmin.min.js"></script>
 
 	<!-- Page level plugins -->
 	<script
@@ -213,7 +218,8 @@
 		src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 	<!-- Page level custom scripts -->
-	<%--     <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script> --%>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
 </body>
 

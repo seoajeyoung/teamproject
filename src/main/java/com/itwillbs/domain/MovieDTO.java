@@ -2,15 +2,18 @@ package com.itwillbs.domain;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class MovieDTO {
+	private String MOVIE_NUM;
 	private String movieNum;
     private String title;
-    private String direcotrNm;
+    private String titleEng;
+	private String direcotrNm;
     private String actorNm;
     private String nation;
     private String genre;
-    private LocalDate releaseDate;
     private String posterUrl;
     private String audiAcc;
     private String plot;
@@ -19,26 +22,46 @@ public class MovieDTO {
     private String themsSong;
     private String soundtrack;
     private String Awards1;
-    private LocalDate releaseDts;
-    private LocalDate releaseDte;
     private LocalDate targetDt;
     private String rank;
     private String movieNm;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate releaseDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate releaseDts;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate releaseDte;
     
     
-    
+   
+
+
+	public String getMOVIE_NUM() {
+		return MOVIE_NUM;
+	}
+	public void setMOVIE_NUM(String MOVIE_NUM) {
+		this.MOVIE_NUM = MOVIE_NUM;
+	}
 	@Override
 	public String toString() {
-		return "MovieDTO [movieNum=" + movieNum + ", title=" + title + ", direcotrNm=" + direcotrNm + ", actorNm="
-				+ actorNm + ", nation=" + nation + ", genre=" + genre + ", releaseDate=" + releaseDate + ", posterUrl="
+		return "MovieDTO [movieNum=" + movieNum + ", title=" + title + ", titleEng=" + titleEng + ", direcotrNm="
+				+ direcotrNm + ", actorNm=" + actorNm + ", nation=" + nation + ", genre=" + genre + ", posterUrl="
 				+ posterUrl + ", audiAcc=" + audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating
-				+ ", themsSong=" + themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", releaseDts="
-				+ releaseDts + ", releaseDte=" + releaseDte + ", targetDt=" + targetDt + ", rank=" + rank + ", movieNm="
-				+ movieNm + "]";
+				+ ", themsSong=" + themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", targetDt="
+				+ targetDt + ", rank=" + rank + ", movieNm=" + movieNm + ", releaseDate=" + releaseDate
+				+ ", releaseDts=" + releaseDts + ", releaseDte=" + releaseDte + ", MOVIE_NUM=" + MOVIE_NUM
+				+ ", getMOVIE_NUM()=" + getMOVIE_NUM() + ", getMovieNum()=" + getMovieNum() + ", getTitle()="
+				+ getTitle() + ", getTitleEng()=" + getTitleEng() + ", getDirecotrNm()=" + getDirecotrNm()
+				+ ", getActorNm()=" + getActorNm() + ", getNation()=" + getNation() + ", getGenre()=" + getGenre()
+				+ ", getReleaseDate()=" + getReleaseDate() + ", getPosterUrl()=" + getPosterUrl() + ", getAudiAcc()="
+				+ getAudiAcc() + ", getPlot()=" + getPlot() + ", getRuntime()=" + getRuntime() + ", getRating()="
+				+ getRating() + ", getThemsSong()=" + getThemsSong() + ", getSoundtrack()=" + getSoundtrack()
+				+ ", getAwards1()=" + getAwards1() + ", getReleaseDts()=" + getReleaseDts() + ", getReleaseDte()="
+				+ getReleaseDte() + ", getTargetDt()=" + getTargetDt() + ", getRank()=" + getRank() + ", getMovieNm()="
+				+ getMovieNm() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
-	
-	
 	public String getMovieNum() {
 		return movieNum;
 	}
@@ -50,6 +73,12 @@ public class MovieDTO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getTitleEng() {
+		return titleEng;
+	}
+	public void setTitleEng(String titleEng) {
+		this.titleEng = titleEng;
 	}
 	public String getDirecotrNm() {
 		return direcotrNm;

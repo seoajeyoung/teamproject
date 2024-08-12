@@ -4,54 +4,423 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.mappers.AdminMapper">
 
-<!-- 	<insert id="insertMember"> -->
-<!-- 		insert into MEMBERS(member_num, member_id, member_pass, member_name, -->
-<!-- 							member_nickname, member_gender, member_phone, member_input, -->
-<!-- 							member_out, member_status, member_address, member_admin, -->
-<!-- 							member_grade, member_birth, member_email) -->
-<!-- 		values(#{member_num}, #{member_id}, #{member_pass}, #{member_name}, -->
-<!-- 			   #{member_nickname}, #{member_gender}, #{member_phone}, #{member_input}, -->
-<!-- 			   #{member_out}, #{member_status}, #{member_address}, #{member_admin}, -->
-<!-- 			   #{member_grade}, #{member_birth}, #{member_email}) -->
-<!-- 	</insert> -->
+	<!-- <insert id="insertMember"> -->
+	<!-- insert into MEMBERS(member_num, member_id, member_pass, member_name, -->
+	<!-- member_nickname, member_gender, member_phone, member_input, -->
+	<!-- member_out, member_status, member_address, member_admin, -->
+	<!-- member_grade, member_birth, member_email) -->
+	<!-- values(#{member_num}, #{member_id}, #{member_pass}, #{member_name}, -->
+	<!-- #{member_nickname}, #{member_gender}, #{member_phone}, #{member_input}, -->
+	<!-- #{member_out}, #{member_status}, #{member_address}, #{member_admin}, -->
+	<!-- #{member_grade}, #{member_birth}, #{member_email}) -->
+	<!-- </insert> -->
 
-		<insert id="registerMember">
-			insert into EXMEMBERS(member_id,
-								  member_pass, 
-								  member_name,
-								  member_phone, 
-								  member_email)
-						   values(#{member_id}, 
-						   		  #{member_pass}, 
-						   		  #{member_name}, 
-						   		  #{member_phone},
-				   				  #{member_email})
-		</insert>
+	<!-- ====================================================================================== -->
+	<!-- 회원가입, 안쓰니까 일단 주석 -->
 
-	
-	<select id="getMemberList" resultType="com.itwillbs.domain.MemberDTO">
-		select * from EXMEMBERS 	
+	<!-- <insert id="registerMember"> -->
+	<!-- insert into EXMEMBERS(member_id, -->
+	<!-- member_pass, -->
+	<!-- member_name, -->
+	<!-- member_phone, -->
+	<!-- member_email) -->
+	<!-- values(#{member_id}, -->
+	<!-- #{member_pass}, -->
+	<!-- #{member_name}, -->
+	<!-- #{member_phone}, -->
+	<!-- #{member_email}) -->
+	<!-- </insert> -->
+
+	<!-- ====================================================================================== -->
+	<!-- 회원목록 -->
+
+	<select id="getMemberList"
+		resultType="com.itwillbs.domain.MemberDTO">
+		select * from MEMBERS
 	</select>
-	
-	<select id="getMemberInfo" resultType="com.itwillbs.domain.MemberDTO">
-		select * from EXMEMBERS where member_id = #{member_id}
+
+	<!-- ====================================================================================== -->
+
+	<!-- 회원상세정보 -->
+
+	<select id="getMemberInfo"
+		resultType="com.itwillbs.domain.MemberDTO">
+		select M.*, P.*
+		from MEMBERS M
+		left join POINT P ON
+		M.member_num = P.member_num
+		where M.member_num = #{member_num};
 	</select>
-	
-	<select id="getGradeList" resultType="com.itwillbs.domain.MemberDTO">
-		select distinct member_grade from EXMEMBERS;
+
+	<!-- ====================================================================================== -->
+
+	<!-- 포인트지급항목 -->
+
+	<select id="getDetailList"
+		resultType="com.itwillbs.domain.MemberDTO">
+		select * from DETAIL;
 	</select>
-	
+
+	<!-- ====================================================================================== -->
+
+	<!-- 회원정보수정 -->
 	<update id="updateMember">
-		update EXMEMBERS set member_pass = #{member_pass}, 
-						     member_name = #{member_name},
-						     member_phone = #{member_phone},
-						     member_email = #{member_email},
-						     member_address = #{member_address},
-						     member_grade = #{member_grade}
-					   where member_id = #{member_id} 
+		update MEMBERS set member_num = #{member_num},
+		member_pass = #{member_pass},
+		member_name = #{member_name},
+		member_phone = #{member_phone},
+		member_email = #{member_email},
+		member_address = #{member_address},
+		member_grade =
+		CASE
+		WHEN (select
+		point_cumulativeP from POINT where member_num =
+		#{member_num}) >= 50000
+		THEN '골드'
+		WHEN (select point_cumulativeP from POINT where member_num =
+		#{member_num}) >= 30000 THEN '실버'
+		ELSE '브론즈'
+		END
+		where member_num =
+		#{member_num}
 	</update>
-	
+
+
+	<!-- 포인트지급,차감 -->
+	<update id="updatePoint">
+		update POINT set point_currentP =
+		GREATEST(point_currentP + #{sPoint}, 0),
+		point_cumulativeP = CASE
+		WHEN
+		#{sPoint} >= 0 THEN point_cumulativeP + #{sPoint}
+		ELSE
+		point_cumulativeP
+		END
+		where member_num = #{member_num}
+	</update>
+
+	<!-- 포인트지급,차감 내역 -->
+	<update id="updatePointHistory">
+		update POINT set point_history =
+		CONCAT(IFNULL(point_history, ''),
+		case
+		WHEN LENGTH(IFNULL(point_history,
+		'')) > 0 THEN CHAR(10) -- 줄바꿈 추가
+		ELSE ''
+		END,
+		DATE_FORMAT(NOW(),
+		'%Y-%m-%d %H:%i'), ' / 지급(차감)된 포인트: ', #{sPoint}, ' / ',
+		#{point_detail})
+		where member_num = #{member_num}
+	</update>
+
+	<!-- ====================================================================================== -->
+
+	<!-- 회원탈퇴(6개월 유예) -->
+
+	<update id="respiteMember">
+		update MEMBERS set member_status = '탈퇴유예',
+		member_respite = CURRENT_TIMESTAMP,
+		member_out =
+		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
+		where member_num =
+		#{member_num}
+	</update>
+
+	<!-- ====================================================================================== -->
+
+	<!-- 회원정보복구 -->
+
+	<update id="restoreMember">
+		update MEMBERS set member_status = '회원',
+		member_respite = NULL,
+		member_out = NULL
+		where member_num =
+		#{member_num}
+	</update>
+
+	<!-- status 값 나중에 default = '회원' -->
+
+	<!-- ====================================================================================== -->
+
+	<!-- 이메일리스트 -->
+
+	<select id="getEmailList"
+		resultType="com.itwillbs.domain.AdminDTO">
+		select * from ADMINMAIL;
+	</select>
+
+
+	<!-- ====================================================================================== -->
+
+	<!-- 영화삽입 -->
+	<insert id="saveMovie"
+		parameterType="com.itwillbs.domain.AdminDTO">
+		insert into MOVIE (MOVIE_NUM, title, titleEng,
+		direcotrNm, actorNm, nation,
+		genre, plot, runtime, rating, releaseDate,
+		posterUrl, stillUrl,
+		audiAcc, themsSong, soundtrack, Awards1)
+		values
+		(FLOOR(RAND() * 1000000), #{title}, #{titleEng}, #{directorNm},
+		#{actorNm}, #{nation}, #{genre}, #{plot}, #{runtime}, #{rating},
+		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{audiAcc}, #{themeSong},
+		#{soundtrack}, #{Awards1})
+	</insert>
+
+	<select id="checkMovieExists" parameterType="String"
+		resultType="boolean">
+		select exists (select 1 from MOVIE where title = #{title})
+	</select>
 
 
 
-</mapper>  
+
+	<!-- ====================================================================================== -->
+
+	<!-- 영화목록 -->
+
+	<select id="getMovieList"
+		resultType="com.itwillbs.domain.MovieDTO">
+		select * from MOVIE
+	</select>
+
+	<!-- 영화 상세정보 -->
+	<select id="getMovieInfo"
+		resultType="com.itwillbs.domain.MovieDTO"
+		parameterType="java.lang.Integer">
+		SELECT MOVIE_NUM, title, titleEng, direcotrNm, actorNm,
+		nation, genre,
+		releaseDate, posterUrl, audiAcc, plot, runtime, rating,
+		themsSong,
+		soundtrack, Awards1, releaseDts, releaseDte, targetDt,
+		m.rank as 'rank', movieNm
+		FROM MOVIE m
+		Where MOVIE_NUM = #{num}
+	</select>
+
+	<!-- 영화정보 업데이트 -->
+	<update id="movieupdate"
+		parameterType="com.itwillbs.domain.MovieDTO">
+		update MOVIE set title = #{title},
+		titleEng = #{titleEng},
+		direcotrNm = #{direcotrNm},
+		actorNm = #{actorNm},
+		genre = #{genre},
+		rating = #{rating},
+		runtime = #{runtime},
+		audiAcc = #{audiAcc},
+		posterUrl = #{posterUrl},
+		releaseDate = #{releaseDate},
+		releaseDts = #{releaseDts},
+		releaseDte = #{releaseDte}
+		where MOVIE_NUM = #{MOVIE_NUM}
+	</update>
+
+	<delete id="moviedelete"
+		parameterType="com.itwillbs.domain.MovieDTO">
+		DELETE FROM MOVIE WHERE where MOVIE_NUM = #{MOVIE_NUM}
+	</delete>
+
+
+
+
+
+
+
+	<!-- ====================================================================================== -->
+
+
+
+
+
+
+
+	<select id="getRegionList"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DISTINCT TH_REGION FROM THEATER
+	</select>
+
+	<select id="getTheaterList"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT * FROM THEATER
+	</select>
+
+	<select id="getNameList" parameterType="String"
+		resultType="String">
+		SELECT TH_NAME FROM THEATER WHERE TH_REGION = #{TH_REGION}
+	</select>
+
+	<select id="getCinemaList" parameterType="String"
+		resultType="String">
+		SELECT DISTINCT C.CI_NUMBER
+		FROM THEATER T
+		LEFT JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		WHERE T.TH_NAME = #{TH_NAME}
+	</select>
+
+	<!-- <select id="getMovieNameList" parameterType="String" resultType="String"> -->
+	<!-- SELECT TITLE -->
+	<!-- FROM MOVIE -->
+	<!-- WHERE REPLACE(releaseDate, '-', '') &lt;= #{releaseDate} -->
+	<!-- </select> -->
+
+
+	<select id="getMovieNameList" parameterType="map"
+		resultType="hashmap">
+		SELECT TITLE, TITLEENG, RUNTIME
+		FROM MOVIE
+		WHERE REPLACE(releaseDate, '-', '') BETWEEN #{threeMonthsAgo} AND
+		#{releaseDate}
+	</select>
+
+	<!-- 영문 제목 찾기 -->
+	<select id="findTitleEng" parameterType="String"
+		resultType="String">
+		SELECT TITLEENG FROM MOVIE WHERE TITLE = #{title}
+	</select>
+
+	<!-- 런타임 찾기 -->
+	<select id="findRuntime" parameterType="String"
+		resultType="String">
+		SELECT RUNTIME FROM MOVIE WHERE TITLE = #{title}
+	</select>
+
+	<!-- 영문 제목 업데이트 -->
+	<update id="updateTitleEng" parameterType="map">
+		UPDATE MOVIE SET TITLEENG = #{titleEng} WHERE TITLE = #{title}
+	</update>
+
+	<!-- 런타임 업데이트 -->
+	<update id="updateRuntime" parameterType="map">
+		UPDATE MOVIE SET RUNTIME = #{runtime} WHERE TITLE = #{title}
+	</update>
+
+
+	<!-- 상영일정저장 -->
+	<insert id="insertSchedule" parameterType="map">
+		<!-- CINEMA 테이블에 데이터 삽입 -->
+		INSERT INTO CINEMA (CI_NUM, TH_NUM, MOVIE_NUM, CI_NUMBER)
+		VALUES (
+		#{CI_NUM},
+		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME =
+		#{TH_NAME}),
+		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title}),
+		#{CI_NUMBER}
+		);
+	</insert>
+	<insert id="insertScreenTime" parameterType="map">
+		<!-- SCREEN 테이블에 데이터 삽입 -->
+		INSERT INTO SCREEN (CI_NUM, SC_TIME, SC_TIME_END)
+		VALUES (
+		#{CI_NUM},
+		#{SC_TIME},
+		#{SC_TIME_END}
+		);
+	</insert>
+
+	<update id="updateSchedule" parameterType="map">
+		UPDATE CINEMA
+		SET
+		TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND
+		TH_NAME = #{TH_NAME}),
+		MOVIE_NUM = (SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title}),
+		CI_NUMBER = #{CI_NUMBER}
+		WHERE CI_NUM = #{CI_NUM};
+	</update>
+
+
+
+
+	<select id="getScheduleList"
+		resultType="com.itwillbs.domain.ScheduleDTO">
+		SELECT T.TH_REGION, T.TH_NAME, C.CI_NUMBER, M.TITLE, S.SC_TIME,
+		S.SC_TIME_END
+		FROM THEATER T
+		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+	</select>
+
+	<select id="getScheduleByCinema" parameterType="map"
+		resultType="com.itwillbs.domain.ScheduleDTO">
+		SELECT T.TH_REGION, T.TH_NAME, C.CI_NUMBER, M.TITLE, S.SC_TIME,
+		S.SC_TIME_END
+		FROM THEATER T
+		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+		WHERE T.TH_REGION = #{TH_REGION}
+		AND T.TH_NAME = #{TH_NAME}
+		AND C.CI_NUMBER = #{CI_NUMBER}
+	</select>
+
+	<select id="getBranchList" parameterType="map"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DISTINCT
+		T.TH_NUM,
+		T.TH_REGION,
+		T.TH_NAME,
+		T.TH_ADDR,
+		T.TH_REGIONEng,
+		T.TH_NAMEEng,
+		C.CI_NUMBER
+		FROM
+		THEATER T
+		LEFT JOIN
+		CINEMA C ON T.TH_NUM = C.TH_NUM;
+	</select>
+
+	<!-- 영문지역명 찾기 -->
+	<select id="getfindAll" parameterType="String"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DISTINCT
+		T.TH_REGION,
+		T.TH_NAME,
+		T.TH_ADDR,
+		T.TH_REGIONEng,
+		T.TH_NAMEEng,
+		C.CI_NUMBER
+		FROM
+		THEATER T
+		LEFT JOIN
+		CINEMA C ON T.TH_NUM = C.TH_NUM;
+	</select>
+
+	<insert id="insertTheater" parameterType="map">
+		INSERT INTO THEATER (TH_NUM, TH_REGION, TH_REGIONEng, TH_NAME, TH_NAMEEng,
+		TH_ADDR)
+		VALUES (
+		#{TH_NUM},
+		#{TH_REGION},
+		#{TH_REGIONEng},
+		#{TH_NAME},
+		#{TH_NAMEEng},
+		#{TH_ADDR}
+		);
+	</insert>
+
+	<insert id="insertCInumber" parameterType="map">
+		INSERT INTO CINEMA (TH_NUM, CI_NUMBER)
+		VALUES (
+		#{TH_NUM},
+		#{CI_NUMBER}
+		);
+	</insert>
+
+	<update id="updateTheater" parameterType="map">
+		UPDATE THEATER
+		SET
+		TH_REGION = #{TH_REGION},
+		TH_REGIONEng = #{TH_REGIONEng},
+		TH_NAME = #{TH_NAME},
+		TH_NAMEEng = #{TH_NAMEEng},
+		TH_ADDR = #{TH_ADDR}
+		WHERE TH_NUM = #{TH_NUM};
+	</update>
+
+	<delete id="deleteTheater" parameterType="int">
+		DELETE FROM THEATER WHERE TH_NUM = #{TH_NUM};
+	</delete>
+</mapper>

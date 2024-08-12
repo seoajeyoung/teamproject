@@ -13,8 +13,6 @@
 
 <P>  The time on the server is ${serverTime}. </P>
 <a href="ticket"></a>
-<a href="fff"></a>
-<a href="modal"></a>
-<a href="결제TEST"></a>
+<a href="admin/member/index">관리자</a>
 </body>
 </html>

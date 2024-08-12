@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+ 
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/sidebar.css">   
+ <ul class="navbar-nav bg-gradient-sidebar sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/admin/index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/admin/member/index">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -16,7 +17,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>미정</span></a>
             </li>
@@ -106,7 +107,28 @@
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/memberlist">회원목록</a>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/register">회원가입</a>
                         <a class="collapse-item" href="../member/charts">회원통계</a>
-                        <a class="collapse-item" href="sendEmailToMembers.html">메일보내기</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/setm">메일보내기</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>영화관리</span>
+                </a>
+                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">movie:</h6>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movielist">영화목록</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movieschedule">상영일정등록</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/theaterinsert">상영지점등록</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>

@@ -14,12 +14,18 @@
     <meta name="author" content="">
 
     <title>OSTicket - Members</title>
-
+    
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin/memberlist.css">
+	
     <!-- Custom fonts for this template -->
+    
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<!--     <link -->
+<!--         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" -->
+<!--         rel="stylesheet"> -->
 
     <!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/resources/css/osticketAdmin.css" rel="stylesheet">
@@ -35,7 +41,7 @@
     <div id="wrapper">
 
         <!-- Sidebar include -->
-        <jsp:include page = "/WEB-INF/views/inc/sidebar.jsp"/>
+        <jsp:include page = "/WEB-INF/views/admin/inc/sidebar.jsp"/>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -45,58 +51,54 @@
             <div id="content">
             
             <!-- Topbar -->
-            <jsp:include page = "/WEB-INF/views/inc/top.jsp"/>
+            <jsp:include page = "/WEB-INF/views/admin/inc/top.jsp"/>
             <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">회원목록</h1>
-                    <p class="mb-4">넣을 것 있으면 넣기 <a target="_blank"
-                            href="https://datatables.net">하이퍼링크 넣을거면 넣기</a>.</p>
-
+                    <h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;"> 회원목록</h1><br>
+                    
                     <!-- DataTales -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">회원목록</h6>
-                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                <table class="memberlist table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class = "thc">
                                         <tr>
-                                            <th>회원ID</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>전화번호</th>
-                                            <th>이메일</th>
-                                            <th>회원등급</th>
-                                            <th>비고</th>
+                                        	<th class="column-member-number">회원번호</th>
+                                            <th class="column-member-id">회원ID</th>
+                                            <th class="column-member-name">이름</th>
+                                            <th class="column-phone">전화번호</th>
+                                            <th class="column-email">이메일</th>
+                                            <th class="column-grade">회원등급</th>
+                                            <th class="column-action">비고</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
+                                    <tfoot class = "thc">
                                         <tr>
-                                            <th>회원ID</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>전화번호</th>
-                                            <th>이메일</th>
-                                            <th>회원등급</th>
-                                            <th>비고</th>
+                                        	<th class="column-member-number">회원번호</th>
+                                            <th class="column-member-id">회원ID</th>
+                                            <th class="column-member-name">이름</th>
+                                            <th class="column-phone">전화번호</th>
+                                            <th class="column-email">이메일</th>
+                                            <th class="column-grade">회원등급</th>
+                                            <th class="column-action">비고</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     <!-- 회원목록  -->
-                    	 				<c:forEach var="memberDTO" items="${memberList}"> 
+						 				
+						 				<c:forEach var="memberDTO" items="${memberList}"> 
 										<tr>
-		    								<td>${memberDTO.member_id}</td>
-		    								<td>${memberDTO.member_pass}</td>
-		    								<td>${memberDTO.member_name}</td>
-		    								<td>${memberDTO.member_phone}</td>
-		    								<td>${memberDTO.member_email}</td>
-		    								<td>${memberDTO.member_grade}</td>
-		    								<td><a href="${pageContext.request.contextPath}/admin/member/info?member_id=${memberDTO.member_id}" class="btn btn-primary btn-user btn-block">상세정보확인</a></td>
+											<td class="column-member-number">${memberDTO.member_num}</td>
+                                            <td class="column-member-id">${memberDTO.member_id}</td>
+                                            <td class="column-member-name">${memberDTO.member_name}</td>
+                                            <td class="column-phone">${memberDTO.member_phone}</td>
+                                            <td class="column-email">${memberDTO.member_email}</td>
+                                            <td class="column-grade">${memberDTO.member_grade}</td>
+                                            <td class="column-action"><a href="${pageContext.request.contextPath}/admin/member/info?member_num=${memberDTO.member_num}" class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
 		    							</tr>
 						 				</c:forEach>
                                     </tbody>
@@ -111,7 +113,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer include-->
-            <jsp:include page="/WEB-INF/views/inc/bottom.jsp"/>
+            <jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp"/>
             <!-- End of Footer -->
 
         </div>
@@ -153,14 +155,14 @@
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="${pageContext.request.contextPath}/resources/js/osticketAdmin.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/script/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/script/demo/datatables-demo.js"></script>
 
 </body>
 
