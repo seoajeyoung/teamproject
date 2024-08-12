@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>inquiry/answer.jsp</title>
-<link href="${pageContext.request.contextPath}/resources/css/customer.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/content.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
@@ -124,12 +124,26 @@
 				<div class="customer_btn"><button type="button" class="round inblack" id="btn_list"><span>목록으로</span></button></div>
 				<!-- 이전글,다음글 (s) -->
 				<div class="btm_sup_list">
+				<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+					<ul class="line_sup_next">
+                        <li class="stit">이전글</li>
+                        <c:choose>  
+							<c:when test="${empty next}"> 
+								<li class="name">이전글이 없습니다.</li>
+							</c:when> 
+							<c:otherwise>
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
+							</c:otherwise> 
+						</c:choose>
+					</ul>
+<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				
 					<ul class="line_sup_prev">
-						<li class="stit">이전글</li>
+						<li class="stit">다음글</li>
 						
                         <c:choose>  
 							<c:when test="${empty prev}"> 
-								<li class="name">이전글이 없습니다.</li>
+								<li class="name">다음글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
 								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
@@ -137,19 +151,19 @@
 						</c:choose>
 						  
 					</ul>
-					<ul class="line_sup_next">
-                        <li class="stit">다음글</li>
-                        <c:choose>  
-							<c:when test="${empty next}"> 
-								<li class="name">다음글이 없습니다.</li>
-							</c:when> 
-							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
-							</c:otherwise> 
-						</c:choose>
-                        
-                        
-					</ul>
+<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- 					<ul class="line_sup_next"> -->
+<!--                         <li class="stit">다음글</li> -->
+<%--                         <c:choose>   --%>
+<%-- 							<c:when test="${empty next}">  --%>
+<!-- 								<li class="name">다음글이 없습니다.</li> -->
+<%-- 							</c:when>  --%>
+<%-- 							<c:otherwise> --%>
+<%-- 								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li>  --%>
+<%-- 							</c:otherwise>  --%>
+<%-- 						</c:choose> --%>
+<!-- 					</ul> -->
+<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 				</div>
 				<!-- 이전글,다음글 (e) -->
 			</div>
