@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.TicketMapper">
+	<select id="selectMovieList" resultType="map" parameterType="map">
+		SELECT 
+    		MOVIE_NUM,
+        <choose>
+            <when test="type == 'kr'">
+                title
+            </when>
+            <when test="type == 'en'">
+                titleEng as title
+            </when>
+        </choose>,
+        	rating,
+        	`rank`,
+        	posterUrl
+    	FROM MOVIE
+    	ORDER BY ${ORDER}
+	</select>
+	
+	<select id="selectTheaterList" resultType="map" parameterType="map">
+		SELECT 	
+		<choose>
+            <when test="type == 'kr'">
+                TH_REGION
+                ,  COUNT(DISTINCT TH_NAME) AS COUNT
+            </when>
+            <when test="type == 'en'">
+                TH_REGIONEng as TH_REGION
+                ,  COUNT(DISTINCT TH_NAMEEng) AS COUNT
+            </when>
+        </choose>		
+		FROM THEATER T  
+		LEFT JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		WHERE 1=1 
+		<if test="!''.equals(selectMovieTitle) and selectMovieTitle != null">
+		   AND M.title = '${selectMovieTitle}'
+		</if>
+		<choose>
+        <when test="type == 'kr'">
+            GROUP BY TH_REGION
+        </when>
+        <when test="type == 'en'">
+            GROUP BY TH_REGIONEng
+        </when>
+   		 </choose>
+	</select>
+	
+	<select id="selectTh_nameList" resultType="map" parameterType="map">
+   		
+   		SELECT 
+   		<choose>
+        <when test="type == 'kr'">
+            DISTINCT(TH_NAME)
+        </when>
+        <when test="type == 'en'">
+            DISTINCT(TH_NAMEEng) AS TH_NAME
+        </when>
+   		 </choose>
+		FROM THEATER T  
+		LEFT JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		WHERE 1=1
+		AND TH_REGION = '${region}'
+   		
+	</select>
+	
+	<select id="selectUpdateTh_nameList" resultType="map" parameterType="map">
+   		
+   		SELECT	
+   		<choose>
+        <when test="type == 'kr'">
+            distinct TH_NAME
+        </when>
+        <when test="type == 'en'">
+            distinct TH_NAMEEng as TH_NAME
+        </when>
+   		 </choose>
+		FROM THEATER T
+		LEFT JOIN CINEMA C 
+		ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M 
+		ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN SCREEN S 
+		ON S.CI_NUM = C.CI_NUM
+		WHERE 1=1
+		AND TH_REGION = #{region}
+		<if test="!''.equals(selectMovieTitle) and selectMovieTitle != null">
+        AND title = #{selectMovieTitle}
+        </if>
+        <if test="!''.equals(fullDate) and fullDate != null">
+        AND DATE(S.SC_TIME) = #{fullDate}
+   		</if>
+   		
+	</select>
+	
+	
+	<select id="selectMtime" resultType="map" parameterType="map" >
+   		
+   		SELECT 	 CI_NUMBER
+   				,DATE_FORMAT(SC_TIME, '%H:%i') AS SC_TIME
+		FROM THEATER T
+		LEFT JOIN CINEMA C 
+		ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M 
+		ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN SCREEN S 
+		ON S.CI_NUM = C.CI_NUM
+		WHERE 1=1
+		AND M.title = #{selectMovieTitle}
+		AND T.TH_REGION = #{region}
+		AND T.TH_NAME = #{selectTheaterName}
+		AND DATE(S.SC_TIME) = #{fullDate} 
+   		order by SC_TIME
+	</select>
+	
+	
+	<select id="selectMcinema" resultType="map" parameterType="map">
+	
+		SELECT DISTINCT CI_NUMBER
+		FROM THEATER T
+		LEFT JOIN CINEMA C 
+		ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M 
+		ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN SCREEN S 
+		ON S.CI_NUM = C.CI_NUM
+		WHERE 1=1
+		AND M.title = #{selectMovieTitle}
+	    AND T.TH_REGION = #{region}
+		AND T.TH_NAME = #{selectTheaterName}
+		AND DATE(S.SC_TIME) = #{fullDate}
+	
+	
+	
+	</select>
+	
+	
+	<select id="selectupdate_movie" resultType="map" parameterType="map">
+	
+		SELECT 
+		<choose>
+            <when test="type == 'kr'">
+               DISTINCT title
+            </when>
+            <when test="type == 'en'">
+                DISTINCT titleEng as title
+            </when>
+        </choose>
+		FROM THEATER T
+		LEFT JOIN CINEMA C 
+		ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M 
+		ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN SCREEN S 
+		ON S.CI_NUM = C.CI_NUM
+		WHERE 1=1
+		<if test="!''.equals(selectTheaterName) and selectTheaterName != null">
+	    AND T.TH_REGION = #{region}
+		AND T.TH_NAME = #{selectTheaterName}
+		</if>
+		<if test="!''.equals(fullDate) and fullDate != null">
+		AND DATE(S.SC_TIME) = #{fullDate}
+		</if>
+	
+	</select>
+	
+	<select id="selectupdate_time" resultType="map" parameterType="map">
+	
+		SELECT DISTINCT SC_TIME
+		FROM THEATER T
+		LEFT JOIN CINEMA C 
+		ON T.TH_NUM = C.TH_NUM
+		LEFT JOIN MOVIE M 
+		ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN SCREEN S 
+		ON S.CI_NUM = C.CI_NUM
+		WHERE 1=1
+		<if test="!''.equals(selectTheaterName) and selectTheaterName != null">
+	    AND T.TH_REGION = #{region}
+		AND T.TH_NAME = #{selectTheaterName}
+		</if>
+		<if test="!''.equals(selectMovieTitle) and selectMovieTitle != null">
+        AND title = #{selectMovieTitle}
+        </if>
+	
+	</select>
+	
+	
+	<select id="modalth_region" resultType="map">
+   		
+   		SELECT  DISTINCT TH_REGION 
+   		FROM THEATER
+   		
+	</select>
+	
+	
+	<select id="getth_name" resultType="map" parameterType="map">
+   		
+   		SELECT	TH_NAME 
+   		FROM THEATER
+   		WHERE TH_REGION = #{region}
+   		
+	</select>
+	
+	
+	<select id="getci_number" resultType="map" parameterType="map">
+   		
+   		SELECT DISTINCT CI_NUMBER 
+   		FROM CINEMA 
+		WHERE TH_NUM  = 
+						(SELECT TH_NUM 
+						 FROM THEATER 
+						 WHERE TH_REGION = #{region} 
+						 AND TH_NAME = #{th_name}) 
+			
+	</select>
+	
+	
+	<insert id="insertseat" parameterType="map">
+    	INSERT INTO MSEAT (TH_NUM, CI_NUMBER, SE_ROW, SE_COL, SE_SEAT)
+    VALUES
+    <foreach collection="seat_data" item="seat_data_row" open="(" separator="),(" close=")">
+         <foreach collection="seat_data_row" item="seat" open="" separator="),(" close="">
+        (SELECT TH_NUM 
+         FROM THEATER 
+         WHERE TH_REGION = #{region}
+         AND TH_NAME = #{th_name}),
+         #{ci_number},
+         #{rows},
+         #{cols},
+         #{seat.text}
+         </foreach>
+    </foreach>
+	</insert>	
+	
+	
+
+
+</mapper>  

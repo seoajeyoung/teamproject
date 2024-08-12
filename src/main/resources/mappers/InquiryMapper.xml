@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.inquiryMapper">
+
+	<insert id="insertInquiry">
+		insert into INQUIRY(inquiry_num, member_num, inquiry_name, inquiry_detail, inquiry_picture, inquiry_date, inquiry_type, theater_num)
+		values(#{inquiry_num},#{member_num},#{inquiry_name},#{inquiry_detail},#{inquiry_picture},#{inquiry_date},#{inquiry_type},#{theater_num})
+	</insert>
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		select MAX(CAST(inquiry_num AS UNSIGNED)) AS inquiry_num from INQUIRY 
+	</select>
+	
+	<select id="getInquiryList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
+		SELECT M.MEMBER_NICKNAME
+			 , I.INQUIRY_NUM
+			 , I.MEMBER_NUM
+			 , I.INQUIRY_NAME
+			 , I.INQUIRY_DETAIL
+			 , I.INQUIRY_PICTURE
+			 , I.INQUIRY_DATE
+			 , I.INQUIRY_TYPE
+			 , I.THEATER_NUM
+			 , T.TH_NAME
+			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
+			 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS AS_NUM
+		  FROM INQUIRY I 
+		  LEFT JOIN MEMBERS M
+			ON I.MEMBER_NUM = M.MEMBER_NUM
+		  LEFT JOIN THEATER T
+		    ON I.THEATER_NUM = T.TH_NUM
+		  LEFT JOIN ANSWER A
+		    ON I.INQUIRY_NUM = A.IQ_NUM
+		 WHERE I.INQUIRY_TYPE LIKE "%T%"
+		 <if test="search != null">
+		   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		 </if>
+		  ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+		  LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getInquiryCount" resultType="java.lang.Integer">
+		select count(*) from INQUIRY
+		WHERE INQUIRY_TYPE LIKE "%T%"
+		<if test="search != null">
+		AND INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		</if>			
+	</select>
+	
+	<select id="getMyInquiryCount" resultType="java.util.LinkedHashMap" parameterType="Map">
+		select count(*) from INQUIRY
+		WHERE MEMBER_NUM = #{member_nums}
+		<if test="search != null">
+		AND INQUIRY_NAME LIKE CONCAT('%',#{pageDTO.search},'%') 
+		</if>			
+	</select>
+	
+	<select id="getInquiry" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+		SELECT M.MEMBER_NICKNAME
+			 , I.INQUIRY_NUM
+			 , I.MEMBER_NUM
+			 , I.INQUIRY_NAME
+			 , I.INQUIRY_DETAIL
+			 , I.INQUIRY_PICTURE
+			 , I.INQUIRY_DATE
+			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
+			 , I.INQUIRY_TYPE
+			 , I.THEATER_NUM
+			 , T.TH_NAME
+			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS AS_NUM
+             , A.AS_DETAIL
+             , A.AS_DATE
+	 	  FROM INQUIRY I
+	 	  LEFT JOIN MEMBERS M
+		  ON I.MEMBER_NUM = M.MEMBER_NUM
+		  LEFT JOIN THEATER T
+		  ON I.THEATER_NUM = T.TH_NUM
+		  LEFT JOIN ANSWER A
+		  ON I.INQUIRY_NUM = A.IQ_NUM
+		  WHERE I.INQUIRY_NUM = #{INQUIRY_NUM}
+	</select>
+	
+	<select id="getInquiryPrev" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+	SELECT M.MEMBER_NICKNAME
+		 , I.INQUIRY_NUM
+		 , I.INQUIRY_NAME
+		 , A.AS_NUM
+         , A.AS_DETAIL
+         , A.AS_DATE
+	  FROM INQUIRY I
+	  LEFT JOIN MEMBERS M
+		ON I.MEMBER_NUM = M.MEMBER_NUM
+		LEFT JOIN ANSWER A
+	    ON I.INQUIRY_NUM = A.IQ_NUM
+	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM} 
+	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+	 LIMIT 1
+	]]>
+	</select>
+	<select id="getInquiryNext" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+	SELECT M.MEMBER_NICKNAME
+		 , I.INQUIRY_NUM
+		 , I.INQUIRY_NAME
+		 , A.AS_NUM
+         , A.AS_DETAIL
+         , A.AS_DATE
+	  FROM INQUIRY I
+	  LEFT JOIN MEMBERS M
+		ON I.MEMBER_NUM = M.MEMBER_NUM
+      LEFT JOIN ANSWER A
+	    ON I.INQUIRY_NUM = A.IQ_NUM
+	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM}
+	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) 
+	 LIMIT 1
+	]]>
+	</select>
+	
+	<select id="getMyInquiryList" resultType="java.util.LinkedHashMap" parameterType="Map">
+	SELECT *
+		 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
+		 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+		 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS AS_R
+ 	  FROM INQUIRY I
+ LEFT JOIN ANSWER A
+		ON I.INQUIRY_NUM = A.IQ_NUM
+ 	 WHERE I.MEMBER_NUM = #{member_num}
+ 	 <if test="search != null">
+	 AND I.INQUIRY_NAME LIKE CONCAT('%',#{pageDTO.search},'%') 
+ 	 </if>
+ 	 ORDER BY CAST(INQUIRY_NUM AS UNSIGNED) DESC
+		 LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
+	</select>
+	
+	<select id="getMyPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
+	<![CDATA[
+	SELECT M.MEMBER_ID
+		 , I.INQUIRY_NUM
+		 , I.INQUIRY_NAME
+	  FROM INQUIRY I
+	  LEFT JOIN MEMBERS M
+		ON I.MEMBER_NUM = M.MEMBER_NUM
+	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM}
+     and I.MEMBER_NUM = #{MEMBER_NUM}
+	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+	 LIMIT 1;
+	 ]]>
+	</select>
+	
+	<select id="getMyNext" resultType="java.util.LinkedHashMap" parameterType="Map">
+	<![CDATA[
+	SELECT M.MEMBER_ID
+		 , I.INQUIRY_NUM
+		 , I.INQUIRY_NAME
+	  FROM INQUIRY I
+	  LEFT JOIN MEMBERS M
+		ON I.MEMBER_NUM = M.MEMBER_NUM
+	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM}
+     and I.MEMBER_NUM = #{MEMBER_NUM}
+	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+	 LIMIT 1;
+	 ]]>
+	</select>
+	
+	<update id="updateInquiry">
+		update INQUIRY
+		   set inquiry_name = #{inquiry_name}
+		     , inquiry_detail = #{inquiry_detail}
+		 where inquiry_num = #{inquiry_num}
+	</update>
+	
+	<delete id="deleteInquiry" parameterType="java.lang.String">
+		DELETE I
+		  FROM INQUIRY I
+	 LEFT JOIN ANSWER A ON I.INQUIRY_NUM = A.IQ_NUM
+		 WHERE I.INQUIRY_NUM = #{inquiry_num};
+	</delete>
+	
+	<select id="getAdminList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
+	SELECT M.MEMBER_NICKNAME
+			 , I.INQUIRY_NUM
+			 , I.MEMBER_NUM
+			 , I.INQUIRY_NAME
+			 , I.INQUIRY_DETAIL
+			 , I.INQUIRY_PICTURE
+			 , I.INQUIRY_DATE
+			 , I.INQUIRY_TYPE
+			 , I.THEATER_NUM
+			 , T.TH_NAME
+			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
+			 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS AS_NUM
+		  FROM INQUIRY I 
+		  LEFT JOIN MEMBERS M
+			ON I.MEMBER_NUM = M.MEMBER_NUM
+		  LEFT JOIN THEATER T
+		    ON I.THEATER_NUM = T.TH_NUM
+		  LEFT JOIN ANSWER A
+		    ON I.INQUIRY_NUM = A.IQ_NUM
+		 <if test="search != null">
+		 WHERE I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		 </if>
+		 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+		 LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getAdminCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM INQUIRY
+		<if test="search != null">
+		WHERE INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		</if>			
+	</select>
+	
+	
+	<select id="getAdminListF" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
+	SELECT *
+		 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
+		 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+		 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS AS_R
+ 	  FROM INQUIRY I
+ LEFT JOIN ANSWER A
+		ON I.INQUIRY_NUM = A.IQ_NUM
+	 WHERE I.INQUIRY_TYPE LIKE '%F%'
+ 	 <if test="search != null">
+	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+ 	 </if>
+ 	 ORDER BY CAST(INQUIRY_NUM AS UNSIGNED) DESC
+		 LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getAdminCountF" resultType="java.lang.Integer" parameterType="com.itwillbs.domain.PageDTO">
+		SELECT COUNT(*)
+		  FROM INQUIRY
+		 WHERE INQUIRY_TYPE LIKE '%F%' 
+		<if test="search != null">
+		   AND INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		</if>			
+	</select>
+
+</mapper>  
