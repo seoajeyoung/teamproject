@@ -7,19 +7,19 @@
 <meta charset="UTF-8">
 <title>inquiry/list.jsp</title>
 <link
-	href="${pageContext.request.contextPath}/resources/css/customer.css"
+	href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css"
 	rel="stylesheet">
 <link
-	href="${pageContext.request.contextPath}/resources/css/content.css"
+	href="${pageContext.request.contextPath}/resources/css/inquiry/content.css"
 	rel="stylesheet">
 <link
-	href="${pageContext.request.contextPath}/resources/css/giftstore.css"
+	href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css"
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css"
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reset.css"
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css"
 	rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
@@ -114,41 +114,41 @@
 
 							</div>
 						</div>
-						<div class="c_tab_wrap">
-							<ul class="c_tab type_free">
-								<li class="on"><a
-									href="/support/faq/default.aspx?type=0&amp;searchtext="
-									style="font-size: 11px;" title="선택된 탭메뉴">전체</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=101,239&amp;searchtext="
-									style="font-size: 11px;">예매/매표</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=243&amp;searchtext="
-									style="font-size: 11px;">관람권/결제수단</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=102,240&amp;searchtext="
-									style="font-size: 11px;">멤버쉽/클럽서비스</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=1262&amp;searchtext="
-									style="font-size: 11px;">VIP관련</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=242&amp;searchtext="
-									style="font-size: 11px;">할인혜택</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=103,246&amp;searchtext="
-									style="font-size: 11px;">영화관이용</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=244&amp;searchtext="
-									style="font-size: 11px;">특별관</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=104,1259&amp;searchtext="
-									style="font-size: 11px;">기프트샵</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=105,245&amp;searchtext="
-									style="font-size: 11px;">홈페이지/모바일</a></li>
+<!-- 						<div class="c_tab_wrap"> -->
+<!-- 							<ul class="c_tab type_free"> -->
+<!-- 								<li class="on"><a -->
+<!-- 									href="/support/faq/default.aspx?type=0&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;" title="선택된 탭메뉴">전체</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=101,239&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">예매/매표</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=243&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">관람권/결제수단</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=102,240&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">멤버쉽/클럽서비스</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=1262&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">VIP관련</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=242&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">할인혜택</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=103,246&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">영화관이용</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=244&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">특별관</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=104,1259&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">기프트샵</a></li> -->
+<!-- 								<li class=""><a -->
+<!-- 									href="/support/faq/default.aspx?type=105,245&amp;searchtext=" -->
+<!-- 									style="font-size: 11px;">홈페이지/모바일</a></li> -->
 
-							</ul>
-						</div>
+<!-- 							</ul> -->
+<!-- 						</div> -->
 						<div class="search_result">
 							총<span class="num">${pageDTO.count}건</span>이 검색되었습니다.
 						</div>
@@ -279,114 +279,7 @@ $('#btn_search').on('click', function() {
 </script>
 
 
-<!-- <script type="text/javascript"> -->
-<![CDATA[
-							
-// $('#btn_search').on('click', function() {
-// 	alert("fddfdffd");
-// 			debugger;
-//  			//                if ($('#searchtext').val() == "") {
-//  			//                    alert("검색어를 입력해 주세요.");
-//  			//                    $('#searchtext').focus();
-//  			//                    return false;
-//  			//                } else {
-//  			//                    
-//  			//                }
 
-//  			Search();
-//  		});
- 		
-//  		function Search() {
-//  			debugger;
-//  	        // 폼 제출
-//  	        $('#searchForm').submit();
-//  	    }
-					
-					
-//  (function($) {
-//  	$(function() {
-		
-	
- 		
-		
-		
-   	 	
-
-
-// 		$('#searchtext').keypress(function(event) {
-// 			if (event.which == 13) {
-// 				if ($('#searchtext').val() == "") {
-// 					alert("검색어를 입력해 주세요.");
-// 					$('#searchtext').focus();
-// 					return false;
-// 				} else {
-
-// 					Search();
-// 				}
-// 			}
-
-//  		});
-
-// 		function Search() {
-// 			location.href = "/support/faq/default.aspx?searchtext="
-// 					+ escape($("#searchtext").val());
-// 			return false;
-// 		}
-
-// 		$('.c_tab_wrap').children('.c_tab').children('li').on(
-// 				'click',
-// 				function() {
-// 					//$('.c_tab_wrap').children('.c_tab').children('li').removeClass("on");
-// 					//$(this).addClass("on");
-
-// 					location.href = $(this).children('a').attr(
-// 							"href")
-// 							+ escape("");
-// 					return false;
-// 				});
-
-// 		$('.qu_txt')
-// 				.children('span')
-// 				.children('a')
-// 				.on(
-// 						"click",
-// 						function() {
-// 							location.href = "/support/faq/default.aspx?searchtext="
-// 									+ escape($(this).html());
-// 							return false;
-// 						});
-// 		//SR 4020337 검색어 검색 시 검색결과에서 해당 검색어 붉은색으로 변경
-// 		var idx = 0;
-
-// 		if ($('#searchtext').val()) {
-// 			for (idx = 0; idx < 20; idx++) {
-// 				var search = $('#searchtext').val();
-// 				search = search.toUpperCase();
-// 				$(
-// 						"#title" + idx + " > a:contains('"
-// 								+ search + "')")
-// 						.each(
-// 								function() {
-// 									var regex = new RegExp(
-// 											search, 'gi');
-// 									$(this)
-// 											.html(
-// 													$(this)
-// 															.TEXT()
-// 															.REPLACE(
-// 																	REGEX,
-// 																	"<SPAN STYLE='COLOR:RED'>"
-// 																			+ SEARCH
-// 																			+ "</SPAN>"));
-// 								});
-// 			}
-// 		}
-
-//  	});
-//  })(jQuery);
-
-// ]]>
-<!--   </script>  -->
 
 
 			<!--/ Contents End -->

@@ -34,10 +34,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itwillbs.domain.AnswerDTO;
 import com.itwillbs.domain.InquiryDTO;
 import com.itwillbs.domain.NewsDTO;
+import com.itwillbs.domain.OfteniqDTO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.service.AnswerService;
 import com.itwillbs.service.InquiryService;
 import com.itwillbs.service.NewsService;
+import com.itwillbs.service.OfteniqService;
 import com.mysql.cj.Session;
 import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
 
@@ -52,6 +54,8 @@ public class InquiryController {
 	private AnswerService answerService;
 	@Inject
 	private NewsService newsService;
+	@Inject
+	private OfteniqService ofteniqService;
 
 	@Resource(name = "uploadPath")
 	private String uploadPath;
@@ -59,7 +63,7 @@ public class InquiryController {
 	@GetMapping("/Imain")//고객센터 메인
 	public String Imain(HttpSession session, Model model) {
 		
-        // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
 		session.setAttribute("member_num", "10");
         session.setAttribute("member_name", "admin");
         session.setAttribute("member_phone", "010-1234-5678");
@@ -69,31 +73,26 @@ public class InquiryController {
 		return "inquiry/Imain";
 	}
 
-	@GetMapping("/often") //자주찾는 질문
-	public String often() {
-		return "inquiry/often";
-	}
-
-	@GetMapping("/news")//공지/뉴스
+	@GetMapping("/news")//공지&뉴스 리스트
 	public String news(HttpServletRequest request,HttpSession session, Model model) {
 		String member_name = (String)session.getAttribute("member_name");
 		model.addAttribute("MEMBER_NAME", member_name);
 		return "inquiry/news";
 	}
 	
-	@GetMapping("/newswrite")
+	@GetMapping("/newswrite") //공지&뉴스 작성
 	public String newswrite() {
 		return "inquiry/newswrite";
 	}
 
-	@GetMapping("/complete")//문의글 쓴뒤에 다썻다고 알려주는 페이지
+	@GetMapping("/complete")//문의글 쓴 뒤에 다 썼다고 알려주는 페이지
 	public String complete(@RequestParam String inquiry_type, @RequestParam String inquiry_date, Model model) {
 		model.addAttribute("inquiry_type", inquiry_type);
 		model.addAttribute("inquiry_date", inquiry_date);
 		return "inquiry/complete";
 	}
 
-	@GetMapping("/me")//나의문의내역
+	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
 		String member_num = (String)session.getAttribute("member_num");
 		// 한 화면에 보여줄 글 개수 설정
@@ -213,8 +212,8 @@ public class InquiryController {
 		
 	}
 
-	// 세션값 받아와서 글쓸때 회원정보 확인 차 뿌릴거임 일단 보류
-	@GetMapping("/write")
+	
+	@GetMapping("/write")// 세션값 받아와서 글쓸때 회원정보 뿌림
 	public String write(HttpSession session, Model model) {
 		
 		String member_name = (String)session.getAttribute("member_name");
@@ -227,8 +226,8 @@ public class InquiryController {
 		
 		return "inquiry/write";
 	}
-
-	@PostMapping("/writePro")
+	
+	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile inquiry_picture, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
 		System.out.println("InquiryController writePro()");
 
@@ -346,9 +345,8 @@ public class InquiryController {
 		return "inquiry/list";
 	}
 
-	@GetMapping("/content")
+	@GetMapping("/content")//글 목록에서 제목 눌러서 해당글 + 이전/이후글 이동가능
 	public String content(InquiryDTO inquiryDTO, Model model, HttpSession session) {
-		System.out.println("글 목록에서 제목 눌러가꼬 한건 들고오는 컨트롤러");
 
 		String clickNo = inquiryDTO.getInquiry_num();
 		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(clickNo);
@@ -362,7 +360,7 @@ public class InquiryController {
 		return "/inquiry/content";
 	}
 
-	@GetMapping("/update")
+	@GetMapping("/update") // 문의글 업데이트 전에 쓴 글 뿌려줌
 	public String update(@RequestParam(name = "num")String inquiry_num, HttpSession session, Model model) {
 		
 		String member_name = (String)session.getAttribute("member_name");
@@ -379,7 +377,7 @@ public class InquiryController {
 		return "/inquiry/update";
 	}
 
-	@PostMapping("/updatePro")
+	@PostMapping("/updatePro") // 문의 글 업데이트
 	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, Model model) {
 		System.out.println();
 		InquiryDTO inquiryDTO = new InquiryDTO();
@@ -397,23 +395,13 @@ public class InquiryController {
 	@GetMapping("/delete")//게시글, 답변 동시 삭제// MYCONENT에서 오면 ME로 이동
 	public String deleteInquiry(@RequestParam("num")String num,HttpSession session, Model model) {
 		System.out.println(num);
-//        Map<String, Object> inquiryDTO = (Map<String, Object>) session.getAttribute("inquiryDTO");
-//              
-//        if (inquiryDTO != null) {
-//            String INQUIRY_NUM = (String) inquiryDTO.get("INQUIRY_NUM");
-//            model.addAttribute("INQUIRY_NUM", INQUIRY_NUM);
-//            inquiryService.deleteInquiry(INQUIRY_NUM);
-//        }
-		
+
 		inquiryService.deleteInquiry(num);
-		
-		// MYCONENT에서 오면 ME로 이동
-		// ANSWER에서 오면LIST로 이동..
 
 		return "redirect:/inquiry/me";
 	}
 	
-	@GetMapping("/answer")//@@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
+	@GetMapping("/answer")//해당문의글 답변 @@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
 	public String answer(@RequestParam("inquiry_num") String inquiryNum, Model model, HttpSession session) {
 		
 		//System.out.println(session.getAttribute("member_name"));
@@ -430,7 +418,7 @@ public class InquiryController {
 		return "/inquiry/answer";
 	}
 	
-	@PostMapping("/answerPro")
+	@PostMapping("/answerPro")// 답변 작성
 	public String answerPro(@RequestParam("IQ_NUM") String num, AnswerDTO answerDTO, HttpServletRequest request, Model model, HttpSession session) {
 		//session.getAttribute("inquiryDTO2");
 		Map<String, Object> dataMap = (Map<String, Object>)session.getAttribute("inquiryDTO2");
@@ -456,7 +444,7 @@ public class InquiryController {
 		return "redirect:/inquiry/list";
 	}
 	
-	@PostMapping("/deleteAs")
+	@PostMapping("/deleteAs")//답변만 삭제! 문의글은 그대로
 	public String deleteAs(AnswerDTO answerDTO) {
 		answerService.deleteAs(answerDTO.getAS_NUM());
 		return "redirect:/inquiry/list";
@@ -470,7 +458,7 @@ public class InquiryController {
 		return "redirect:/inquiry/list";
 	}
 	
-	@PostMapping("/newswritePro")
+	@PostMapping("/newswritePro")//뉴스 업데이트
 	public String newswritePro(NewsDTO newsDTO) {
 		newsService.insertNews(newsDTO);
 		System.out.println(newsDTO);
@@ -479,7 +467,7 @@ public class InquiryController {
 		return "redirect:/inquiry/news";
 	}
 	
-	@GetMapping("/newscontent")
+	@GetMapping("/newscontent")// 뉴스 제목 누르면 이전 이후글도 가져옴
 	public String newscontent(NewsDTO newsDTO, Model model, HttpSession session) {
 
 		String clickNo = newsDTO.getNEWS_NUM();
@@ -508,14 +496,14 @@ public class InquiryController {
 		return "/inquiry/updatenews";
 	}
 	
-	@PostMapping("/newsUpdatePro")//답변수정
+	@PostMapping("/newsUpdatePro")//뉴스수정
 	public String newsUpdatePro(NewsDTO newsDTO) {
 		newsService.updateNews(newsDTO);
 		
 		return "redirect:/inquiry/news";
 	}
 	
-	@GetMapping("/deletenews")//공지 삭제
+	@GetMapping("/deletenews")//뉴스 삭제
 	public String deletenews(@RequestParam("NEWS_NUM")String NEWS_NUM, Model model) {
 
 		newsService.deleteNews(NEWS_NUM);
@@ -524,24 +512,15 @@ public class InquiryController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/newssection")
+	@PostMapping("/newssection")// 뉴스 섹션별로 나눠서 누르면 해당 섹션만 보여줌 + 검색도 동시에 가능
 	public Map<String, Object> newssection(HttpServletRequest request, @RequestBody Map<String, String> param) {
-		System.out.println("!@#!@#");
-		System.out.println(param);
-		
-		System.out.println("###################");
-	
+
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
+		
+		// 페이지 번호 가져오기
+	    String pageNum = param.get("pageNum");
 
-		// request에서 "pageNum"을 가져와서 변수에 String pageNum 저장
-//		String pageNum = request.getParameter("pageNum");
-		String pageNum = "1";
-		// pageNum == null 이면 => pageNum = 1 설정
-		if (pageNum == null) {
-			pageNum = "1";
-		}
-		// int currentPage = pageNum을 정수형으로 변경해서 변수에 저장
 		int currentPage = Integer.parseInt(pageNum);
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = startRow + pageSize - 1;
@@ -574,19 +553,142 @@ public class InquiryController {
 		pageDTO.setStartPage(startPage);
 		pageDTO.setEndPage(endPage);
 		pageDTO.setPageCount(pageCount);
-		
-		
-		System.out.println("News List: " + newslist);
-		System.out.println("PageDTO: " + pageDTO);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
 		
 		Map<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("newslist", newslist);
 		returnData.put("pageDTO", pageDTO);
 		
-		System.out.println(returnData);
-		
 		return returnData;
 	}
+	
+	@ResponseBody
+	@PostMapping("/PrevNextNews")
+	public Map<String, Object> PrevNextNews (@RequestBody Map<String, String> param){
+		Map<String, Object> content = newsService.getNewsContent(param);
+		Map<String, Object> prev = newsService.NewsPrev(param);
+		Map<String, Object> next = newsService.NewsNext(param);
+		
+		Map<String, Object> data =  new HashMap<String, Object>();
+		data.put("content", content);
+		data.put("prev", prev);
+		data.put("next", next);
+		
+		return data;
+	}
+	
+	@GetMapping("/often") //자주찾는 질문
+	public String often(HttpServletRequest request, Model model, HttpSession session) {
+		// 한 화면에 보여줄 글 개수 설정
+		int pageSize = 10;
+
+		// request에서 "pageNum"을 가져와서 변수에 String pageNum 저장
+		String pageNum = request.getParameter("pageNum");
+		// pageNum == null 이면 => pageNum = 1 설정
+		if (pageNum == null) {
+			pageNum = "1";
+		}
+		// int currentPage = pageNum을 정수형으로 변경해서 변수에 저장
+		int currentPage = Integer.parseInt(pageNum);
+		// PageDTO 객체생성
+		PageDTO pageDTO = new PageDTO();
+		// PageDTO에 pageSize, pageNum, currentPage 저장
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		//검색어
+		String search = request.getParameter("search");
+		pageDTO.setSearch(search);
+		
+		String memberName = (String) session.getAttribute("member_name");
+		List<Map<String, Object>> oftenList = ofteniqService.getOftenList(pageDTO);
+		// -----------------------------------------------------------------
+		// 전체 글 개수 int count = getBoardCount() 메서드 호출
+		int count = ofteniqService.getOftenCount(pageDTO);
+		// 한 화면에 보여줄 페이지 개수
+		int pageBlock = 10;
+		// 시작하는 페이지 번호 구하기
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		// 끝나는 페이지 번호 구하기
+		int endPage = startPage + pageBlock - 1;
+		// 전체페이지 수 구하기
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+
+			if (endPage > pageCount) {
+			endPage = pageCount;
+			}
+
+		pageDTO.setCount(count);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+
+		model.addAttribute("oftenList", oftenList);// 스프링에서 get,set자동제공
+		model.addAttribute("pageDTO", pageDTO);
+		
+		System.out.println(oftenList);
+		System.out.println(pageDTO);
+		return "inquiry/often";
+	}
+	
+	@GetMapping("/oftenwrite")
+	public String oftenwrite() {
+		return "/inquiry/oftenwrite";
+	}
+	
+	@PostMapping("/oftenwritePro")
+	public String newswritePro(OfteniqDTO ofteniqDTO) {
+		ofteniqService.insertOfteniq(ofteniqDTO);
+		System.out.println(ofteniqDTO);
+		
+		return "redirect:/inquiry/often";
+	}
+	
+	@GetMapping("/oftencontent")
+	public String oftencontent(OfteniqDTO ofteniqDTO, Model model, HttpSession session) {
+		String clickNo = ofteniqDTO.getOF_NUM();
+		Map<String, Object> ofteniqDTO2 = ofteniqService.getOften(clickNo);
+		Map<String, Object> ofteniqDTO3 = ofteniqService.getOftenPrev(clickNo);
+		Map<String, Object> ofteniqDTO4 = ofteniqService.getOftenNext(clickNo);
+
+		model.addAttribute("content", ofteniqDTO2);
+		model.addAttribute("prev", ofteniqDTO3);
+		model.addAttribute("next", ofteniqDTO4);
+		
+		String member_name = (String)session.getAttribute("member_name");
+		model.addAttribute("MEMBER_NAME", member_name);
+		return "/inquiry/oftencontent";
+	}
+	
+	@GetMapping("/updateoften")//공지 수정전 보여주기
+	public String updateoften(@RequestParam("OF_NUM")String OF_NUM, Model model) {
+		model.addAttribute("OF_NUM", OF_NUM);
+		
+		Map<String, Object> often = ofteniqService.getOften(OF_NUM);
+		model.addAttribute("often", often);
+		
+		return "/inquiry/updateoften";
+	}
+	
+	@PostMapping("/oftenUpdatePro")//답변수정
+	public String oftenUpdatePro(OfteniqDTO ofteniqDTO) {
+		ofteniqService.updateOften(ofteniqDTO);
+		
+		return "redirect:/inquiry/often";
+	}
+	
+	@GetMapping("/deleteoften")//공지 삭제
+	public String deleteoften(@RequestParam("OF_NUM")String OF_NUM, Model model) {
+
+		ofteniqService.deleteoften(OF_NUM);
+
+		return "redirect:/inquiry/often";
+	}
+	
+
 
 	
 

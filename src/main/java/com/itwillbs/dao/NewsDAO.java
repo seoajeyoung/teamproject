@@ -58,9 +58,17 @@ public class NewsDAO {
 		return sqlSession.selectOne(namespace + ".getNewsNext", num);
 	}
 
+	public Map<String, Object> getNewsContent(Map<String, String> param) {
+		return sqlSession.selectOne(namespace + ".getNewsContent", param);
+	}
 
-//	public List<Map<String, Object>> getNewsSection(Map<String, Object> param) {
-//		return sqlSession.selectList(namespace + ".getNewsSection", param);
-//	}
+	public Map<String, Object> NewsPrev(Map<String, String> param) {
+		return sqlSession.selectOne(namespace + ".NewsPrev", param);
+	}
+
+	public Map<String, Object> NewsNext(Map<String, String> param) {
+		return sqlSession.selectOne(namespace + ".NewsNext", param);
+	}
+
 	
 }

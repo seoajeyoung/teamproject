@@ -47,10 +47,6 @@ public class NewsService {
 	public List<Map<String, Object>> getNewsList(Map<String, String> param) {
 		return newsDAO.getNewsList(param);
 	}
-
-//	public int getNewsCount(PageDTO pageDTO) {
-//		return newsDAO.getNewsCount(pageDTO);
-//	}
 	
 	public int getNewsCount(Map<String, String> param) {
 		return newsDAO.getNewsCount(param);
@@ -66,6 +62,18 @@ public class NewsService {
 	
 	public Map<String, Object> getNewsNext(String num) {
 		return newsDAO.getNewsNext(num);
+	}
+
+	public Map<String, Object> getNewsContent(Map<String, String> param) {
+		return newsDAO.getNewsContent(param);
+	}
+
+	public Map<String, Object> NewsPrev(Map<String, String> param) {
+		return newsDAO.NewsPrev(param);
+	}
+
+	public Map<String, Object> NewsNext(Map<String, String> param) {
+		return newsDAO.NewsNext(param);
 	}
 
 //	public List<Map<String, Object>> getNewsSection(Map<String, Object> param) {

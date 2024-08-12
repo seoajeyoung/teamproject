@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>inquiry/Imain.jsp</title>
-<link href="${pageContext.request.contextPath}/resources/css/customer.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/content.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/giftstore.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 </head>
 <body>
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->

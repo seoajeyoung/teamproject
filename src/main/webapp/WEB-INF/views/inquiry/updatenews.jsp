@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>inquiry/updatenews.jsp</title>
-<link href="${pageContext.request.contextPath}/resources/css/customer.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/content.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/giftstore.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>

@@ -6,12 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>inquiry/news.jsp</title>
-<link href="${pageContext.request.contextPath}/resources/css/customer.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/content.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
-
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
@@ -84,7 +83,7 @@
 			
 			<div class="c_tab_wrap">
 				<ul class="c_tab" id="list">
-					<li class="on"><a href="#" data-value="null">전체</a></li>
+					<li class="on"> <a href="#" id ="all" data-value="">전체</a> </li>
 					<li class=""><a href="#" id="SYS" data-value="SYS" data-name="NEWS_SECTION">시스템점검</a></li>
 					<li class=""><a href="#" id="TH" data-value="TH" data-name="NEWS_SECTION">극장</a></li>
 					<li class=""><a href="#" id="EV" data-value="EV" data-name="NEWS_SECTION">행사/이벤트</a></li>
@@ -139,25 +138,22 @@
 			<!--?xml version="1.0" encoding="utf-8"?-->
 <div class="paging" id="pagingList">
   <ul>
-    <li class="on">
-      <a title="1 페이지 선택" href=" #pg"></a></li>
-      <li>
-      <c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
-				<a href="${pageCountext.request.contextPath}/inquiry/news?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
-			</c:if>
+    <li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
+      <li id="page">
+      	<c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
+			<a href="#" data-page="${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
+		</c:if>
 		
-			<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-				<a href="${pageContext.request.contextPath}/inquiry/news?pageNum=${i}"> ${i}</a>
-			</c:forEach>
+		<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+			<a href="#" data-page="${i}"> ${i}</a>
+		</c:forEach>
 		
-			<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
-				<a href="${pageContext.request.contextPath}/inquiry/news?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
-			</c:if>
+		<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
+			<a href="#" data-page="${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
+		</c:if>
     </li>
-
   </ul>
-  <button class="btn-paging end" type="button" 
-  onclick="${pageContext.request.contextPath}/inquiry/news?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">끝</button>  
+  <button class="btn-paging end" type="button" data-page="${pageDTO.pageCount}">끝</button>  
 </div>
 		</div>
 	</div>
@@ -170,94 +166,88 @@
 
 $(function(){
 	//페이지 로드 시 모든 데이터 로드
-	var newsSection = $('#sectionList a').first().data('value'); // 기본값을 첫 번째 링크의 data-value에서 가져옴
+	var newsSection = ''; //$('#all').data();
 	var searchtext = $('#searchtext').val();
-	var data = { 
-			"searchtext": searchtext,
-			"newsSection": newsSection
-	};
-    loadNewsData(data); // 기본값으로 데이터 로드
+	var pageNum = 1; // 초기 페이지 번호
+	//var idValue = ''; => 왜만들었엇찌???
+    loadNewsData(searchtext, newsSection, pageNum); // 기본값으로 데이터 로드
+    
+	// 페이지 버튼 클릭 이벤트
+	$(document).on('click', '#page a', function(event) {
+	    var pageNum = $(this).data('page');// 데이터 속성에서 페이지 번호 가져오기
+	    var searchtext = $('#searchtext').val(); // 검색어 입력 필드에서 값 가져오기
+	    if (pageNum) {
+	        loadNewsData(searchtext, newsSection, pageNum); // 현재 검색어와 섹션으로 데이터 로드
+	    }
+	});
+    
+ 	// 끝 버튼 클릭 이벤트
+	$(document).on('click', '.btn-paging.end', function() {
+	    var pageNum = $(this).data('page'); // 데이터 속성에서 페이지 번호 가져오기
+	    var searchtext = $('#searchtext').val();
+	    if (pageNum) {
+	        loadNewsData(searchtext, newsSection, pageNum); // 현재 검색어와 섹션으로 데이터 로드
+	    }
+	});
+ 	
+	//검색버튼
+ 	$('#btn_search').on('click', function() {
+ 		var searchtext = $('#searchtext').val();
+        loadNewsData(searchtext, newsSection, pageNum); // ajax 호출
+ 	});
 	
-	$('#list').on('click', 'a',function() {
-        
-        var searchtext = $('#searchtext').val();
-        var newsSection = $(this).data('value');
-        
-//         loadSectionData(newsSection).done(function(result) {
-//             sectionData = result.newslist; // 선택된 섹션의 데이터를 저장
-//             filterData(); // 검색어에 따라 데이터 필터링
-//         });
-        
-		var data = { 
-				"searchtext": searchtext,
-				"newsSection": newsSection
-		};
-		
-		$.ajax({
-			type:'POST',
-			url:"${pageContext.request.contextPath}/inquiry/newssection",
-// 			data: { 
-// 				searchtext: searchtext,
-// 				newsSection: newsSection
-// 			},
-			data: JSON.stringify(data),
-			contentType: 'application/json',
-			dataType:'json',
-			success:function(result){
-				updateContent(result);
-				
-				
-				// newsList tr td 작업
-				var tbody = $('#newsTableBody');
-                tbody.empty(); // 기존 데이터 제거
-				$.each(result.newslist, function(index,item){
-					var row =
-					'<tr class="first"><td >'+item.RN+'</td><td>'+item.NEWS_SECTION+'</td>'+'<td id="title0" class="txt">'
-					+ '<a href="' + '${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=' + item.NEWS_NUM +'">'+item.NEWS_NAME +'</a>'+'</td>'
-					+ '<td>'+formatDate(item.NEWS_DATE)+'</td>'+'</tr>';
-					tbody.append(row);
-				});
-                
-                
-                // 카운트 작업
-                var count = result.pageDTO.count; // 페이지 DTO에서 총 개수 가져오기
-           		$('.search_result .num').text(count); // .num 요소의 텍스트를 총 개수로 설정
-           		
-				// 페이징 작업
-	            // 페이징 처리
-	            
-	            //$('.paging').html(a,b,c,d,e);
-               
-			},
-			error: function(e){
-				alert("에러");
-			}
-			
-		});//ajax
-		
-		//이벤트 한번만 동작하고 멈춤
-		$('#list a').off('click');
-			
-	});//click
-		
-	
-	
+	//관리자가 공지 작성 버튼 눌렀을 때
 	$('#emailsubmit').on('click',function(){
 		window.location.href = '${pageContext.request.contextPath}/inquiry/newswrite';
 	});
-	
-	$('#btn_search').on('click', function() {    
-		Search();
-	});
-	
-});
+    
+	//섹션클릭
+	$('#list').on('click', 'a',function() {
+		// 현재 활성화된 섹션에서 'active' 클래스 제거
+        $('#list a').removeClass('active');
+        // 클릭한 섹션에 'active' 클래스 추가
+        $(this).addClass('active');
+     	// 현재 활성화된 섹션에서 'on' 클래스 제거
+        $('#list li').removeClass('on');
+        // 클릭한 a 요소의 부모 li에 'on' 클래스 추가
+        $(this).parent('li').addClass('on');
+        
+        searchtext = $('#searchtext').val();
+        newsSection = $(this).data('value');
+        if (newsSection !== 'null') {
+            // 전체 버튼을 클릭했을 때 검색어를 초기화하고 전체 데이터 로드
+            $('#searchtext').val(''); // 검색어 필드 초기화
+            searchtext = ''; // 검색어 변수 초기화
+        }
+        loadNewsData(searchtext, newsSection, pageNum);//ajax호출
+    });    
+});//function
 
 //특정 섹션의 데이터 로드 함수
-function loadSectionData(newsSection, searchtext) {
+function loadNewsData(searchtext, newsSection, pageNum) {
+	var data = { 
+			"searchtext": searchtext,
+			"newsSection": newsSection,
+			"pageNum": pageNum // 페이지 번호 추가
+	};
+	$.ajax({		
+		type:'POST',
+		url:"${pageContext.request.contextPath}/inquiry/newssection",
+		data: JSON.stringify(data),
+		contentType: 'application/json',
+		dataType:'json',
+		success:function(result){
+			updateContent(result);
+		},
+		error: function(e){
+			alert("에러");
+		}
+	});//ajax
 	
-	
-}
-
+	//이벤트 한번만 동작하고 멈춤
+	$('#list a').off('click');
+		
+};//click
 
 function formatDate(dateString) { //날자 포멧
     var date = new Date(dateString);
@@ -267,97 +257,81 @@ function formatDate(dateString) { //날자 포멧
     return year + '-' + month + '-' + day;
 }
 
-function Search() {
-    // 폼 제출
-    $('#searchForm').submit();
-}
+// function Search() {
+//     // 폼 제출
+//     $('#searchForm').submit();
+// }
 
 function updateContent(result){
-	$('.paging').html(result.pageContent);
-	
+	//$('.paging').html(result.pageContent);
 	updatePaging(result.pageDTO);
+	//뉴스 리스트 업데이트
+	var tbody = $('#newsTableBody');
+    tbody.empty(); // 기존 데이터 제거
+
+ 	// 현재 검색어와 섹션 정보를 가져오기
+    var searchtext = $('#searchtext').val();
+    var newsSection = $('#list li.on a').data('value')// 현재 활성화된 섹션
+    
+	$.each(result.newslist, function(index,item){
+		var row =
+		'<tr class="first"><td >'+item.RN+'</td><td>'+item.NEWS_SECTION+'</td>'+'<td id="title0" class="txt">'
+		+ '<a href="' + '${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=' + item.NEWS_NUM
+		+ '&searchtext=' + encodeURIComponent(searchtext)
+		+ '&newsSection=' + encodeURIComponent(newsSection) +'">'
+		+ item.NEWS_NAME +'</a>'+'</td>'
+		+ '<td>'+formatDate(item.NEWS_DATE)+'</td>'+'</tr>';
+		tbody.append(row);
+	}); 
+    
+	// 카운트 작업
+    var count = result.pageDTO.count; // 페이지 DTO에서 총 개수 가져오기
+		$('.search_result .num').text(count); // .num 요소의 텍스트를 총 개수로 설정
+	// 페이징 작업
+    // 페이징 처리
+		updatePaging(result.pageDTO);
+	
 }
 
 function updatePaging(pageDTO) {
-	const $pagingList = $('#pagingList ul');
-    $pagingList.empty();
+	const $page = $('#page');
+    $page.empty();
+    let pagingHtml = '';
     
     // "이전" 버튼
     if (pageDTO.startPage > pageDTO.pageBlock) {
-    	$pagingList.append(
-    	'<li><a href='+'"${pageCountext.request.contextPath}/inquiry/news?pageNum='+ pageDTO.startPage - pageDTO.pageBlock+'">'+'[이전]'+'</a></li>'
-    	);
+    	pagingHtml += '<li><a href="#" data-page="' + (currentPage - 1) + '">« Prev</a></li>';
     }
  	// 페이지 번호 버튼
     for (let i = pageDTO.startPage; i <= pageDTO.endPage; i++) {
-    	$pagingList.append(
-    	'<li><a href='+'"${pageContext.request.contextPath}/inquiry/news?pageNum='+ i +'">'+ i + '</a>'
-    	);
+    	pagingHtml += '<li><a href="#" data-page="'+ i +'">'+ i + '</a></li>'
     }
  	// [다음] 버튼
     if (pageDTO.endPage < pageDTO.pageCount) {
-    	$pagingList.append(
-    	'<li><a href='+'"${pageContext.request.contextPath}/inquiry/news?pageNum='+ pageDTO.startPage + pageDTO.pageBlock +'">'+'[다음]'+'</a></li>'		
-    	);
+    	pagingHtml += '<li><a href="#" data-page="'+ pageDTO.startPage + pageDTO.pageBlock +'">'+'[다음]'+'</a></li>'		
     }
- 	// "끝" 버튼
-    const $endButton = $('.btn-paging.end');
-    if (pageDTO.pageCount > 5) {// 페이지가 5개 이상일 때만 "끝" 버튼 활성화
-    	$endButton
-    	.removeAttr('disabled')
-        .attr('onclick', 'location.href="' + pageDTO.contextPath + '/inquiry/news?pageNum=' + pageDTO.pageCount + '"');
-    }else{
-    	$endButton
-        .attr('disabled', true)
-        .removeAttr('onclick');
-    }
- 	//debugger;
+ 	
+ 	// 새로 생성한 페이지네이션 HTML을 삽입
+    $page.html(pagingHtml); // 새로운 HTML로 교체
+//  	// "끝" 버튼
+//     const $endButton = $('.btn-paging.end');
+//     if (pageDTO.pageCount > 5) {// 페이지가 5개 이상일 때만 "끝" 버튼 활성화
+//     	$endButton
+//     	.removeAttr('disabled')
+//     	.data('page', pageDTO.pageCount) // 페이지 번호를 data 속성에 설정
+//         .attr('onclick', 'location.href="' + pageDTO.contextPath + '/inquiry/news?pageNum=' + pageDTO.pageCount + '"');
+//     }else{
+//     	$endButton
+//         .attr('disabled', true)
+//         .removeAttr('onclick');
+//     	.removeData('page'); // data 속성 제거
+//     }
+ 	// "끝" 버튼 업데이트
+    $('.btn-paging.end').attr('data-page', pageDTO.pageCount).text('끝');
     	
 }
 
-//페이지 버튼 클릭 이벤트 리스너 추가
-$(document).on('click', '#pagingList a', function(event) {
-    event.preventDefault(); // 링크 기본 동작 방지
-    const pageNum = $(this).data('page'); // 데이터 속성에서 페이지 번호 가져오기
-    if (pageNum) {
-        loadPage(pageNum); // 선택한 페이지 로드
-    }
-});
 
-
-// function updatePaging(pageDTO) {
-// 	var pagingHtml = '<ul>';
-
-
-
-//     // 페이지 번호 링크
-//     for (var i = pageDTO.startPage; i <= pageDTO.endPage; i++) {
-//         pagingHtml += '<li><a href="#" class="page-link" data-page="' + i + '">' + i + '</a></li>';
-//     }
-
-//     // "다음" 버튼
-//     if (pageDTO.currentPage < pageDTO.totalPageCount) {
-//         pagingHtml += '<li><a href="#" class="page-link" data-page="' + (pageDTO.currentPage + 1) + '">[다음]</a></li>';
-//     }
-//     pagingHtml += '</ul>';
-
-//     $('#pagingList').html(pagingHtml);
-
-//     // 페이지 링크 클릭 이벤트 처리
-//     $('#pagingList').on('click', '.page-link', function(e) {
-//         e.preventDefault(); // 기본 링크 동작 방지
-
-//         var pageNum = $(this).data('page');
-        
-//         // 현재 상태의 검색어와 뉴스 섹션을 포함하여 새로운 AJAX 요청
-//         var searchtext = $('#searchtext').val();
-//         var newsSection = $('#list a.active').data('value');
-        
-//         var data = { 
-//             "searchtext": searchtext,
-//             "newsSection": newsSection,
-//             "pageNum": pageNum // 페이지 번호 추가
-//         };
 
 </script>
 
