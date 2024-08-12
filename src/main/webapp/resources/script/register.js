@@ -7,6 +7,12 @@ let isIdValid = false; // 아이디 사용가능 유무 확인
 let isNickValid = false; // 닉네임 사용가능 유무 확인
 
 $( document ).ready(function() {
+	// 엔터 키 입력을 감지하여 기본 폼 제출을 막음
+    $('#signupForm').on('keypress', function(event) {
+        if (event.keyCode === 13) { // 엔터 키의 keyCode는 13입니다.
+            event.preventDefault(); // 기본 폼 제출을 막음
+        }
+    });
 
     $("#idbtn").click(function(){ // 아이디 중복확인 버튼 눌렀을 때 실행
  		//alert("클릭");  // js 적용된건지 테스트
@@ -180,5 +186,8 @@ $( document ).ready(function() {
             event.preventDefault();
         }
         
+        
 	}); // 폼 제출 메서드 끝
+	
+	
 }); // document.ready 끝

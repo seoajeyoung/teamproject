@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.OfteniqMapper">
+
+	<insert id="insertOfteniq">
+		INSERT INTO OFTENIQ(OF_NUM
+						  , OF_NAME
+						  , OF_DETAIL
+						  , OF_DATE)
+				     VALUES(#{OF_NUM}
+				          , #{OF_NAME}
+				          , #{OF_DETAIL}
+				         , CAST(#{OF_DATE} AS DATE))
+	</insert>
+	
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT MAX(CAST(OF_NUM AS UNSIGNED)) AS OF_NUM 
+		  FROM OFTENIQ 
+	</select>
+		
+	<update id="updateOften">
+		UPDATE OFTENIQ
+		   SET OF_NAME = #{OF_NAME}
+		   	 , OF_DATE = #{OF_DATE}
+		     , OF_DETAIL = #{OF_DETAIL}
+		 WHERE OF_NUM = #{OF_NUM}
+	</update>
+	
+	<delete id="deleteoften" parameterType="java.lang.String">
+		DELETE FROM OFTENIQ
+		WHERE OF_NUM = #{OF_NUM}
+	</delete>
+	
+	<select id="getOftenCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM OFTENIQ			
+	</select>
+	
+	<select id="getOftenList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
+		SELECT OF_NUM
+			 , OF_NAME
+			 , OF_DETAIL
+			 , OF_DATE
+			 , ROW_NUMBER() OVER(ORDER BY CAST(OF_NUM AS UNSIGNED)) AS RN
+		  FROM OFTENIQ 
+		 <if test="search != null and !search.equals('')">
+		  WHERE OF_NAME LIKE CONCAT('%', #{search}, '%')
+		 </if>
+		  ORDER BY CAST(OF_NUM AS UNSIGNED) DESC
+		  LIMIT #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getOften" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+		SELECT OF_NUM
+			 , OF_NAME
+			 , OF_DETAIL
+			 , OF_DATE
+	 	  FROM OFTENIQ
+		  WHERE OF_NUM = #{OF_NUM}
+	</select>
+	
+	
+	<select id="getOftenPrev" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+		SELECT OF_NUM
+			 , OF_NAME
+			 , OF_DETAIL
+			 , OF_DATE
+	      FROM OFTENIQ
+	 WHERE CAST(OF_NUM AS UNSIGNED) < #{OF_NUM} 
+	 ORDER BY CAST(OF_NUM AS UNSIGNED) DESC
+	 LIMIT 1
+	]]>
+	</select>
+	
+	<select id="getOftenNext" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<![CDATA[
+	SELECT OF_NUM
+		 , OF_NAME
+		 , OF_DETAIL
+         , OF_DATE
+	  FROM OFTENIQ
+	 WHERE CAST(OF_NUM AS UNSIGNED) > #{OF_NUM}
+	 ORDER BY CAST(OF_NUM AS UNSIGNED) 
+	 LIMIT 1
+	]]>
+	</select>
+	
+</mapper>  

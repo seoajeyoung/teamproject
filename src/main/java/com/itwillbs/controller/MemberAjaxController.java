@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,5 +53,24 @@ public class MemberAjaxController {
 				new ResponseEntity<String>(result, HttpStatus.OK);
 		return entity;
 	}
+	
+	@GetMapping("/member/phoneCheck") // 닉네임 중복확인 버튼 눌렀을 때(이하 내용 idCheck와 같음)
+	public ResponseEntity<String> phoneCheck(@RequestParam("member_phone") String phone) {
+		System.out.println("AjaxController phoneCheck() @@@@@@@@@@@@@@@@@@");
+		
+		MemberDTO memberDTO = memberService.getMemberPhone(phone);
+		System.out.println("체크: " + memberDTO);
+		
+		String result = "";
+		if(memberDTO != null) {
+			result = "phonedup";
+		}else {
+			result = "phoneok";
+		}
+		ResponseEntity<String> entity =
+				new ResponseEntity<String>(result, HttpStatus.OK);
+		return entity;
+	}
+	
 
 }

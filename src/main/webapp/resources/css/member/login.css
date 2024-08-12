@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	box-sizing: border-box; /* box-sizing을 border-box로 설정 */
+	font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum,
+		sans-serif;
+}
+
+.loginForm {
+	position: absolute;
+	width: 500px;
+	padding: 30px 20px;
+	background-color: #FFFFFF;
+	text-align: center;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 15px;
+	box-sizing: border-box; /* padding을 포함하여 전체 크기 설정 */
+}
+
+.loginForm h2 {
+	text-align: center;
+	margin: 30px 0;
+}
+
+#leadtext {
+	font-size: 14px;
+	color: #666666;
+	display: block;
+	margin-bottom: 15px;
+}
+
+#id, #pass {
+	width: 80%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	color: #636e72;
+	font-size: 16px;
+	height: 40px;
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.loginlink {
+	display: inline-block;
+	padding-right: 8px;
+	color: #555;
+	font-size: 13px;
+	margin-top: 20px;
+}
+
+.buttonContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+	gap: 10px;
+}
+
+.btn {
+	width: 80%;
+	height: 40px;
+	background-color: #fb4357;
+	font-size: 16px;
+	color: #ffffff;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	border-radius: 5px;
+}
+
+.btn:hover {
+	background-color: #e03e4e; /* 버튼에 호버 효과 추가 */
+}
