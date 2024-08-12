@@ -56,8 +56,8 @@ public class MainController {
 	@GetMapping("/main")//고객센터 메인
 	public String Imain(@RequestParam(required = false) String page, Model model) {
 		
-		List<MovieDTO> movieList = movieService.getMovie(page);
-		model.addAttribute("movieList", movieList);
+//		List<MovieDTO> movieList = movieService.getMovie(page);
+//		model.addAttribute("movieList", movieList);
 
 		return "main/main";
 	}

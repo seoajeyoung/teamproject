@@ -153,7 +153,7 @@ function __doPostBack(eventTarget, eventArgument) {
                                             </div>
                                             <div class="desc_miso">
                                                 <p class="desc_txt1">고객님의 문의에 답변하는 직원은 <em>고객 여러분의 가족 중 한 사람</em>일 수 있습니다.</p>
-                                                <p class="desc_txt2">CJ는 고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 고객상담직원을 보호하기 위해<br>관련 법에 따라 수사기관에 필요한 조치를요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.</p>
+                                                <p class="desc_txt2">OSTiket는 고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 고객상담직원을 보호하기 위해<br>관련 법에 따라 수사기관에 필요한 조치를요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -166,24 +166,24 @@ function __doPostBack(eventTarget, eventArgument) {
 											</ul>
 										</td>
 									</tr>
-									<tr>
-										<th scope="row">영화관 선택</th>
-										<td colspan="3">
-											<ul class="type_list">
-												<li class="on"><input type="radio" id="no_sel" name="sel_theaterchoise" checked="checked" value="0"><label for="no_sel">선택하지 않음</label></li>
-												<li><input type="radio" id="sel" name="sel_theaterchoise" value="1"><label for="sel">선택함</label></li>
-											</ul>
-											<label for="sel_t_group" class="hidden">국내,국외 선택</label>
-											<select title="국내,국외 선택" class="sel01" id="sel_t_group" name="sel_t_group" disabled="disabled" style="width: 96px;">
-												<option value="dm">국내</option>
-                                                <option value="oc">국외</option>
-											</select>
-											<label for="sel_regioncode" class="hidden">지역 선택</label>
-											<select title="지역 선택" class="sel01" id="sel_regioncode" name="sel_regioncode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">지역 선택</option><option value="12">강원</option><option value="02">경기</option><option value="204">경상</option><option value="206">광주</option><option value="11">대구</option><option value="03">대전</option><option value="05">부산</option><option value="01">서울</option><option value="207">울산</option><option value="202">인천</option><option value="04">전라</option><option value="06">제주</option><option value="205">충청</option></select>
-											<label for="sel_theatercode" class="hidden">영화관 선택</label>
-											<select title="영화관 선택" class="sel01" id="sel_theatercode" name="sel_theatercode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">영화관 선택</option></select>
-										</td>
-									</tr>
+<!-- 									<tr> -->
+<!-- 										<th scope="row">영화관 선택</th> -->
+<!-- 										<td colspan="3"> -->
+<!-- 											<ul class="type_list"> -->
+<!-- 												<li class="on"><input type="radio" id="no_sel" name="sel_theaterchoise" checked="checked" value="0"><label for="no_sel">선택하지 않음</label></li> -->
+<!-- 												<li><input type="radio" id="sel" name="sel_theaterchoise" value="1"><label for="sel">선택함</label></li> -->
+<!-- 											</ul> -->
+<!-- 											<label for="sel_t_group" class="hidden">국내,국외 선택</label> -->
+<!-- 											<select title="국내,국외 선택" class="sel01" id="sel_t_group" name="sel_t_group" disabled="disabled" style="width: 96px;"> -->
+<!-- 												<option value="dm">국내</option> -->
+<!--                                                 <option value="oc">국외</option> -->
+<!-- 											</select> -->
+<!-- 											<label for="sel_regioncode" class="hidden">지역 선택</label> -->
+<!-- 											<select title="지역 선택" class="sel01" id="sel_regioncode" name="sel_regioncode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">지역 선택</option><option value="12">강원</option><option value="02">경기</option><option value="204">경상</option><option value="206">광주</option><option value="11">대구</option><option value="03">대전</option><option value="05">부산</option><option value="01">서울</option><option value="207">울산</option><option value="202">인천</option><option value="04">전라</option><option value="06">제주</option><option value="205">충청</option></select> -->
+<!-- 											<label for="sel_theatercode" class="hidden">영화관 선택</label> -->
+<!-- 											<select title="영화관 선택" class="sel01" id="sel_theatercode" name="sel_theatercode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">영화관 선택</option></select> -->
+<!-- 										</td> -->
+<!-- 									</tr> -->
 									<tr>
 										<th scope="row"><label for="inp_title">제목 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
