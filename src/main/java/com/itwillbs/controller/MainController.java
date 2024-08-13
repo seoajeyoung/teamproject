@@ -62,9 +62,15 @@ public class MainController {
 		List<MovieDTO> movieList = mainService.getMovie();
 		model.addAttribute("movieList", movieList);
 		
+		List<Map<String, Object>> upcomingMovies = mainService.getMovie3();
+		model.addAttribute("upcomingMovies", upcomingMovies);
+		System.out.println(upcomingMovies);
+		
 		Map<String, Object> newNews = newsService.getNewNews();
 		model.addAttribute("newNews", newNews);
 
+		
+		
 		return "main/main";
 	}
 	

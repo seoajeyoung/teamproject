@@ -25,6 +25,8 @@ public class MainService {
 		return movieDAO.getMovie();
 	}
 	
-	
+	public List<Map<String, Object>> getMovie3(){
+		return movieDAO.getMovie3();
+	}
 
 }
