@@ -21,14 +21,8 @@ public class MainService {
 	private MovieDAO movieDAO;
 	
 	// 영화 리스트
-	public List<MovieDTO> getMovie(String page) {
-		// page값이 있으면
-		if(page != null && page.equals("")) {
-			//상영 예정작
-			return movieDAO.getMovie2();
-		} else {
-			return movieDAO.getMovie();
-		}
+	public List<MovieDTO> getMovie() {
+		return movieDAO.getMovie();
 	}
 	
 	

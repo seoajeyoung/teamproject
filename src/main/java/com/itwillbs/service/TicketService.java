@@ -68,5 +68,9 @@ public class TicketService {
 		ticketDAO.insertseat(request);
 	}
 
+	public List<Map<String, String>> selectsaveseat(Map<String, Object> param) {
+		return ticketDAO.selectsaveseat(param);
+	}
+
 
 }

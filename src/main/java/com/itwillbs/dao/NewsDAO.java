@@ -69,6 +69,10 @@ public class NewsDAO {
 	public Map<String, Object> NewsNext(Map<String, String> param) {
 		return sqlSession.selectOne(namespace + ".NewsNext", param);
 	}
+	
+	public Map<String, Object> getNewNews() {
+		return sqlSession.selectOne(namespace + ".getNewNews");
+	}
 
 	
 }

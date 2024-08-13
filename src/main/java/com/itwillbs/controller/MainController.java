@@ -39,6 +39,7 @@ import com.itwillbs.domain.OfteniqDTO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.service.AnswerService;
 import com.itwillbs.service.InquiryService;
+import com.itwillbs.service.MainService;
 import com.itwillbs.service.MovieService;
 import com.itwillbs.service.NewsService;
 import com.itwillbs.service.OfteniqService;
@@ -51,13 +52,18 @@ import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
 public class MainController {
 	
 	@Inject
-	private MovieService movieService;
+	private MainService mainService;
+	@Inject
+	private NewsService newsService;
 	
 	@GetMapping("/main")//고객센터 메인
-	public String Imain(@RequestParam(required = false) String page, Model model) {
+	public String main(Model model) {
 		
-//		List<MovieDTO> movieList = movieService.getMovie(page);
-//		model.addAttribute("movieList", movieList);
+		List<MovieDTO> movieList = mainService.getMovie();
+		model.addAttribute("movieList", movieList);
+		
+		Map<String, Object> newNews = newsService.getNewNews();
+		model.addAttribute("newNews", newNews);
 
 		return "main/main";
 	}

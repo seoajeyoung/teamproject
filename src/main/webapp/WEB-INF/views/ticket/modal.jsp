@@ -22,7 +22,7 @@
 			<option value="" disabled selected>극장 이름 선택해주세요</option>
         </select>
         <select id="theater-insert" class="theater-select">
-                        <option value="" selected>등록할관 선택해주세요</option>
+                        <option value="" disabled selected>등록할관 선택해주세요</option>
         </select>
         
         
@@ -36,7 +36,6 @@
                 <div class="input-container">
                     <label id = "namecinema" class= "namecinema"></label>
                      <select id="theater-select" class="theater-select">
-                        <option value="" selected>저장된 극장 불러오기</option>
                     </select>
                 </div>
                 <div class="input-container">

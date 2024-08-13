@@ -5,6 +5,7 @@ $(document).ready(function() {
     var ci_number = '';
     var rows = '';
     var cols = '';
+    var saveci_number ='';
     let isOnetouchActive = false; // 버튼 클릭 상태를 관리하는 플래그
 
      // 지역 선택시 극장이름 가져오는 ajax 
@@ -22,7 +23,6 @@ $(document).ready(function() {
  		       $('#th_name').empty();
  		       $('#th_name').append('<option value="" disabled selected>극장 이름 선택해주세요</option>');
         	theaters.forEach(function(theater) {
-        		 
        		     $('#th_name').append('<option value="' + theater.TH_NAME + '">' + theater.TH_NAME + '</option>');
         	});
     		},
@@ -39,7 +39,21 @@ $(document).ready(function() {
     
     // 관 등록 버튼 클릭 시 모달 열기
     $('.btn-open-modal').on('click', function() {
-         $('.modal').css('display', 'flex');
+        
+        if (!regionvalue) {
+        alert("지역 선택해주세요");
+        return;
+    	}
+    	if (!th_namevalue) {
+        alert("극장명 선택해주세요");
+        return;
+    	}
+    	if (!ci_number) {
+        alert("관 선택해주세요");
+        return; 
+   		}
+   		 $('.modal').css('display', 'flex');
+   		 getci_number();
     });
     
 	// 관 불러오는 함수    
@@ -54,19 +68,82 @@ $(document).ready(function() {
         },
         success: function(response) {
             $('.theater-select').empty(); // 기존 옵션 제거
-            $('.theater-select').append('<option value="" selected>극장 불러오기</option>'); // 기본 옵션 추가
+            $('.theater-select').append('<option value="" disabled selected>저장된 극장 불러오기</option>'); // 기본 옵션 추가
             response.forEach(function(theater) {
-                $('.theater-select').append('<option value="' + theater.CI_NUMBER + '">' + theater.CI_NUMBER + '</option>');
+                 if (theater.TH_NUMBER !== ci_number) {
+       				 $('.theater-select').append('<option value="' + theater.TH_NUMBER + '">' + theater.TH_NUMBER + '</option>');
+    			 }
             });
         }
     });
 	}
 	
 	// 관 클릭시 값 저장 함수     
-      $('#theater-insert').on('change', function() {
+    	$('#theater-insert').on('change', function() {
             ci_number = $(this).val();
             $('#namecinema').text(th_namevalue  + "극장 " + ci_number);
         });    
+    
+    // 저장된 관 불러와 좌석 생성 
+    function createsave_seat() {
+    $.ajax({
+        url: '/myweb/SAVECI_NUMBER', 
+        method: 'GET', 
+        data: {
+            region: regionvalue,
+            th_name: th_namevalue,
+            th_number: saveci_number
+        },
+        success: function(response) {
+        
+            const seatTable = $('#seat-table');
+            seatTable.empty();
+			rows = response[0].SE_ROW;
+			cols = response[0].SE_COL;
+            const removedSeats = response.map(item => item.SE_SEAT);
+            const table = $('<table></table>');
+            const tbody = $('<tbody></tbody>');
+
+            for (let i = 0; i < rows; i++) {
+                const tr = $('<tr></tr>');
+                tr.append('<th>' + String.fromCharCode(65 + i) + '</th>');
+
+                for (let j = 1; j <= cols; j++) {
+                    const seatLabel = String.fromCharCode(65 + i) + j;
+
+                    const td = $('<td></td>')
+                        .addClass('empty')
+                        .text(seatLabel)
+                        .on('click', function() {
+                            if ($(this).hasClass('empty')) {
+                                $(this).removeClass('empty').addClass('removed');
+                            } else if ($(this).hasClass('removed')) {
+                                $(this).removeClass('removed').addClass('empty');
+                            }
+                        });
+
+                    if (removedSeats.includes(seatLabel)) {
+                        td.removeClass('empty').addClass('removed');
+                    }
+
+                    tr.append(td);
+                }
+                tbody.append(tr);
+            }
+
+            table.append(tbody);
+            seatTable.append(table);
+            $('#btn-save').removeClass('hidden'); 
+      	    $('#onetouch').removeClass('hidden');
+     	   }
+   	 	});	
+	}
+    
+    // 관 불러오기 클릭시 관 호출   
+    	$('#theater-select').on('change', function() {
+    	    saveci_number = $(this).val();
+    	    createsave_seat();
+    	});	    
     
 
     // 생성 버튼 클릭 시 좌석 생성
@@ -83,6 +160,8 @@ $(document).ready(function() {
         $('#btn-save').addClass('hidden');
         $('#onetouch').addClass('hidden');
         $('#onetouch').text('마우스 올리면 삭제');
+        ci_number = '';
+        getci_number();
         isOnetouchActive = false; 
     });
 
@@ -148,12 +227,11 @@ $(document).ready(function() {
         $('#seat-table tbody tr').each(function() {
             var row = [];
              $(this).find('td').each(function() {
-            if ($(this).hasClass('removed')) {
                	var seatInfo = {
                     text: $(this).text(),
+                    class: $(this).attr('class')
                 };
                  row.push(seatInfo);
-       			 }
         });
             if (row.length > 0) {
             seatData.push(row);
@@ -166,7 +244,7 @@ $(document).ready(function() {
         data: JSON.stringify({
         	region: regionvalue,
         	th_name: th_namevalue,
-        	ci_number: ci_number,
+        	th_number: ci_number,
         	rows: rows,
         	cols: cols,
         	seat_data: seatData 
@@ -181,7 +259,9 @@ $(document).ready(function() {
         $('#seat-table').empty(); 
         $('#btn-save').addClass('hidden');
         $('#onetouch').addClass('hidden');
-        $('#onetouch').text('마우스 올리면 삭제'); 
+        $('#onetouch').text('마우스 올리면 삭제');
+        ci_number = ''; 
+        getci_number();
  		isOnetouchActive = false;       
     });
    

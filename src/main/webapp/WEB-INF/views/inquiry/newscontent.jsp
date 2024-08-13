@@ -60,15 +60,15 @@
 			</div>
 			<div class="board_view_area">
 				<ul class="top_title_faq" id="content1">
-					<li class="title">${newsDTO.NEWS_NAME}</li>
+					<li class="title"></li>
 					<li class="stit_area">
-						<span>등록일<em class="regist_day">${newsDTO.NEWS_DATE}</em></span>
-						<span class="check_tit_area">구분<em class="check_num">${newsDTO.NEWS_SECTION} </em></span>
+						<span>등록일<em class="regist_day"></em></span>
+						<span class="check_tit_area">구분<em class="check_num"></em></span>
 					</li>
 				</ul>
 				<div class="view_area" id="content2">
 					<p></p><p class="ce_exstyle" style="line-height: 1.3; font-family: &quot;맑은 고딕&quot;; font-size: 10pt;">
-					<span style="font-size: inherit;">${newsDTO.NEWS_CONTENT}</span>
+					<span style="font-size: inherit;">}</span>
 					</p>
 					<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</div>

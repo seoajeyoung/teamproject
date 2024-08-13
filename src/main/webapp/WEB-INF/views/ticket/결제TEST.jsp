@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ticket/real.css">
+<script
+	src="${pageContext.reque	st.contextPath}/resources/script/jquery-3.6.0.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/script/ticketpayment.js"></script>	
+	
+	
 </head>
 <body>
 	<article id="seat_select">
@@ -13,8 +19,7 @@
 			<table class="header_box">
 				<tbody>
 					<tr>
-						<td colspan="6" id="titleArea" style="height: 45px;"><h3>인원
-								/ 좌석</h3></td>
+						<td colspan="6" id="titleArea" style="height: 45px;"><h3>인원/ 좌석</h3></td>
 					</tr>
 					<tr>
 					</tr>
