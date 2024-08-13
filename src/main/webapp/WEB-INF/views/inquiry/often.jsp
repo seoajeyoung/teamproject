@@ -64,58 +64,24 @@
 				</legend>
 			<form action="${pageContext.request.contextPath}/inquiry/often" method="get" id="searchForm">
 				<input id="searchtext" type="text" name="search" class="c_input" title="검색어 입력"
-				 placeholder="검색어를 입력해 주세요" value="" style="width:275px;">
+				 placeholder="검색어를 입력해 주세요" value="" style="width:185px;">
 				<button type="button" class="round inblack" title="검색하기" 
 					id="btn_search">
 					<span>검색하기</span>
 				</button>
 			</form>
-<!-- 				<div class="qu_txt"> -->
-<!-- 					<em>추천검색어 :</em> -->
-                    
-<!--                             <span class="first"> <a href="#none">현금영수증</a></span> -->
-                        
-<!--                             <span class=""> <a href="#none">관람권</a></span> -->
-                        
-<!--                             <span class=""> <a href="#none">예매</a></span> -->
-                        
-<!--                             <span class=""> <a href="#none">환불</a></span> -->
-                        
-<!--                             <span class=""> <a href="#none">취소</a></span> -->
-                        
-<!--                             <span class=""> <a href="#none"></a></span> -->
-                        
-<!-- 				</div> -->
+
 				</div>
 			
 			
 			<c:if test="${member_name eq 'admin'}">
 				<div class="box-btn qna_email  newbox">
-                	<button style="width:80px" class="round inred" type="button" id="emailsubmit"><span>자주찾는질문 등록하기</span></button>
+                	<button style="width:90px" class="round inred" type="button" id="emailsubmit"><span>자주찾는질문 등록하기</span></button>
 				</div>
 				
 			</c:if>
 			
-						</div>
-			
-			
-				
-<!-- 			<div class="c_tab_wrap"> -->
-<!-- 				<ul class="c_tab type_free"> -->
-<!-- 					<li class="on"><a href="/support/faq/default.aspx?type=0&amp;searchtext=" style="font-size: 11px;" title="선택된 탭메뉴">전체</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=101,239&amp;searchtext=" style="font-size: 11px;">예매/매표</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=243&amp;searchtext=" style="font-size: 11px;">관람권/결제수단</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=102,240&amp;searchtext=" style="font-size: 11px;">멤버쉽/클럽서비스</a></li> -->
-<!--                     <li class=""><a href="/support/faq/default.aspx?type=1262&amp;searchtext=" style="font-size: 11px;">VIP관련</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=242&amp;searchtext=" style="font-size: 11px;">할인혜택</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=103,246&amp;searchtext=" style="font-size: 11px;">영화관이용</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=244&amp;searchtext=" style="font-size: 11px;">특별관</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=104,1259&amp;searchtext=" style="font-size: 11px;">기프트샵</a></li> -->
-<!-- 					<li class=""><a href="/support/faq/default.aspx?type=105,245&amp;searchtext=" style="font-size: 11px;">홈페이지/모바일</a></li> -->
-                 
-<!-- 				</ul> -->
-<!-- 			</div> -->
-			<div class="search_result">
+			<div class="search_result clear">
 					  총<span class="num">${pageDTO.count}건</span>이 검색되었습니다.
 				</div>
 			<div class="tbl_area">
@@ -179,6 +145,7 @@
 				</ol>
 			</div>
 		</div>
+	</div>
 	</div>
 	<!-- //Contents End -->
 </div>

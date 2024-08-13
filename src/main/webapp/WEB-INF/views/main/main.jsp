@@ -1,5 +1,10 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,10 +58,10 @@
     <title id="ctl00_headerTitle">깊이 빠져 보다, CGV</title>
     <link rel="shortcut icon" type="image/x-icon" href="https://img.cgv.co.kr/R2014/images/favicon.ico">
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/webfont.css">
-	<link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/reset.css">
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/layout.css">
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/module.css?20211209">    
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/content.css">
+<!-- 	<link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/reset.css"> -->
+<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/layout.css"> -->
+<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/module.css?20211209">     -->
+<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/content.css"> -->
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css">
     
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/eggupdate.css">
@@ -107,7 +112,7 @@
 <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/swiper-bundle.min.css">
 <script type="text/javascript">
         $(document).ready(function(){
-
+        	
             $("#btnMovie").click(function(){
                 $("#movieChart_list").show();
                 $("#movieChart_list_Reser").hide();
@@ -487,6 +492,7 @@
         - class 'nav' 에 class 'active' 추가시 서브메뉴노출
         - class 'nav' 에 class 'fixed' 추가시 상단고정되며 스타일 변경됨
      -->
+<!--      TODO    인클루드하면 지워야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 	<div class="header">			
             <!-- 서비스 메뉴 --> 
             
@@ -496,12 +502,12 @@
         <ul class="memberInfo_wrap">
             
             
-            <li><a href="/user/login/?returnURL=https%3a%2f%2fwww.cgv.co.kr%2fdefault.aspx"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그인"><span>로그인</span></a></li>
-            <li><a href="/user/join/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginJoin.png" alt="회원가입"><span>회원가입</span></a></li>
-            
-            
-            <li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY CGV"><span>MY CGV</span></a></li>
-            <li><a href="/support/default.aspx"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png" alt="고객센터"><span>고객센터</span></a></li>
+            <li><a href="${pageContext.request.contextPath}/member/login"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그인"><span>로그인</span></a></li>
+			<li><a href="${pageContext.request.contextPath}/member/register"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginJoin.png" alt="회원가입"><span>회원가입</span></a></li>
+
+<!-- 		$$$$$$$$$$$$$$$$$$$$$$$$$TODO 마이페이지 주소로 변경하기$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+			<li><a href="${pageContext.request.contextPath}/admin/member/index"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY CGV"><span>임시 관리자</span></a></li>
+			<li><a href="${pageContext.request.contextPath}/inquiry/Imain"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png" alt="고객센터"><span>고객센터</span></a></li>
         </ul>
     </div>
 </div>
@@ -513,7 +519,7 @@
         <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV"></a></h1>
         <ul class="nav_menu">
             <li>
-                <h2><a href="/movies/?lt=1&amp;ft=0">영화</a></h2>
+                <h2><a href="${pageContext.request.contextPath}/movie/movie">영화</a></h2>
                 <dl class="nav_overMenu" style="display: none;">
                     <dt><h2><a href="/movies/?lt=1&amp;ft=0" tabindex="-1">영화</a></h2></dt>
                     <dd><h3><a href="/movies/?lt=1&amp;ft=0">무비차트</a></h3></dd>
@@ -522,7 +528,7 @@
                 </dl>
             </li>
             <li>
-                <h2><a href="/theaters/">극장</a></h2>
+                <h2><a href="${pageContext.request.contextPath}/theater/theater">극장</a></h2>
                 <dl class="nav_overMenu" style="display: none;">
                     <dt><h2><a href="/theaters/" tabindex="-1">극장</a></h2></dt>
                     <dd><h3><a href="/theaters/">CGV 극장</a></h3></dd>
@@ -530,7 +536,7 @@
                 </dl>
             </li>
             <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
+                <h2><a href="${pageContext.request.contextPath}/ticket"><strong>예매</strong></a></h2>
                 <dl class="nav_overMenu" style="display: none;">
                     <dt><h2><a href="/ticket/" tabindex="-1">예매</a></h2></dt>
                     <dd><h3><a href="/ticket/">빠른예매</a></h3></dd>
@@ -540,15 +546,15 @@
                 </dl>
             </li>
             <li>
-                <h2><a href="/culture-event/popcorn-store/">스토어</a></h2>
+                <h2><a href="${pageContext.request.contextPath}/store/storeMain">스토어</a></h2>
                 <dl class="nav_overMenu" style="display: none;">
                     <dt><h2><a href="/culture-event/popcorn-store/" tabindex="-1">스토어</a></h2></dt>
                     
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=1">패키지</a></h3></dd>
+                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=패키지">패키지</a></h3></dd>
                         
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=2">영화관람권</a></h3></dd>
+                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=영화관람권">영화관람권</a></h3></dd>
                         
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=3">기프트카드</a></h3></dd>
+                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=기프트카드">기프트카드</a></h3></dd>
                         
                             <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=4">콤보</a></h3></dd>
                         
@@ -600,6 +606,7 @@
 </div>
             <!-- 서브 메뉴 -->			
 	</div>
+<!-- 	DOTO  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 	<!-- E Header -->
 
 	<!-- Contaniner -->
@@ -660,19 +667,24 @@
                         <a href="/movies/?lt=1&amp;ft=0" id="btn_allView_Movie" class="btn_allView">전체보기</a>
                     </div>
 
+
+
+
                     <div class="swiper movieChart_list swiper-container-initialized swiper-container-horizontal" id="movieChart_list">
                         <div class="swiper-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="이전 슬라이드" aria-disabled="true"></div>
                         <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
                             
+                            
                                 <div class="swiper-slide swiper-slide-movie swiper-slide-active" style="width: 170.4px; margin-right: 32px;">
+<!--                                     <div style="display: inline-block; margin-right: 10px;"> -->
                                     <div class="img_wrap" data-scale="false" tabindex="0">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88478/88478_320.jpg" alt="세븐틴 투어 ‘팔로우’ 어게인 투 시네마" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                            <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
-                                            <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
+                                        
+<%--                                             <i class="cgvIcon etc ageAll">${movieList.RATING}</i> --%>
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                            <div class='dDay_wrap'><span>2</span></div>
+<!--                 상영예정일인데 넣고 싶으면 쿼리짜야함                            <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i> -->
                                         
                                         </div>
                                         <div class="screenType_wrap">
@@ -690,21 +702,27 @@
                                         
                                         </div>
                                     </div>
-                                    <div class="movie_info_wrap">
-                                        <strong class="movieName">세븐틴 투어 ‘팔로우’ 어게인 투 시네마</strong>
-                                        <span> <img src="https://img.cgv.co.kr/R2014/images/common/egg/eggGoldeneggPreegg.png" alt="Golden Egg Preegg"> 99%</span>
-                                        <span>예매율 22.8%</span>
-                                    </div>
+
+                            
+                                   <div class="movie_info_wrap">
+<%--                                         <strong class="movieName">${movie.title}</strong> --%>
+<!--                                         <span> <img src="https://img.cgv.co.kr/R2014/images/common/egg/eggGoldeneggPreegg.png" alt="Golden Egg Preegg"></span> -->
+<%--                                         <span>누적관객수 ${movie.audiAcc}</span> --%>
+                                       </div>
+<!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@        무비차트 for문         TODO @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   -->
+<!--                                     </div> -->
+                                    
+                                    
                                 </div>
                                 
                                 <div class="swiper-slide swiper-slide-movie swiper-slide-next" style="width: 170.4px; margin-right: 32px;">
                                     <div class="img_wrap" data-scale="false" tabindex="0">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88454/88454_320.jpg" alt="행복의 나라" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -730,10 +748,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88170/88170_320.jpg" alt="에이리언- 로물루스" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -765,10 +783,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88380/88380_320.jpg" alt="빅토리" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -794,10 +812,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88442/88442_320.jpg" alt="트위스터스" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -829,10 +847,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88437/88437_320.jpg" alt="파일럿" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                           
                                             
                                         
                                         </div>
@@ -858,10 +876,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88403/88403_320.jpg" alt="사랑의 하츄핑" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                           
                                             
                                         
                                         </div>
@@ -887,10 +905,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88431/88431_320.jpg" alt="리볼버" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                           
                                             
                                         
                                         </div>
@@ -916,10 +934,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88411/88411_320.jpg" alt="10 라이브즈" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- <div class='dDay_wrap'><span>3</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                            <div class='dDay_wrap'><span>3</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 3">D Day</i>
                                         
                                         </div>
@@ -945,10 +963,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88457/88457_320.jpg" alt="신비아파트 특별편: 붉은 눈의 사신" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- <div class='dDay_wrap'><span>2</span></div>-->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -974,10 +992,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88228/88228_320.jpg" alt="데드풀과 울버린" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age18">18</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/18.png" alt="18세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/18.png" alt="18세">
+                                           
                                             
                                         
                                         </div>
@@ -1005,10 +1023,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88389/88389_320.jpg" alt="슈퍼배드 4" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                           
                                             
                                         
                                         </div>
@@ -1034,10 +1052,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88378/88378_320.jpg" alt="극장판 도라에몽-진구의 지구 교향곡" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                           
                                             
                                         
                                         </div>
@@ -1063,10 +1081,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87864/87864_320.jpg" alt="인사이드 아웃 2" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                           
                                             
                                         
                                         </div>
@@ -1092,10 +1110,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88287/88287_320.jpg" alt="극장총집편 봇치 더 록! 전편" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                           
                                             
                                         
                                         </div>
@@ -1121,10 +1139,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88452/88452_320.jpg" alt="이오 카피타노" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                           
                                             
                                         
                                         </div>
@@ -1150,10 +1168,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88422/88422_320.jpg" alt="물은 바다를 향해 흐른다" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                           
                                             
                                         
                                         </div>
@@ -1179,10 +1197,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88405/88405_320.jpg" alt="조선인 여공의 노래" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                           
                                             
                                         
                                         </div>
@@ -1208,10 +1226,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88390/88390_320.jpg" alt="명탐정 코난-100만 달러의 펜타그램" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                           
                                             
                                         
                                         </div>
@@ -1237,10 +1255,10 @@
                                     <div class="img_wrap" data-scale="false">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000067/67031/67031_320.jpg" alt="고령가 소년 살인사건" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                           <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                           영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!-- <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세"> -->
-                                            <!-- -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                           
                                             
                                         
                                         </div>
@@ -1276,10 +1294,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000079/79108/79108_320.jpg" alt="비포 선셋" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1305,10 +1323,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88478/88478_320.jpg" alt="세븐틴 투어 ‘팔로우’ 어게인 투 시네마" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc ageAll">All</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/All.png" alt="All세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1338,10 +1356,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88454/88454_320.jpg" alt="행복의 나라" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1367,10 +1385,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88170/88170_320.jpg" alt="에이리언- 로물루스" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age15">15</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/15.png" alt="15세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1402,10 +1420,10 @@
                                     <div class="img_wrap" data-scale="false" tabindex="0" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88380/88380_320.jpg" alt="빅토리" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1431,10 +1449,10 @@
                                     <div class="img_wrap" data-scale="false" aria-label="듄-파트2 특별관 상영(IMAX, 4DX, SCREENX), 12세관람가, 에그지수 96%, 예매율 25.9%">
                                         <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88442/88442_320.jpg" alt="트위스터스" onerror="errorImage(this)">
                                         <div class="movieAgeLimit_wrap">
-                                            <!-- 영상물 등급 노출 변경 2022.08.24 -->
+                                            영상물 등급 노출 변경 2022.08.24
                                             <i class="cgvIcon etc age12">12</i>
-                                            <!--<img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">-->
-                                            <!--<div class='dDay_wrap'><span>2</span></div> -->
+                                            <img src="https://img.cgv.co.kr/R2014/images/common/flag/age/12.png" alt="12세">
+                                            <div class='dDay_wrap'><span>2</span></div>
                                             <i class="cgvIcon etc ageDay" data-before-text="D - 2">D Day</i>
                                         
                                         </div>
@@ -1959,42 +1977,42 @@
                                
                             </dl>
                         </li>
-                        <li>
-                            <dl class="giftcon_list">
-                                <dt>기프트카드<a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=3" alt="기프트카드" class="btn_more">더보기</a></dt>
+<!--                         <li> -->
+<!--                             <dl class="giftcon_list"> -->
+<!--                                 <dt>기프트카드<a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=3" alt="기프트카드" class="btn_more">더보기</a></dt> -->
                                
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100161">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814124358590.jpg" alt="PACONNIE A형"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>PACONNIE A형</span>
-                                            <strong>금액충전형</strong>
-                                        </div>
-                                    </a>
-                                </dd>
+<!--                                 <dd> -->
+<!--                                     <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100161"> -->
+<!--                                         <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814124358590.jpg" alt="PACONNIE A형"></div> -->
+<!--                                         <div class="giftcon_info_wrap"> -->
+<!--                                             <span>PACONNIE A형</span> -->
+<!--                                             <strong>금액충전형</strong> -->
+<!--                                         </div> -->
+<!--                                     </a> -->
+<!--                                 </dd> -->
                             
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100162">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814158039890.jpg" alt="PACONNIE B형"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>PACONNIE B형</span>
-                                            <strong>금액충전형</strong>
-                                        </div>
-                                    </a>
-                                </dd>
+<!--                                 <dd> -->
+<!--                                     <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100162"> -->
+<!--                                         <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814158039890.jpg" alt="PACONNIE B형"></div> -->
+<!--                                         <div class="giftcon_info_wrap"> -->
+<!--                                             <span>PACONNIE B형</span> -->
+<!--                                             <strong>금액충전형</strong> -->
+<!--                                         </div> -->
+<!--                                     </a> -->
+<!--                                 </dd> -->
                             
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100163">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814162227570.jpg" alt="PACONNIE C형"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>PACONNIE C형</span>
-                                            <strong>금액충전형</strong>
-                                        </div>
-                                    </a>
-                                </dd>
+<!--                                 <dd> -->
+<!--                                     <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100163"> -->
+<!--                                         <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/15814162227570.jpg" alt="PACONNIE C형"></div> -->
+<!--                                         <div class="giftcon_info_wrap"> -->
+<!--                                             <span>PACONNIE C형</span> -->
+<!--                                             <strong>금액충전형</strong> -->
+<!--                                         </div> -->
+<!--                                     </a> -->
+<!--                                 </dd> -->
                                
-                            </dl>
-                        </li>
+<!--                             </dl> -->
+<!--                         </li> -->
                         
                     </ul>
                 </div>
@@ -2009,9 +2027,9 @@
                             <div id="ctl00_PlaceHolderContent_notice_wrap" class="notice_wrap">
                                 <strong>공지사항</strong>
                                 
-                                    <a href="/support/news/detail-view.aspx?idx=8037" class="btn_link">[극장][CGV] &lt;블랙핑크 월드투어 [본 핑크] 인 시네마&gt; 무대인사 회차 휠체어석 유의사항 안내</a>
+                                    <a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=${newNews.NEWS_NUM}" class="btn_link">${newNews.NEWS_SECTION} ${newNews.NEWS_NAME}</a>
                                 
-                                <a href="http://www.cgv.co.kr/support/news/default.aspx" id="notice_more" class="btn_more">더보기</a>
+                                <a href="${pageContext.request.contextPath}/inquiry/news" id="notice_more" class="btn_more">더보기</a>
                             </div>
 
                             <div class="client_wrap">
@@ -2025,20 +2043,20 @@
                                     </dd>
                                 </dl>
                                 <div class="client_btn_wrap" id="client_btn_wrap">
-                                    <a href="http://www.cgv.co.kr/support/faq/default.aspx">FAQ</a>
-                                    <a href="http://www.cgv.co.kr/support/qna/default.aspx">1:1 문의</a>
+                                    <a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스</a>
+                                    <a href="${pageContext.request.contextPath}/inquiry/write">1:1 문의</a>
                                     <!--<a href="http://www.cgv.co.kr/support/lost/default.aspx">분실물 문의</a>//-->
-                                    <a href="http://www.cgv.co.kr/support/lease/default.aspx">대관/단체 문의</a>
+                                    <a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문</a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="qr_wrap">
-                            <strong>앱 다운로드</strong>
-                            <span>CGV앱에서 더 편리하게 이용하세요</span>
-                            <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/R2014/images/common/img_qrcode.gif" alt="QR CODE"></div>
-                            <p>QR코드를 스캔하고<br>앱설치 페이지로 바로 이동하세요</p>
-                        </div>
+<!--                         <div class="qr_wrap"> -->
+<!--                             <strong>앱 다운로드</strong> -->
+<!--                             <span>CGV앱에서 더 편리하게 이용하세요</span> -->
+<!--                             <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/R2014/images/common/img_qrcode.gif" alt="QR CODE"></div> -->
+<!--                             <p>QR코드를 스캔하고<br>앱설치 페이지로 바로 이동하세요</p> -->
+<!--                         </div> -->
                     </div>
                     <div class="noticeClient_banner_wrap">
 
@@ -2062,35 +2080,7 @@
                 </div>
             </div>
 <!-- E > 공지사항 & 고객센터 -->
-
 <script id="temp_popup" type="text/x-jquery-tmpl">
-<div class="layer-contents" id="wrap_main_notice" ">
-<!-- 메인팝업 -->
-    <div class="wrap-noti-main" id="mainNotice">
-        <div class="noti-main">
-			<strong class="hidden">공지사항</strong>
-            <div class="slider" id="mainNoticeSlider">
-                <button type="button" class="btn-play">자동 넘기기 시작</button>
-                
-                    {{each List}}
-			            {{html Contents}}
-                    {{/each}}
-                      
-                <button type="button" class="btn-prev">이전 페이지 이동</button>
-				<!-- strong 에 현재 보이는 index, span 에 총 length -->
-                <div class="noti-num">
-                    <strong>1</strong><span>/${List.length}</span>
-                </div>
-                <button type="button" class="btn-next">다음 페이지 이동</button>
-            </div>
-        </div>
-        <div class="noti-footer">
-            <span class="check"><input id="open_today" type="checkbox" /><label for="open_today">오늘 하루 그만 보기</label></span>
-            <button class="btn-close" type="button"><span class="hidden">공지사항</span>닫기</button>
-        </div>
-    </div><!-- .wrap-noti-main -->
-<!-- 메인팝업끝 -->
-</div>
 </script>
 
 <script type="text/javascript">
@@ -2275,12 +2265,12 @@
             
 
             //기프트 카드 더보기
-            $(".giftcon_list > dt > a").on({
-                click: function () {
-                    var action = $(this).attr('alt');
-                    gaEventLog('PC_메인', action + " 더보기", '');
-                }
-            });
+//             $(".giftcon_list > dt > a").on({
+//                 click: function () {
+//                     var action = $(this).attr('alt');
+//                     gaEventLog('PC_메인', action + " 더보기", '');
+//                 }
+//             });
             //공지사항 더보기
             $("#notice_more").on({
                 click: function () {

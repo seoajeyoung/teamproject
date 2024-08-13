@@ -75,6 +75,10 @@ public class NewsService {
 	public Map<String, Object> NewsNext(Map<String, String> param) {
 		return newsDAO.NewsNext(param);
 	}
+	
+	public Map<String, Object> getNewNews() {
+		return newsDAO.getNewNews();
+	}
 
 //	public List<Map<String, Object>> getNewsSection(Map<String, Object> param) {
 //		// 시작하는 행번호

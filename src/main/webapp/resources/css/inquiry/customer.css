@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 .hidden { display: inline-block; text-indent: -9999px; width: 0; height: 0; font-size: 0; line-height: 0; overflow: hidden; }
+.clear {clear: both; }
 
 /* view */
 .customer_top .tit{font-size:16px;}

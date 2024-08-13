@@ -114,41 +114,7 @@
 
 							</div>
 						</div>
-<!-- 						<div class="c_tab_wrap"> -->
-<!-- 							<ul class="c_tab type_free"> -->
-<!-- 								<li class="on"><a -->
-<!-- 									href="/support/faq/default.aspx?type=0&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;" title="선택된 탭메뉴">전체</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=101,239&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">예매/매표</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=243&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">관람권/결제수단</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=102,240&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">멤버쉽/클럽서비스</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=1262&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">VIP관련</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=242&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">할인혜택</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=103,246&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">영화관이용</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=244&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">특별관</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=104,1259&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">기프트샵</a></li> -->
-<!-- 								<li class=""><a -->
-<!-- 									href="/support/faq/default.aspx?type=105,245&amp;searchtext=" -->
-<!-- 									style="font-size: 11px;">홈페이지/모바일</a></li> -->
 
-<!-- 							</ul> -->
-<!-- 						</div> -->
 						<div class="search_result">
 							총<span class="num">${pageDTO.count}건</span>이 검색되었습니다.
 						</div>

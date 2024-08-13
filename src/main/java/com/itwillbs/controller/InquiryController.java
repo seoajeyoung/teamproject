@@ -94,6 +94,7 @@ public class InquiryController {
 
 	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
+
 		String member_num = (String)session.getAttribute("member_num");
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
@@ -121,13 +122,9 @@ public class InquiryController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member_num", member_num);
 		params.put("pageDTO", pageDTO);
-		System.out.println("###############################");
-		System.out.println(pageDTO.getSearch());
-		
-		//List<Map<String, Object>> mylist = inquiryService.getMyInquiryList(params);
-		//model.addAttribute("mylist", mylist);
 		
 		String memberName = (String) session.getAttribute("member_name");
+		
 		if(memberName != null && memberName.equals("admin")) {
 			System.out.println("admin");
 			List<Map<String, Object>> mylist = inquiryService.getAdminListF(pageDTO);
@@ -225,6 +222,7 @@ public class InquiryController {
 		model.addAttribute("member_email", member_email);
 		
 		return "inquiry/write";
+	
 	}
 	
 	@PostMapping("/writePro") //문의 작성
