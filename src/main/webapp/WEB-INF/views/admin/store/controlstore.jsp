@@ -144,7 +144,23 @@ $(document).ready(function() {
         // form element를 가져와 submit 메서드를 호출하여 폼을 제출
         document.getElementById('storeForm').submit();
     }
+    
 });
+</script>
+<script>
+function deleteRow(stNum) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/admin/store/deleteStore', // 서버의 삭제 엔드포인트
+            type: 'POST',
+            data: { ST_NUM: stNum }, // 전달할 데이터
+            success: function(response) {
+                alert('삭제 완료!');
+                location.reload(); // 페이지를 새로고침하여 변경 내용을 반영
+            }
+        });
+    }
+}
 </script>
 
 

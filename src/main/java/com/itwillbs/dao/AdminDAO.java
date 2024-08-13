@@ -347,6 +347,11 @@ public class AdminDAO {
 		
 	}
 
+	public void deleteStore(String stNum) {
+		sqlSession.delete(namespace + ".deleteStore", stNum);
+		
+	}
+
 	
 
 }

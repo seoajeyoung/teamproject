@@ -70,17 +70,6 @@ $(document).ready(function() {
             success: function(response) {
                 console.log("Response:", response);
                 
-                // ST_NUM 검사
-                if (storeDetails.ST_NUM === "") {
-                    $('#numCheckMessage').text('');
-                } else if (storeDetails.ST_NUM === originalNum) {
-                    $('#numCheckMessage').text('이 상품의 상품코드입니다.').css('color', 'blue');
-                } else if (response.numExists) {
-                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.').css('color', 'red');
-                } else {
-                    $('#numCheckMessage').text('사용가능한 상품코드입니다.').css('color', 'green');
-                }
-
                 // ST_NAME 검사
                 if (storeDetails.ST_NAME === "") {
                     $('#nameCheckMessage').text('');
@@ -194,7 +183,7 @@ $(document).ready(function() {
 										width="100%" cellspacing="0">
 										<tr>
 											<th>상품코드</th>
-											<td><input type="text" id="ST_NAME" name="ST_NAME" value="${adminDTO.ST_NUM}" readonly></td>
+											<td><input type="text" id="ST_NUM" name="ST_NUM" value="${adminDTO.ST_NUM}" readonly></td>
 											<th>상품이미지
 											<label for="file-upload" class="custom-file-upload">
     										첨부하기

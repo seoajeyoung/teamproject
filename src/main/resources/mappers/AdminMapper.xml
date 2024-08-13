@@ -460,6 +460,10 @@
 		WHERE ST_NUM = #{ST_NUM};
 	</update>
 	
+	<delete id="deleteStore" parameterType="String">
+		DELETE FROM STORE WHERE ST_NUM = #{ST_NUM};
+	</delete>
+	
 
     
 </mapper>

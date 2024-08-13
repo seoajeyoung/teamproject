@@ -320,6 +320,11 @@ public class AdminService {
 		
 	}
 
+	public void deleteStore(String stNum) {
+		adminDAO.deleteStore(stNum);
+		
+	}
+
 		
 	
 	

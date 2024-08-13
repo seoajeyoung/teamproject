@@ -514,7 +514,7 @@ public class AdminController {
 	}
 	
 	@PostMapping("/store/storeinfoPro")
-	public String storeInfoPro(HttpServletRequest request, MultipartFile store_picture) throws Exception {
+	public String storeInfoPro(AdminDTO adminDTO, MultipartFile store_picture) throws Exception {
 
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
@@ -524,16 +524,17 @@ public class AdminController {
 		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
 //		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 이미지 업로드 가능하면
 
-		AdminDTO adminDTO = new AdminDTO();
-		adminDTO.setST_NUM(request.getParameter("ST_NUM"));
-		adminDTO.setST_NAME(request.getParameter("ST_NAME"));
-		adminDTO.setST_PRICE(request.getParameter("ST_PRICE"));
-		adminDTO.setST_TYPE(request.getParameter("ST_TYPE"));
-		adminDTO.setST_DETAIL(request.getParameter("ST_DETAIL"));
 		adminDTO.setST_PICTURE(file);
 		System.out.println(adminDTO);
 		adminService.updateStore(adminDTO);
 
+		return "redirect:/admin/store/controlstore";
+	}
+	
+	@PostMapping("/store/deleteStore")
+	@ResponseBody
+	public String deleteStore(@RequestParam("ST_NUM") String stNum) {
+		adminService.deleteStore(stNum);
 		return "redirect:/admin/store/controlstore";
 	}
 	
