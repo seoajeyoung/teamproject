@@ -1,5 +1,6 @@
 package com.itwillbs.controller;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -8,8 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -48,9 +54,11 @@ public class AdminController {
 	private MovieService movieService;
 	@Autowired
 	private EmailService emailService;
+	
+	// servlet-context.xml에서 (id="uploadPath") 정의
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 
-//	@Autowired
-//    private KobisApiService kobisApiService;
 
 // ===========================================================
 
@@ -252,12 +260,12 @@ public class AdminController {
 	}
 
 // ===========================================================
-	
+
 	// 영화정보삭제
 	@RequestMapping(value = "/movie/moviedelete", method = RequestMethod.POST)
 	@ResponseBody
 	public void moviedeletePro(MovieDTO movieDTO) {
-		
+
 		adminService.moviedelete(movieDTO);
 	}
 
@@ -299,7 +307,7 @@ public class AdminController {
 	@RequestMapping(value = "/movie/getMovieNameList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Map<String, String>> getMovieNameList(
-		@RequestParam("releaseDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String releaseDateStr) {
+			@RequestParam("releaseDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String releaseDateStr) {
 		// releaseDate와 3개월 전 날짜 계산
 		LocalDate releaseDate = LocalDate.parse(releaseDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate threeMonthsAgo = releaseDate.minusMonths(3);
@@ -365,18 +373,16 @@ public class AdminController {
 
 		return "redirect:/admin/movie/movieschedule";
 	}
-	
-	
+
 	@PostMapping("/movie/deleteSchedule")
 	@ResponseBody
 	public void deleteSchedule(@RequestParam("CI_NUM") int ciNum) {
-	    // SCREEN 테이블에서 관련된 데이터를 삭제
-	    adminService.deleteScreenByCINum(ciNum);
-	    // CINEMA 테이블에서 관련된 데이터를 삭제
-	    adminService.deleteCinemaByCINum(ciNum);
+		// SCREEN 테이블에서 관련된 데이터를 삭제
+		adminService.deleteScreenByCINum(ciNum);
+		// CINEMA 테이블에서 관련된 데이터를 삭제
+		adminService.deleteCinemaByCINum(ciNum);
 	}
-	
-	
+
 // ===========================================================
 
 	@GetMapping("/movie/theaterinsert")
@@ -440,31 +446,53 @@ public class AdminController {
 		adminService.deleteTheater(thNum);
 	}
 
-	
 ////===========================================================
-	
-	// 스토어
-	
-	@GetMapping("/store/controlstore")
-	public String controlstore() {
 
-		
+	// 스토어
+
+	@GetMapping("/store/controlstore")
+	public String controlstore(Model model) {
+
+		// 지역 리스트
+		List<AdminDTO> typeList = adminService.getTypeList();
+		model.addAttribute("typeList", typeList);
+
 		return "/admin/store/controlstore";
 	}
-	
+
 	@PostMapping("/store/check-store-details")
 	@ResponseBody
-    public Map<String, Boolean> checkStoreDetails(
-            @RequestParam("ST_NUM") String ST_NUM,
-            @RequestParam("ST_NAME") String ST_NAME,
-            @RequestParam("ST_DETAIL") String ST_DETAIL) {
+	public Map<String, Boolean> checkStoreDetails(@RequestParam("ST_NUM") String ST_NUM,
+			@RequestParam("ST_NAME") String ST_NAME, @RequestParam("ST_DETAIL") String ST_DETAIL) {
 
-        Map<String, String> storeDetails = new HashMap<>();
-        storeDetails.put("ST_NUM", ST_NUM);
-        storeDetails.put("ST_NAME", ST_NAME);
-        storeDetails.put("ST_DETAIL", ST_DETAIL);
+		Map<String, String> storeDetails = new HashMap<>();
+		storeDetails.put("ST_NUM", ST_NUM);
+		storeDetails.put("ST_NAME", ST_NAME);
+		storeDetails.put("ST_DETAIL", ST_DETAIL);
 
-        return adminService.checkStoreDetails(storeDetails);
-    }
+		return adminService.checkStoreDetails(storeDetails);
+	}
+	
+	@GetMapping("/store/controlstorePro")
+	public String storeinsert(HttpServletRequest request, MultipartFile store_picture) throws Exception {
+		
+		UUID uuid = UUID.randomUUID();
+		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
+		System.out.println("파일이름 : " + file);
+		
+		FileCopyUtils.copy(file.getBytes(), new File(uploadPath, file));
+		
+		AdminDTO adminDTO = new AdminDTO();
+		adminDTO.setST_NUM(request.getParameter("ST_NUM"));
+		adminDTO.setST_NAME(request.getParameter("ST_NAME"));
+		adminDTO.setST_PRICE(request.getParameter("ST_PRICE"));
+		adminDTO.setST_TYPE(request.getParameter("ST_TYPE"));
+		adminDTO.setST_DETAIL(request.getParameter("ST_DETAIL"));
+		adminDTO.setST_PICTURE(request.getParameter(file));
+		
+//		adminService.insertStore(adminDTO);
+
+		return "/admin/store/controlstore";
+	}
 
 }

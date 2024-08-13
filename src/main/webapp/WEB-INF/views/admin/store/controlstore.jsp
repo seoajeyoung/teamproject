@@ -53,24 +53,19 @@ $(document).ready(function() {
             ST_NAME: $('#ST_NAME').val(),
             ST_DETAIL: $('#ST_DETAIL').val()
         };
+        
+        console.log("Sending data to server:", storeDetails);
 
         $.ajax({
             url: '${pageContext.request.contextPath}/admin/store/check-store-details',
             type: 'POST',
-            data: {
-                ST_NUM: $('#ST_NUM').val(),
-                ST_NAME: $('#ST_NAME').val(),
-                ST_DETAIL: $('#ST_DETAIL').val()
-            },
+            data: storeDetails,
             success: function(response) {
-            	console.log("Response:", response);
+                console.log("Response:", response);
                 if (response.numExists) {
                     $('#numCheckMessage').text('이미 사용중인 상품코드입니다.');
-                    console.log(response.numExists);
                 } else {
                     $('#numCheckMessage').text('');
-                    console.log(response.numExists);
-                    
                 }
 
                 if (response.nameExists) {
@@ -89,6 +84,18 @@ $(document).ready(function() {
     }
 
     $('#ST_NUM, #ST_NAME, #ST_DETAIL').on('blur', checkStoreDetails);
+    
+     
+    $('#typeList').change(function() {
+        var selectedType = $(this).val();
+        if (selectedType) {
+            // 선택된 값이 있을 때: 값을 설정하고 읽기 전용으로 설정
+            $('#ST_TYPE').val(selectedType).prop('readonly', true);
+        } else {
+            // 선택된 값이 기본값(빈 문자열)일 때: 읽기 전용 해제 및 입력 필드를 비움
+            $('#ST_TYPE').val('').prop('readonly', false);
+        }
+    });
 });
 </script>
 
@@ -133,23 +140,21 @@ $(document).ready(function() {
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<form
-									action="${pageContext.request.contextPath}/admin/store/storeinsertPro"
-									method="post">
+								<form action = 
+									"${pageContext.request.contextPath}/admin/store/controlstorePro" method="post" enctype="multipart/form-data">
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
 											<th>상품코드</th>
-											<td><input type="text" id="ST_NUM" name="ST_NUM">
+											<td><input type="text" id="ST_NUM" name="ST_NUM" style="margin-right: 5px;">
 												<span id="numCheckMessage" style="color: red;"></span></td>
-											<th>상품이미지</th>
+											<th>상품이미지<input type="file" name="file"></th>
 										</tr>
 										<tr>
 											<th>상품이름</th>
-											<td><input type="text" id="ST_NAME" name="ST_NAME">
+											<td><input type="text" id="ST_NAME" name="ST_NAME" style="margin-right: 5px;">
 												<span id="nameCheckMessage" style="color: red;"></span></td>
-
-											<td rowspan="10"></td>
+											<td rowspan="7"></td>
 										<tr>
 											<th>상품가격</th>
 											<td><input type="text" id="ST_PRICE" name="ST_PRICE"></td>
@@ -157,15 +162,19 @@ $(document).ready(function() {
 										<tr>
 											<th>상품타입</th>
 											<td><input type="text" id="ST_TYPE" name="ST_TYPE">
-												<select id="" name="">
-													<option value="${list.TH_NUMBER}">상품타입</option>
-											</select></td>
+												<select id="typeList" name="ST_TYPE">
+														<option value="">상품타입</option>
+														<c:forEach var="list" items="${typeList}">
+															<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
+														</c:forEach>
+												</select></td>
 										</tr>
 										<tr>
-											<th>상품설명</th>
-											<td><textarea id="ST_DETAIL" name="ST_DETAIL"
-													rows="10" cols="50"></textarea> <span
+											<th rowspan="5">상품설명</th>
+											<td rowspan="5"><textarea id="ST_DETAIL" name="ST_DETAIL"
+													rows="10" cols="50" style="margin-right: 5px;"></textarea> <span
 												id="detailCheckMessage" style="color: red;"></span></td>
+											
 									</table>
 									<div class="button-container">
 										<button type="submit"

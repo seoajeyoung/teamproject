@@ -191,7 +191,6 @@ public class AdminService {
 
 	// 극장 지역
 	public List<AdminDTO> getRegionList() {
-
 		return adminDAO.getRegionList();
 	}
 
@@ -299,5 +298,11 @@ public class AdminService {
 	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
         return adminDAO.checkStoreDetails(storeDetails);
     }
+	
+	public List<AdminDTO> getTypeList() {
+		return adminDAO.getTypeList();
+	}
+
+	
 	
 }

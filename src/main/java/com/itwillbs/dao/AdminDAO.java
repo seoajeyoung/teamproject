@@ -271,9 +271,64 @@ public class AdminDAO {
 	public void deleteTheater(int thNum) {
 		sqlSession.delete(namespace + ".deleteTheater", thNum);
 	}
+	
+// ===========================================================================	
 
 	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
-        return sqlSession.selectOne(namespace + ".checkStoreDetails", storeDetails);
-    }
+	    Map<String, Boolean> result = sqlSession.selectOne(namespace + ".checkStoreDetails", storeDetails);
+	    
+	 // Boolean 값을 저장할 빈 HashMap 생성
+	    Map<String, Boolean> finalResult = new HashMap<>();
+
+	    // result 맵의 모든 엔트리(키-값 쌍)를 순회
+	    for (Map.Entry<String, ?> entry : result.entrySet()) {
+	        
+	        // 현재 엔트리의 값을 Object 타입으로 저장
+	        Object value = entry.getValue();
+
+	        // 값이 Long 타입일 경우 처리
+	        if (value instanceof Long) {
+	            // Long 타입의 값을 1L과 비교하여 true 또는 false로 변환 후 맵에 추가
+	            finalResult.put(entry.getKey(), (Long) value == 1L);
+	        } 
+	        // 값이 Integer 타입일 경우 처리
+	        else if (value instanceof Integer) {
+	            // Integer 타입의 값을 1과 비교하여 true 또는 false로 변환 후 맵에 추가
+	            finalResult.put(entry.getKey(), (Integer) value == 1);
+	        } 
+	        // 값이 String 타입일 경우 처리
+	        else if (value instanceof String) {
+	            try {
+	                // String을 Integer로 변환한 후 1과 비교하여 true 또는 false로 변환 후 맵에 추가
+	                int intValue = Integer.parseInt((String) value);
+	                finalResult.put(entry.getKey(), intValue == 1);
+	            } catch (NumberFormatException e) {
+	                // 변환이 실패한 경우 false로 설정
+	                finalResult.put(entry.getKey(), false);
+	            }
+	        } 
+	        // 값이 Boolean 타입일 경우 처리
+	        else if (value instanceof Boolean) {
+	            // Boolean 값 그대로 맵에 추가
+	            finalResult.put(entry.getKey(), (Boolean) value);
+	        } 
+	        // 그 외의 예상치 못한 타입의 경우 처리
+	        else {
+	            // 기본값으로 false를 맵에 추가
+	            finalResult.put(entry.getKey(), false);
+	        }
+	    }
+
+	    // 변환된 최종 결과를 콘솔에 출력
+	    System.out.println("Final query result: " + finalResult);
+
+	    // 변환된 결과를 반환
+	    return finalResult;
+	}
+
+	public List<AdminDTO> getTypeList() {
+		return sqlSession.selectList(namespace + ".getTypeList");
+	}
+	
 
 }

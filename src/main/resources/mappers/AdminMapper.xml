@@ -421,11 +421,16 @@
 	</delete>
 	
 	
-	<select id="checkStoreDetails" parameterType="map" resultType="map">
-        SELECT
-            EXISTS(SELECT 1 FROM STORE WHERE ST_NUM = 'P001') AS numExists,
-            EXISTS(SELECT 1 FROM STORE WHERE ST_NAME = #{ST_NAME}) AS nameExists,
-            EXISTS(SELECT 1 FROM STORE WHERE ST_DETAIL = #{ST_DETAIL}) AS detailExists
+	<select id="checkStoreDetails" parameterType="map" resultType="map" useCache="false">
+        SELECT EXISTS(SELECT 1 FROM STORE WHERE ST_NUM = #{ST_NUM}) AS numExists,
+       		   EXISTS(SELECT 1 FROM STORE WHERE ST_NAME = #{ST_NAME}) AS nameExists,
+       		   EXISTS(SELECT 1 FROM STORE WHERE ST_DETAIL = #{ST_DETAIL}) AS detailExists;
     </select>
+    
+    <select id="getTypeList" resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DISTINCT ST_TYPE FROM STORE
+	</select>
+    
+
     
 </mapper>
