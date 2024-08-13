@@ -315,6 +315,12 @@ public class AdminService {
 		return adminDAO.getstoreInfo(storeNum);
 	}
 
+	public void updateStore(AdminDTO adminDTO) {
+		adminDAO.updateStore(adminDTO);
+		
+	}
+
+		
 	
 	
 }

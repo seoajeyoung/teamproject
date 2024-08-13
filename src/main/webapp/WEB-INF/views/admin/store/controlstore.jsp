@@ -63,22 +63,31 @@ $(document).ready(function() {
             data: storeDetails,
             success: function(response) {
                 console.log("Response:", response);
-                if (response.numExists) {
-                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.');
+                // ST_NUM 검사
+                if (storeDetails.ST_NUM === "") {
+                    $('#numCheckMessage').text(''); // 빈칸일 때는 아무것도 표시하지 않음
+                } else if (response.numExists) {
+                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.').css('color', 'red');
                 } else {
-                    $('#numCheckMessage').text('');
+                    $('#numCheckMessage').text('사용가능한 상품코드입니다.').css('color', 'green');
                 }
 
-                if (response.nameExists) {
-                    $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.');
+                // ST_NAME 검사
+                if (storeDetails.ST_NAME === "") {
+                    $('#nameCheckMessage').text(''); // 빈칸일 때는 아무것도 표시하지 않음
+                } else if (response.nameExists) {
+                    $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.').css('color', 'red');
                 } else {
-                    $('#nameCheckMessage').text('');
+                    $('#nameCheckMessage').text('사용가능한 상품이름입니다.').css('color', 'green');
                 }
 
-                if (response.detailExists) {
-                    $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.');
+                // ST_DETAIL 검사
+                if (storeDetails.ST_DETAIL === "") {
+                    $('#detailCheckMessage').text(''); // 빈칸일 때는 아무것도 표시하지 않음
+                } else if (response.detailExists) {
+                    $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.').css('color', 'red');
                 } else {
-                    $('#detailCheckMessage').text('');
+                    $('#detailCheckMessage').text('사용가능한 상품설명입니다.').css('color', 'green');
                 }
             }
         });
@@ -179,24 +188,26 @@ $(document).ready(function() {
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<form action = 
-									"${pageContext.request.contextPath}/admin/store/controlstorePro" method="post" enctype="multipart/form-data">
+								<form
+									action="${pageContext.request.contextPath}/admin/store/controlstorePro"
+									method="post" enctype="multipart/form-data">
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
 											<th>상품코드</th>
-											<td><input type="text" id="ST_NUM" name="ST_NUM" style="margin-right: 5px;">
-												<span id="numCheckMessage" style="color: red;"></span></td>
-											<th>상품이미지
-											<label for="file-upload" class="custom-file-upload">
-    										첨부하기
-											</label>
-											<input id="file-upload" type="file" name="store_picture" style="display:none;"></th>
+											<td><input type="text" id="ST_NUM" name="ST_NUM"
+												style="margin-right: 5px;"> <span
+												id="numCheckMessage"></span></td>
+											<th>상품이미지 <label for="file-upload"
+												class="custom-file-upload"> 첨부하기 </label> <input
+												id="file-upload" type="file" name="store_picture"
+												style="display: none;"></th>
 										</tr>
 										<tr>
 											<th>상품이름</th>
-											<td><input type="text" id="ST_NAME" name="ST_NAME" style="margin-right: 5px;">
-												<span id="nameCheckMessage" style="color: red;"></span></td>
+											<td><input type="text" id="ST_NAME" name="ST_NAME"
+												style="margin-right: 5px;"> <span
+												id="nameCheckMessage"></span></td>
 											<td rowspan="8" id="image-preview"></td>
 										<tr>
 											<th>상품가격</th>
@@ -206,17 +217,18 @@ $(document).ready(function() {
 											<th>상품타입</th>
 											<td><input type="text" id="ST_TYPE" name="ST_TYPE">
 												<select id="typeList" name="ST_TYPE">
-														<option value="">상품타입</option>
-														<c:forEach var="list" items="${typeList}">
-															<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
-														</c:forEach>
-												</select></td>
+													<option value="">상품타입</option>
+													<c:forEach var="list" items="${typeList}">
+														<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
+													</c:forEach>
+											</select></td>
 										</tr>
 										<tr>
 											<th rowspan="6">상품설명</th>
-											<td rowspan="6"><textarea id="ST_DETAIL" name="ST_DETAIL"
-													rows="10" cols="50" style="margin-right: 5px;"></textarea> <span
-												id="detailCheckMessage" style="color: red;"></span></td>
+											<td rowspan="6"><textarea id="ST_DETAIL"
+													name="ST_DETAIL" rows="10" cols="50"
+													style="margin-right: 5px;"></textarea><br> <span
+												id="detailCheckMessage"></span></td>
 										</tr>
 									</table>
 									<div class="button-container">
@@ -224,7 +236,8 @@ $(document).ready(function() {
 											class="btn btn-danger btn-user same-size"
 											style="margin-right: 2px;">등록</button>
 										<button type="reset"
-											class="btn btn-secondary btn-user same-size" id="reset-button">초기화</button>
+											class="btn btn-secondary btn-user same-size"
+											id="reset-button">초기화</button>
 									</div>
 								</form>
 
@@ -274,18 +287,21 @@ $(document).ready(function() {
 												<td id="ST_PRICE${AdminDTO.ST_NUM}">${AdminDTO.ST_PRICE}</td>
 												<td id="ST_TYPE${AdminDTO.ST_NUM}">${AdminDTO.ST_TYPE}</td>
 												<td>
-												<form id="storeForm" action="${pageContext.request.contextPath}/admin/store/storeinfo" method="POST" style="display: none;">
-    											<input type="hidden" name="ST_NUM" value="${AdminDTO.ST_NUM}">
-												</form>
-												<a href="#" onclick="document.getElementById('storeForm').submit();" class="btn btn-detailinfo btn-user btn-block">
-    											상세정보확인/수정
-												</a>
+													<form id="storeForm${AdminDTO.ST_NUM}"
+														action="${pageContext.request.contextPath}/admin/store/storeinfo"
+														method="POST" style="display: none;">
+														<input type="hidden" name="ST_NUM"
+															value="${AdminDTO.ST_NUM}">
+													</form> <a href="javascript:void(0);"
+													onclick="document.getElementById('storeForm${AdminDTO.ST_NUM}').submit();"
+													class="btn btn-detailinfo btn-user btn-block">
+														상세정보확인/수정 </a>
 												</td>
 												<td id="delete-button-cell">
-												<button type="button"
+													<button type="button"
 														onclick="deleteRow(${AdminDTO.ST_NUM})"
-														class="btn btn-secondary btn-user">삭제</button></td>
-											</tr>
+														class="btn btn-secondary btn-user">삭제</button>
+												</td>
 										</c:forEach>
 									</tbody>
 

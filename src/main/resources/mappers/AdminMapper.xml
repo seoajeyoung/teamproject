@@ -448,6 +448,18 @@
 		FROM STORE
 		WHERE ST_NUM = #{ST_NUM}
 	</select>
+	
+	<update id="updateStore" parameterType="com.itwillbs.domain.AdminDTO">
+		UPDATE STORE
+		SET
+		ST_NAME = #{ST_NAME},
+		ST_DETAIL = #{ST_DETAIL},
+		ST_PRICE = #{ST_PRICE},
+		ST_PICTURE = #{ST_PICTURE},
+		ST_TYPE = #{ST_TYPE}
+		WHERE ST_NUM = #{ST_NUM};
+	</update>
+	
 
     
 </mapper>

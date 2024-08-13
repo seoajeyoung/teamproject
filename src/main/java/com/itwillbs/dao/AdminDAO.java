@@ -341,6 +341,12 @@ public class AdminDAO {
 	public AdminDTO getstoreInfo(String storeNum) {
 		return sqlSession.selectOne(namespace+ ".getstoreInfo", storeNum);
 	}
+
+	public void updateStore(AdminDTO adminDTO) {
+		sqlSession.update(namespace + ".updateStore", adminDTO);
+		
+	}
+
 	
 
 }

@@ -48,14 +48,20 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+    // 초기 로드 시 ST_NAME과 ST_DETAIL 값이 이 상품의 것인지 확인
+    var originalName = $('#ST_NAME').val();
+    var originalDetail = $('#ST_DETAIL').val();
+
+    // 초기 상태에서 '이 상품의 상품이름입니다.' 또는 '이 상품의 상품내용입니다.'로 표시
+    $('#nameCheckMessage').text('이 상품의 상품이름입니다.').css('color', 'blue');
+    $('#detailCheckMessage').text('이 상품의 상품내용입니다.').css('color', 'blue');
+
     function checkStoreDetails() {
         var storeDetails = {
-            ST_NUM: $('#ST_NUM').val(),
+        	ST_NUM: $('#ST_NUM').val(),
             ST_NAME: $('#ST_NAME').val(),
             ST_DETAIL: $('#ST_DETAIL').val()
         };
-        
-        console.log("Sending data to server:", storeDetails);
 
         $.ajax({
             url: '${pageContext.request.contextPath}/admin/store/check-store-details',
@@ -63,22 +69,38 @@ $(document).ready(function() {
             data: storeDetails,
             success: function(response) {
                 console.log("Response:", response);
-                if (response.numExists) {
-                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.');
-                } else {
+                
+                // ST_NUM 검사
+                if (storeDetails.ST_NUM === "") {
                     $('#numCheckMessage').text('');
+                } else if (storeDetails.ST_NUM === originalNum) {
+                    $('#numCheckMessage').text('이 상품의 상품코드입니다.').css('color', 'blue');
+                } else if (response.numExists) {
+                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.').css('color', 'red');
+                } else {
+                    $('#numCheckMessage').text('사용가능한 상품코드입니다.').css('color', 'green');
                 }
 
-                if (response.nameExists) {
-                    $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.');
-                } else {
+                // ST_NAME 검사
+                if (storeDetails.ST_NAME === "") {
                     $('#nameCheckMessage').text('');
+                } else if (storeDetails.ST_NAME === originalName) {
+                    $('#nameCheckMessage').text('이 상품의 상품이름입니다.').css('color', 'blue');
+                } else if (response.nameExists) {
+                    $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.').css('color', 'red');
+                } else {
+                    $('#nameCheckMessage').text('사용가능한 상품이름입니다.').css('color', 'green');
                 }
 
-                if (response.detailExists) {
-                    $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.');
-                } else {
+                // ST_DETAIL 검사
+                if (storeDetails.ST_DETAIL === "") {
                     $('#detailCheckMessage').text('');
+                } else if (storeDetails.ST_DETAIL === originalDetail) {
+                    $('#detailCheckMessage').text('이 상품의 상품내용입니다.').css('color', 'blue');
+                } else if (response.detailExists) {
+                    $('#detailCheckMessage').text('이미 사용중인 상품내용입니다.').css('color', 'red');
+                } else {
+                    $('#detailCheckMessage').text('사용가능한 상품내용입니다.').css('color', 'green');
                 }
             }
         });
@@ -120,16 +142,7 @@ $(document).ready(function() {
         }
     });
     
-    document.getElementById('reset-button').addEventListener('click', function() {
-        // 이미지 미리보기 영역 비우기
-        document.getElementById('image-preview').innerHTML = '';
-
-        // 파일 입력 필드 초기화
-        var fileInput = document.getElementById('file-upload');
-        fileInput.value = ''; // 파일 입력 필드의 값을 초기화
-
-        // 다른 필요한 필드 초기화 작업도 여기서 수행 가능
-    });
+    
 });
 </script>
 
@@ -145,7 +158,7 @@ $(document).ready(function() {
 	<div id="wrapper">
 
 		<!-- Sidebar Include -->
-		<jsp:include page="/WEB-INF/views/admin/inc/sidebar.jsp" />
+		<jsp:include page="/WEB-INF/views/admin/inc/sidebar.jsp"/>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
@@ -175,13 +188,13 @@ $(document).ready(function() {
 						<div class="card-body">
 							<div class="table-responsive">
 								<form action = 
-									"${pageContext.request.contextPath}/admin/store/updatestorePro" method="post" enctype="multipart/form-data">
+									"${pageContext.request.contextPath}/admin/store/storeinfoPro" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="ST_NUM" value="${adminDTO.ST_NUM}">
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
 											<th>상품코드</th>
-											<td><input type="text" id="ST_NUM" name="ST_NUM" style="margin-right: 5px;">
-												<span id="numCheckMessage" style="color: red;"></span></td>
+											<td><input type="text" id="ST_NAME" name="ST_NAME" value="${adminDTO.ST_NUM}" readonly></td>
 											<th>상품이미지
 											<label for="file-upload" class="custom-file-upload">
     										첨부하기
@@ -190,16 +203,19 @@ $(document).ready(function() {
 										</tr>
 										<tr>
 											<th>상품이름</th>
-											<td><input type="text" id="ST_NAME" name="ST_NAME" style="margin-right: 5px;">
-												<span id="nameCheckMessage" style="color: red;"></span></td>
-											<td rowspan="8" id="image-preview"></td>
+											<td><input type="text" id="ST_NAME" name="ST_NAME" value="${adminDTO.ST_NAME}"style="margin-right: 5px;">
+												<span id="nameCheckMessage"></span></td>
+											<td rowspan="8" id="image-preview">
+<!-- 												이미지 업로드 경로 되면 사용하기!!!! -->
+<%-- 											<img src="${pageContext.request.contextPath}/resources/upload/${adminDTO.ST_PICTURE}"> --%>
+											</td>
 										<tr>
 											<th>상품가격</th>
-											<td><input type="text" id="ST_PRICE" name="ST_PRICE"></td>
+											<td><input type="text" id="ST_PRICE" name="ST_PRICE" value="${adminDTO.ST_PRICE}"></td>
 										</tr>
 										<tr>
 											<th>상품타입</th>
-											<td><input type="text" id="ST_TYPE" name="ST_TYPE">
+											<td><input type="text" id="ST_TYPE" name="ST_TYPE" value="${adminDTO.ST_TYPE}">
 												<select id="typeList" name="ST_TYPE">
 														<option value="">상품타입</option>
 														<c:forEach var="list" items="${typeList}">
@@ -209,17 +225,16 @@ $(document).ready(function() {
 										</tr>
 										<tr>
 											<th rowspan="6">상품설명</th>
-											<td rowspan="6"><textarea id="ST_DETAIL" name="ST_DETAIL"
-													rows="10" cols="50" style="margin-right: 5px;"></textarea> <span
-												id="detailCheckMessage" style="color: red;"></span></td>
+											<td rowspan="6"><textarea id="ST_DETAIL" name="ST_DETAIL" 
+													rows="10" cols="50">${adminDTO.ST_DETAIL}</textarea><br>
+												<span	
+												id="detailCheckMessage"></span></td>
 										</tr>
 									</table>
 									<div class="button-container">
 										<button type="submit"
 											class="btn btn-danger btn-user same-size"
-											style="margin-right: 2px;">수정</button>
-										<button type="reset"
-											class="btn btn-secondary btn-user same-size" id="reset-button">초기화</button>
+											style="margin-right: 2px;">수정완료</button>
 									</div>
 								</form>
 
@@ -231,8 +246,8 @@ $(document).ready(function() {
 					</div>
 					<!-- card shadow mb-4 -->
 
-				</div>
-				<!-- End of Page Content -->
+			</div>
+			<!-- End of Page Content -->
 
 	</div>
 	<!-- End of Page Wrapper -->
