@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,9 @@
 
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<!-- 비디오 -->
+<link href="https://vjs.zencdn.net/7.21.0/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/7.21.0/video.min.js"></script>
 
 <script type="text/javascript">
 function chart() {
@@ -205,8 +209,6 @@ $(function() {
 	width: 100%;
 };
 
-
-
 </style>
 
 
@@ -222,7 +224,6 @@ $(function() {
             <!-- Contents Start -->
 <!-- 실컨텐츠 시작 -->
 	<div class="wrap-movie-detail" id="select_main">
-
     
 <!--
 <div class="tit-heading-wrap">
@@ -231,7 +232,7 @@ $(function() {
     //-->
 
 <div class="sect-base-movie">
-<!--     <h3><strong>데드풀과 울버린</strong>기본정보</h3> -->
+    <h3><strong>${movieDTO.title}</strong>기본정보</h3>
     <div class="box-image">
         <a href="${movieDTO.posterUrl}" title="포스터 크게 보기 새창" target="_blank">
             <span class="thumb-image"> 
@@ -282,7 +283,8 @@ $(function() {
                 <dt>&nbsp;/ 기본 정보 :&nbsp;</dt>
                 <!-- 2023.04.27 영화상세 등급 표기 수정--> 
                 <!--<dd class="on">18,&nbsp;상영시간,&nbsp;국가</dd>-->
-                <dd class="on">${movieDTO.rating},&nbsp;${movieDTO.runtime},&nbsp;${movieDTO.nation}</dd>
+                <dd class="on">${movieDTO.rating}<c:if test="${movieDTO.rating != '전체'}">세이상</c:if>관람가,
+                &nbsp;${movieDTO.runtime}분,&nbsp;${movieDTO.nation}</dd>
                 <dt>개봉 :&nbsp;</dt>
                 <dd class="on">${movieDTO.releaseDate}</dd>
             </dl>
@@ -482,6 +484,7 @@ $(function() {
             
             
             <!-- .sect-staff -->
+		<c:if test="${not empty movieTrailer[0]}">
             <div id="ctl00_PlaceHolderContent_Section_Trailer" class="sect-trailer">
                 <div class="heading">
 					<h4>트레일러</h4>
@@ -490,31 +493,33 @@ $(function() {
 				</div>
                 <ul>
                 <!-- 사진 동영상 조회 -->
-                <c:forEach begin="1" end="5" step="1">
+                <c:forEach var="movieTrailer" items="${movieTrailer}">
                     <li>
                         <div class="box-image">
                             <!-- TODO : 동영상 팝업 창 작업 후 링크 걸어야 함 //-->
-                            <a href="javascript:void(0)" title="새창" class="movie_player_popup" data-gallery-idx="226059">
+                            <a href="javascript:void(0)" title="새창" class="movie_player_popup">
                                 <span class="thumb-image">
-                                    <img src="https://img.cgv.co.kr/Movie/Thumbnail/Trailer/88228/88228226059_1024.jpg" alt="[데드풀과 울버린]도파민 '풀' 충전 예고편(순한 맛)" onerror="errorImage(this, {'type':'landscape'})">
+                                    <img src="${movieTrailer}" alt="">
                                     <span class="ico-play">영상보기</span>
                                 </span>
                             </a>
                         </div>
                         <div class="box-contents">
-                            <a href="javascript:void(0)" title="새창" class="movie_player_popup" data-gallery-idx="226059">
+                            <a href="javascript:void(0)" title="새창" class="movie_player_popup">
                                 <strong class="title">
                                     <span class="ico-trailer hd">HD</span>
-                                    도파민 '풀' 충전 예고편(순한 맛)
+<!--                                     도파민 '풀' 충전 예고편(순한 맛) -->
                                 </strong>
                             </a>
-                            <span class="txt-info">2024.05.24</span>
+                            <span class="txt-info"><!-- 2024.05.24 --></span>
                         </div>
                     </li>
 				</c:forEach>
                 </ul>
             </div>
+		</c:if>	
             <!-- .sect-trailer -->
+            
             <!-- 트레일러 새창 -->
 <script type="text/javascript">
 $(function() {
@@ -540,67 +545,27 @@ $(function() {
 });
 
 </script>
+		<c:if test="${fn:length(stillcutUrl) != 1 && not empty stillcutUrl[0]}">
             <div id="ctl00_PlaceHolderContent_Section_Still_Cut" class="sect-stillcut">
                 <div class="heading">
-                    <h4>스틸컷</h4><span class="count"><strong id="stillcut_current">1</strong>/<span class="max_stillcut">8</span>건</span><a class="link-more" href="still-cut.aspx?midx=88228">더보기</a>
+                    <h4>스틸컷</h4><span class="count"><strong id="stillcut_current">1</strong>/<span class="max_stillcut">${fn:length(stillcutUrl)}</span>건</span><a class="link-more" href="still-cut.aspx?midx=88228">더보기</a>
                 </div>
                 <div class="slider-wrap">
                     <div class="slider" id="still_motion">
 						<!-- 배열로 분리해서 갯수만큼? -->
-						<div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px;">
-								<img alt="타이틀" onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226943_727.jpg" style="height: 100%;">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226942_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226941_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226940_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226939_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img alt="데드풀과 울버린" onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228226058_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img alt="데드풀과 울버린" onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228225287_727.jpg">
-                            </div>
-                        </div>
-                        
-                        <div class="item-wrap">
-                            <div class="item" style="width: 800px; height: 450px; display: none;">
-                                <img alt="데드풀과 울버린" onerror="errorImage(this)" src="https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000088/88228/88228225286_727.jpg" style="height: 100%;">
-                            </div>
-                        </div>                 
-                        
+						<c:forEach var="stillcutUrl" items="${stillcutUrl}">
+							<div class="item-wrap">
+	                            <div class="item" style="width: 800px; height: 450px; text-align: center;">
+									<img alt="타이틀" onerror="errorImage(this)" src="${stillcutUrl}" style="min-height: 90%; max-height: 100%;">
+	                            </div>
+	                        </div>
+                        </c:forEach>
                         <button type="button" class="btn-prev">이전 페이지 이동</button>
                         <button type="button" class="btn-next">다음 페이지 이동</button>
                     </div>
                 </div>
             </div><!-- .sect-stillcut -->
-            
+		</c:if>
             
             <!-- ost 영역-->
 <!--             <div style="border: 1px solid blue; margin: 20px;"> -->
@@ -608,12 +573,6 @@ $(function() {
 						
 <!--             	</ul> -->
 <!--             </div> -->
-			<div class="sect-recommendMovie" style="display: flex; white-space: nowrap;">
-<%-- 				<c:forEach var="" items=""> --%>
-				
-<%-- 				</c:forEach> --%>
-			</div>
-
 
 
             <div class="sect-grade" id="sect-grade">   
@@ -703,8 +662,6 @@ $(function() {
 	});
 	
 	
-	
-	
 	$("#paging_point li").find("a").on("click", function() {
 		currentPage = $(this).text();
 		$.ajax({
@@ -713,10 +670,6 @@ $(function() {
 			data: {"MOVIE_NUM": urlNum, "currentPage": currentPage},
 			dataType: 'json',
 			success: function(result) {
-				$('#movie_point_list_container').html("")
-				if(result == "") {
-					$('#movie_point_list_container').append('<li style="width: 100%; text-align: center; padding: 30px 0px; border-right: none;">해당 조건에 데이터가 존재하지 않습니다.</li>');
-				};
 				$.each(result, function(index, review) {
 					$('#movie_point_list_container').append(`
 						    <li class="" id="liCommentFirst36060374" data-spoilercnt="0" data-reportcnt="0">
@@ -790,6 +743,11 @@ $(function() {
 	
 	// 페이지 로드될때 첫번째 페이지 클릭해서 이벤트 발생시키기
 	$(".review_page:first").find("a").trigger('click');
+	if($('#movie_point_list_container').find('li').length == 0){
+		$('#movie_point_list_container').html(`<li style="width: 100%; text-align: center; padding: 30px 0px; border-right: none;">해당 영화에 리뷰가 존재하지 않습니다.</li>`)
+		$('.paging').remove();
+	}
+	
 	
 });
 // 추천
@@ -822,48 +780,7 @@ $(document).on('click', '.btn_point_like', function() {
 </script>
                 <div class="wrap-persongrade">
                     <!-- 평점 목록 -->
-                    
                     <ul id="movie_point_list_container" class="point_col2">
-<%--                     <c:forEach var="review" items="${review}"> --%>
-<!--                     	<li class="" id="liCommentFirst36060374" data-spoilercnt="0" data-reportcnt="0"> -->
-<!-- 					    <a href="javascript:return false;" class="screen_spoiler">&nbsp;</a> -->
-<!-- 					    <div class="box-image"> -->
-<!-- 					        <span class="thumb-image"> -->
-<!-- 					            <img src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif" alt="사용자 프로필" onerror="errorImage(this, {'type':'profile'})"> -->
-<!-- 					            <span class="profile-mask"></span> -->
-<!-- 					            <div class="theater-sticker"></div> -->
-<!-- 					        </span> -->
-<!-- 					    </div> -->
-<!-- 					    <div class="box-contents"> -->
-<!-- 					        <ul class="writerinfo"> -->
-<!-- 					            <li class="writer-name"> -->
-<%-- 				<!-- <span class="egg-icon"></span>--> ${review.member_id} --%>
-<!-- 					            </li> -->
-<!-- 					            <li class="writer-etc"> -->
-<%-- 					                <span class="day">${review.reviewDate}</span> --%>
-<!-- 					                <span class="like point_like" id="36060374" data-ismygood="false" data-commentidx="36060374"> -->
-<!-- 					                    <a href="javascript:return false;" class="btn_point_like"> -->
-<!-- 					                        <span><img src="http://img.cgv.co.kr/R2014/images/point/ico_point_default.png" alt="like" class="like_red"></span> -->
-<%-- 					                        <span id="idLikeValue">${review.recommend}</span> --%>
-<!-- 					                    </a> -->
-<!-- 					                </span> -->
-<!-- 					            </li> -->
-<!-- 					            <li class="point_notify"> -->
-<!-- 					                <a href="javascript:return false;" class="btn_notify">스포일러, 욕설/비방 신고</a> -->
-<!-- 					                <div class="notify_wrap"> -->
-<!-- 					                    <ul> -->
-<!-- 					                        <li><a href="javascript:return false;" class="ico_spoiler" data-commentidx="36060374" data-ismyspoiler="false" data-spoilercnt="0"><span>스포일러 신고</span></a></li> -->
-<!-- 					                        <li><a href="javascript:return false;" class="ico_swearword" data-commentidx="36060374" data-ismyreport="false" data-reportcnt="0"><span>욕설/비방 신고</span></a></li> -->
-<!-- 					                    </ul> -->
-<!-- 					                </div> -->
-<!-- 					            </li> -->
-<!-- 					        </ul> -->
-<!-- 					    </div> -->
-<!-- 					    <div class="box-comment"> -->
-<%-- 					        <p>${review.reveiewContent} ${review.review_num}</p> --%>
-<!-- 					    </div> -->
-<!-- 						</li> -->
-<%-- 					</c:forEach> --%>
                     </ul>
                 </div>
             </div><!-- .sect-grade -->
@@ -881,109 +798,31 @@ $(document).on('click', '.btn_point_like', function() {
 
              
             
-            <!-- 연관영화 -->
-<!--             <div class="sect-movielist" style="display :none"> -->
-<!--                 <h3><img src="https://img.cgv.co.kr/R2014/images/title/h3_relation_movie.gif" alt="RELATION MOVIE"></h3> -->
-<!--                 <ul> -->
+            <!-- 관련영화 -->
+            <div class="sect-movielist" style="/play :none;*/">
+                <h3><img src="https://img.cgv.co.kr/R2014/images/title/h3_relation_movie.gif" alt="RELATION MOVIE"></h3>
+                <ul>
+                <c:forEach var="relMovie" items="${relMovie}">
+                    <li>
+                        <div class="box-image">
+                            <a href="${pageContext.request.contextPath}/movie/information?num=${relMovie.MOVIE_NUM}">
+                                <span class="thumb-image">
+                                    <img src="${relMovie.POSTERURL}" alt="${relMovie.TITLE} 포스터">
+                                    <i class="cgvIcon etc age${relMovie.RATING}">${relMovie.RATING}</i>
+                                    <span class="ico-grade ${relMovie.RATING}">${relMovie.RATING}</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="box-contents">
+                           <a href="/movies/detail-view/?midx=88459"><strong>${relMovie.TITLE}</strong></a>
+                        </div>
+                    </li>
+                    </c:forEach>
+                </ul>
+                <button class="btn" value="테스트">테스트</button>
                 
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88459"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88459/88459_126.jpg" alt="글래디에이터 Ⅱ 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc ageNotyet">미정</i> -->
-<!--                                     <span class="ico-grade Notyet">미정</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88459"><strong>글래디에이터 Ⅱ</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88457"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88457/88457_126.jpg" alt="신비아파트 특별편: 붉은 눈의 사신 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc ageNotyet">미정</i> -->
-<!--                                     <span class="ico-grade Notyet">미정</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88457"><strong>신비아파트 특별편: 붉은 눈의 사신</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88445"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88445/88445_126.jpg" alt="[대만영화주간] 돼지와 뱀과 비둘기 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc age18">18</i> -->
-<!--                                     <span class="ico-grade 18">18</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88445"><strong>[대만영화주간] 돼지와 뱀과 비둘기</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88442"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88442/88442_126.jpg" alt="트위스터스 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc age12">12</i> -->
-<!--                                     <span class="ico-grade 12">12</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88442"><strong>트위스터스</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88441"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88441/88441_126.jpg" alt="플라이 미 투 더 문 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc age12">12</i> -->
-<!--                                     <span class="ico-grade 12">12</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88441"><strong>플라이 미 투 더 문</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                     <li> -->
-<!--                         <div class="box-image"> -->
-<!--                             <a href="/movies/detail-view/?midx=88437"> -->
-<!--                                 <span class="thumb-image"> -->
-<!--                                     <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88437/88437_126.jpg" alt="파일럿 포스터"> -->
-<!--                                     영상물 등급 노출 변경 2022.08.24 -->
-<!--                                     <i class="cgvIcon etc age12">12</i> -->
-<!--                                     <span class="ico-grade 12">12</span> -->
-<!--                                 </span> -->
-<!--                             </a> -->
-<!--                         </div> -->
-<!--                         <div class="box-contents"> -->
-<!--                             <a href="/movies/detail-view/?midx=88437"><strong>파일럿</strong></a> -->
-<!--                         </div> -->
-<!--                     </li> -->
-                    
-<!--                 </ul> -->
-<!--             </div>.sect-movielist -->
+            </div>
+<!--             .sect-movielist -->
             <!-- 연관영화 -->
 
         </div><!-- .col-detail -->
@@ -1067,7 +906,6 @@ $(document).on('click', '.imgSect .item:visible', function() {
 	
 	$('.btn-next').click(function() {
 		var maxNum = $('#sliderBox .item-wrap').length - 1;
-		
 		var nextCut = clickImg + 1 > maxNum ? 0 : clickImg + 1;
 		$('#sliderBox').find('.item').hide();
 		$('#sliderBox .item').eq(nextCut).show();
@@ -1081,31 +919,24 @@ $(document).on('click', '.imgSect .item:visible', function() {
 
 
 </script>
-
 <!-- 트레일러 클릭시 트레일러 보여주는 페이지 구현하는 스크립트 -->            
 <script type="text/javascript">
 $(document).on('click', '.movie_player_popup', function() {
+	var videoLink = $(this).find('img').attr('src');
+	
 	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
 				<div class="layer-wrap" style="margin-top: -355px; margin-left: -510px; position: fixed;" tabindex="0"><div class="popwrap">
 				    <div class="sect-layerplayer">
 			        <div class="cols-pop-player">
-			            <h1 class="title" id="movie_player_popup_title"><span class="ico-trailer hd">HD</span>[데드풀과 울버린]도파민 '풀' 충전 예고편(순한 맛)</h1>
+			            <h1 class="title" id="movie_player_popup_title">
+			            <span class="ico-trailer hd">HD</span>제목</h1>
 			            <div class="col-pop-player">
-			                <div class="warp-pop-player" style="position: relative;">
-			<!--                     <iframe src="/http://h.vod.cgv.co.kr:80/vodCGVa/88228/88228_226059_1200_128_960_540.mp4" style="width:800px;height:450px;" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe> -->
-			                    <video id="ifrm_movie_player_popup" width="800" height="450" controls autoplay>
-								  <source src="http://h.vod.cgv.co.kr:80/vodCGVa/88228/88228_226059_1200_128_960_540.mp4" type="video/mp4">
-// 								  <source src="http://h.vod.cgv.co.kr:80/vodCGVa/88228/88228_226059_1200_128_960_540.mp4" deletecommandtype="video/mp4">
-								</video>
-								<div class="sect-replay" style="display:none" id="pop_player_relation_wrap">
-									<button class="btn-replay movie_player_inner_popup" type="button" data-gallery-idx="226059" id="btn_movie_replay">다시보기</button>
-									<!-- 없어지는 영역 -->
-									<div class="wrap-relationmovie" id="pop_player_relation_item_wrap">
-										<strong class="title">관련영상</strong>
-										<ul id="pop_player_relation_movie"><li>     <div class="box-image">         <a href="#" title="티저 예고편(순한 맛) 영상보기" class="movie_player_inner_popup" data-gallery-idx="225288">             <span class="thumb-image">                 <img src="https://img.cgv.co.kr/Movie/Thumbnail/Trailer/88228/88228225288_1024.jpg" alt="티저 예고편(순한 맛)_트레일러">                 <span class="ico-play">영상보기</span>             </span>         </a>     </div> </li></ul>
-									</div><!-- .wrap-relationmovie -->
-								</div><!-- .sect-replay -->
-								
+			                <div class="warp-pop-player" style="display: flex; position: relative;">
+			                <iframe id="ifrm_movie_player_popup" width="800" height="400" src="\${videoLink}" scrolling="no" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			           <!--     <iframe id="ifrm_movie_player_popup" src="\${videoLink}" width="880" height="560" ></iframe> -->
+			            	  <!-- <video id="ifrm_movie_player_popup" style="display: block; width: 800px; height: 450;" controls autoplay> 
+ 								  <source src="\${videoLink}" type="video/mp4">
+ 							  </video> -->
 			                </div><!-- .warp-pop-player -->
 			                <div class="descri-trailer">
 			                    <strong class="title">영상설명</strong>
@@ -1126,6 +957,16 @@ $(document).on('click', '.movie_player_popup', function() {
 				</div>
 			</div>`
 		$('body').append(text);
+			
+			
+		var iframe = document.getElementById('myIframe');
+        var message = {
+             type: 'APPLY_CSS',
+             css: {
+             	'margin': '0'
+             }
+          };
+          iframe.contentWindow.postMessage(message, 'http://localhost:8080');
 });
 
 $(document).on('click', '.btn-close', function() {
@@ -1133,6 +974,5 @@ $(document).on('click', '.btn-close', function() {
     $('.layer-wrap').remove();
 });
 </script>
-
 </body>
 </html>

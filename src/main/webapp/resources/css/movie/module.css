@@ -645,7 +645,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 
 /* 팝업 플레이어 */
 /* 0726 이미지 파일확인 불가로 background-color: #0A0A0A; 추가 수정 */
-.sect-layerplayer{ position:relative; width:980px;height:670px; padding:20px; background:url('../resources/img/bg_pop_dim.png') 0 0 repeat; background-color: #0A0A0A;}
+.sect-layerplayer{ position:relative; width:1060px; display: flex;padding:20px; background:url('../resources/img/bg_pop_dim.png') 0 0 repeat; background-color: #0A0A0A;}
 /* .sect-layerplayer .cols-pop-player{ } */
 .sect-layerplayer .cols-pop-player .title{color:#cccccc;}
 .sect-layerplayer .cols-pop-player > .title{ margin-bottom:20px; font-size:17px;}

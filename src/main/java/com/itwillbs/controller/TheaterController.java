@@ -27,7 +27,7 @@ public class TheaterController {
 private TheaterService theaterService;
 
 
-	@GetMapping("/theaterPage")
+	@GetMapping("/theater")
     public String theaterPage(Model model) {
 	 	//지역 조회
 		List<Map<String, Object>> regionList = theaterService.getRegionList();

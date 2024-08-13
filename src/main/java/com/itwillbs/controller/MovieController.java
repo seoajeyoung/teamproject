@@ -13,15 +13,19 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.itwillbs.domain.MovieDTO;
@@ -29,7 +33,18 @@ import com.itwillbs.service.MovieService;
 
 @Controller
 @RequestMapping("/movie/*")
-public class MovieController {
+@Configuration
+public class MovieController implements WebMvcConfigurer {
+	
+	
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*") // 모든 출처를 허용
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
+    }
+	
 	@Inject
 	private MovieService movieService;
 	// 영화 차트 
@@ -37,10 +52,9 @@ public class MovieController {
 	public String moviePost(@RequestParam(required = false) String page, Model model) {
 		List<MovieDTO> movieList = movieService.getMovie(page);
 		
-		System.out.println(movieList.get(0));
-		
 		model.addAttribute("movieList", movieList);
 		model.addAttribute("page", page);
+				
 		
 		//page값이 있으면 추가 구문
 		if(page != null) {
@@ -90,14 +104,37 @@ public class MovieController {
 		//리뷰 페이지 수 구하기
 		int maxCount = movieService.getMaxPage(num);
 		int endPage = maxCount / pageSize + (maxCount % pageSize > 0 ? 1 : 0);
-		
-//		List<String> relMovie = movieService.getRelMovies(num);
-		System.out.println(movieDTO);
-		
-		
+		List<Map<String, String>> relMovie = movieService.getRelMovies(num);
+
+		// 스틸컷
+		String stillcut = movieDTO.getStillUrl();
+		String[] stillcutUrl;
+		if(stillcut != null && stillcut.contains(",")) {
+			stillcutUrl = stillcut.split(",");
+			model.addAttribute("stillcutUrl", stillcutUrl);
+		} else if(stillcut != null) {
+			stillcutUrl = new String[]{stillcut};
+			model.addAttribute("stillcutUrl", stillcutUrl);
+		} else {
+			model.addAttribute("stillcutUrl", "");
+		}
+		//트레일러
+		String vod = movieDTO.getVodUrl();
+		String[] vodUrl;
+		if(vod != null && vod.contains(",")) {
+			vodUrl = stillcut.split(",");
+			model.addAttribute("movieTrailer", vodUrl);
+		} else if(vod != null) {
+			vodUrl = new String[]{vod};
+			model.addAttribute("movieTrailer", vodUrl);
+		} else {
+			model.addAttribute("movieTrailer", "");
+		}
 		
 		model.addAttribute("movieDTO", movieDTO);
 		model.addAttribute("endPage", endPage);
+		model.addAttribute("relMovie", relMovie);
+		
 		return "/movie/information";
 	}
 	
