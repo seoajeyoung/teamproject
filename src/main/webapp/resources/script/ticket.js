@@ -727,7 +727,8 @@ document.addEventListener('DOMContentLoaded', function() {
                    '&starttime=' + starttime +
                    '&endtime=' + endtime +
                    '&se_count=' + se_count +
-                   '&now_count=' + now_count 
+                   '&now_count=' + now_count + 
+                   '&selectRegionName=' + selectRegionName  
                    ;
 		   window.location.href = '/myweb/결제TEST?' + param;
 
