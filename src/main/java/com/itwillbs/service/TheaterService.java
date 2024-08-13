@@ -29,8 +29,8 @@ public class TheaterService {
 	
 	
 	// 해당 극장의 상영일정이 있는 날자만
-	public List<Map<String, String>> getRunningDate(int TH_NUM) {
-		return theaterDAO.getRunningDate(TH_NUM);
+	public List<Map<String, String>> getRunningDate(Map<String, String> rMap) {
+		return theaterDAO.getRunningDate(rMap);
 	}
 	
 	

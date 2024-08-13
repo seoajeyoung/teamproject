@@ -484,7 +484,9 @@ $(function() {
             
             
             <!-- .sect-staff -->
+          
 		<c:if test="${not empty movieTrailer[0]}">
+		<c:set var="trailerTeaser" value="${trailerTeaser}"/>
             <div id="ctl00_PlaceHolderContent_Section_Trailer" class="sect-trailer">
                 <div class="heading">
 					<h4>트레일러</h4>
@@ -493,13 +495,14 @@ $(function() {
 				</div>
                 <ul>
                 <!-- 사진 동영상 조회 -->
-                <c:forEach var="movieTrailer" items="${movieTrailer}">
+                <c:forEach var="movieTrailer" items="${movieTrailer}" varStatus="Status">
                     <li>
                         <div class="box-image">
                             <!-- TODO : 동영상 팝업 창 작업 후 링크 걸어야 함 //-->
                             <a href="javascript:void(0)" title="새창" class="movie_player_popup">
                                 <span class="thumb-image">
-                                    <img src="${movieTrailer}" alt="">
+                                    <img src="${trailerTeaser[Status.index]}" alt="">
+                                    <input class="videoLink" type="hidden" value="${movieTrailer}">
                                     <span class="ico-play">영상보기</span>
                                 </span>
                             </a>
@@ -507,11 +510,10 @@ $(function() {
                         <div class="box-contents">
                             <a href="javascript:void(0)" title="새창" class="movie_player_popup">
                                 <strong class="title">
-                                    <span class="ico-trailer hd">HD</span>
-<!--                                     도파민 '풀' 충전 예고편(순한 맛) -->
+                                    <span class="ico-trailer hd">HD</span>${movieDTO.title} 예고편
                                 </strong>
                             </a>
-                            <span class="txt-info"><!-- 2024.05.24 --></span>
+                            <span class="txt-info"></span>
                         </div>
                     </li>
 				</c:forEach>
@@ -553,8 +555,9 @@ $(function() {
                 <div class="slider-wrap">
                     <div class="slider" id="still_motion">
 						<!-- 배열로 분리해서 갯수만큼? -->
-						<c:forEach var="stillcutUrl" items="${stillcutUrl}">
-							<div class="item-wrap">
+						<c:forEach var="stillcutUrl" items="${stillcutUrl}" varStatus="Status">
+							<c:if test=""></c:if>
+							<div class="item-wrap" style=""> <!--  ${Status.index != 0 ? 'display:none;' : ''}} -->
 	                            <div class="item" style="width: 800px; height: 450px; text-align: center;">
 									<img alt="타이틀" onerror="errorImage(this)" src="${stillcutUrl}" style="min-height: 90%; max-height: 100%;">
 	                            </div>
@@ -922,51 +925,43 @@ $(document).on('click', '.imgSect .item:visible', function() {
 <!-- 트레일러 클릭시 트레일러 보여주는 페이지 구현하는 스크립트 -->            
 <script type="text/javascript">
 $(document).on('click', '.movie_player_popup', function() {
-	var videoLink = $(this).find('img').attr('src');
-	
+	var videoLink = $(this).parents('li').find('.videoLink').val();
+	debugger;
 	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
 				<div class="layer-wrap" style="margin-top: -355px; margin-left: -510px; position: fixed;" tabindex="0"><div class="popwrap">
-				    <div class="sect-layerplayer">
+				    <div class="sect-layerplayer" style="display: inline-block;">
 			        <div class="cols-pop-player">
-			            <h1 class="title" id="movie_player_popup_title">
+			            <h1 class="title" id="movie_player_popup_title" style="position: absolute;">
 			            <span class="ico-trailer hd">HD</span>제목</h1>
 			            <div class="col-pop-player">
-			                <div class="warp-pop-player" style="display: flex; position: relative;">
-			                <iframe id="ifrm_movie_player_popup" width="800" height="400" src="\${videoLink}" scrolling="no" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			                <div class="warp-pop-player" style="display: inline-block; position: relative;">
+			                <iframe id="ifrm_movie_player_popup" width="880" height="560" src="\${videoLink}" scrolling="no" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 			           <!--     <iframe id="ifrm_movie_player_popup" src="\${videoLink}" width="880" height="560" ></iframe> -->
 			            	  <!-- <video id="ifrm_movie_player_popup" style="display: block; width: 800px; height: 450;" controls autoplay> 
  								  <source src="\${videoLink}" type="video/mp4">
  							  </video> -->
 			                </div><!-- .warp-pop-player -->
-			                <div class="descri-trailer">
+			                <!--<div class="descri-trailer" style="position: relative; top:30px;">
 			                    <strong class="title">영상설명</strong>
 			                    <textarea readonly="readonly" id="movie_player_popup_caption"></textarea>
-			                </div>
-			            </div><!-- .col-player -->
-			            <div class="col-pop-playerinfo">
+			                </div> -->
+			            </div>
+			            <!-- .col-player -->
+			            <div class="col-pop-playerinfo" style="position: relative; top: 48px;">
 			                <div id="movie_player_popup_movie_info"><div class="box-image">     <a href="/movies/detail-view/?midx=88228" title="데드풀과 울버린 상세보기 새창">         <span class="thumb-image">             <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000088/88228/88228_185.jpg" alt="데드풀과 울버린 포스터">             <span class="ico-grade 18">18</span>         </span>     </a>    </div> <div class="box-contents">     <a href="/movies/detail-view/?midx=88228" title="데드풀과 울버린 상세보기 새창">         <strong class="title">데드풀과 울버린</strong>     </a>     <span class="txt-info" style="margin-bottom:2px;">         <em class="genre">액션,&nbsp;코미디,&nbsp;SF</em>         <span>             <i>2024.07.24</i>             <strong>개봉</strong>                      </span>     </span>      <a class="link-reservation" href="/ticket/?MOVIE_CD=20037162&amp;MOVIE_CD_GROUP=20037162">예매</a>   </div></div>
 			                <div class="sect-trailer">
 			                    <strong class="title">신규영상</strong>
 			                    <ul>
 			                    </ul>
 			                </div>
-			            </div><!-- .col-playerinfo -->
+			            </div>
+			            <!-- .col-playerinfo -->
 			        </div><!-- .cols-player -->
 			        <button type="button" class="btn-close">닫기</button>
 			    </div>
 				</div>
 			</div>`
 		$('body').append(text);
-			
-			
-		var iframe = document.getElementById('myIframe');
-        var message = {
-             type: 'APPLY_CSS',
-             css: {
-             	'margin': '0'
-             }
-          };
-          iframe.contentWindow.postMessage(message, 'http://localhost:8080');
 });
 
 $(document).on('click', '.btn-close', function() {

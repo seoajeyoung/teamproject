@@ -43,8 +43,8 @@ private TheaterService theaterService;
 	// 극장별 상영날짜 구하는 ajax
 	@GetMapping("/runningDate")
 	@ResponseBody
-	public List<Map<String, String>> runningDate(@RequestParam int TH_NUM) {
-		List<Map<String, String>> date = theaterService.getRunningDate(TH_NUM);
+	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
+		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
 		return date;
 	}
 	

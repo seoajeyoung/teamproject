@@ -212,7 +212,7 @@
         </div>
         <div class="sect-city">
 	        <ul>
-	        <c:set var="forCount" value="1" />
+	        <c:set var="forCount" value="0" />
 			<c:set var="endCount" value="0"/>
 			<c:forEach var="region" items="${regionList}">
 				<li>
@@ -221,7 +221,7 @@
 						<ul id="ulcontent">
 							<!-- DB에서 가져온걸로 foreach -->
 							<c:set var="endCount" value="${endCount + region.COUNT}" />
-							 <c:forEach var="area" items="${areaList}" begin="${forCount}" end="${endCount}">
+							 <c:forEach var="area" items="${areaList}" begin="${forCount}" end="${endCount - 1}">
 	                            <li style="display: none;">
 	                                <a href="#" class="area-link" title="${area.th_name}">
 	                                    ${area.th_name}
@@ -242,7 +242,7 @@
 <!-- 실컨텐츠 시작 -->
 <script type="text/javascript">
 var addr;
-var thNum;
+var thName;
 $(function() {
 	$('.region').on('click', function() {
 		$('.sect-city li').removeClass();
@@ -252,27 +252,28 @@ $(function() {
 	});
 	//특정 극장 클릭시
 	$('.area-link').on('click', function() {
+		thName = $(this).attr('title');
+		
+		
 		$('.sect-showtimes>ul').html('')
-		$('.theater-tit span').text($(this).attr('title') + '점');
+		$('.theater-tit span').text(thName + '점');
 		
 		addr = $(this).find('input').val();
 		$('.title>span').text(addr);
 		
-		thNum = $(this).find('span').text();
 		$.ajax({
 			type: 'GET',
 			url: '${pageContext.request.contextPath}/theater/runningDate',
-		    data: {'TH_NUM': thNum},
+		    data: {'TH_NAME': thName},
 		    datatype: 'JSON',
 		    success: function(result) {
 		    	if(result != null) {
 	    			$('.slider').remove();
 	    			return;	
 	    		};
-		    	$('.item').html('');
-		    	result.forEach(function(resultData) {
-		    		var date = resultData.DATE.split('-');
-		    		var dayWeek = resultDate.dayWeek
+		    	result.forEach(function(resultDate) {
+		    		var date = resultDate.DATE.split('-');
+		    		var dayWeek = date.dayWeek
 		    		var text = `		
 	                    <li>
 	                    <div class="day">
@@ -286,6 +287,7 @@ $(function() {
 	                	</li>`;
 	                	
  	              	$('.item').append(text);
+ 	              	debugger;
 				});
               	$('.day').eq(0).find('a').trigger('click');
 		    },

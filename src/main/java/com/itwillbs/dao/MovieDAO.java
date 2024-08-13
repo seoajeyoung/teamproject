@@ -102,5 +102,11 @@ public class MovieDAO {
 		sqlsession.update("movieMapper.updateRecommend", rMap);
 		return sqlsession.selectOne("movieMapper.getRecommend", rMap);
 	}
+	
+	
+	//채현 메인 상영예정 영화 디데이 리스트
+	public List<Map<String, Object>> getMovie3() {
+		return sqlsession.selectList("movieMapper.getMovie3");
+	}
 
 }

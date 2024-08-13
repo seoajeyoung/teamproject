@@ -35,7 +35,7 @@
 		    SELECT *, RANK() OVER (ORDER BY M.RANK) AS RN
 		    FROM MOVIE M
 		) a
-		ORDER BY a.rn;
+		ORDER BY a.rn
 	</select>
 	
 	<!-- 상영예정 영화 -->
@@ -315,6 +315,34 @@
 		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEMBER_ID)
 		VALUES(#{REVIEW_NUM}, #{MEMBER_ID});
 	</insert>
+	
+	<!-- 채현 메인 상영예정 영화 디데이 리스트 -->
+	<select id="getMovie3" resultType="java.util.LinkedHashMap">
+		SELECT MOVIE_NUM
+			, TITLE
+			, DIRECOTRNM
+			, ACTORNM
+			, NATION
+			, GENRE
+			, RELEASEDATE
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+			, AUDIACC
+			, PLOT
+			, RUNTIME
+			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
+			, THEMSSONG
+			, SOUNDTRACK
+			, AWARDS1
+			, RELEASEDTS
+			, RELEASEDTE
+			, TARGETDT
+			, m.RANK AS 'RANK'
+			, MOVIENM
+			, ((current_date() - RELEASEDATE) * -1) D_DAY
+		FROM MOVIE m
+		WHERE current_date() &lt; RELEASEDATE
+		ORDER BY RELEASEDATE, m.RANK
+	</select>
 	
 	
 	
