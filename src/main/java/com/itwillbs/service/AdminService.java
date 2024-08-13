@@ -311,6 +311,10 @@ public class AdminService {
 		return adminDAO.getStoreList();
 	}
 
+	public AdminDTO getstoreInfo(String storeNum) {
+		return adminDAO.getstoreInfo(storeNum);
+	}
+
 	
 	
 }

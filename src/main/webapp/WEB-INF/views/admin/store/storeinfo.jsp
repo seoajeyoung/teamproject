@@ -130,11 +130,6 @@ $(document).ready(function() {
 
         // 다른 필요한 필드 초기화 작업도 여기서 수행 가능
     });
-    
-    function submitStoreInfo() {
-        // form element를 가져와 submit 메서드를 호출하여 폼을 제출
-        document.getElementById('storeForm').submit();
-    }
 });
 </script>
 
@@ -180,7 +175,7 @@ $(document).ready(function() {
 						<div class="card-body">
 							<div class="table-responsive">
 								<form action = 
-									"${pageContext.request.contextPath}/admin/store/controlstorePro" method="post" enctype="multipart/form-data">
+									"${pageContext.request.contextPath}/admin/store/updatestorePro" method="post" enctype="multipart/form-data">
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
@@ -222,7 +217,7 @@ $(document).ready(function() {
 									<div class="button-container">
 										<button type="submit"
 											class="btn btn-danger btn-user same-size"
-											style="margin-right: 2px;">등록</button>
+											style="margin-right: 2px;">수정</button>
 										<button type="reset"
 											class="btn btn-secondary btn-user same-size" id="reset-button">초기화</button>
 									</div>
@@ -238,77 +233,6 @@ $(document).ready(function() {
 
 				</div>
 				<!-- End of Page Content -->
-
-				<!-- Begin Page Content -->
-				<div class="container-fluid">
-					<!-- container-fluid -->
-
-
-					<!-- Page Heading -->
-
-
-					<!-- DataTales Example -->
-					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">스토어 상품목록</h6>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table schedule-bordered2" id="dataTable"
-									width="100%" cellspacing="0">
-									<thead>
-										<tr>
-											<th>상품코드</th>
-											<th>상품이름</th>
-											<th>상품가격</th>
-											<th>상품타입</th>
-											<th>상세정보확인/수정</th>
-											<th>삭제</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach var="AdminDTO" items="${storeList}">
-											<tr id="row${AdminDTO.ST_NUM}">
-												<td id="ST_NUM${AdminDTO.ST_NUM}">${AdminDTO.ST_NUM}</td>
-												<td id="ST_NAME${AdminDTO.ST_NUM}">${AdminDTO.ST_NAME}</td>
-												<td id="ST_PRICE${AdminDTO.ST_NUM}">${AdminDTO.ST_PRICE}</td>
-												<td id="ST_TYPE${AdminDTO.ST_NUM}">${AdminDTO.ST_TYPE}</td>
-												<td>
-												<form id="storeForm" action="${pageContext.request.contextPath}/admin/store/storeinfo" method="POST" style="display: none;">
-    											<input type="hidden" name="ST_NUM" value="${AdminDTO.ST_NUM}">
-												</form>
-												<a href="#" onclick="document.getElementById('storeForm').submit();" class="btn btn-detailinfo btn-user btn-block">
-    											상세정보확인/수정
-												</a>
-												</td>
-												<td id="delete-button-cell">
-												<button type="button"
-														onclick="deleteRow(${AdminDTO.ST_NUM})"
-														class="btn btn-secondary btn-user">삭제</button></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-
-								</table>
-							</div>
-							<!-- table-responsive  -->
-						</div>
-						<!-- card-body -->
-					</div>
-					<!-- card shadow mb-4 -->
-
-				</div>
-				<!-- End of Page Content -->
-
-			</div>
-			<!-- End of Main Content -->
-
-		</div>
-		<!-- End Content Wrapper -->
-
-
-
-
 
 	</div>
 	<!-- End of Page Wrapper -->

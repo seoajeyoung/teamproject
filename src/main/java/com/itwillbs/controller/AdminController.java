@@ -500,5 +500,14 @@ public class AdminController {
 
 		return "redirect:/admin/store/controlstore";
 	}
+	
+	
+	@PostMapping("/store/storeinfo")
+    public String storeInfo(@RequestParam("ST_NUM") String storeNum, Model model) {
+		
+        AdminDTO adminDTO = adminService.getstoreInfo(storeNum);
+        model.addAttribute("adminDTO", adminDTO);
 
+        return "storeInfo";
+    }
 }

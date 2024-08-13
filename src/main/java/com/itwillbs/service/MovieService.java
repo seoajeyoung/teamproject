@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.MovieDAO;
+import com.itwillbs.domain.AdminDTO;
 import com.itwillbs.domain.MovieDTO;
 
 @Service
@@ -115,6 +116,7 @@ public class MovieService {
 	public void reUserinsert(Map<String, String> rMap) {
 		movieDAO.reUserinsert(rMap);
 	}
+
 	
 
 	

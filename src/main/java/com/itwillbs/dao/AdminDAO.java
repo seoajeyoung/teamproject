@@ -337,6 +337,10 @@ public class AdminDAO {
 	public List<AdminDTO> getStoreList() {
 		return sqlSession.selectList(namespace + ".getStoreList");
 	}
+
+	public AdminDTO getstoreInfo(String storeNum) {
+		return sqlSession.selectOne(namespace+ ".getstoreInfo", storeNum);
+	}
 	
 
 }
