@@ -303,6 +303,14 @@ public class AdminService {
 		return adminDAO.getTypeList();
 	}
 
+	public void insertStore(AdminDTO adminDTO) {
+		adminDAO.insertStore(adminDTO);
+	}
+
+	public List<AdminDTO> getStoreList() {
+		return adminDAO.getStoreList();
+	}
+
 	
 	
 }

@@ -329,6 +329,14 @@ public class AdminDAO {
 	public List<AdminDTO> getTypeList() {
 		return sqlSession.selectList(namespace + ".getTypeList");
 	}
+
+	public void insertStore(AdminDTO adminDTO) {
+		sqlSession.insert(namespace + ".insertStore", adminDTO);
+	}
+
+	public List<AdminDTO> getStoreList() {
+		return sqlSession.selectList(namespace + ".getStoreList");
+	}
 	
 
 }

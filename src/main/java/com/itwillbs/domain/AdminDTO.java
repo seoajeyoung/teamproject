@@ -33,8 +33,8 @@ public class AdminDTO {
 	
 	@Override
 	public String toString() {
-		return "AdminDTO [email_list=" + email_list + ", email_subject=" + email_subject + ", email_content="
-				+ email_content + "]";
+		return "AdminDTO [ST_NUM=" + ST_NUM + ", ST_NAME=" + ST_NAME + ", ST_DETAIL=" + ST_DETAIL + ", ST_PRICE="
+				+ ST_PRICE + ", ST_PICTURE=" + ST_PICTURE + ", ST_TYPE=" + ST_TYPE + "]";
 	}
 	
 	
@@ -339,6 +339,7 @@ public class AdminDTO {
 	public void setST_TYPE(String ST_TYPE) {
 		this.ST_TYPE = ST_TYPE;
 	}
+	
 	
 	
 		

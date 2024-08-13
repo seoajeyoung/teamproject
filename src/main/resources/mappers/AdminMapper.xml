@@ -175,7 +175,6 @@
 
 
 
-
 	<!-- ====================================================================================== -->
 
 	<!-- 영화목록 -->
@@ -427,8 +426,19 @@
        		   EXISTS(SELECT 1 FROM STORE WHERE ST_DETAIL = #{ST_DETAIL}) AS detailExists;
     </select>
     
-    <select id="getTypeList" resultType="com.itwillbs.domain.AdminDTO">
+    <select id="getTypeList"  resultType="com.itwillbs.domain.AdminDTO">
 		SELECT DISTINCT ST_TYPE FROM STORE
+	</select>
+	
+	
+	<insert id="insertStore" parameterType="com.itwillbs.domain.AdminDTO">
+		INSERT INTO STORE (ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE, ST_TYPE)
+		VALUES
+		(#{ST_NUM}, #{ST_NAME}, #{ST_DETAIL}, #{ST_PRICE}, #{ST_PICTURE}, #{ST_TYPE})
+	</insert>
+	
+	<select id="getStoreList" resultType="com.itwillbs.domain.AdminDTO">
+		SELECT * FROM STORE
 	</select>
     
 

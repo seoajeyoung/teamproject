@@ -453,9 +453,13 @@ public class AdminController {
 	@GetMapping("/store/controlstore")
 	public String controlstore(Model model) {
 
-		// 지역 리스트
+		// 상품타입 리스트
 		List<AdminDTO> typeList = adminService.getTypeList();
 		model.addAttribute("typeList", typeList);
+		
+		// 상품 리스트
+		List<AdminDTO> storeList = adminService.getStoreList();
+		model.addAttribute("storeList", storeList);
 
 		return "/admin/store/controlstore";
 	}
@@ -473,14 +477,16 @@ public class AdminController {
 		return adminService.checkStoreDetails(storeDetails);
 	}
 	
-	@GetMapping("/store/controlstorePro")
-	public String storeinsert(HttpServletRequest request, MultipartFile store_picture) throws Exception {
+	@PostMapping("/store/controlstorePro")
+	public String insertStore(HttpServletRequest request, MultipartFile store_picture) throws Exception {
 		
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
 		System.out.println("파일이름 : " + file);
 		
-		FileCopyUtils.copy(file.getBytes(), new File(uploadPath, file));
+		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
+		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
+//		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 이미지 업로드 가능하면
 		
 		AdminDTO adminDTO = new AdminDTO();
 		adminDTO.setST_NUM(request.getParameter("ST_NUM"));
@@ -488,11 +494,11 @@ public class AdminController {
 		adminDTO.setST_PRICE(request.getParameter("ST_PRICE"));
 		adminDTO.setST_TYPE(request.getParameter("ST_TYPE"));
 		adminDTO.setST_DETAIL(request.getParameter("ST_DETAIL"));
-		adminDTO.setST_PICTURE(request.getParameter(file));
-		
-//		adminService.insertStore(adminDTO);
+		adminDTO.setST_PICTURE(file);
+		System.out.println(adminDTO);
+		adminService.insertStore(adminDTO);
 
-		return "/admin/store/controlstore";
+		return "redirect:/admin/store/controlstore";
 	}
 
 }
