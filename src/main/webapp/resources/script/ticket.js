@@ -160,9 +160,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: languagetype
             },
             success: function(data) {
-                var movieTitlesFromUpdate = data.map(function(movie) {
-                    return movie.title;
-                });
+                var movieTitlesFromUpdate = data.filter(function(movie) {
+            		return movie !== null; // null 값 제외
+        		})
+        		.map(function(movie) {
+            		return movie.title; // title 값만 추출
+        		});
 
 
                 // 전체 영화 목록을 HTML 문서에서 가져옴
@@ -353,6 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 현재 시간 가져오기
             var now = new Date();
+            var nowDay = now.getDate();
             var nowHours = now.getHours().toString().padStart(2, '0');
             var nowMinutes = now.getMinutes().toString().padStart(2, '0');
             var nowTimeStr = `${nowHours}:${nowMinutes}`;
@@ -363,24 +367,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 var cinemaHtml =
                     `<div class="theater">
                     <span class="title">
-                        <span class="floor">${cinema.CI_NUMBER}</span>
+                        <span class="floor">${cinema.TH_NUMBER}</span>
                         <span class="seatcount">(총218석)</span>
                     </span>
                     <ul>`;
 
                 $.each(mtime, function(index, time) {
-                    if (time.CI_NUMBER === cinema.CI_NUMBER) {
+                    if (time.TH_NUMBER === cinema.TH_NUMBER) {
                         var showTime = time.SC_TIME;
 						
                         // 현재 시간이 상영 시간보다 늦은 경우, 해당 <li> 태그를 숨기기
-                        if (nowTimeStr > showTime) {
+                        if (nowDay > selectDate || (nowDay === selectDate && nowTimeStr > showTime)) {
                             return; // 해당 시간에 맞는 <li> 태그를 건너뛰기
                         }
                         
-
                         cinemaHtml +=
                             `<li>
-                            <a class="button" data-id="${time.CI_NUMBER}" href="#">
+                            <a class="button" data-id="${time.TH_NUMBER}" href="#">
                                 <span class="time">
                                     <span>${time.SC_TIME}</span>
                                 </span>
@@ -440,15 +443,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 하단 시간 정보 표시 함수 
-    function updatetimebottom(CI_NUMBER, SC_TIME, fullDate) {
+    function updatetimebottom(TH_NUMBER, SC_TIME, fullDate) {
     
     var $dateSpan = $('.info.theater').find('span.data').eq(1); 
     $dateSpan.attr('title', fullDate + ' ' + SC_TIME); 
     $dateSpan.text(fullDate + ' ' + SC_TIME); 
 
     var $ciNumberSpan = $('.info.theater').find('span.data').eq(2); 
-    $ciNumberSpan.attr('title', CI_NUMBER); 
-    $ciNumberSpan.text(CI_NUMBER); 
+    $ciNumberSpan.attr('title', TH_NUMBER); 
+    $ciNumberSpan.text(TH_NUMBER); 
         
 }
     
@@ -591,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
         	 if (confirm("선택한 영화에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 날짜 및 극장이 해제됩니다.)")) {
 	    		  $('#movie li').css('opacity', 1);
        
-       			    movieli.parent().prepend(movieli);
+       			  movieli.parent().prepend(movieli);
         		  resetDates();
        			  resetTheaters();
         		  }else {
@@ -667,23 +670,31 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("시간을 선택해주세요");
         return; 
     }
+	var params = new URLSearchParams({
+           movieTitle: encodeURIComponent(movieTitle),
+           theaterTitle: encodeURIComponent(theaterTitle),
+           dateSpan: encodeURIComponent(dateSpan)
+           })
+           debugger;
+		   window.location.href = '/myweb/결제TEST?' + params.toString();
+
 
     // 모든 값이 유효한 경우
      var sessionId = sessionStorage.getItem('id');
 
-        if (!sessionId) {	
-         var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
-        	 if (confirmLogin) {
-            	window.location.href = 'login'; // 로그인 페이지로 이동
-        	}
-        } else {
-          var params = new URLSearchParams({
-            movieTitle: encodeURIComponent(movieTitle),
-            theaterTitle: encodeURIComponent(theaterTitle),
-            dateSpan: encodeURIComponent(dateSpan)
-        });
-        window.location.href = 'myweb/결제TEST?' + params.toString();
-        }
+ //       if (!sessionId) {	
+ //        var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
+ //       	 if (confirmLogin) {
+ //           	window.location.href = 'login'; // 로그인 페이지로 이동
+ //       	}
+ //       } else {
+ //         var params = new URLSearchParams({
+ //           movieTitle: encodeURIComponent(movieTitle),
+ //           theaterTitle: encodeURIComponent(theaterTitle),
+ //          dateSpan: encodeURIComponent(dateSpan)
+ //       });
+ //       window.location.href = 'myweb/결제TEST?' + params.toString();
+ //       }
    
    
     });
@@ -706,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 		
 		var currentDate = $(this);
-    var Dateli = currentDate.closest('li')
+    	var Dateli = currentDate.closest('li')
     
     if (Dateli.css('opacity') == 0.25) {
         if (confirm("선택한 날짜에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 영화 및 극장이 해제됩니다.)")) {
@@ -735,7 +746,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var $currentLi = $(this).closest('li.day');
         var $monthDimmed = $currentLi.prevAll('li.month.dimmed').first();
         if ($monthDimmed.length) {
-        debugger;
             var year = $monthDimmed.find('.year').text();
             var month = $monthDimmed.find('.month').text();
             fullDate = year + '-' + month + '-' + selectDate;

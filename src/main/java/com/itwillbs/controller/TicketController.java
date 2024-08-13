@@ -54,8 +54,13 @@ public class TicketController {
 	}
 
 	@GetMapping("/결제TEST") // 영화 결제 TEST
-	public String TEST3() {
-
+	public String TEST3(
+			 	@RequestParam String movieTitle,
+	            @RequestParam String theaterTitle,
+	            @RequestParam String dateSpan ) {
+		
+		System.out.println(movieTitle + theaterTitle + dateSpan);
+		
 		return "ticket/결제TEST";
 	}
 
@@ -101,7 +106,9 @@ public class TicketController {
 		param.put("type", type);
 
 		List<Map<String, Object>> th_name = ticketService.selectTh_nameList(param);
-
+		
+		System.out.println(th_name);
+		
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(th_name,
 				HttpStatus.OK);
 
@@ -139,7 +146,7 @@ public class TicketController {
 		param.put("fullDate", fullDate);
 		param.put("region", region);
 		param.put("type", type);
-
+		
 		List<Map<String, Object>> update_movie = ticketService.selectupdate_movie(param);
 
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(update_movie,
@@ -199,8 +206,6 @@ public class TicketController {
 
 		List<Map<String, String>> getci_number = ticketService.getci_number(param);
 
-		System.out.println(getci_number);
-
 		return new ResponseEntity<List<Map<String, String>>>(getci_number, HttpStatus.OK);
 	}
 
@@ -219,13 +224,32 @@ public class TicketController {
 	@PostMapping("/INSERTSEAT") // 서재영 해당 지역의 극장이름 가져오는 맵핑 (modal) 
 	public void INSERTSEAT(
 			@RequestBody Map<String, Object> request){
-			System.out.println(request);
-			System.out.println("@@@");
-			System.out.println(request.get("seat_data"));
+		
 			    ticketService.insertseat(request);
 			
-			  
-			
 	}
+	
+	@GetMapping("/SAVECI_NUMBER") // 서재영 저장된 관의 좌석 가져오기  (modal)
+	public ResponseEntity<List<Map<String, String>>> SELECTSAVECI_NUMBER(
+			@RequestParam("region") String region
+		   ,@RequestParam("th_name") String th_name
+		   ,@RequestParam("th_number") String th_number) {
+
+		Map<String, Object> param = new HashMap<String, Object>();
+
+		param.put("region", region);
+		param.put("th_name", th_name);
+		param.put("th_number", th_number);
+		
+		
+		List<Map<String, String>> selectsaveseat = ticketService.selectsaveseat(param);
+
+		return new ResponseEntity<List<Map<String, String>>>(selectsaveseat, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 
 }

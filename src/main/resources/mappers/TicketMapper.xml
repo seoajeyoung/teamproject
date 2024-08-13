@@ -53,19 +53,27 @@
 	<select id="selectTh_nameList" resultType="map" parameterType="map">
    		
    		SELECT 
-   		<choose>
+    	<choose>
         <when test="type == 'kr'">
             DISTINCT(TH_NAME)
         </when>
         <when test="type == 'en'">
             DISTINCT(TH_NAMEEng) AS TH_NAME
         </when>
-   		 </choose>
+   		</choose>
 		FROM THEATER T  
 		LEFT JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
 		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
 		WHERE 1=1
-		AND TH_REGION = '${region}'
+		AND 
+ 	    <choose>
+        <when test="type == 'kr'">
+            TH_REGION = '${region}'
+        </when>
+        <when test="type == 'en'">
+            TH_REGIONEng = '${region}'
+        </when>
+    	</choose>
    		
 	</select>
 	
@@ -101,7 +109,7 @@
 	
 	<select id="selectMtime" resultType="map" parameterType="map" >
    		
-   		SELECT 	 CI_NUMBER
+   		SELECT 	 TH_NUMBER
    				,DATE_FORMAT(SC_TIME, '%H:%i') AS SC_TIME
 		FROM THEATER T
 		LEFT JOIN CINEMA C 
@@ -121,7 +129,7 @@
 	
 	<select id="selectMcinema" resultType="map" parameterType="map">
 	
-		SELECT DISTINCT CI_NUMBER
+		SELECT DISTINCT TH_NUMBER
 		FROM THEATER T
 		LEFT JOIN CINEMA C 
 		ON T.TH_NUM = C.TH_NUM
@@ -210,35 +218,48 @@
 	
 	<select id="getci_number" resultType="map" parameterType="map">
    		
-   		SELECT DISTINCT CI_NUMBER 
-   		FROM CINEMA 
-		WHERE TH_NUM  = 
-						(SELECT TH_NUM 
-						 FROM THEATER 
-						 WHERE TH_REGION = #{region} 
-						 AND TH_NAME = #{th_name}) 
+   		SELECT DISTINCT TH_NUMBER 
+   		FROM THEATER 
+   		WHERE 1=1 
+		AND TH_REGION = #{region} 
+		AND TH_NAME = #{th_name} 
 			
 	</select>
 	
 	
 	<insert id="insertseat" parameterType="map">
-    	INSERT INTO MSEAT (TH_NUM, CI_NUMBER, SE_ROW, SE_COL, SE_SEAT)
+    	INSERT INTO MSEAT (TH_NUM,SE_ROW, SE_COL, SE_SEAT,SE_TYPE)
     VALUES
     <foreach collection="seat_data" item="seat_data_row" open="(" separator="),(" close=")">
          <foreach collection="seat_data_row" item="seat" open="" separator="),(" close="">
         (SELECT TH_NUM 
          FROM THEATER 
          WHERE TH_REGION = #{region}
-         AND TH_NAME = #{th_name}),
-         #{ci_number},
+         AND TH_NAME = #{th_name}
+         AND TH_NUMBER = #{th_number}),
          #{rows},
          #{cols},
-         #{seat.text}
+         #{seat.text},
+         #{seat.class}
          </foreach>
     </foreach>
 	</insert>	
 	
-	
+	<select id="selectsaveseat" resultType="map" parameterType="map">
+   		
+   		SELECT SE_SEAT
+   			  ,SE_ROW
+   			  ,SE_COL
+   		FROM MSEAT
+   		WHERE TH_NUM = (SELECT TH_NUM 
+   						FROM THEATER 
+   						WHERE TH_REGION = #{region}
+   						AND TH_NAME = #{th_name}
+   						AND TH_NUMBER = #{th_number})
+   		
+	</select>	
+
+
 
 
 </mapper>  

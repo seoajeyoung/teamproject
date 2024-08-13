@@ -72,5 +72,9 @@ public class TicketDAO {
 		sqlSession.insert(namespace +".insertseat", request);
 	}
 
+	public List<Map<String, String>> selectsaveseat(Map<String, Object> param) {
+		return sqlSession.selectList(namespace + ".selectsaveseat", param);
+	}
+
 }
 
