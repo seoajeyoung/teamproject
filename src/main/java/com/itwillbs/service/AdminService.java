@@ -135,6 +135,7 @@ public class AdminService {
 			adminDTO.setPosterUrl(movie.getPosterUrl());
 
 			adminDTO.setStillUrl(movie.getStillUrl());
+			adminDTO.setVodUrl(movie.getVodUrl());
 
 			adminDTO.setAudiAcc(movie.getAudiAcc());
 			adminDTO.setThemeSong(movie.getThemeSong());
@@ -228,6 +229,10 @@ public class AdminService {
 	public void updateRuntime(Map<String, Object> params) {
 		adminDAO.updateRuntime(params);
 	}
+	
+	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
+		return adminDAO.getScheduleByCinema(params);
+	}
 
 	// 상영시간 저장
 	public void insertScreenTime(Map<String, Object> params) {
@@ -252,15 +257,19 @@ public class AdminService {
 	public List<ScheduleDTO> getScheduleList() {
 		return adminDAO.getScheduleList();
 	}
-
-	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
-		return adminDAO.getScheduleByCinema(params);
+	
+	public void deleteScreenByCINum(int ciNum) {
+		adminDAO.deleteScreenByCINum(ciNum);
+	}
+	
+	public void deleteCinemaByCINum(int ciNum) {
+		adminDAO.deleteCinemaByCINum(ciNum);
 	}
 
 	public List<AdminDTO> getBranchList() {
 		return adminDAO.getBranchList();
 	}
-
+	
 	public List<AdminDTO> getfindAll(String region) {
 		List<AdminDTO> findAllList = adminDAO.getfindAll(region);
 		return findAllList;
@@ -281,4 +290,14 @@ public class AdminService {
 	public void deleteTheater(int thNum) {
 		adminDAO.deleteTheater(thNum);
 	}
+
+	
+	// ===========================================================	
+	
+	// 스토어
+	
+	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
+        return adminDAO.checkStoreDetails(storeDetails);
+    }
+	
 }

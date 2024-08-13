@@ -16,6 +16,9 @@
 
 <title>OSTicket - MovieSchdule</title>
 
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/movieschedule.css">
 <!--     Custom fonts for this template -->
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
@@ -42,7 +45,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 
-<script type = "text/javascript">
+<script type="text/javascript">
 $(function() {
     var endRDateTime = "";
     
@@ -179,21 +182,21 @@ $(function() {
     $('#regionList, #theaterList, #cinemaList, #runtime').change(function() {
         var TH_REGION = $('#regionList option:selected').val();
         var TH_NAME = $('#theaterList option:selected').val();
-        var CI_NUMBER = $('#cinemaList option:selected').val();
+        var TH_NUMBER = $('#cinemaList option:selected').val();
         var runtime = $('#runtime').val();
 
         // 콘솔에 각 값 출력
         console.log("TH_REGION: " + TH_REGION);
         console.log("TH_NAME: " + TH_NAME);
-        console.log("CI_NUMBER: " + CI_NUMBER);
+        console.log("TH_NUMBER: " + TH_NUMBER);
         console.log("Runtime: " + runtime);
 
-        if (TH_REGION && TH_NAME && CI_NUMBER && runtime) {
+        if (TH_REGION && TH_NAME && TH_NUMBER && runtime) {
             console.log("Sending AJAX request to get schedule...");
             $.ajax({
                 url: '${pageContext.request.contextPath}/admin/movie/getSchedule', // 요청 URL
                 type: 'POST',
-                data: { TH_REGION: TH_REGION, TH_NAME: TH_NAME, CI_NUMBER: CI_NUMBER },
+                data: { TH_REGION: TH_REGION, TH_NAME: TH_NAME, TH_NUMBER: TH_NUMBER },
                 success: function(schedules) {
                     console.log("Schedules received: ", schedules);
                     checkOverlap(schedules, runtime);
@@ -322,11 +325,9 @@ $(function() {
         }
     }
 
-
-
     // 영문 제목 입력 필드 클릭시 이벤트 핸들러
     $('#titleEng').focus(function() {
-        if ($(this).val() === '영문제목이 없습니다. 입력해주세요') { // 기본 메시지가 있으면
+        if ($(this).val() === '영문제목을 입력해주세요') { // 기본 메시지가 있으면
             $(this).val(''); // 빈 값으로 변경
         }
     });
@@ -334,77 +335,26 @@ $(function() {
     // 영문 제목 입력 필드에서 포커스가 벗어났을 때 이벤트 핸들러
     $('#titleEng').blur(function() {
         if ($(this).val().trim() === '') { // 입력 필드가 비어있으면
-            $(this).val('영문제목이 없습니다. 입력해주세요'); // 기본 메시지 다시 표시
+            $(this).val('영문제목을 입력해주세요'); // 기본 메시지 다시 표시
         }
     });
 });
 </script>
 <script>
-    function enableEdit(ciNumber) {
-        // 각 셀의 내용을 <input type="text">로 변경
-        var region = document.getElementById('region' + ciNumber);
-        var name = document.getElementById('name' + ciNumber);
-        var cinema = document.getElementById('cinema' + ciNumber);
-        var title = document.getElementById('title' + ciNumber);
-        var scTime = document.getElementById('scTime' + ciNumber);
-        var scTimeEnd = document.getElementById('scTimeEnd' + ciNumber);
-
-        region.innerHTML = '<input type="text" value="' + region.textContent + '">';
-        name.innerHTML = '<input type="text" value="' + name.textContent + '">';
-        cinema.innerHTML = '<input type="text" value="' + cinema.textContent + '">';
-        title.innerHTML = '<input type="text" value="' + title.textContent + '">';
-        scTime.innerHTML = '<input type="text" value="' + scTime.textContent + '">';
-        scTimeEnd.innerHTML = '<input type="text" value="' + scTimeEnd.textContent + '">';
-
-        // 수정 버튼을 저장 버튼으로 변경
-        var editButton = document.querySelector('#row' + ciNumber + ' button:first-child');
-        editButton.textContent = '저장';
-        editButton.setAttribute('onclick', 'saveRow(' + ciNumber + ')');
-    }
-
-    function saveRow(ciNumber) {
-        // 수정된 내용을 다시 텍스트로 변환
-        var region = document.querySelector('#region' + ciNumber + ' input').value;
-        var name = document.querySelector('#name' + ciNumber + ' input').value;
-        var cinema = document.querySelector('#cinema' + ciNumber + ' input').value;
-        var title = document.querySelector('#title' + ciNumber + ' input').value;
-        var scTime = document.querySelector('#scTime' + ciNumber + ' input').value;
-        var scTimeEnd = document.querySelector('#scTimeEnd' + ciNumber + ' input').value;
-
-        // 서버로 데이터 전송 (AJAX)
-        var params = {
-            CI_NUMBER: ciNumber,
-            TH_REGION: region,
-            TH_NAME: name,
-            title: title,
-            SC_TIME: scTime,
-            SC_TIME_END: scTimeEnd
-        };
-
+function deleteRow(ciNum) {
+    if (confirm('정말 삭제하시겠습니까?')) {
         $.ajax({
-            url: '${pageContext.request.contextPath}/admin/movie/updateSchedule', // 서버의 적절한 엔드포인트로 수정
+            url: '${pageContext.request.contextPath}/admin/movie/deleteSchedule', // 서버의 삭제 엔드포인트
             type: 'POST',
-            data: params,
+            data: { CI_NUM: ciNum }, // 전달할 데이터
             success: function(response) {
-                alert('수정 완료!');
-                location.reload(); // 페이지를 새로고침하여 변경된 내용을 반영
+                alert('삭제 완료!');
+                location.reload(); // 페이지를 새로고침하여 변경 내용을 반영
             }
         });
     }
+}
 
-    function deleteRow(ciNumber) {
-        if (confirm('정말 삭제하시겠습니까?')) {
-            $.ajax({
-                url: '${pageContext.request.contextPath}/admin/movie/deleteSchedule', // 서버의 적절한 엔드포인트로 수정
-                type: 'POST',
-                data: { CI_NUMBER: ciNumber },
-                success: function(response) {
-                    alert('삭제 완료!');
-                    location.reload();
-                }
-            });
-        }
-    }
 </script>
 
 
@@ -434,210 +384,212 @@ $(function() {
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-				<!-- container-fluid -->
+					<!-- container-fluid -->
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">상영일정관리</h1>
-					<p class="mb-4">
-						링크~ <a target="_blank" href="https://datatables.net">넣던가~</a>.
-					</p>
+					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">상영일정관리</h1>
+					<br>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">상영일정관리</h6>
+							<h6 class="m-0 font-weight-bold text-danger">상영일정등록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 								<form
 									action="${pageContext.request.contextPath}/admin/movie/movieschedulePro"
 									method="post">
-									<table class="table table-bordered" id="dataTable1" width="100%"
-										cellspacing="0">
-										<thead>
+									<table class="table schedule-bordered" id="dataTable1"
+										width="100%" cellspacing="0">
 											<tr>
 												<th>개봉날짜(최근3개월)</th>
-												<th>지역</th>
-												<th>지점명</th>
-												<th>상영관</th>
-												<th>영화제목</th>
-												<th id="titleEngTh">영문제목</th>
-												<th>런타임(분)</th>
-												<th>상영가능시간</th>
+												<td><input type="date" id="dateInput" name="date"></td>
 												<th>상영시작시간</th>
-												<th>상영종료시간</th>
-												<th>등록</th>
-												<th>초기화</th>
+												<td><input type="datetime-local" id="runningDts"
+													name="runningDts"></td>
+												<th>상영가능시간</th>
 											</tr>
-										</thead>
-										<tbody>
 											<tr>
-												<td><input type="date" id="dateInput" name="date">
-												</td>
+												<th>지역</th>
 												<td><select id="regionList" name="TH_REGION">
 														<option value="">지역 선택</option>
 														<c:forEach var="list" items="${regionList}">
 															<option value="${list.TH_REGION}">${list.TH_REGION}</option>
 														</c:forEach>
 												</select></td>
-												<td><select id="theaterList" name="TH_NAME">
-														<option value="${list.TH_NAME}">먼저 지역을 선택하세요</option>
-												</select></td>
-												<td><select id="cinemaList" name="CI_NUMBER">
-														<option value="${list.CI_NUMBER}">먼저 지점명을 선택하세요</option>
-												</select></td>
-												<td><select id="movieNameList" name="title">
-														<option value="${list.title}">영화를 선택하세요</option>
-												</select></td>
-												<td id="titleEngTd"><input type="text" id="titleEng"
-													name="titleEng" value="영문제목이 없습니다. 입력해주세요"></td>
-												<td><input type="text" id="runtime" name="runtime" value=""></td>
-													
-													
-												<td><textarea id="possibleTimes" name="possibleTimes" rows="10" cols="50"></textarea></td>
-												
-												
-												<td><input type="datetime-local" id="runningDts"
-													name="runningDts"></td>
+												<th>상영종료시간</th>
 												<td><input type="datetime-local" id="runningDte"
 													name="runningDte"></td>
-												<td><button type="submit">등록</button></td>
-												<td><button type="reset">초기화</button></td>
+												<td rowspan="10"><textarea id="possibleTimes" name="possibleTimes"
+														rows="10" cols="50"></textarea></td>
+											<tr>
+												<th>지점명</th>
+												<td colspan="3"><select id="theaterList" name="TH_NAME">
+														<option value="${list.TH_NAME}">먼저 지역을 선택하세요</option>
+												</select></td>
 											</tr>
-										</tbody>
+											<tr>
+												<th>상영관</th>
+												<td colspan="3"><select id="cinemaList" name="TH_NUMBER">
+														<option value="${list.TH_NUMBER}">먼저 지점명을 선택하세요</option>
+												</select></td>
+											</tr>
+											<tr>
+												<th>영화제목</th>
+												<td colspan="3"><select id="movieNameList" name="title">
+														<option value="${list.title}">영화를 선택하세요</option>
+												</select></td>
+											</tr>
+											<tr>
+												<th id="titleEngTh">영문제목</th>
+												<td id="titleEngTd"><input type="text" id="titleEng"
+													name="titleEng" value="영문제목을 입력해주세요"></td>
+											</tr>
+											<tr>
+												<th>런타임(분)</th>
+												<td colspan="3"><input type="text" id="runtime" name="runtime"
+													value=""></td>
+											</tr>
 									</table>
+									<div class="button-container">
+									<button type="submit" class="btn btn-danger btn-user same-size" style="margin-right: 2px;">등록</button><button type="reset" class="btn btn-secondary btn-user same-size">초기화</button>
+									</div>
 								</form>
-								
-								
-							</div> <!-- table-responsive  --> 
-						</div> <!-- card-body -->
-					</div><!-- card shadow mb-4 -->
 
-				</div> <!-- End of Page Content -->
-				
+
+							</div>
+							<!-- table-responsive  -->
+						</div>
+						<!-- card-body -->
+					</div>
+					<!-- card shadow mb-4 -->
+
+				</div>
+				<!-- End of Page Content -->
+
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-				<!-- container-fluid -->
+					<!-- container-fluid -->
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">상영일정관리</h1>
-					<p class="mb-4">
-						링크~ <a target="_blank" href="https://datatables.net">넣던가~</a>.
-					</p>
+
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">상영일정관리</h6>
+							<h6 class="m-0 font-weight-bold text-danger">예정상영일정</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-										cellspacing="0">
+								<table class="table schedule-bordered2" id="dataTable" width="100%"
+									cellspacing="0">
 									<thead>
-                                        <tr>
-                                        	<th>지역</th>
+										<tr>
+											<th>지역</th>
 											<th>지점명</th>
 											<th>상영관</th>
 											<th>영화제목</th>
 											<th>상영시작시간</th>
 											<th>상영종료시간</th>
-											<th>수정</th>
-											<th>삭제</th>
-                                        </tr>
-                                    </thead>
-                                   <tbody>
-    <c:forEach var="scheduleDTO" items="${scheduleList}">
-    <tr id="row${scheduleDTO.CI_NUMBER}">
-        <td id="region${scheduleDTO.CI_NUMBER}">${scheduleDTO.TH_REGION}</td>
-        <td id="name${scheduleDTO.CI_NUMBER}">${scheduleDTO.TH_NAME}</td>
-        <td id="cinema${scheduleDTO.CI_NUMBER}">${scheduleDTO.CI_NUMBER}</td>
-        <td id="title${scheduleDTO.CI_NUMBER}">${scheduleDTO.title}</td>
-        <td id="scTime${scheduleDTO.CI_NUMBER}">${scheduleDTO.SC_TIME}</td>
-        <td id="scTimeEnd${scheduleDTO.CI_NUMBER}">${scheduleDTO.SC_TIME_END}</td>
-        <td><button type="button" onclick="enableEdit(${scheduleDTO.CI_NUMBER})">수정</button></td>
-        <td><button type="button" onclick="deleteRow(${scheduleDTO.CI_NUMBER})">삭제</button></td>
-    </tr>
-    </c:forEach>
-</tbody>
+											<th>비고</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="scheduleDTO" items="${scheduleList}">
+											<tr id="row${scheduleDTO.CI_NUM}">
+												<td id="region${scheduleDTO.CI_NUM}">${scheduleDTO.TH_REGION}</td>
+												<td id="name${scheduleDTO.CI_NUM}">${scheduleDTO.TH_NAME}</td>
+												<td id="cinema${scheduleDTO.CI_NUM}">${scheduleDTO.TH_NUMBER}</td>
+												<td id="title${scheduleDTO.CI_NUM}">${scheduleDTO.title}</td>
+												<td id="scTime${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME}</td>
+												<td id="scTimeEnd${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME_END}</td>
+												<td id="delete-button-cell"><button type="button" onclick="deleteRow(${scheduleDTO.CI_NUM})" class="btn btn-danger btn-user">일정삭제</button></td>
+											</tr>
+										</c:forEach>
+									</tbody>
 
 								</table>
-							</div> <!-- table-responsive  --> 
-						</div> <!-- card-body -->
-					</div><!-- card shadow mb-4 -->
+							</div>
+							<!-- table-responsive  -->
+						</div>
+						<!-- card-body -->
+					</div>
+					<!-- card shadow mb-4 -->
 
-				</div> <!-- End of Page Content -->
-				
-			</div><!-- End of Main Content -->
-			
-		</div> 
-		<!-- End Content Wrapper -->	
+				</div>
+				<!-- End of Page Content -->
 
-			
-		
-			
+			</div>
+			<!-- End of Main Content -->
+
+		</div>
+		<!-- End Content Wrapper -->
+
+
+
+
 
 	</div>
-		<!-- End of Page Wrapper -->
-			
-		<!-- Footer Include-->
-		<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
-		<!-- End of Footer -->
+	<!-- End of Page Wrapper -->
 
-		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+	<!-- Footer Include-->
+	<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
+	<!-- End of Footer -->
 
-		<!-- Logout Modal-->
-		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ready to
-							Leave?</h5>
-						<button class="close" type="button" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">Ã</span>
-						</button>
-					</div>
-					<div class="modal-body">Select "Logout" below if you are
-						ready to end your current session.</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button"
-							data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="login.html">Logout</a>
-					</div>
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">Ã</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Bootstrap core JavaScript-->
-		<script
-			src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap core JavaScript-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Core plugin JavaScript-->
-		<script
-			src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-		<!-- Custom scripts for all pages-->
-		<script
-			src="${pageContext.request.contextPath}/resources/script/sb-admin-2.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script
+		src="${pageContext.request.contextPath}/resources/script/sb-admin-2.min.js"></script>
 
-		<!-- Page level plugins -->
-		<script
-			src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+	<!-- Page level plugins -->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-		<!-- Page level custom scripts -->
-		<script
-			src="${pageContext.request.contextPath}/resources/script/demo/datatables-demo.js"></script>
+	<!-- Page level custom scripts -->
+	<script
+		src="${pageContext.request.contextPath}/resources/script/demo/datatables-demo.js"></script>
 </body>
 
 </html>

@@ -46,7 +46,8 @@ public class ScheduledTasks {
     
     @Scheduled(fixedRate = 1296000000) // 15일마다 실행 (15일 = 1296000000 milliseconds)
     public void selectAndSaveMoives() {
-    	
+    		
+    		System.out.println("저장");
     	  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
           LocalDate today = LocalDate.now();
 //          LocalDate releaseDts = today.plusDays(30); // 오늘로부터 15일 뒤

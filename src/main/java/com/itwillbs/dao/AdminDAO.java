@@ -207,6 +207,11 @@ public class AdminDAO {
 	public void updateRuntime(Map<String, Object> params) {
 		sqlSession.update(namespace + ".updateRuntime", params);
 	}
+	
+	// 각 상영관에 따른 상영일정
+	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
+		return sqlSession.selectList(namespace + ".getScheduleByCinema", params);
+	}
 
 	// 상영시간 저장
 	public void insertScreenTime(Map<String, Object> params) {
@@ -231,10 +236,16 @@ public class AdminDAO {
 	public List<ScheduleDTO> getScheduleList() {
 		return sqlSession.selectList(namespace + ".getScheduleList");
 	}
-
-	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
-		return sqlSession.selectList(namespace + ".getScheduleByCinema", params);
+	
+	public void deleteScreenByCINum(int ciNum) {
+		sqlSession.delete(namespace + ".deleteScreenByCINum", ciNum);
+		
 	}
+
+	public void deleteCinemaByCINum(int ciNum) {
+		sqlSession.delete(namespace + ".deleteCinemaByCINum", ciNum);
+	}
+
 
 	public List<AdminDTO> getBranchList() {
 		return sqlSession.selectList(namespace + ".getBranchList");
@@ -260,5 +271,9 @@ public class AdminDAO {
 	public void deleteTheater(int thNum) {
 		sqlSession.delete(namespace + ".deleteTheater", thNum);
 	}
+
+	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
+        return sqlSession.selectOne(namespace + ".checkStoreDetails", storeDetails);
+    }
 
 }

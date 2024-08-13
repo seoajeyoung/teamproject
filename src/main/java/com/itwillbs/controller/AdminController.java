@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,26 +63,6 @@ public class AdminController {
 	}
 
 // ===========================================================	
-
-	// 회원가입
-
-//	@GetMapping("/member/register")
-//    public String showRegisterPage() {
-//        return "/admin/member/register";
-//    }
-//	
-//    @PostMapping("/member/registerPro")
-//    public String registerMember(MemberDTO memberDTO) {
-//    	
-//    	System.out.println(memberDTO);
-//    	
-//    	adminService.registerMember(memberDTO);
-//
-//        return "redirect:/admin/index";
-//    }
-
-// => 회원가입 일단 안써서 주석	
-// ===========================================================
 
 	// 회원목록
 
@@ -147,7 +128,7 @@ public class AdminController {
 
 	// 회원탈퇴/복구 페이지 이동
 
-	@GetMapping("/member/memberDelete")
+	@GetMapping("/member/memberdelete")
 	public String delete(MemberDTO memberDTO, Model model) {
 
 		MemberDTO memberDTO2 = adminService.getMemberInfo(memberDTO.getMember_num());
@@ -271,12 +252,13 @@ public class AdminController {
 	}
 
 // ===========================================================
-
-	@PostMapping("/movie/moviedeletePro")
-	public String moviedeletePro(MovieDTO movieDTO) {
-
+	
+	// 영화정보삭제
+	@RequestMapping(value = "/movie/moviedelete", method = RequestMethod.POST)
+	@ResponseBody
+	public void moviedeletePro(MovieDTO movieDTO) {
+		
 		adminService.moviedelete(movieDTO);
-		return "redirect:/admin/movie/movielist";
 	}
 
 // ===========================================================
@@ -317,7 +299,7 @@ public class AdminController {
 	@RequestMapping(value = "/movie/getMovieNameList", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Map<String, String>> getMovieNameList(
-			@RequestParam("releaseDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String releaseDateStr) {
+		@RequestParam("releaseDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String releaseDateStr) {
 		// releaseDate와 3개월 전 날짜 계산
 		LocalDate releaseDate = LocalDate.parse(releaseDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate threeMonthsAgo = releaseDate.minusMonths(3);
@@ -334,19 +316,19 @@ public class AdminController {
 	@RequestMapping(value = "/movie/getSchedule", method = RequestMethod.POST)
 	@ResponseBody
 	public List<ScheduleDTO> getSchedule(@RequestParam String TH_REGION, @RequestParam String TH_NAME,
-			@RequestParam String CI_NUMBER) {
+			@RequestParam String TH_NUMBER) {
 		System.out.println("getSchedule");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", TH_REGION);
 		params.put("TH_NAME", TH_NAME);
-		params.put("CI_NUMBER", CI_NUMBER);
+		params.put("TH_NUMBER", TH_NUMBER);
 		return adminService.getScheduleByCinema(params);
 	}
 
 	// 영화 상영 등록
 	@PostMapping("/movie/movieschedulePro")
 	public String insertSchdule(@RequestParam("TH_REGION") String region, @RequestParam("TH_NAME") String theater,
-			@RequestParam("CI_NUMBER") String cinemaNumber, @RequestParam("title") String movie,
+			@RequestParam("TH_NUMBER") String cinemaNumber, @RequestParam("title") String movie,
 			@RequestParam(value = "titleEng", required = false) String titleEng,
 			@RequestParam(value = "runtime", required = false) String runtime,
 			@RequestParam("runningDts") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date runningDts,
@@ -358,7 +340,7 @@ public class AdminController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", region);
 		params.put("TH_NAME", theater);
-		params.put("CI_NUMBER", cinemaNumber);
+		params.put("TH_NUMBER", cinemaNumber);
 		params.put("title", movie);
 		params.put("titleEng", titleEng);
 		params.put("runtime", runtime);
@@ -383,19 +365,18 @@ public class AdminController {
 
 		return "redirect:/admin/movie/movieschedule";
 	}
-
-	@PostMapping("/movie/updateSchedule")
-	@ResponseBody
-	public void updateSchedule(@RequestParam Map<String, String> params) {
-		adminService.updateTheater(params);
-	}
-
+	
+	
 	@PostMapping("/movie/deleteSchedule")
 	@ResponseBody
-	public void deleteSchedule(@RequestParam("CI_NUMBER") int ciNumber) {
-		adminService.deleteTheater(ciNumber);
+	public void deleteSchedule(@RequestParam("CI_NUM") int ciNum) {
+	    // SCREEN 테이블에서 관련된 데이터를 삭제
+	    adminService.deleteScreenByCINum(ciNum);
+	    // CINEMA 테이블에서 관련된 데이터를 삭제
+	    adminService.deleteCinemaByCINum(ciNum);
 	}
-
+	
+	
 // ===========================================================
 
 	@GetMapping("/movie/theaterinsert")
@@ -414,7 +395,7 @@ public class AdminController {
 		return "/admin/movie/theaterinsert";
 	}
 
-// ===========================================================
+//// ===========================================================
 
 	@RequestMapping(value = "/movie/findRegionEng", method = RequestMethod.POST)
 	@ResponseBody
@@ -437,12 +418,12 @@ public class AdminController {
 		params.put("TH_NAME", NameT);
 		params.put("TH_NAMEEng", NAMEEngT);
 		params.put("TH_ADDR", ADDRT);
-		params.put("CI_NUMBER", CI_NT);
+		params.put("TH_NUMBER", CI_NT);
 		params.put("TH_NUM", THNum);
+		params.put("TH_ORDER", THNum);
 		System.out.println("Params Map: " + params);
 
 		adminService.insertTheater(params);
-		adminService.insertCInumber(params);
 
 		return "redirect:/admin/movie/theaterinsert";
 	}
@@ -459,103 +440,31 @@ public class AdminController {
 		adminService.deleteTheater(thNum);
 	}
 
-	// 영화 검색 결과 페이지
+	
+////===========================================================
+	
+	// 스토어
+	
+	@GetMapping("/store/controlstore")
+	public String controlstore() {
 
-//    @GetMapping("/admin/movie/search-result")
-//    public String searchResults(@RequestParam("keyword") String keyword, Model model) {
-//        try {
-//            List<MovieDTO> movies = apiService.searchMoviesByKeyword(keyword);
-//            model.addAttribute("movies", movies);
-//        } catch (Exception e) {
-//            model.addAttribute("error", "검색 중 오류가 발생했습니다.");
-//        }
-//        return "/admin/movie/search-result"; // 결과를 표시할 JSP 파일
-//    }
+		
+		return "/admin/store/controlstore";
+	}
+	
+	@PostMapping("/store/check-store-details")
+	@ResponseBody
+    public Map<String, Boolean> checkStoreDetails(
+            @RequestParam("ST_NUM") String ST_NUM,
+            @RequestParam("ST_NAME") String ST_NAME,
+            @RequestParam("ST_DETAIL") String ST_DETAIL) {
 
-//    @GetMapping("/movie/movie-details")
-//    public String mmmm() {
-//    	
-//		
-//        return "/admin/movie/movie-details";
-//    }  
+        Map<String, String> storeDetails = new HashMap<>();
+        storeDetails.put("ST_NUM", ST_NUM);
+        storeDetails.put("ST_NAME", ST_NAME);
+        storeDetails.put("ST_DETAIL", ST_DETAIL);
 
-//	@GetMapping("/tables")
-//	public String tables() {
-//		
-//		return "/admin/tables";
-//	}
-//	
-//	@GetMapping("/login")
-//	public String login() {
-//		
-//		return "/admin/login";
-//	}
-//	
-//	@GetMapping("/404")
-//	public String e404() {
-//		
-//		return "/admin/404";
-//	}
-//	
-//	@GetMapping("/blank")
-//	public String blank() {
-//		
-//		return "/admin/blank";
-//	}
-//	
-//	@GetMapping("/buttons")
-//	public String buttons() {
-//		
-//		return "/admin/buttons";
-//	}
-//	
-//	@GetMapping("/cards")
-//	public String cards() {
-//		
-//		return "/admin/cards";
-//	}
-//	
-//	@GetMapping("/charts")
-//	public String charts() {
-//		
-//		return "/admin/charts";
-//	}
-//	
-//	@GetMapping("/forgot-password")
-//	public String forgotpassword() {
-//		
-//		return "/admin/forgot-password";
-//	}
-//	
-//		
-//	@GetMapping("/register")
-//	public String register() {
-//		
-//		return "/admin/register";
-//	}
-//	
-//	@GetMapping("/utilities-animation")
-//	public String utilitiesanimation() {
-//		
-//		return "/admin/utilities-animation";
-//	}
-//	
-//	@GetMapping("/utilities-border")
-//	public String utilitiesborder() {
-//		
-//		return "/admin/utilities-border";
-//	}
-//	
-//	@GetMapping("/utilities-color")
-//	public String utilitiescolor() {
-//		
-//		return "/admin/utilities-color";
-//	}
-//	
-//	@GetMapping("/utilities-other")
-//	public String utilitiesother() {
-//		
-//		return "/admin/utilities-other";
-//	}
+        return adminService.checkStoreDetails(storeDetails);
+    }
 
 }

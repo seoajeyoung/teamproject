@@ -43,6 +43,25 @@
 	href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
 
+<script>
+function deleteMovie(movieNum) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/admin/movie/moviedelete',
+            type: 'POST',
+            data: { MOVIE_NUM: movieNum },
+            success: function(response) {
+                window.location.href = '${pageContext.request.contextPath}/admin/movie/movielist';
+            },
+            error: function() {
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        });
+    }
+}
+</script>
+
+
 </head>
 
 <body id="page-top">
@@ -80,7 +99,7 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="4">${movieDTO.title} 상세정보</th>
+											<th colspan="4">${movieDTO.title}상세정보</th>
 											<th colspan="2">영화 포스터</th>
 										</tr>
 									</thead>
@@ -144,9 +163,9 @@
 								<div class="button-container">
 									<a
 										href="${pageContext.request.contextPath}/admin/movie/movieupdate?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
-										class="btn btn-success btn-user">영화정보수정</a> <a
-										href="${pageContext.request.contextPath}/admin/movie/moviedelete?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
-										class="btn btn-danger btn-user">영화정보삭제</a>
+										class="btn btn-success btn-user">영화정보수정</a>
+									<button type="button" class="btn btn-danger btn-user"
+										onclick="deleteMovie(${movieDTO.MOVIE_NUM})">영화정보삭제</button>
 								</div>
 
 							</div>

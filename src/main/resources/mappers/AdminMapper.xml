@@ -159,12 +159,12 @@
 		insert into MOVIE (MOVIE_NUM, title, titleEng,
 		direcotrNm, actorNm, nation,
 		genre, plot, runtime, rating, releaseDate,
-		posterUrl, stillUrl,
+		posterUrl, stillUrl, vodUrl,
 		audiAcc, themsSong, soundtrack, Awards1)
 		values
 		(FLOOR(RAND() * 1000000), #{title}, #{titleEng}, #{directorNm},
 		#{actorNm}, #{nation}, #{genre}, #{plot}, #{runtime}, #{rating},
-		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{audiAcc}, #{themeSong},
+		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{vodUrl}, #{audiAcc}, #{themeSong},
 		#{soundtrack}, #{Awards1})
 	</insert>
 
@@ -219,7 +219,7 @@
 
 	<delete id="moviedelete"
 		parameterType="com.itwillbs.domain.MovieDTO">
-		DELETE FROM MOVIE WHERE where MOVIE_NUM = #{MOVIE_NUM}
+		DELETE FROM MOVIE WHERE MOVIE_NUM = #{MOVIE_NUM}
 	</delete>
 
 
@@ -253,19 +253,10 @@
 
 	<select id="getCinemaList" parameterType="String"
 		resultType="String">
-		SELECT DISTINCT C.CI_NUMBER
-		FROM THEATER T
-		LEFT JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
-		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		WHERE T.TH_NAME = #{TH_NAME}
+		SELECT DISTINCT TH_NUMBER
+		FROM THEATER
+		WHERE TH_NAME = #{TH_NAME}
 	</select>
-
-	<!-- <select id="getMovieNameList" parameterType="String" resultType="String"> -->
-	<!-- SELECT TITLE -->
-	<!-- FROM MOVIE -->
-	<!-- WHERE REPLACE(releaseDate, '-', '') &lt;= #{releaseDate} -->
-	<!-- </select> -->
-
 
 	<select id="getMovieNameList" parameterType="map"
 		resultType="hashmap">
@@ -301,13 +292,12 @@
 	<!-- 상영일정저장 -->
 	<insert id="insertSchedule" parameterType="map">
 		<!-- CINEMA 테이블에 데이터 삽입 -->
-		INSERT INTO CINEMA (CI_NUM, TH_NUM, MOVIE_NUM, CI_NUMBER)
+		INSERT INTO CINEMA (CI_NUM, TH_NUM, MOVIE_NUM)
 		VALUES (
 		#{CI_NUM},
 		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME =
 		#{TH_NAME}),
-		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title}),
-		#{CI_NUMBER}
+		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title})
 		);
 	</insert>
 	<insert id="insertScreenTime" parameterType="map">
@@ -331,11 +321,9 @@
 	</update>
 
 
-
-
 	<select id="getScheduleList"
 		resultType="com.itwillbs.domain.ScheduleDTO">
-		SELECT T.TH_REGION, T.TH_NAME, C.CI_NUMBER, M.TITLE, S.SC_TIME,
+		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE, S.SC_TIME, C.CI_NUM,
 		S.SC_TIME_END
 		FROM THEATER T
 		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
@@ -345,7 +333,7 @@
 
 	<select id="getScheduleByCinema" parameterType="map"
 		resultType="com.itwillbs.domain.ScheduleDTO">
-		SELECT T.TH_REGION, T.TH_NAME, C.CI_NUMBER, M.TITLE, S.SC_TIME,
+		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE, S.SC_TIME,
 		S.SC_TIME_END
 		FROM THEATER T
 		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
@@ -353,8 +341,20 @@
 		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 		WHERE T.TH_REGION = #{TH_REGION}
 		AND T.TH_NAME = #{TH_NAME}
-		AND C.CI_NUMBER = #{CI_NUMBER}
+		AND T.TH_NUMBER = #{TH_NUMBER}
 	</select>
+	
+	<!-- SCREEN 테이블에서 삭제 -->
+	<delete id="deleteScreenByCINum" parameterType="int">
+		DELETE FROM SCREEN WHERE CI_NUM = #{CI_NUM};
+	</delete>
+	
+	<!-- CINEMA 테이블에서 삭제  -->
+	<delete id="deleteCinemaByCINum" parameterType="int">
+		DELETE FROM CINEMA WHERE CI_NUM = #{CI_NUM};
+	</delete>
+	
+	
 
 	<select id="getBranchList" parameterType="map"
 		resultType="com.itwillbs.domain.AdminDTO">
@@ -365,7 +365,7 @@
 		T.TH_ADDR,
 		T.TH_REGIONEng,
 		T.TH_NAMEEng,
-		C.CI_NUMBER
+		T.TH_NUMBER
 		FROM
 		THEATER T
 		LEFT JOIN
@@ -381,7 +381,7 @@
 		T.TH_ADDR,
 		T.TH_REGIONEng,
 		T.TH_NAMEEng,
-		C.CI_NUMBER
+		T.TH_NUMBER
 		FROM
 		THEATER T
 		LEFT JOIN
@@ -390,24 +390,19 @@
 
 	<insert id="insertTheater" parameterType="map">
 		INSERT INTO THEATER (TH_NUM, TH_REGION, TH_REGIONEng, TH_NAME, TH_NAMEEng,
-		TH_ADDR)
+		TH_ADDR, TH_NUMBER, TH_ORDER)
 		VALUES (
 		#{TH_NUM},
 		#{TH_REGION},
 		#{TH_REGIONEng},
 		#{TH_NAME},
 		#{TH_NAMEEng},
-		#{TH_ADDR}
+		#{TH_ADDR},
+		#{TH_NUMBER},
+		#{TH_ORDER}
 		);
 	</insert>
 
-	<insert id="insertCInumber" parameterType="map">
-		INSERT INTO CINEMA (TH_NUM, CI_NUMBER)
-		VALUES (
-		#{TH_NUM},
-		#{CI_NUMBER}
-		);
-	</insert>
 
 	<update id="updateTheater" parameterType="map">
 		UPDATE THEATER
@@ -416,11 +411,21 @@
 		TH_REGIONEng = #{TH_REGIONEng},
 		TH_NAME = #{TH_NAME},
 		TH_NAMEEng = #{TH_NAMEEng},
-		TH_ADDR = #{TH_ADDR}
+		TH_ADDR = #{TH_ADDR},
+		TH_NUMBER = #{TH_NUMBER}
 		WHERE TH_NUM = #{TH_NUM};
 	</update>
 
 	<delete id="deleteTheater" parameterType="int">
 		DELETE FROM THEATER WHERE TH_NUM = #{TH_NUM};
 	</delete>
+	
+	
+	<select id="checkStoreDetails" parameterType="map" resultType="map">
+        SELECT
+            EXISTS(SELECT 1 FROM STORE WHERE ST_NUM = 'P001') AS numExists,
+            EXISTS(SELECT 1 FROM STORE WHERE ST_NAME = #{ST_NAME}) AS nameExists,
+            EXISTS(SELECT 1 FROM STORE WHERE ST_DETAIL = #{ST_DETAIL}) AS detailExists
+    </select>
+    
 </mapper>

@@ -140,7 +140,7 @@
 										href="${pageContext.request.contextPath}/admin/member/update?member_num=${memberDTO.member_num}"
 										class="btn btn-success btn-user">회원정보수정</a> 
 									<a
-										href="${pageContext.request.contextPath}/admin/member/moviedeletePro?member_num=${memberDTO.member_num}"
+										href="${pageContext.request.contextPath}/admin/member/memberdelete?member_num=${memberDTO.member_num}"
 										class="btn btn-danger btn-user">회원정보삭제</a>
 								</div>
 

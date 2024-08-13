@@ -4,13 +4,22 @@ package com.itwillbs.domain;
 public class ScheduleDTO {
     private String TH_REGION;
     private String TH_NAME;
-    private String CI_NUMBER;
+    private String TH_NUMBER;
     private String title;  
     private String SC_TIME;
     private String SC_TIME_END;
+    private String CI_NUM;
     
 
-    // Getters and Setters
+    public String getCI_NUM() {
+		return CI_NUM;
+	}
+
+	public void setCI_NUM(String CI_NUM) {
+		this.CI_NUM = CI_NUM;
+	}
+
+	// Getters and Setters
     public String getTH_REGION() {
         return TH_REGION;
     }
@@ -27,12 +36,12 @@ public class ScheduleDTO {
         this.TH_NAME = TH_NAME;
     }
 
-    public String getCI_NUMBER() {
-        return CI_NUMBER;
+    public String getTH_NUMBER() {
+        return TH_NUMBER;
     }
 
-    public void setCI_NUMBER(String CI_NUMBER) {
-        this.CI_NUMBER = CI_NUMBER;
+    public void setTH_NUMBER(String TH_NUMBER) {
+        this.TH_NUMBER = TH_NUMBER;
     }
 
     public String getTitle() {
@@ -59,11 +68,7 @@ public class ScheduleDTO {
 		SC_TIME_END = sC_TIME_END;
 	}
 
-	@Override
-	public String toString() {
-		return "ScheduleDTO [TH_REGION=" + TH_REGION + ", TH_NAME=" + TH_NAME + ", CI_NUMBER=" + CI_NUMBER + ", title="
-				+ title + ", SC_TIME=" + SC_TIME + ", SC_TIME_END=" + SC_TIME_END + "]";
-	}
+	
 
     
 

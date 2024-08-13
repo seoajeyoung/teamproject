@@ -105,13 +105,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">member:</h6>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/memberlist">회원목록</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/register">회원가입</a>
-                        <a class="collapse-item" href="../member/charts">회원통계</a>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/setm">메일보내기</a>
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
@@ -127,12 +122,23 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">movie:</h6>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movielist">영화목록</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movieschedule">상영일정등록</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/theaterinsert">상영지점등록</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movieschedule">상영일정관리</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/theaterinsert">상영지점관리</a>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>스토어관리</span>
+                </a>
+                <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">store:</h6>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/store/controlstore">스토어상품관리</a>
                     </div>
                 </div>
             </li>

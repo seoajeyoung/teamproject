@@ -53,6 +53,7 @@ public class AdminDTO {
     private String rating;
     private String posterUrl;
     private String stillUrl;
+    private String vodUrl;
     private String audiAcc;
     private String themeSong;
     private String soundtrack;
@@ -61,7 +62,12 @@ public class AdminDTO {
     
     
     
-    
+	public String getVodUrl() {
+		return vodUrl;
+	}
+	public void setVodUrl(String vodUrl) {
+		this.vodUrl = vodUrl;
+	}
 	public String getMOVIE_NUM() {
 		return MOVIE_NUM;
 	}
@@ -235,13 +241,13 @@ public class AdminDTO {
 	private int TH_ORDER;
 	private String TH_REGIONEng;
 	private String TH_NAMEEng;
-	private String CI_NUMBER;
+	private String TH_NUMBER;
     
-	public String getCI_NUMBER() {
-		return CI_NUMBER;
+	public String getTH_NUMBER() {
+		return TH_NUMBER;
 	}
-	public void setCI_NUMBER(String CI_NUMBER) {
-		this.CI_NUMBER = CI_NUMBER;
+	public void setTH_NUMBER(String tH_NUMBER) {
+		TH_NUMBER = tH_NUMBER;
 	}
 	public String getTH_NUM() {
 		return TH_NUM;
@@ -285,6 +291,57 @@ public class AdminDTO {
 	public void setTH_NAMEEng(String TH_NAMEEng) {
 		this.TH_NAMEEng = TH_NAMEEng;
 	}
+	
+	
+//===========================================================================================================================
+    
+	
+	private String ST_NUM;
+	private String ST_NAME;
+	private String ST_DETAIL; 
+	private String ST_PRICE; 
+	private String ST_PICTURE;
+	private String ST_TYPE;
+
+	public String getST_NUM() {
+		return ST_NUM;
+	}
+	public void setST_NUM(String ST_NUM) {
+		this.ST_NUM = ST_NUM;
+	}
+	public String getST_NAME() {
+		return ST_NAME;
+	}
+	public void setST_NAME(String ST_NAME) {
+		this.ST_NAME = ST_NAME;
+	}
+	public String getST_DETAIL() {
+		return ST_DETAIL;
+	}
+	public void setST_DETAIL(String ST_DETAIL) {
+		this.ST_DETAIL = ST_DETAIL;
+	}
+	public String getST_PRICE() {
+		return ST_PRICE;
+	}
+	public void setST_PRICE(String ST_PRICE) {
+		this.ST_PRICE = ST_PRICE;
+	}
+	public String getST_PICTURE() {
+		return ST_PICTURE;
+	}
+	public void setST_PICTURE(String ST_PICTURE) {
+		this.ST_PICTURE = ST_PICTURE;
+	}
+	public String getST_TYPE() {
+		return ST_TYPE;
+	}
+	public void setST_TYPE(String ST_TYPE) {
+		this.ST_TYPE = ST_TYPE;
+	}
+	
+	
+		
 	
 	
     

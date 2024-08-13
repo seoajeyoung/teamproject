@@ -13,6 +13,7 @@ public class MovieResponse {
     private String releaseDate;
     private String posterUrl;
     private String stillUrl;
+    private String vodUrl;
     private String audiAcc;
     private String themeSong;
     private String soundtrack;
@@ -23,11 +24,19 @@ public class MovieResponse {
     
     
     
+    public String getVodUrl() {
+		return vodUrl;
+	}
+
+
+	public void setVodUrl(String vodUrl) {
+		this.vodUrl = vodUrl;
+	}
+    
     
     public String getTitle() {
         return title;
     }
-
 
 	public void setTitle(String title) {
         this.title = title;

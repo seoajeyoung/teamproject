@@ -58,7 +58,8 @@ public class KMDBApiService {
                     movieResponse.setRating(resultNode.path("ratings").path("rating").get(0).path("ratingGrade").asText());
                     movieResponse.setReleaseDate(resultNode.path("ratings").path("rating").get(0).path("releaseDate").asText());
                     movieResponse.setPosterUrl(resultNode.path("posters").asText());
-                    
+                    movieResponse.setVodUrl(resultNode.path("vods").path("vod").get(0).path("vodUrl").asText());
+                                        
                     
                     // stlls 필드를 받아와서 %7C 기준으로 나누기
                     String stlls = resultNode.path("stlls").asText();

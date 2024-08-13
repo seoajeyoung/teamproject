@@ -14,6 +14,12 @@
     <meta name="author" content="">
 
     <title>OSTicket - schedule list</title>
+    
+<!--     <link rel="stylesheet" -->
+<%-- 	href="${pageContext.request.contextPath}/resources/css/admin/common.css"> --%>
+    
+    <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/theaterinsert.css">
 
 <!--     Custom fonts for this template -->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -112,8 +118,8 @@
                                     cinemaListSelect.append('<option value="">상영관 선택</option>');
                                     var cinemaNumbers = new Set();
                                     response.forEach(function(item) {
-                                        if (item.th_NAME === selectedTheater && item.ci_NUMBER !== null) {
-                                            cinemaNumbers.add(item.ci_NUMBER);
+                                        if (item.th_NAME === selectedTheater && item.th_NUMBER !== null) {
+                                            cinemaNumbers.add(item.th_NUMBER);
                                         }
                                     });
 
@@ -208,7 +214,7 @@
         regionEng.innerHTML = '<input type="text" value="' + regionEng.textContent + '">';
         name.innerHTML = '<input type="text" value="' + name.textContent + '">';
         nameEng.innerHTML = '<input type="text" value="' + nameEng.textContent + '">';
-        addr.innerHTML = '<input type="text" value="' + addr.textContent + '">';
+        addr.innerHTML = '<textarea rows="1" cols="30" value="' + addr.textContent + '">';
         cinema.innerHTML = '<input type="text" value="' + cinema.textContent + '">';
 
         // 수정 버튼을 저장 버튼으로 변경
@@ -234,7 +240,7 @@
             TH_NAME: name,
             TH_NAMEEng: nameEng,
             TH_ADDR: addr,
-            CI_NUMBER: cinema
+            TH_NUMBER: cinema
         };
 
         $.ajax({
@@ -290,79 +296,68 @@
 				
 				
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">지점등록</h1>
-                    <p class="mb-4">링크~ <a target="_blank"
-                            href="https://datatables.net">넣던가~</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">상영지점관리</h1><br>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">상세지점등록</h6>
+                            <h6 class="m-0 font-weight-bold text-danger">상영지점등록</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                            		<form
 									action="${pageContext.request.contextPath}/admin/movie/theaterinsertPro"
 									method="post">
-                                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                                <table class="table theater-bordered" id="dataTable1" width="100%" cellspacing="0">
                                     <tbody>
                                         <tr>
-                                        	<th colspan="2">지역</th>
-                                        	<th colspan="2">지역영문명</th>
-											<th colspan="2">지점명</th>
-											<th colspan="2">지점영문명</th>
+                                        	<th>지역</th>
+                                        	<th>지역영문명</th>
+                                        	<th>지점명</th>
+                                        	<th>지점영문명</th>
+                                        	<th>지점주소</th>
+                                        	<th>상영관</th>
                                         </tr>
-                                        <tr>
+                                        <tr>	
                                         	<td>
-                                        		<input type="text" id="RegionT" name="RegionT" value="">
-                                        	</td>
-                                        	<td>
-                                        		<select id="regionList" name="TH_REGION">
+                                        		<input type="text" id="RegionT" name="RegionT" value=""><select id="regionList" name="TH_REGION"> 
 													<option value="">지역 선택</option>
 														<c:forEach var="list" items="${regionList}">
 															<option value="${list.TH_REGION}">${list.TH_REGION}</option>
 														</c:forEach>
 												</select>
 											</td>
-                                    		<td colspan="2" id="TD_REGIONEng">
+											<td id="TD_REGIONEng">
                                     			<input type="text" id="TH_REGIONEngT" name="TH_REGIONEngT" value="">
                                     		</td>
-                                    		<td>
+											<td>
                                     			<input type="text" id="NameT" name="NameT" value="">
-                                    		</td>
-                                    		<td><select id="theaterList" name="TH_NAME">
+                                    			<select id="theaterList" name="TH_NAME">
 														<option value="">지점 선택</option>
 												</select>
 											</td>
-                                    		<td colspan="2" id="TD_NAMEEng">
+                                    		<td id="TD_NAMEEng">
                                     			<input type="text" id="TH_NAMEEngT" name="TH_NAMEEngT" value="">
                                     		</td>
-                                    	</tr>
-                                    	<tr><th colspan="2">지점주소</th>
-											<th colspan="2">상영관</th>
-											<th colspan="2">등록</th>
-											<th colspan="2">초기화</th>
-										</tr>
-										<tr>
-											<td colspan="2">
-												<input type="text" id="TH_ADDRT" name="TH_ADDRT" value="">
+                                    		
+                                    		<td>
+                                    			<textarea id="TH_ADDRT" name="TH_ADDRT" value=""
+														rows="1" cols="30"></textarea>
+<!-- 												<input type="text" id="TH_ADDRT" name="TH_ADDRT" value=""> -->
 											</td>
+											
 											<td>
 												<input type="text" id="CI_NT" name="CI_NT" value="">
-											</td>
-											<td>
 												<select id="cinemaList" name="CI_NUMBER">
 													<option value="">상영관 선택</option>
 												</select></td>
-											<td colspan="2">
-												<button type="submit">등록</button>
-											</td>
-											<td colspan="2">
-												<button type="reset">초기화</button>
-											</td>
 										</tr>
                                     </tbody>
                                 </table>
+                                <div class="button-container">
+                                <button type="submit" class="btn btn-danger btn-user same-size">등록</button>
+								<button type="reset" class="btn btn-secondary btn-user same-size">초기화</button>
+								</div>
                               </form>
                               
                             </div> <!-- table-responsive  --> 
@@ -377,20 +372,18 @@
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">지점목록</h1>
-					<p class="mb-4">
-						링크~ <a target="_blank" href="https://datatables.net">넣던가~</a>.
-					</p>
+					
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">상세지점목록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">상영지점목록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 								<form action="${pageContext.request.contextPath}/admin/movie/branchupdatePro" method="post">
-									<table class="table table-bordered" id="dataTable" width="100%"
+								<div class="table-container">
+									<table class="table theater-bordered2" id="dataTable" width="100%"
 										cellspacing="0">
 									<thead>
                                         <tr>
@@ -400,8 +393,7 @@
 											<th>지점영문명</th>
 											<th>지점주소</th>
 											<th>상영관</th>
-											<th>수정</th>
-											<th>삭제</th>
+											<th>수정/삭제</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -412,13 +404,16 @@
         										<td id="name${adminDTO.TH_NUM}">${adminDTO.TH_NAME}</td>
         										<td id="nameEng${adminDTO.TH_NUM}">${adminDTO.TH_NAMEEng}</td>
         										<td id="addr${adminDTO.TH_NUM}">${adminDTO.TH_ADDR}</td>
-        										<td id="cinema${adminDTO.TH_NUM}">${adminDTO.CI_NUMBER}</td>
-        										<td><button type="button" onclick="enableEdit(${adminDTO.TH_NUM})">수정</button></td>
-        										<td><button type="button" onclick="deleteRow(${adminDTO.TH_NUM})">삭제</button></td>
+        										<td id="cinema${adminDTO.TH_NUM}">${adminDTO.TH_NUMBER}</td>
+        										<td>
+        										<button type="button" class="btn btn-danger btn-user same-size1" onclick="enableEdit(${adminDTO.TH_NUM})">수정</button>
+        										<button type="button" class="btn btn-secondary btn-user same-size1" onclick="deleteRow(${adminDTO.TH_NUM})">삭제</button>
+        										</td>
     										</tr>
     									</c:forEach>
 									</tbody>
 								</table>
+								</div>
 								</form>
 							</div> <!-- table-responsive  --> 
 						</div> <!-- card-body -->
@@ -471,7 +466,7 @@
     <script src="${pageContext.request.contextPath}/resources/script/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
