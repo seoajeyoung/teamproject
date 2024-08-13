@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 관, 시간 가져오는 ajax
-   function MovieTimes() {
+  function MovieTimes() {
     $.ajax({
         url: '/myweb/MTIME',
         type: 'GET',
@@ -351,9 +351,9 @@ document.addEventListener('DOMContentLoaded', function() {
         success: function(response) {
             var mtime = response.mtime;
             var mcinema = response.mcinema;
-
+            var secount = response.secount[0].SE_COUNT;
+            var nowcount = response.secount[0].NOW_COUNT;
             var MtimeHtml = '';
-
             // 현재 시간 가져오기
             var now = new Date();
             var nowDay = now.getDate();
@@ -361,21 +361,19 @@ document.addEventListener('DOMContentLoaded', function() {
             var nowMinutes = now.getMinutes().toString().padStart(2, '0');
             var nowTimeStr = `${nowHours}:${nowMinutes}`;
 
-
-			
             $.each(mcinema, function(index, cinema) {
                 var cinemaHtml =
                     `<div class="theater">
                     <span class="title">
                         <span class="floor">${cinema.TH_NUMBER}</span>
-                        <span class="seatcount">(총218석)</span>
+                        <span class="seatcount">(총 ${secount}석)</span>
                     </span>
                     <ul>`;
 
                 $.each(mtime, function(index, time) {
                     if (time.TH_NUMBER === cinema.TH_NUMBER) {
                         var showTime = time.SC_TIME;
-						
+                        
                         // 현재 시간이 상영 시간보다 늦은 경우, 해당 <li> 태그를 숨기기
                         if (nowDay > selectDate || (nowDay === selectDate && nowTimeStr > showTime)) {
                             return; // 해당 시간에 맞는 <li> 태그를 건너뛰기
@@ -384,15 +382,27 @@ document.addEventListener('DOMContentLoaded', function() {
                         cinemaHtml +=
                             `<li>
                             <a class="button" data-id="${time.TH_NUMBER}" href="#">
-                                <span class="time">
-                                    <span>${time.SC_TIME}</span>
+                                <span class="time" style="position: relative;">
+                                    <span class="starttime">${time.SC_TIME}</span>
+                                    <div class="endtime" style="
+                                                visibility: hidden;
+                                                position: absolute;
+                                                z-index: 1;
+                                                left: 110%;
+                                                top: 0;
+                                                border-radius: 5px;
+                                                width: 100px;
+                                                color: #000000;
+                                                font-size: 12px;
+                                                background-color:#ffffff;
+                                                text-align: center;
+                                    ">
+                                        종료 ${time.SC_TIME_END}
+                                    </div>
                                 </span>
                                 <span class="count">
-                                    102석
+                                   ${nowcount}석
                                 </span>
-                                <div class="sreader">
-                                    종료시간 20:57
-                                </div>
                                 <span class="sreader mod"></span>
                             </a>
                         </li>`;
@@ -404,11 +414,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             $('#Mtime').html(MtimeHtml);
-            updatetruetime();
 
+            // `hover` 이벤트를 여기서 설정
+            $('.starttime').hover(
+                function() {
+                    $(this).siblings('.endtime').css({
+                        'visibility': 'visible',
+                    });
+                },
+                function() {
+                    $(this).siblings('.endtime').css({
+                        'visibility': 'hidden',
+                    });
+                }
+            );
+
+            updatetruetime();
         },
     });
 }
+
 	// 영화 시간 update 
 	function updatetruetime() {
         if (truetime) {
@@ -437,14 +462,13 @@ document.addEventListener('DOMContentLoaded', function() {
         'background-color': 'rgb(57, 53, 53)',
         'color': '#fff'
     });
-    updatetimebottom($(this).data('id'),$(this).find('span.time').text().trim(),fullDate);
+    updatetimebottom($(this).data('id'),$(this).find('span.time').find('span.starttime').text().trim(),fullDate); 
 });
 
 
 
     // 하단 시간 정보 표시 함수 
     function updatetimebottom(TH_NUMBER, SC_TIME, fullDate) {
-    
     var $dateSpan = $('.info.theater').find('span.data').eq(1); 
     $dateSpan.attr('title', fullDate + ' ' + SC_TIME); 
     $dateSpan.text(fullDate + ' ' + SC_TIME); 
@@ -566,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function() {
        		 MovieTimes();
    		 } else {
         		truetime = false;
-        		updateTrueTime();
+        		updatetruetime();
    		 }  
 
     });
@@ -577,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
        $('.row').css('display', 'block');
  	   const $theaterLink = $('.info.theater .data.letter-spacing-min.ellipsis-line1 a');
        $theaterLink.attr('title', selectTheaterName);
-	   $theaterLink.text(selectTheaterName);        
+	   $theaterLink.text(selectTheaterName);
         
 }
     	
@@ -620,7 +644,7 @@ document.addEventListener('DOMContentLoaded', function() {
        		 MovieTimes();
    		 } else {
         		truetime = false;
-        		updateTrueTime();
+        		updatetruetime();
    		 }  
     });
     
@@ -670,13 +694,10 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("시간을 선택해주세요");
         return; 
     }
-	var params = new URLSearchParams({
-           movieTitle: encodeURIComponent(movieTitle),
-           theaterTitle: encodeURIComponent(theaterTitle),
-           dateSpan: encodeURIComponent(dateSpan)
-           })
-           debugger;
-		   window.location.href = '/myweb/결제TEST?' + params.toString();
+	var param = 'movieTitle=' + movieTitle +
+                   '&theaterTitle=' + theaterTitle +
+                   '&dateSpan=' + dateSpan;
+		   window.location.href = '/myweb/결제TEST?' + param;
 
 
     // 모든 값이 유효한 경우
@@ -688,11 +709,9 @@ document.addEventListener('DOMContentLoaded', function() {
  //           	window.location.href = 'login'; // 로그인 페이지로 이동
  //       	}
  //       } else {
- //         var params = new URLSearchParams({
- //           movieTitle: encodeURIComponent(movieTitle),
- //           theaterTitle: encodeURIComponent(theaterTitle),
- //          dateSpan: encodeURIComponent(dateSpan)
- //       });
+ //         var param = 'movieTitle=' + movieTitle +
+                   '&theaterTitle=' + theaterTitle +
+                   '&dateSpan=' + dateSpan;
  //       window.location.href = 'myweb/결제TEST?' + params.toString();
  //       }
    

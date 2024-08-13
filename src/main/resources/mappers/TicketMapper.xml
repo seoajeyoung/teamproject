@@ -111,6 +111,7 @@
    		
    		SELECT 	 TH_NUMBER
    				,DATE_FORMAT(SC_TIME, '%H:%i') AS SC_TIME
+   				,DATE_FORMAT(SC_TIME_END, '%H:%i') AS SC_TIME_END
 		FROM THEATER T
 		LEFT JOIN CINEMA C 
 		ON T.TH_NUM = C.TH_NUM
@@ -143,9 +144,26 @@
 		AND T.TH_NAME = #{selectTheaterName}
 		AND DATE(S.SC_TIME) = #{fullDate}
 	
+	</select>
+
+	<select id="selectSecount" resultType="map" parameterType="map">
+	
+		SELECT DISTINCT SE_COUNT , COUNT(SE_TYPE) AS NOW_COUNT
+   		FROM MSEAT
+   		WHERE TH_NUM = (SELECT TH_NUM 
+   						FROM THEATER 
+   						WHERE TH_REGION = #{region}
+   						AND TH_NAME = #{selectTheaterName}
+   						AND TH_NUMBER = #{th_number} )
+		AND SE_TYPE = 'empty'
+        group by SE_COUNT;
+	
 	
 	
 	</select>
+	
+
+	
 	
 	
 	<select id="selectupdate_movie" resultType="map" parameterType="map">
@@ -228,7 +246,7 @@
 	
 	
 	<insert id="insertseat" parameterType="map">
-    	INSERT INTO MSEAT (TH_NUM,SE_ROW, SE_COL, SE_SEAT,SE_TYPE)
+    	INSERT INTO MSEAT (TH_NUM,SE_ROW, SE_COL, SE_SEAT,SE_TYPE,SE_COUNT)
     VALUES
     <foreach collection="seat_data" item="seat_data_row" open="(" separator="),(" close=")">
          <foreach collection="seat_data_row" item="seat" open="" separator="),(" close="">
@@ -238,9 +256,10 @@
          AND TH_NAME = #{th_name}
          AND TH_NUMBER = #{th_number}),
          #{rows},
-         #{cols},
+         #{cols}, 
          #{seat.text},
-         #{seat.class}
+         #{seat.class},
+         #{emptycount}
          </foreach>
     </foreach>
 	</insert>	

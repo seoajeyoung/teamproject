@@ -59,8 +59,6 @@ public class TicketController {
 	            @RequestParam String theaterTitle,
 	            @RequestParam String dateSpan ) {
 		
-		System.out.println(movieTitle + theaterTitle + dateSpan);
-		
 		return "ticket/결제TEST";
 	}
 
@@ -107,7 +105,6 @@ public class TicketController {
 
 		List<Map<String, Object>> th_name = ticketService.selectTh_nameList(param);
 		
-		System.out.println(th_name);
 		
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(th_name,
 				HttpStatus.OK);
@@ -186,11 +183,14 @@ public class TicketController {
 
 		List<Map<String, Object>> mtime = ticketService.selectMtime(param);
 		List<Map<String, Object>> mcinema = ticketService.selectMcinema(param);
+		param.put("th_number", mcinema.get(0).get("TH_NUMBER"));
+		List<Map<String, Object>> secount = ticketService.selectSecount(param);
 
 		Map<String, List<Map<String, Object>>> response = new HashMap<String, List<Map<String, Object>>>();
 
 		response.put("mtime", mtime);
 		response.put("mcinema", mcinema);
+		response.put("secount", secount);
 
 		return new ResponseEntity<Map<String, List<Map<String, Object>>>>(response, HttpStatus.OK);
 	}

@@ -72,5 +72,9 @@ public class TicketService {
 		return ticketDAO.selectsaveseat(param);
 	}
 
+	public List<Map<String, Object>> selectSecount(Map<String, Object> param) {
+		return ticketDAO.selectSecount(param);
+	}
+
 
 }
