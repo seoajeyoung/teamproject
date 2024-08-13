@@ -108,32 +108,64 @@ public class MovieController implements WebMvcConfigurer {
 
 		// 스틸컷
 		String stillcut = movieDTO.getStillUrl();
-		String[] stillcutUrl;
+		String[] stillcutSp;
+		
 		if(stillcut != null && stillcut.contains(",")) {
-			stillcutUrl = stillcut.split(",");
-			model.addAttribute("stillcutUrl", stillcutUrl);
+			stillcutSp = stillcut.split(",");
 		} else if(stillcut != null) {
-			stillcutUrl = new String[]{stillcut};
-			model.addAttribute("stillcutUrl", stillcutUrl);
+			stillcutSp = new String[]{stillcut};
 		} else {
-			model.addAttribute("stillcutUrl", "");
+			stillcutSp = new String[0];
+		}
+		
+		ArrayList<String> stillcutUrl = new ArrayList<String>();
+		
+		if(stillcutSp.length != 0 && !stillcutSp[0].trim().equals("")) {
+			System.out.println("스틸컷");
+			for(String str : stillcutSp) {
+				System.out.println(str);
+				int index1 = str.indexOf("copy/");
+				int index2 = str.indexOf("/tn_");
+				int index3 = str.indexOf(".jpg")-1;
+				String subStr1 = str.substring(index1, index2);
+				String subStr2 = str.substring(index2+4, index3+1);
+				String url = "http://file.koreafilm.or.kr/still/"+subStr1+"/"+subStr2+"_01.JPG";
+				System.out.println(url);
+				stillcutUrl.add(url);
+			}
 		}
 		//트레일러
-		String vod = movieDTO.getVodUrl();
+		String vod = movieDTO.getVodUrl().trim();
 		String[] vodUrl;
 		if(vod != null && vod.contains(",")) {
-			vodUrl = stillcut.split(",");
-			model.addAttribute("movieTrailer", vodUrl);
+			vodUrl = vod.split(",");
 		} else if(vod != null) {
 			vodUrl = new String[]{vod};
-			model.addAttribute("movieTrailer", vodUrl);
 		} else {
-			model.addAttribute("movieTrailer", "");
+			vodUrl = new String[0];
+		}
+
+		
+		ArrayList<String> trailerTeaser = new ArrayList<String>();
+		System.out.println(vodUrl[0]);
+		System.out.println(vodUrl.length);
+		if(vodUrl.length != 0 && !vodUrl[0].trim().equals("")) {
+			for(String str : vodUrl) {
+				int index = str.indexOf("=") + 1;
+				String subStr1 = str.substring(index);
+				String subStr2 = subStr1.substring(0, 8);
+				String url = "http://file.koreafilm.or.kr/multi/"+"00"+"/"+subStr2.substring(2, 4)+"/"+subStr2.substring(4, 6)+"/"+subStr2+".jpg";
+				System.out.println(url);
+				trailerTeaser.add(url);
+			}
 		}
 		
 		model.addAttribute("movieDTO", movieDTO);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("relMovie", relMovie);
+		model.addAttribute("movieTrailer", vodUrl);
+		model.addAttribute("trailerTeaser", trailerTeaser);
+		model.addAttribute("stillcutUrl", stillcutUrl);
 		
 		return "/movie/information";
 	}

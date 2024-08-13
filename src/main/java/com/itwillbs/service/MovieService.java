@@ -80,6 +80,7 @@ public class MovieService {
 		movieDTO.setRating(str);
 		return movieDTO;
 	}
+	
 	public List<Map<String, String>> getRelMovies(int num) {
 		List<Map<String, String>> list = movieDAO.getRelMovies(num);
 		for(Map<String, String> map : list) {
