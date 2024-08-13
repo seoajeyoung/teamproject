@@ -12,7 +12,7 @@
 		   , NATION
 		   , GENRE
 		   , RELEASEDATE
-		   , POSTERURL
+		   , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 		   , AUDIACC
 		   , PLOT
 		   , RUNTIME
@@ -32,8 +32,8 @@
 			 ), 'showMovie', 'notShow') AS 'show'
 			 , a.rn AS 'rn'
 		FROM (
-		    SELECT *, RANK() OVER (ORDER BY m.RANK) AS rn
-		    FROM MOVIE m
+		    SELECT *, RANK() OVER (ORDER BY M.RANK) AS RN
+		    FROM MOVIE M
 		) a
 		ORDER BY a.rn;
 	</select>
@@ -47,7 +47,7 @@
 			, NATION
 			, GENRE
 			, RELEASEDATE
-			, POSTERURL
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, AUDIACC
 			, PLOT
 			, RUNTIME
@@ -146,9 +146,9 @@
 				 ), 'showMovie', 'notShow') AS 'show'
             , a.rn as "rn"
 		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY m.RANK) AS rn
-			  FROM MOVIE m) a
-		ORDER BY a.rn
+			 		, RANK() OVER(ORDER BY M.RANK) AS RN
+			  FROM MOVIE M) A
+		ORDER BY A.RN
 	</select>
 		<!-- 평점순 -->
 	<select id="getSortMovies2" resultType="com.itwillbs.domain.MovieDTO" >
@@ -174,16 +174,16 @@
 			, MOVIENM
 			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
 				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
-				 FROM MOVIE m
-				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
-				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
+				 FROM MOVIE M
+				 JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
+				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
 			 	 ), 'showMovie', 'notShow') AS 'show'
-            , a.rn as "rn"
+            , A.RN AS "RN"
 		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY m.RANK) as rn
-			  FROM MOVIE m) a
-		ORDER BY a.rn
+			 		, RANK() OVER(ORDER BY M.RANK) AS RN
+			  FROM MOVIE M) A
+		ORDER BY A.RN
 	</select>
 		<!-- 관람객순 -->
 	<select id="getSortMovies3" resultType="com.itwillbs.domain.MovieDTO">
@@ -224,29 +224,51 @@
 	<!-- 영화 상세정보 -->
 	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
 		SELECT MOVIE_NUM
-		    , TITLE
-			, DIRECOTRNM
-			, ACTORNM
-			, NATION
-			, GENRE
-			, RELEASEDATE
-			, POSTERURL
-			, AUDIACC
-			, PLOT
-			, RUNTIME
-			, LEFT(RATING, 2) RATING
-			, THEMSSONG
-			, SOUNDTRACK
-			, AWARDS1
-			, RELEASEDTS
-			, RELEASEDTE
-			, TARGETDT
-			, m.RANK AS 'RANK'
-			, MOVIENM
-		FROM MOVIE m
+		      , TITLE
+		      , DIRECOTRNM
+		      , ACTORNM
+		      , NATION
+		      , GENRE
+		      , RELEASEDATE
+		      , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+		      , STILLURL
+		      , VODURL
+		      , AUDIACC
+		      , PLOT
+		      , RUNTIME
+		      , LEFT(RATING, 2) AS RATING
+		      , THEMSSONG
+		      , SOUNDTRACK
+		      , AWARDS1
+		      , RELEASEDTS
+		      , RELEASEDTE
+		      , TARGETDT
+		      , M.RANK AS 'RANK'
+		      , MOVIENM
+		FROM MOVIE M
 		WHERE MOVIE_NUM = #{num}
-		ORDER by m.RANK;
+		ORDER BY M.RANK;
 	</select>
+	
+	<!-- 관련 영화 -->
+	<select id="getRelMovies" resultType="map">
+		SELECT MOVIE_NUM
+			, TITLE
+			, TITLEENG
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+			, GENRE
+			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
+		FROM MOVIE
+		WHERE POSTERURL IS NOT NULL
+        AND POSTERURL &lt;&gt; ""
+		AND GENRE REGEXP CONCAT('(', REPLACE((SELECT genre
+											  FROM MOVIE
+											  WHERE 1=1
+											  and MOVIE_NUM = 146456), ',', '|'), ')')
+<!-- 	 	ORDER BY MOVIE_NUM -->
+		LIMIT 0, 6;
+	</select>
+	
 	
 	
 	<!-- 리뷰 -->

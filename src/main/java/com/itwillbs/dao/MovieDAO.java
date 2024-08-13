@@ -27,15 +27,13 @@ public class MovieDAO {
 	}
 	// 상영 예정작
 	public List<MovieDTO> getMovie2() {
-		List<Map<String, String>> list = sqlsession.selectList("movieMapper.getMovie2");
+		List<MovieDTO> list = sqlsession.selectList("movieMapper.getMovie2");
 		return list;
 	}
-	
 	// 상영 예정작 개봉일 분류
 	public List<LinkedHashMap<String, String>> getReleseDate() {
 		return sqlsession.selectList("movieMapper.getReleseDate");
 	}
-	
 	// 상영 예정작 top3
 	public List<MovieDTO> getTop3() {
 		return sqlsession.selectList("movieMapper.getTop3");		
@@ -74,9 +72,9 @@ public class MovieDAO {
 	public MovieDTO movieInfo(int num) {
 		return sqlsession.selectOne("movieMapper.movieInfo", num);
 	}
-//	public List<String> getRelMovies(int num) {
-//		return sqlsession.selectList("movieMapper.getRelMovies", num);
-//	}
+	public List<Map<String, String>> getRelMovies(int num) {
+		return sqlsession.selectList("movieMapper.getRelMovies", num);
+	}
 	
 	
 	//리뷰 페이지 구하기

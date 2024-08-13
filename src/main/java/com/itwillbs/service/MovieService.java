@@ -70,14 +70,27 @@ public class MovieService {
 	// 영화 상세정보
 	public MovieDTO movieInfo(int num) {
 		MovieDTO movieDTO = movieDAO.movieInfo(num);
-		String str = movieDTO.getRating().equals("전체") ? "All" :
-					 Integer.parseInt(movieDTO.getRating()) >= 18 ? "18" : movieDTO.getRating();
+		String str = "";
+		
+		if(movieDTO.getRating() != null) {
+			str = movieDTO.getRating().equals("전체") ? "All" :
+				 	     Integer.parseInt(movieDTO.getRating()) >= 18 ? "18" : movieDTO.getRating();
+		}
+		
 		movieDTO.setRating(str);
 		return movieDTO;
 	}
-//	public List<String> getRelMovies(int num) {
-//		 return movieDAO.getRelMovies(num);
-//	}
+	public List<Map<String, String>> getRelMovies(int num) {
+		List<Map<String, String>> list = movieDAO.getRelMovies(num);
+		for(Map<String, String> map : list) {
+			Object rating = map.get("RATING");
+			if(rating instanceof Integer) {
+				rating = Integer.parseInt((String)rating) > 18 ? 18 : rating;
+				map.put("RATING", (String)rating);
+			}
+		}
+		return movieDAO.getRelMovies(num);
+	}
 	
 	
 	

@@ -15,7 +15,9 @@ public class MovieDTO {
     private String nation;
     private String genre;
     private String posterUrl;
-    private String audiAcc;
+    private String stillUrl;
+    private String vodUrl;
+	private String audiAcc;
     private String plot;
     private String runtime;
     private String rating;
@@ -29,6 +31,12 @@ public class MovieDTO {
     private int rn;
     
     
+	public String getVodUrl() {
+		return vodUrl;
+	}
+	public void setVodUrl(String vodUrl) {
+		this.vodUrl = vodUrl;
+	}
     public String getShow() {
 		return show;
 	}
@@ -203,7 +211,12 @@ public class MovieDTO {
 	public void setMovieNm(String movieNm) {
 		this.movieNm = movieNm;
 	}
-    
+    public String getStillUrl() {
+		return stillUrl;
+	}
+	public void setStillUrl(String stillUrl) {
+		this.stillUrl = stillUrl;
+	}
     
 	
 	
