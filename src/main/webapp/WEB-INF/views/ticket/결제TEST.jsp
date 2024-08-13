@@ -7,7 +7,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ticket/real.css">
 <script
-	src="${pageContext.reque	st.contextPath}/resources/script/jquery-3.6.0.js"></script>
+	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/script/ticketpayment.js"></script>	
 	
@@ -16,264 +16,37 @@
 <body>
 	<article id="seat_select">
 		<div id="header_box">
-			<table class="header_box">
-				<tbody>
-					<tr>
-						<td colspan="6" id="titleArea" style="height: 45px;"><h3>인원/ 좌석</h3></td>
-					</tr>
-					<tr>
-					</tr>
-					<tr id="height50">
-						<th colspan="2" id="peoSelTableTh">
-							<table class="peoSelTable">
-
-
-								<tbody>
-									<tr>
-										<td>일반</td>
-
-
-										<td>
-											<div class="NumOfPeo SelectPeople" onclick="toggleNum(this)"
-												value="일반0">0</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반1">1</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반2">2</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반3">3</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반4">4</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반5">5</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반6">6</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반7">7</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="일반8">8</div>
-										</td>
-
-									</tr>
-
-									<tr>
-										<td>청소년</td>
-
-
-										<td>
-											<div class="NumOfPeo SelectPeople" onclick="toggleNum(this)"
-												value="청소년0">0</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년1">1</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년2">2</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년3">3</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년4">4</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년5">5</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년6">6</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년7">7</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="청소년8">8</div>
-										</td>
-
-									</tr>
-
-									<tr>
-										<td>경로</td>
-
-
-										<td>
-											<div class="NumOfPeo SelectPeople" onclick="toggleNum(this)"
-												value="경로0">0</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로1">1</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로2">2</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로3">3</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로4">4</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로5">5</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로6">6</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로7">7</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="경로8">8</div>
-										</td>
-
-									</tr>
-
-									<tr>
-										<td>우대</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대0">0</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대1">1</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대2">2</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo SelectPeople" onclick="toggleNum(this)"
-												value="우대3">3</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대4">4</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대5">5</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대6">6</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대7">7</div>
-										</td>
-
-
-										<td>
-											<div class="NumOfPeo" onclick="toggleNum(this)" value="우대8">8</div>
-										</td>
-
-									</tr>
-
-								</tbody>
-							</table>
-						</th>
-						<td id="DiscountInformation">
-							<div>*최대 8명 선택 가능</div>
-							<div id="popup">
-								<input type="button" id="DiscountInfo" value="관람할인안내">
-							</div>
-						</td>
-						<th colspan="3" class="header_box_Runtime">아시아드 DolbyAtmos관
-							남은좌석 176 /176<br> <b>2024년 8월 14일 14:00 ~ 15:48</b>
-						</th>
-					</tr>
-				</tbody>
-			</table>
+			 <table class="header_box">
+        <tbody>
+            <tr>
+                <td colspan="6" id="titleArea" style="height: 45px;"><h3>인원/좌석</h3></td>
+            </tr>
+            <tr></tr>
+            <tr id="height50">
+                <th colspan="2" id="peoSelTableTh">
+                    <table class="peoSelTable">
+                        <tbody id="peoSelTableBody">
+                            <!-- 여기에 jQuery에서 동적으로 행(row)들이 추가됩니다. -->
+                        </tbody>
+                    </table>
+                </th>
+                <td id="DiscountInformation">
+                    <div>*최대 8명 선택 가능</div>
+                    <div id="popup">
+                        <input type="button" id="DiscountInfo" value="관람할인안내">
+                    </div>
+                </td>
+                <th colspan="3" class="header_box_Runtime">
+                    아시아드 DolbyAtmos관 남은좌석 176 /176<br>
+                    <b>2024년 8월 14일 14:00 ~ 15:48</b>
+                </th>
+            </tr>
+        </tbody>
+    </table>
 		</div>
-		<!-- 모달 창 -->
-		<div class="modal-container" style="display: none;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<span>관람등급 안내</span>
-				</div>
 
 
 
-				<div class="ageInfoArea sfifteenYearsOld">15</div>
-
-
-				<div class="modal-body">
-					<p>본 영화는 [15세 이상 관람가]입니다.</p>
-					<p>만 15세 미만 고객은 만 19세 이상 성인 보호자 동반 시 관람이 가능합니다.</p>
-					<p>연령확인 불가 시 입장이 제한될 수 있습니다.</p>
-					<p>※생년월일 확인 수단 지참: 학생증, 모바일 학생증, 청소년증, 여권</p>
-					<p>(사진, 캡쳐본 불가)</p>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-button">동의하고 예매하기</button>
-				</div>
-			</div>
-		</div>
-		<!-- 모달 창 -->
 
 		<div id="seat_num" class="">
 

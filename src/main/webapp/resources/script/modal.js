@@ -224,6 +224,7 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시, tbody 안의 모든 td 요소의 텍스트 값과 클래스 이름을 가져옴
     $('#btn-save').on('click', function() {
+    	var count = 0; 
         $('#seat-table tbody tr').each(function() {
             var row = [];
              $(this).find('td').each(function() {
@@ -231,12 +232,16 @@ $(document).ready(function() {
                     text: $(this).text(),
                     class: $(this).attr('class')
                 };
+                 if ($(this).attr('class') === 'empty') {
+                		count += 1;
+            	 }
                  row.push(seatInfo);
         });
             if (row.length > 0) {
             seatData.push(row);
        		 }
         });
+        debugger;
          $.ajax({
         url: '/myweb/INSERTSEAT', 
         type: 'POST',
@@ -247,7 +252,8 @@ $(document).ready(function() {
         	th_number: ci_number,
         	rows: rows,
         	cols: cols,
-        	seat_data: seatData 
+        	seat_data: seatData, 
+        	emptycount: count
    		    }),
             
             success: function(response) {

@@ -76,5 +76,9 @@ public class TicketDAO {
 		return sqlSession.selectList(namespace + ".selectsaveseat", param);
 	}
 
+	public List<Map<String, Object>> selectSecount(Map<String, Object> param) {
+		return sqlSession.selectList(namespace + ".selectSecount", param);
+	}
+
 }
 
