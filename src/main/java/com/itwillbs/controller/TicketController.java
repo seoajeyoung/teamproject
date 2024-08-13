@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -55,9 +56,10 @@ public class TicketController {
 
 	@GetMapping("/결제TEST") // 영화 결제 TEST
 	public String TEST3(
-			 	@RequestParam String movieTitle,
-	            @RequestParam String theaterTitle,
-	            @RequestParam String dateSpan ) {
+			@RequestParam Map<String, String> param, Model model){
+		System.out.println(param);
+		
+		model.addAttribute(param);
 		
 		return "ticket/결제TEST";
 	}
@@ -183,7 +185,11 @@ public class TicketController {
 
 		List<Map<String, Object>> mtime = ticketService.selectMtime(param);
 		List<Map<String, Object>> mcinema = ticketService.selectMcinema(param);
-		param.put("th_number", mcinema.get(0).get("TH_NUMBER"));
+		List<String> thNumbers = mcinema.stream()
+                						.map(cinema -> (String) cinema.get("TH_NUMBER"))
+                						.collect(Collectors.toList());
+		param.put("thNumbers", thNumbers);
+		
 		List<Map<String, Object>> secount = ticketService.selectSecount(param);
 
 		Map<String, List<Map<String, Object>>> response = new HashMap<String, List<Map<String, Object>>>();

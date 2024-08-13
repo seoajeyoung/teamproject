@@ -26,7 +26,6 @@
                 <th colspan="2" id="peoSelTableTh">
                     <table class="peoSelTable">
                         <tbody id="peoSelTableBody">
-                            <!-- 여기에 jQuery에서 동적으로 행(row)들이 추가됩니다. -->
                         </tbody>
                     </table>
                 </th>
@@ -37,8 +36,9 @@
                     </div>
                 </td>
                 <th colspan="3" class="header_box_Runtime">
-                    아시아드 DolbyAtmos관 남은좌석 176 /176<br>
-                    <b>2024년 8월 14일 14:00 ~ 15:48</b>
+                    ${param.movieTitle}  ${param.th_number} 
+                    남은좌석  ${param.now_count} / ${param.se_count}<br>
+                    <b>${param.fullDate} ${param.starttime}  ~ ${param.endtime}</b>
                 </th>
             </tr>
         </tbody>
