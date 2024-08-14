@@ -116,18 +116,29 @@
 <script type="text/javascript">
         $(document).ready(function(){
         	
+        	$('.tabBtn_wrap a').on('click', function(e) {
+                e.preventDefault(); // 링크 클릭 시 페이지 이동 방지
+
+                // 모든 버튼에서 active 클래스 제거
+                $('.tabBtn_wrap a').removeClass('active');
+
+                // 클릭한 버튼에 active 클래스 추가
+                $(this).addClass('active');
+            });
+        	
             $("#btnMovie").click(function(){
-                $("#movieChart_list").show();
-                $("#movieChart_list_Reser").hide();
-                $("#btn_allView_Movie").attr("href", "/movies/?lt=1&ft=0");
+                $("#movieChart_list").show();// 무비차트 슬라이더를 보이게 함
+                $("#movieChart_list_Reser").hide();// 상영예정작 슬라이더를 숨김
+                $("#btn_allView_Movie").attr("href", "${pageContext.request.contextPath}/movie/movie");
             });
 
             $("#btnReserMovie").click(function(){
-                $("#movieChart_list").hide();
-                $("#movieChart_list_Reser").show();
-                $("#btn_allView_Movie").attr("href", "/movies/pre-movies.aspx");
+                $("#movieChart_list").hide();// 무비차트 슬라이더를 숨김
+                $("#movieChart_list_Reser").show();// 상영예정작 슬라이더를 보이게 함
+                $("#btn_allView_Movie").attr("href", "${pageContext.request.contextPath}/movie/movie?page=pre_movie");
             });
-
+			
+            //슬라이드 버튼
             var movieChartSwiper = new Swiper("#movieChart_list", {
 
                 slidesPerView: 5,
@@ -156,7 +167,7 @@
 
             var movieChartSwiper2 = new Swiper("#movieChart_list_Reser", {
 
-                slidesPerView: 5,
+            	slidesPerView: 5,
                 spaceBetween: 32,
                 slidesPerGroup: 5,
                 loopFillGroupWithBlank: true,
@@ -168,7 +179,7 @@
                 a11y: {
                     prevSlideMessage: '이전 슬라이드',
                     nextSlideMessage: '다음 슬라이드',
-                    slideLabelMessopenPopupage: '총 {{slidesLength}}장의 슬라이드 중 {{index}}번 슬라이드 입니다.',
+                    slideLabelMessage: '총 {{slidesLength}}장의 슬라이드 중 {{index}}번 슬라이드 입니다.',
                 },
                 on: {
                     init: function () {
@@ -356,6 +367,50 @@
             };
 
         });
+
+//슬라이드 스와이퍼        
+function setListFocus(swiper, selector) {
+    let snapIdx = swiper.snapIndex;
+    let snapGridTotalIdx = swiper.snapGrid.length - 1;
+    let slideGridTotalLen = swiper.slidesGrid.length;
+    let slidesPerView = swiper.passedParams.slidesPerView;
+
+
+    swiper.slides.each(function (idx) {
+        if (selector === 'a') {
+            if (snapIdx === snapGridTotalIdx) {
+                let lastCount = slideGridTotalLen - (slidesPerView - (slideGridTotalLen % slidesPerView)) - 1;
+
+                if (idx >= lastCount) {
+                    //console.log(idx);
+                    $(this).find(selector).attr('tabindex', 0);
+                } else {
+                    $(this).find(selector).attr('tabindex', -1);
+                }
+            } else {
+                if (idx >= snapIdx * slidesPerView && idx < snapIdx * slidesPerView + slidesPerView) {
+                    $(this).find(selector).attr('tabindex', 0);
+                } else {
+                    $(this).find(selector).attr('tabindex', -1);
+                }
+            }
+        } else {
+            if (idx >= snapIdx * slidesPerView && idx < snapIdx * slidesPerView + slidesPerView) {
+                $(this).find(selector).attr('tabindex', 0);
+            } else {
+                $(this).find(selector).removeAttr('tabindex');
+            }
+
+            if (snapIdx === 0) {
+                if (idx === 0) {
+                    // console.log($(this).children(selector).get(0))
+                }
+            } else if (snapIdx === snapGridTotalIdx) {
+                $(".event_list .swiper-slide:last-child").children(selector).focus();
+            }
+        }
+    });
+}
     </script>
 
 
@@ -698,13 +753,13 @@
 							</div>
 							</c:forEach>
                         </div>
-                        <div class="swiper-button-next" tabindex="0" role="button" aria-label="다음 슬라이드" aria-disabled="false"></div>
+                        <div class="swiper-button-next" tabindex="0" role="button" aria-label="다음 슬라이드" aria-disabled="true"></div>
                         <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
 
 
 <!-- 상영예정 -->
-                    <div class="swiper movieChart_list swiper-container-initialized swiper-container-horizontal" id="movieChart_list_Reser" style="display: none;">
+                    <div class="swiper movieChart_list swiper-container-initialized swiper-container-horizontal" id="movieChart_list_Reser">
                         <div class="swiper-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="이전 슬라이드" aria-disabled="true"></div>
                         <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
                         
@@ -724,7 +779,7 @@
                                         <div class="movieChart_btn_wrap">
                                             <a href="${pageContext.request.contextPath}/movie/information?num=${upcoming.MOVIE_NUM}" onclick="gaEventLog('PC_메인', '상영예정작_영화상세', '비포 선셋');" class="btn_movieChart_detail">상세보기</a>
                                         
-                                            <a href="/ticket/?MOVIE_CD=20010791&amp;MOVIE_CD_GROUP=20010761" onclick="gaEventLog('PC_메인', '무비차트_예매하기','비포 선셋')" class="btn_movieChart_ticketing">예매하기</a>
+<!--                                             <a href="/ticket/?MOVIE_CD=20010791&amp;MOVIE_CD_GROUP=20010761" onclick="gaEventLog('PC_메인', '무비차트_예매하기','비포 선셋')" class="btn_movieChart_ticketing">예매하기</a> -->
                                         </div>
                                     </div>
                                     <div class="movie_info_wrap">
@@ -737,7 +792,7 @@
                                 </c:forEach>
 
                         </div>
-                        <div class="swiper-button-next" tabindex="0" role="button" aria-label="다음 슬라이드" aria-disabled="false"></div>
+                        <div class="swiper-button-next" tabindex="0" role="button" aria-label="다음 슬라이드" aria-disabled="true"></div>
                         <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                         
                       
