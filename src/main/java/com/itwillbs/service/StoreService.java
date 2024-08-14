@@ -113,4 +113,16 @@ public class StoreService {
 		return storeDAO.codeDetailCheck(codeDetailDTO);
 
 	}
+
+
+	public List<CodeDetailDTO> getCategories(String code_id) {
+		System.out.println("StoreService getCategories()");
+		
+		return storeDAO.getCategories(code_id);
+	}
+	
+	public List<CodeDetailDTO> getGlobalCategories() {
+        return getCategories("ST");
+    }
+	
 }

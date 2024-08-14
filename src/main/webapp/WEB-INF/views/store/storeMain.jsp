@@ -9,20 +9,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/storeMain.css">
 </head>
 <body>
-<h3>스토어</h3>
-	<div id="categoryWrap">
-		<div id="categoryMenuWrap">
-    		<ul class="categeryMenu">
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=패키지">패키지</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=영화관람권">영화관람권</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=기프트카드">기프트카드</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=콤보">콤보</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=팝콘">팝콘</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=음료">음료</a></li>
-    			<li><a href="${pageContext.request.contextPath}/store/productCategory?category=스낵">스낵</a></li>
-    		</ul>
-		</div>
-	</div> 
+
+<jsp:include page="../store/storeMenu.jsp" />
+
     
 <div id="product">
     <div id="package">

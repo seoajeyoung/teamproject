@@ -41,6 +41,8 @@ public class StoreController {
 			System.out.println("ProductList: " + productList);
 			
 			model.addAttribute("productList", productList);
+			
+			model.addAttribute("categories", storeService.getGlobalCategories());
 
 	        return "store/storeMain";
 	    }
@@ -62,6 +64,7 @@ public class StoreController {
 	@GetMapping("/productCategory") // 상단 메뉴 누를시 해당하는 상품 모음 페이지로 이동
 	public String categoryDetail(@RequestParam("category") String category, Model model) {
 	    System.out.println("StoreController categoryDetail()");
+	    
 	    
 	    // 선택된 카테고리에 속하는 모든 상품을 가져옴
 	    List<StoreDTO> productList = storeService.productCategory(category);
@@ -155,5 +158,23 @@ public class StoreController {
 		return "redirect:/store/controlmenu";
 	}
  	
+	 @GetMapping("/storeMenu")
+	    public String showStoreMenu(Model model) {
+	        System.out.println("StoreController showStoreMenu()");
+
+	        // 카테고리 리스트를 가져와서 모델에 추가
+	        List<CodeDetailDTO> categories = storeService.getCategories("ST");
+	        System.out.println(categories);
+	        model.addAttribute("categories", categories);
+
+//	        // 장바구니와 기프트콘 카운트 등의 데이터를 가져와서 모델에 추가할 수 있음
+//	        // 예를 들어, 장바구니와 기프트콘의 수를 하드코딩하거나 실제 서비스를 통해 가져올 수 있음
+//	        int giftConCount = 0; // 예시, 실제 데이터로 대체
+//	        int cartViewCount = 0; // 예시, 실제 데이터로 대체
+//	        model.addAttribute("giftConCount", giftConCount);
+//	        model.addAttribute("cartViewCount", cartViewCount);
+
+	        return "store/storeMenu"; // storeMenu.jsp를 반환
+	    }
 	
 }

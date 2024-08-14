@@ -248,7 +248,7 @@ function deleteCode(detail_code_num) {
 								                    <option value="">메뉴코드값 선택</option>
                     								<c:forEach var="list" items="${codeList}">
                         								<option value="${list.code_value}" data-code_id="${list.code_id}" data-code_value="${list.code_value}">
-                            								${list.code_value}
+                            								${list.code_value}(${list.code_id})
                         								</option>
                     								</c:forEach>
 								                </select>

@@ -116,4 +116,10 @@ public class StoreDAO {
 		
 		return sqlSession.selectOne(namespace + ".codeDetailCheck", codeDetailDTO);
 	}
+
+	public List<CodeDetailDTO> getCategories(String code_id) {
+		System.out.println("storeDAO getCategories()");
+		
+		return sqlSession.selectList(namespace + ".getCategories", code_id);
+	}
 }
