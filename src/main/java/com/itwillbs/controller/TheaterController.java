@@ -2,6 +2,7 @@ package com.itwillbs.controller;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,11 @@ private TheaterService theaterService;
 	 	//지역 조회
 		List<Map<String, Object>> regionList = theaterService.getRegionList();
 		List<TheaterDTO> areaList = theaterService.getAreaList();
+//		HashSet<String> region = new HashSet<String>();
+//		for(TheaterDTO t : areaList) {
+//			region.add(t.getTh_region());
+//		}
+//		System.out.println(region);
 		
 		// 모델에 추가
     	model.addAttribute("regionList", regionList);

@@ -27,12 +27,10 @@ public class TheaterService {
 		return theaterDAO.getAreaList();
 	}
 	
-	
 	// 해당 극장의 상영일정이 있는 날자만
 	public List<Map<String, String>> getRunningDate(Map<String, String> rMap) {
 		return theaterDAO.getRunningDate(rMap);
 	}
-	
 	
 	// getRunningMovie(
 	public List<Map<String, Object>> getRunningMovie(Map<String, String> rMap) {

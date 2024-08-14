@@ -236,7 +236,7 @@ $(function() {
     <div class="box-image">
         <a href="${movieDTO.posterUrl}" title="포스터 크게 보기 새창" target="_blank">
             <span class="thumb-image"> 
-                <img src="${movieDTO.posterUrl}" alt="${movieDTO.title} 새창" onerror="errorImage(this)">
+                <img src="${movieDTO.posterUrl}" alt="${movieDTO.title} 새창">
                 <span class="ico-posterdetail">포스터 크게 보기</span>
                 <!-- 영상물 등급 노출 변경 2022.08.24 -->
                 <i class="cgvIcon etc age18">${movieDTO.rating}</i>
@@ -403,34 +403,14 @@ $(function() {
 	
 	
 	$(".runningTime").on('click', function() {
-		var text1 = `<div class="descri-info movie-detail">
-				            <ul>
-				            <li><a href="#" id="viewgrade" class="viewgrade" target="_blank" title="새창">관람등급 안내</a></li>
-				        </ul>
-						</div>
-					<div class="sect-movie-type" style="padding-top: 40px;">
-				        <h4>영화선택</h4>
-				        <ul>
-				                <li class="on"><a href="#menu" data-midx="88228" data-koreatitle="데드풀과 울버린" data-cgvcode="20036434" title="현재 선택됨 데드풀과 울버린">데드풀과 울버린</a></li>
-				        </ul>
-				    </div>
-				    `
-		$('.col-detail').append(text1)
+		let url = new URLSearchParams(window.location.search);
+		let movieNum = url.get("num");
 		
-		
-		
-		
-		var text2 =`<iframe id="ifrm_movie_time_table" src="${pageContext.request.contextPath}/movie/ifTime" title="" width="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="min-height: 100px; height: 6000px;">
+		var text2 =`<iframe id="ifrm_movie_time_table" src="${pageContext.request.contextPath}/movie/ifTime?MOVIE_NUM=\${movieNum}" title="" width="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="min-height: 100px; height: 6000px;">
 			</iframe>`;
 		
 		$('.col-detail>*').not('.tab-menu').remove();
 		$('.col-detail').append(text2);
-		
-		
-		let url = new URLSearchParams(window.location.search);
-		
-		$('#ifrm_movie_time_table')[0].contentWindow.postMessage(url.get("num"), '*');
-// 		debugger;
 	});// runningTime 끝
 });
 </script>
@@ -559,7 +539,7 @@ $(function() {
 							<c:if test=""></c:if>
 							<div class="item-wrap" style=""> <!--  ${Status.index != 0 ? 'display:none;' : ''}} -->
 	                            <div class="item" style="width: 800px; height: 450px; text-align: center;">
-									<img alt="타이틀" onerror="errorImage(this)" src="${stillcutUrl}" style="min-height: 90%; max-height: 100%;">
+									<img alt="타이틀" onerror="errorImage(this)" src="${stillcutUrl}" style="max-width: 90%; min-height: 95%; max-height: 100%;">
 	                            </div>
 	                        </div>
                         </c:forEach>
@@ -802,7 +782,7 @@ $(document).on('click', '.btn_point_like', function() {
              
             
             <!-- 관련영화 -->
-            <div class="sect-movielist" style="/play :none;*/">
+            <div class="sect-movielist" style="">
                 <h3><img src="https://img.cgv.co.kr/R2014/images/title/h3_relation_movie.gif" alt="RELATION MOVIE"></h3>
                 <ul>
                 <c:forEach var="relMovie" items="${relMovie}">
@@ -817,13 +797,11 @@ $(document).on('click', '.btn_point_like', function() {
                             </a>
                         </div>
                         <div class="box-contents">
-                           <a href="/movies/detail-view/?midx=88459"><strong>${relMovie.TITLE}</strong></a>
+                           <a href="/movies/detail-view/?midx=88459"><b>${relMovie.TITLE}</b></a>
                         </div>
                     </li>
                     </c:forEach>
                 </ul>
-                <button class="btn" value="테스트">테스트</button>
-                
             </div>
 <!--             .sect-movielist -->
             <!-- 연관영화 -->

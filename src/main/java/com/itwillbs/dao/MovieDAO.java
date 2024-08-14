@@ -103,6 +103,17 @@ public class MovieDAO {
 		return sqlsession.selectOne("movieMapper.getRecommend", rMap);
 	}
 	
+	// ifream을 통한 영화 스케줄 구하기
+	public List<Map<String, String>> getMovieSchedule(Map<String, String> rMap) {
+		return sqlsession.selectList("movieMapper.getMovieSchedule", rMap);
+	}
+	
+	// 영화번호, 지역, 날자를 통한 상영정보 구하기
+	public List<Map<String, String>> getThMovies(Map<String, String> rMap) {
+		return sqlsession.selectList("movieMapper.getTheaterMovies", rMap);
+	}
+	
+	
 	
 	//채현 메인 상영예정 영화 디데이 리스트
 	public List<Map<String, Object>> getMovie3() {

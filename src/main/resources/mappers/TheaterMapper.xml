@@ -16,12 +16,16 @@
     </select>
         
 	<select id="getAreaList" resultType="com.itwillbs.domain.TheaterDTO">
-	 	SELECT TH_NAME, MIN(TH_NUM) AS TH_NUM, MIN(TH_ADDR) AS TH_ADDR
-	    FROM (SELECT TH_REGION, TH_NAME, TH_NUM, TH_ADDR
-			  FROM THEATER
-              ORDER BY TH_REGION
-              ) T
-		GROUP BY TH_NAME
+		SELECT *
+		FROM (SELECT TH_NUM
+				  , TH_NAME
+				  , TH_REGION
+				  , TH_ADDR
+				  , TH_REGIONEng
+		          , TH_NAMEEng
+				  , ROW_NUMBER() OVER (PARTITION BY TH_NAME, TH_REGION ORDER BY TH_NUM) AS RN
+	          FROM THEATER) AS T
+		WHERE RN = 1
 		ORDER BY TH_NUM;
 	</select>
 	
@@ -42,7 +46,10 @@
 					     FROM CINEMA
                          WHERE TH_NUM IN (SELECT TH_NUM
 										  FROM THEATER
-                                          WHERE TH_NAME = #{TH_NAME}))
+										  WHERE 1 = 1
+										  <if test="TH_NAME != null">AND TH_NAME = #{TH_NAME}</if>
+										  <if test="TH_REGION != null">AND TH_REGION = #{TH_REGION}</if>
+										  ))
 		AND DATE_FORMAT(SC_TIME, '%Y-%m-%d') >= CURRENT_DATE()
 		ORDER BY DATE_FORMAT(SC_TIME, '%Y-%m-%d');
 	</select>

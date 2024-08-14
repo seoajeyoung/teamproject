@@ -163,22 +163,6 @@
             </label>
             <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
             <!-- 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件 (iframe 주석 -->
-            <!-- <iframe src="//ad.cgv.co.kr/NetInsight/text/CGV/CGV_201401/main@Search_txt" width="0" height="0" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe> -->
-            <!--<div class="totalSearchAutocomplete_wrap">
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>영화</dt>
-                    <dd><a href="#none"><strong>전지</strong>적 작가시점</a></dd>
-                    <dd><a href="#none">내언니 <strong>전지</strong>현과 나</a></dd>
-                    <dd><a href="#none">수호<strong>전지</strong> 영웅본색</a></dd>
-                </dl>
-                <dl class="totalSearchAutocomplete_list">
-                    <dt>인물</dt>
-                    <dd><a href="#none"><strong>전지</strong>현</a></dd>
-                    <dd><a href="#none"><strong>전지</strong>희</a></dd>
-                    <dd><a href="#none">이<strong>전지</strong></a></dd>
-                </dl>
-                <a href="#none" class="btn_totalSearchAutocomplete_close">닫기</a>
-            </div>//-->
         </div>
     </div>
 </div>

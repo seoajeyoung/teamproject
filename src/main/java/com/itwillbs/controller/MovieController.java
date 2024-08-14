@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Configuration;
@@ -30,20 +31,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.itwillbs.domain.MovieDTO;
 import com.itwillbs.service.MovieService;
+import com.itwillbs.service.TheaterService;
 
 @Controller
 @RequestMapping("/movie/*")
 @Configuration
 public class MovieController implements WebMvcConfigurer {
-	
-	
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*") // 모든 출처를 허용
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
-    }
 	
 	@Inject
 	private MovieService movieService;
@@ -97,7 +90,7 @@ public class MovieController implements WebMvcConfigurer {
 	private final int pageSize = 6;
 	// 영화 상세정보
 	@GetMapping("/information")
-	public String information(@RequestParam int num, Model model) {
+	public String information(@RequestParam("num") int num, Model model) {
 		// 영화정보
 		MovieDTO movieDTO = movieService.movieInfo(num);
 		
@@ -121,23 +114,21 @@ public class MovieController implements WebMvcConfigurer {
 		ArrayList<String> stillcutUrl = new ArrayList<String>();
 		
 		if(stillcutSp.length != 0 && !stillcutSp[0].trim().equals("")) {
-			System.out.println("스틸컷");
 			for(String str : stillcutSp) {
-				System.out.println(str);
 				int index1 = str.indexOf("copy/");
 				int index2 = str.indexOf("/tn_");
 				int index3 = str.indexOf(".jpg")-1;
 				String subStr1 = str.substring(index1, index2);
 				String subStr2 = str.substring(index2+4, index3+1);
 				String url = "http://file.koreafilm.or.kr/still/"+subStr1+"/"+subStr2+"_01.JPG";
-				System.out.println(url);
 				stillcutUrl.add(url);
 			}
 		}
 		//트레일러
-		String vod = movieDTO.getVodUrl().trim();
+		
+		String vod = movieDTO.getVodUrl() != null ? movieDTO.getVodUrl().trim() : "";
 		String[] vodUrl;
-		if(vod != null && vod.contains(",")) {
+		if(vod != null && vod.trim().contains(",")) {
 			vodUrl = vod.split(",");
 		} else if(vod != null) {
 			vodUrl = new String[]{vod};
@@ -147,8 +138,6 @@ public class MovieController implements WebMvcConfigurer {
 
 		
 		ArrayList<String> trailerTeaser = new ArrayList<String>();
-		System.out.println(vodUrl[0]);
-		System.out.println(vodUrl.length);
 		if(vodUrl.length != 0 && !vodUrl[0].trim().equals("")) {
 			for(String str : vodUrl) {
 				int index = str.indexOf("=") + 1;
@@ -201,35 +190,40 @@ public class MovieController implements WebMvcConfigurer {
 			String str = movieService.updateRecommend(rMap);
 			return ResponseEntity.status(HttpStatus.OK).body(str);
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복 추천");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복");
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 상영 시간표 탭 ifream 활용
 	@GetMapping("/ifTime")
-	public String ifTime() {
-		
-		
-		
-		
-		
+	public String ifTime(@RequestParam Map<String, String> rMap, Model model) {
+		List<Map<String, String>> region = movieService.getMovieSchedule(rMap);
+		model.addAttribute("region", region);
 		return "/movie/ifTime";
 	}
 	
+	@Inject
+	private TheaterService theaterService;
+	// ajax를 활용해 현재 영화와 지역의 상영일이 존재하는 날자값 구하기
+	@GetMapping("/runningDate")
+	@ResponseBody
+	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
+		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
+		System.out.println(date);
+		return date;
+	}
+	
+	// 상세 페이지 상영시간표의 지역, 날자, 영화번호가 포함된 일정 구하기
+	
+	@GetMapping("/thMovies")
+	@ResponseBody
+	public List<Map<String, String>> thMovies(@RequestParam Map<String, String> rMap) {
+		System.out.println("시작");
+		List<Map<String, String>> list = movieService.getThMovies(rMap);
+		System.out.println("테스트");
+		System.out.println(list);
+		return list;
+	}
 	
 
 

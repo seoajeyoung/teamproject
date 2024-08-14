@@ -263,9 +263,8 @@
         AND POSTERURL &lt;&gt; ""
 		AND GENRE REGEXP CONCAT('(', REPLACE((SELECT genre
 											  FROM MOVIE
-											  WHERE 1=1
-											  and MOVIE_NUM = 146456), ',', '|'), ')')
-<!-- 	 	ORDER BY MOVIE_NUM -->
+											  WHERE MOVIE_NUM = #{MOVIE_NUM}), ',', '|'), ')')
+-- 	 	ORDER BY MOVIE_NUM
 		LIMIT 0, 6;
 	</select>
 	
@@ -310,11 +309,43 @@
 		WHERE REVIEW_NUM = #{REVIEW_NUM}
 		AND MEMBER_ID = #{MEMBER_ID};
 	</select>
-	
+	<!-- 추천유저 정보 저장 -->
 	<insert id="reUserinsert">
 		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEMBER_ID)
 		VALUES(#{REVIEW_NUM}, #{MEMBER_ID});
 	</insert>
+	
+	<!-- 영화별 상영 시간표 페이지의 지역 구하기 -->
+	<select id="getMovieSchedule" resultType="map">
+		SELECT TH_REGION
+		FROM CINEMA C
+		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
+		WHERE C.MOVIE_NUM = #{MOVIE_NUM}
+		GROUP BY TH_REGION;
+	</select>
+	
+	<select id="getTheaterMovies" resultType="map">
+		SELECT C.CI_NUM AS CI_NUM
+			, C.TH_NUM AS TH_NUM
+			, S.SC_NUM AS SC_NUM
+			, S.ROW AS "ROW"
+			, S.COL AS "COL"
+	        , DATE_FORMAT(S.SC_TIME, '%Y-%m-%d/%H:%i:%s') AS SC_TIME
+	        , DATE_FORMAT(S.SC_TIME_END, '%Y-%m-%d/%H:%i:%s') AS SC_TIME_END
+			, T.TH_NAME AS TH_NAME
+			, T.TH_REGION AS TH_REGION
+			, T.TH_REGIONEng AS TH_REGIONEng 
+			, T.TH_NAMEEng AS TH_NAMEEng
+			, T.TH_NUMBER AS TH_NUMBER
+		FROM CINEMA C
+		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
+		WHERE TH_REGION = #{TH_REGION}
+		AND date_format(S.SC_TIME, '%Y-%m-%d') = #{C_DATE}
+		AND MOVIE_NUM = #{MOVIE_NUM};
+	</select>
+	
+	
 	
 	<!-- 채현 메인 상영예정 영화 디데이 리스트 -->
 	<select id="getMovie3" resultType="java.util.LinkedHashMap">

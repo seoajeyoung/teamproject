@@ -117,6 +117,17 @@ public class MovieService {
 	public void reUserinsert(Map<String, String> rMap) {
 		movieDAO.reUserinsert(rMap);
 	}
+	
+	// -------- 영화 상영시각구하기 -------
+	public List<Map<String, String>> getMovieSchedule(Map<String, String> rMap) {
+		return movieDAO.getMovieSchedule(rMap);
+	}
+	
+	// 영화번호, 상영시각, 지역을 통해 현재 상영일정이 있는 모든 지역구하기 
+	public List<Map<String, String>> getThMovies(Map<String, String> rMap) {
+		System.out.println("getTheaterMovies1");
+		return movieDAO.getThMovies(rMap);
+	}
 
 	
 

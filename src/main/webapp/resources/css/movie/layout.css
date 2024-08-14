@@ -626,7 +626,7 @@ h4.tit-showtime {padding-bottom:18px; color:#333; font-size:31px; text-align:lef
 .showtimes-wrap .early, .showtimes-wrap .midnight, .showtimes-wrap .ico_script, .sect-city li > a, /* .sect-guide .descri-timezone p, */ 
 .descri-info li > a, .sect-showtimes .col-theater {font-weight:500;}
 .showtimes-wrap .early, .showtimes-wrap .midnight, .descri-info > ul  > li > a 
-{background-image:url(../img/sprite_btn.png); background-repeat:no-repeat;}
+{background-image:url(https://img.cgv.co.kr/r2014/images/sprite/sprite_btn.png); background-repeat:no-repeat;}
 .showtimes-wrap .early, 
 .showtimes-wrap .midnight, 
 .showtimes-wrap .early, 
@@ -672,8 +672,8 @@ h4.tit-showtime {padding-bottom:18px; color:#333; font-size:31px; text-align:lef
 .showtimes-wrap .slider .item-wrap {display:none; overflow:hidden; height:48px;}
 .showtimes-wrap .slider .item-wrap > .item {position:static;}
 .showtimes-wrap .slider .item-wrap.on {display:block}
-/* 이미지 경로 수정 */
-.showtimes-wrap .slider > button[type='button'] {position:absolute; top:27px; width:54px; height:19px; margin:0; font:0/0 a; background-image:url(../img/sprite_btn.png); background-repeat:no-repeat; zoom:1;}
+/* 이미지 경로 수정 https://img.cgv.co.kr/r2014/images/sprite/sprite_btn.png */
+.showtimes-wrap .slider > button[type='button'] {position:absolute; top:27px; width:54px; height:19px; margin:0; font:0/0 a; background-image:url(https://img.cgv.co.kr/r2014/images/sprite/sprite_btn.png); background-repeat:no-repeat; zoom:1;}
 .showtimes-wrap .slider > button[type='button'].btn-prev {left:0px; background-position:-117px -174px;}
 .showtimes-wrap .slider > button[type='button'].btn-next {right:0px; background-position:-117px -155px;}
 .showtimes-wrap .slider > button[type='button'].btn-prev.dim {background-position:-61px -155px;}
@@ -1083,7 +1083,7 @@ a.ico_cancel_i {position: absolute;top: 50%;right: 0;margin-top: -8px;}
 .layer-wrap.pop_corp_session .ss_con_wrap h5 {margin-bottom: 9px;font-size: 16px;}
 .layer-wrap.pop_corp_session .ss_btn_wrap {text-align: center;font-size: 13px;}
 .layer-wrap.pop_corp_session .ss_btn_wrap a.round.inblack {margin-right:2px;}
-.btn-close, .layer-wrap .popwrap button[type='button'].btn-close{display: block;position: absolute;top: 20px;left: auto;right: 20px;width: 18px;height: 18px;background: url(../img/sprite_btn.png) no-repeat -72px -62px;border: none;font-size: 0; line-height:0;zoom: 1;}
+.btn-close, .layer-wrap .popwrap button[type='button'].btn-close{display: block;position: absolute;top: 20px;left: auto;right: 20px;width: 18px;height: 18px;background: url(https://img.cgv.co.kr/r2014/images/sprite/sprite_btn.png) no-repeat -72px -62px;border: none;font-size: 0; line-height:0;zoom: 1;}
 .layer-wrap.pop_corp_session {width: 518px;height: 340px;margin-left: -259px;margin-top: -170px;}
 /* 포토티켓 개인정보 취급방침 */
 .layer-wrap.photi_agree {position:fixed;width:650px;margin-left:-325px;margin-top:-144px}
