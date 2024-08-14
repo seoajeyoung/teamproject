@@ -243,6 +243,7 @@
 <script type="text/javascript">
 var addr;
 var thName;
+var thNum;
 $(function() {
 	$('.region').on('click', function() {
 		$('.sect-city li').removeClass();
@@ -250,10 +251,11 @@ $(function() {
 		$(this).parent('li').addClass('on').find('#ulcontent li').show();
 		$('.area-link:visible:first').trigger('click');
 	});
+	
 	//특정 극장 클릭시
 	$('.area-link').on('click', function() {
+		thNum = $(this).find('span').text();
 		thName = $(this).attr('title');
-		
 		
 		$('.sect-showtimes>ul').html('')
 		$('.theater-tit span').text(thName + '점');
@@ -267,13 +269,14 @@ $(function() {
 		    data: {'TH_NAME': thName},
 		    datatype: 'JSON',
 		    success: function(result) {
-		    	if(result != null) {
+		    	if(result.length == 0) {
 	    			$('.slider').remove();
 	    			return;	
 	    		};
+				$('.item').html('');
 		    	result.forEach(function(resultDate) {
 		    		var date = resultDate.DATE.split('-');
-		    		var dayWeek = date.dayWeek
+		    		var dayWeek = resultDate.dayWeek
 		    		var text = `		
 	                    <li>
 	                    <div class="day">
@@ -285,10 +288,9 @@ $(function() {
 	                        </a>
 	                    </div>
 	                	</li>`;
-	                	
  	              	$('.item').append(text);
- 	              	debugger;
 				});
+		    	
               	$('.day').eq(0).find('a').trigger('click');
 		    },
 		    error: function(error) {
@@ -297,9 +299,7 @@ $(function() {
 		});// ajax 끝
 	});
 	
-	$('.region:first').trigger('click');
-	$('.area-link:visible:first').trigger('click');
-	
+// 	$('.region:first').trigger('click');
 });
 </script>
 <div class="wrap-theater">
@@ -371,158 +371,6 @@ $(function() {
 				</div>
 			</div>
 			<!-- sect-schedule -->
-<script type="text/javascript">
-$(document).on('click', '.day>a', function() {
-	$('.day').parent('li').removeClass();
-	$(this).parents('li').addClass('on');
-	var scDate = $(this).find('input').val();
-		$.ajax({
-			type: 'GET',
-			url: '${pageContext.request.contextPath}/theater/runningMovie',
-		    data: {'TH_NUM': thNum, 'SC_DATE': scDate},
-		    datatype: 'JSON',
-		    success: function(result) {
-		    	$('.sect-showtimes>ul').html('')
-		    	var rNum = 0;
-		    	var tNum = 0;
-		    	var pre;
-		    	result.forEach(function(scList, index) {
-		    		if(index == 0 || pre.MOVIE_NUM != scList.MOVIE_NUM) {
-		    			var rating = scList.RATING === '전체' ? 'all' :
-		    						 scList.RATING > 18 ? 18 : scList.RATING;
-			            // 받아온 날자값 변환    		
-			            var d = new Date(scList.DATE)
-			            var date = d.getFullYear() + '.' +  (d.getMonth()+1) + '.' + d.getDate();
-			            var now = new Date();
-			            
-			            var dDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()); 
-			            var nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-			            var rDate = dDate <= nowDate ? '상영중' : '예매중';
-			            
-			    		var text = `
-		 		    	<li>
-		 		    	<div class="col-times">
-		 		    		<div class="info-movie">
-		 		    			<i class="cgvIcon etc age\${rating}">\${rating}</i>
-		 		    			<a href="#" target="_parent">
-								<strong>\${scList.TITLE}</strong></a>
-		 		    			<span class="round">
-		 		    				<em>\${rDate}</em>
-		 		    			</span>
-		 		    			<span class="round">
-		 		    				<em></em>
-		 		    			</span>
-								<i>\${scList.GENRE}</i> / <i>127분</i> / <i>\${date} 개봉</i>
-		 		    		</div>
-		 		    	</div>
-		 		    	</li>
-						`;
-						$('.sect-showtimes>ul').append(text);
-						
-						if(rDate == '예매중') {
-							$('.col-times:last').find('.round').eq(0).addClass('brown').eq(1).addClass('red');
-							$('.col-times:last').find('.round').eq(1).find('em').html(list.D_DAY);
-						} else {
-							$('.col-times:last').find('.round').eq(0).addClass('round lightblue');
-						}
-		    		};
-		    		
-		    		var d = new Date(scList.DATE)
-		            var date = d.getHours(); + ':' +  d.getMinutes();
-		    		
-		    		var text = ` <div class="type-hall">
-	    							<div class="info-hall">
-		 		    					<ul>
-		 		    						<li>2D</li>
-		 		    						<li>\${scList.CI_NUMBER}</li>
-		 		    						<li>총 158석</li>
-		 		    					</ul>
-	  		    					<div class="info-timetable">
-		                                <ul>
-	    	                            </ul>
-	                             	</div>
-	  		    				</div>
-	  		    				</div>`
-	  		    				
-	  		    	if(index != 0 && scList.MOVIE_NUM != pre.MOVIE_NUM) rNum += 1;
-		  		    if(index == 0 || scList.MOVIE_NUM != pre.MOVIE_NUM || scList.CI_NUMBER != pre.CI_NUMBER) {
-		  		    	$('.col-times').eq(rNum).append(text);
-		  		    }
-		            
-		    		
-		    		// 상영시작시각 변환
-		    		var s = new Date(scList.SC_TIME);
-		    		var scTime = s.getHours() + ":" + s.getMinutes();
-		    		
-		    		
-		    		var timeTable = `<li>
-						    		    <a href="#" target="_top">
-							    	        <em>\${scTime}</em>
-							    	        <span class="txt-lightblue">
-							    	            <span class="hidden">잔여좌석</span>113석
-							    	        </span>
-							    	    </a>
-							    	</li>`
-		    		if(index != 0) {
-		    			if(scList.CI_NUMBER != pre.CI_NUMBER || scList.MOVIE_NUM != pre.MOVIE_NUM) tNum += 1;
-		    		}
-		    		$('.info-timetable').eq(tNum).find('ul').append(timeTable);
-		    		
-	     		
-		    		// 값 저장해서 다음 루프에서 값을 비교할때 사용
-		    		pre = scList;	
-				});
-		    	
-		    },// success 종료
-		    error: function(error) {
-		    	alert('에러');
-			}
-		});
-});
-//페이지 표시 함수
-function pageCount(num) {
-	$('.day').hide();
-		$('.day').filter(index => index >= (pageSize * num) && index < pageSize * (num + 1)).show();
-}
-// 보이는 첫 페이지 클릭
-$(function() {
-	var pageSize = 8;
-	// 날자 클릭시
-	//이전날짜
-	$('.btn-prev').on('click', function() {
-		if($('.day:first').is(':visible')) return;
-		var class_On = $('.item .on');
-		var index = $('.item li').index(class_On);
-		var num = (index / pageSize) - 1 < 0 ? 0 : (index / pageSize) - 1;  
-		pageCount(num);
-		
-		$('.day').parent('li').removeClass();
-		firstPage()
-	});
-	
-	//다음 페이지
-	$('.btn-next').on('click', function() {
-		if($('.day:last').is(':visible')) return;
-		
-		var class_On = $('.item .on');
-		var index = $('.item li').index(class_On);
-		var num = (index / pageSize) + 1;
-		//>  ? return : (index / pageSize) + 1;  
-		pageCount(num);
-		
-		$('.day').parent('li').removeClass();
-		firstPage()
-	});
-	
-});
-
-$(document).ready(function() {
-	$('.region:first').trigger('click');
-	$('.area-link:visible:first').trigger('click');
-	pageCount(0);
-});
-
-</script>
 <!-- 탭메뉴 class="on" 에따라서 아래 h4 내용을 바꿔주세요 -->                
 <h4 class="hidden"> + [상영시간표]</h4>
             
@@ -551,11 +399,9 @@ $(document).on('click', '.day>a', function() {
 			            // 받아온 날자값 변환    		
 			            var d = new Date(scList.DATE)
 			            var date = d.getFullYear() + '.' +  (d.getMonth()+1) + '.' + d.getDate();
-			            var now = new Date();
 			            
-			            var dDate = new Date(d.getFullYear(), d.getMonth(), d.getDate()); 
-			            var nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-			            var rDate = dDate <= nowDate ? '상영중' : '예매중';
+			            
+			            var rDate = scList.D_DAY <= 0 ? '상영중' : '예매중';
 			            
 			    		var text = `
 		 		    	<li>
@@ -568,9 +414,9 @@ $(document).on('click', '.day>a', function() {
 		 		    				<em>\${rDate}</em>
 		 		    			</span>
 		 		    			<span class="round">
-		 		    				<em></em>
+		 		    				<em>${D_DAY > 0 ? D_DAY : null}</em>
 		 		    			</span>
-								<i>\${scList.GENRE}</i> / <i>127분</i> / <i>\${date} 개봉</i>
+								<i>\${scList.GENRE}</i> / <i>\${scList.RUNTIME}</i> / <i>\${date} 개봉</i>
 		 		    		</div>
 		 		    	</div>
 		 		    	</li>
@@ -579,7 +425,6 @@ $(document).on('click', '.day>a', function() {
 						
 						if(rDate == '예매중') {
 							$('.col-times:last').find('.round').eq(0).addClass('brown').eq(1).addClass('red');
-							$('.col-times:last').find('.round').eq(1).find('em').html(list.D_DAY);
 						} else {
 							$('.col-times:last').find('.round').eq(0).addClass('round lightblue');
 						}
@@ -592,7 +437,7 @@ $(document).on('click', '.day>a', function() {
 	    							<div class="info-hall">
 		 		    					<ul>
 		 		    						<li>2D</li>
-		 		    						<li>\${scList.CI_NUMBER}</li>
+		 		    						<li>\${scList.TH_NUMBER}</li>
 		 		    						<li>총 158석</li>
 		 		    					</ul>
 	  		    					<div class="info-timetable">
@@ -603,7 +448,7 @@ $(document).on('click', '.day>a', function() {
 	  		    				</div>`
 	  		    				
 	  		    	if(index != 0 && scList.MOVIE_NUM != pre.MOVIE_NUM) rNum += 1;
-		  		    if(index == 0 || scList.MOVIE_NUM != pre.MOVIE_NUM || scList.CI_NUMBER != pre.CI_NUMBER) {
+		  		    if(index == 0 || scList.MOVIE_NUM != pre.MOVIE_NUM || scList.TH_NUMBER != pre.TH_NUMBER) {
 		  		    	$('.col-times').eq(rNum).append(text);
 		  		    }
 		            
@@ -622,8 +467,9 @@ $(document).on('click', '.day>a', function() {
 							    	    </a>
 							    	</li>`
 		    		if(index != 0) {
-		    			if(scList.CI_NUMBER != pre.CI_NUMBER || scList.MOVIE_NUM != pre.MOVIE_NUM) tNum += 1;
-		    		} 
+		    			if(scList.TH_NUMBER != pre.TH_NUMBER || scList.MOVIE_NUM != pre.MOVIE_NUM) tNum += 1;
+		    		}
+							    	
 		    		$('.info-timetable').eq(tNum).find('ul').append(timeTable);
 		    		
 	     		
@@ -637,7 +483,8 @@ $(document).on('click', '.day>a', function() {
 			}
 		});
 });
-//페이지 표시 함수
+
+// 페이지 표시 함수
 function pageCount(num) {
 	$('.day').hide();
 		$('.day').filter(index => index >= (pageSize * num) && index < pageSize * (num + 1)).show();
@@ -674,11 +521,13 @@ $(function() {
 	});
 	
 });
+
 $(document).ready(function() {
 	$('.region:first').trigger('click');
-	$('.area-link:visible:first').trigger('click');
+// 	$('.area-link:visible:first').trigger('click');
 	pageCount(0);
 });
+
 </script>
         <div class="sect-guide">
             <div class="descri-timezone">

@@ -40,8 +40,9 @@
 		FROM SCREEN
 		WHERE CI_NUM IN (SELECT CI_NUM
 					     FROM CINEMA
-					     WHERE TH_NAME = #{TH_NAME}
-					     )
+                         WHERE TH_NUM IN (SELECT TH_NUM
+										  FROM THEATER
+                                          WHERE TH_NAME = #{TH_NAME}))
 		AND DATE_FORMAT(SC_TIME, '%Y-%m-%d') >= CURRENT_DATE()
 		ORDER BY DATE_FORMAT(SC_TIME, '%Y-%m-%d');
 	</select>
@@ -49,32 +50,30 @@
 	
 	<!-- 특정 극장의 특정일에 상영하는 모든 영화 리스트 -->
 	<select id="getRunningMovie" resultType="map">
-		SELECT S.CI_NUM AS S_CI_NUM
-		    , C.TH_NUM AS TH_NUM,  
-		    , C.MOVIE_NUM AS MOVIE_NUM
-		    , T.TH_NUMBER AS TH_NUMBER
-		    , S.ROW AS 'ROW'
-		    , S.COL AS 'COL',
-		    , DATE_FORMAT(S.SC_TIME, '%Y-%m-%d/%H:%i:%s') AS SC_TIME
-		    , DATE_FORMAT(S.SC_TIME_END, '%Y-%m-%d/%H:%i:%s') AS SC_TIME_END
-		    , M.TITLE AS TITLE
-		    , LEFT(M.RATING, 2) AS RATING
-		    , M.GENRE AS GENRE
-		    , M.RELEASEDATE AS DATE
-		    , ((CURRENT_DATE() - M.RELEASEDATE) * -1) AS D_DAY
+		SELECT S.CI_NUM AS CI_NUM
+			, C.TH_NUM AS TH_NUM  
+			, C.MOVIE_NUM AS MOVIE_NUM
+			, T.TH_NUMBER AS TH_NUMBER
+			, S.ROW AS "ROW"
+			, S.COL AS "COL"
+			, DATE_FORMAT(S.SC_TIME, '%Y-%m-%d/%H:%i:%s') AS SC_TIME
+			, DATE_FORMAT(S.SC_TIME_END, '%Y-%m-%d/%H:%i:%s') AS SC_TIME_END
+			, M.TITLE AS TITLE
+			, M.RUNTIME AS RUNTIME
+			, LEFT(M.RATING, 2) AS RATING
+			, M.GENRE AS GENRE
+			, M.RELEASEDATE AS "DATE"
+			, ((M.RELEASEDATE - CURRENT_DATE())) AS D_DAY
 		FROM CINEMA C
 		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
-		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
+		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
 		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
-		WHERE C.TH_NUM IN (
-		    SELECT TH_NUM
-		    FROM THEATER
-		    WHERE TH_NAME = (SELECT TH_NAME
-							 FROM THEATER
-                             WHERE TH_NUM = #{TH_NUM} 
-							)
-		)
-		-- AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = #{SC_DATE}
+		WHERE C.TH_NUM IN (SELECT TH_NUM
+							FROM THEATER
+							WHERE TH_NAME = (SELECT TH_NAME
+											 FROM THEATER
+											 WHERE TH_NUM = #{TH_NUM}))
+		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = #{SC_DATE}
 		ORDER BY M.RELEASEDATE, C.MOVIE_NUM;
 	</select>
 	
