@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,13 @@ public class TicketController {
 	@Inject
 	private TicketService ticketService;
 
+	//채현 메인 => 해당영화 클릭하면 예매에서 자동클릭
 	@GetMapping("/ticket")
-	public String test() {
-
+	public String test(@RequestParam(value = "num", required = false) String movieNum, Model model) {
+		
+		model.addAttribute("movieNum", movieNum);
+		System.out.println(movieNum);
+		
 		return "ticket/ticket";
 	}
 
