@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.mappers.StoreMapper">
 
-	<select id="getProduct" resultType="com.itwillbs.domain.StoreDTO">
+	<select id="getProduct" resultType="com.itwillbs.domain.StoreDTO"> <!-- 스토어 메인에서 상품 4개씩만 나오게 함 -->
 	<![CDATA[
 		SELECT *
 		  FROM ( SELECT *
@@ -15,15 +15,60 @@
 	]]>
 	</select>
 	
-	<select id="getProductsByCategory" parameterType="String" resultType="com.itwillbs.domain.StoreDTO">
+	<select id="productCategory" resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
         SELECT * 
-        FROM STORETEST 
-        WHERE st_type = #{st_type} 
-        ORDER BY st_num DESC;
+          FROM STORETEST 
+         WHERE st_type = #{category} 
+         ORDER BY st_num DESC;
     </select>
     
-  
+    <select id="getProductByNum" resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
+        SELECT * 
+          FROM STORETEST 
+         WHERE st_num = #{st_num} 
+    </select>
+    
+     <!-- 장바구니에 상품 추가 -->
+    <insert id="addCart" parameterType="com.itwillbs.domain.CartDTO">
+        INSERT INTO CARTTEST (member_num, st_num, cart_quantity, cart_date)
+        VALUES (#{member_num}, #{st_num}, #{cart_quantity}, NOW())
+    </insert>
 
+    <!-- 특정 사용자(member_num으로 식별)의 특정 상품(st_num) 장바구니 항목 조회 (중복 체크용) -->
+    <select id="getUserCart" resultType="com.itwillbs.domain.CartDTO">
+        SELECT * 
+          FROM CARTTEST 
+         WHERE member_num = #{member_num} AND st_num = #{st_num}
+    </select>
+
+    <!-- 장바구니 항목 업데이트 (수량 수정) -->
+    <update id="updateCartItem" parameterType="com.itwillbs.domain.CartDTO">
+        UPDATE CARTTEST 
+           SET cart_quantity = #{cart_quantity}, cart_date = NOW() 
+         WHERE cart_num = #{cart_num}
+    </update>
+
+    <!-- 특정 사용자의 장바구니 항목 조회 -->
+    <select id="getCartItem" resultType="com.itwillbs.domain.CartDTO">
+    	SELECT c.cart_num, c.member_num, c.st_num, c.cart_quantity, c.cart_date, 
+    		   s.st_name, s.st_price
+          FROM CARTTEST c 
+    	  JOIN STORETEST s ON c.st_num = s.st_num
+    	 WHERE c.member_num = #{member_num}
+    	 ORDER BY c.cart_date DESC
+    </select>
+  
+  
+	<insert id="addCode">
+        INSERT INTO CODETEST (code_id, code_value)
+        VALUES (#{code_id}, #{code_value})
+	</insert>
+
+	<select id="getCodeList" resultType="com.itwillbs.domain.CodeDTO">
+        SELECT *
+        FROM CODETEST
+  
+    </select>
 	
 
 
