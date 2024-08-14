@@ -146,6 +146,20 @@ function updateReadonlyFields(formIdentifier) {
     
     // 수정 예정
 }
+
+function deleteCode(detail_code_num) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/store/deleteCode', // 서버의 삭제 엔드포인트
+            type: 'POST',
+            data: { detail_code_num: detail_code_num }, // 전달할 데이터
+            success: function(response) {
+                alert('삭제 완료!');
+                location.reload(); // 페이지를 새로고침하여 변경 내용을 반영
+            }
+        });
+    }
+}
 </script>
 
 
@@ -191,6 +205,11 @@ function updateReadonlyFields(formIdentifier) {
 							<div class="table-responsive">
 								<form action = 
 									"${pageContext.request.contextPath}/store/addCode" method="post" enctype="multipart/form-data">
+										<c:if test="${not empty errorMessage}">
+    										<div class="alert alert-danger">
+        										<c:out value="${errorMessage}" />
+    										</div>
+										</c:if>
 									<table class="table schedule-bordered" id="dataTable1" name="codeForm"
 										width="100%" cellspacing="0">
 										<c:if test="${not empty message}">
@@ -219,7 +238,7 @@ function updateReadonlyFields(formIdentifier) {
 									</div>
 								</form>
 								<form action = 
-									"${pageContext.request.contextPath}/store/addCodeDetail" method="post" enctype="multipart/form-data">
+									"${pageContext.request.contextPath}/store/addDetailCode" method="post" enctype="multipart/form-data">
 									<table class="table schedule-bordered" id="dataTable1" name="codeForm"
 										width="100%" cellspacing="0"><hr>
 										<tr>
@@ -244,7 +263,7 @@ function updateReadonlyFields(formIdentifier) {
 										<tr>
 											<th>상세메뉴코드</th>
 											<td>
-												<input type="text" id="detail_code" name="detail_code">
+												<input type="text" id="detail_code" name="detail_code" maxlength="3">
 											</td>
 										</tr>	
 										<tr>
@@ -254,10 +273,10 @@ function updateReadonlyFields(formIdentifier) {
 											</td>
 										</tr>
 										
-										<tr>
-											<th>사용여부</th>
-											<td><input type="text" id="code_yn" name="code_yn"></td>
-										</tr> 										
+<!-- 										<tr> -->
+<!-- 											<th>사용여부</th> -->
+<!-- 											<td><input type="text" id="code_yn" name="code_yn"></td> -->
+<!-- 										</tr> 										 -->
 									</table>
 									<div class="button-container">
 										<button type="submit"
@@ -290,7 +309,7 @@ function updateReadonlyFields(formIdentifier) {
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">스토어 메뉴목록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">코드목록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -302,18 +321,20 @@ function updateReadonlyFields(formIdentifier) {
 											<th>메뉴코드ID설명</th>
 											<th>상세메뉴코드</th>
 											<th>상세메뉴값</th>
-											<th>사용여부</th>
+<!-- 											<th>사용여부</th> -->
+											<th>관리</th>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="AdminDTO" items="${storeList}">
-											<tr id="row${AdminDTO.ST_NUM}">
-												<td id="ST_NUM${AdminDTO.ST_NUM}">${AdminDTO.ST_NUM}</td>
-												<td id="ST_NAME${AdminDTO.ST_NUM}">${AdminDTO.ST_NAME}</td>
-												<td id="ST_PRICE${AdminDTO.ST_NUM}">${AdminDTO.ST_PRICE}</td>
-												<td id="ST_TYPE${AdminDTO.ST_NUM}">${AdminDTO.ST_TYPE}</td>
+										<c:forEach var="codeDetail" items="${codeDetailList}">
+								        	<tr id="row${detail_code_num}">
+								            	<td>${codeDetail.code_id}</td>
+								            	<td>${codeDetail.code_value}</td>
+								            	<td>${codeDetail.detail_code}</td>
+								            	<td>${codeDetail.detail_value}</td>
+<%-- 								            	<td>${codeDetail.code_yn}</td> --%>
 												<td id="delete-button-cell"><button type="button"
-														onclick="deleteRow(${AdminDTO.ST_NUM})"
+														onclick="deleteCode('${codeDetail.detail_code_num}')"
 														class="btn btn-danger btn-user">삭제</button></td>
 											</tr>
 										</c:forEach>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dao.StoreDAO;
 import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
+import com.itwillbs.domain.CodeDetailDTO;
 import com.itwillbs.domain.StoreDTO;
 
 @Service
@@ -68,11 +69,48 @@ public class StoreService {
 	}
 
 
+	public void addDetailCode(CodeDetailDTO codeDetailDTO) {
+		System.out.println("StoreService addCode()");
+		System.out.println(codeDetailDTO);
+		storeDAO.addDetailCode(codeDetailDTO);
+		
+	}
+
 	public List<CodeDTO> getCodeList() {
 		System.out.println("StoreService getCodeList()");
 		
 		return storeDAO.getCodeList();
 	}
+
+	public List<CodeDetailDTO> getCodeDetail() {
+		System.out.println("StoreService getCodeDetail()");
+		
+		return storeDAO.getCodeDetail();
+	}
+
+
+	public boolean deleteCode(String detail_code_num) {
+	    System.out.println("StoreService deleteCode()");
+	    
+	    return storeDAO.deleteCode(detail_code_num);
+	}
 	
+	public CodeDTO codeIdCheck(String code_id) {
+		System.out.println("StoreService codeIdCheck()");
+		
+		return storeDAO.codeIdCheck(code_id);
+	}
 	
+	public CodeDTO codeValCheck(String code_value) {
+		System.out.println("StoreService codeValCheck()");
+		
+		return storeDAO.codeValCheck(code_value);
+	}
+	
+	public CodeDetailDTO codeDetailCheck(CodeDetailDTO codeDetailDTO) {
+		System.out.println("StoreService codeDetailCheck()");
+		
+		return storeDAO.codeDetailCheck(codeDetailDTO);
+
+	}
 }

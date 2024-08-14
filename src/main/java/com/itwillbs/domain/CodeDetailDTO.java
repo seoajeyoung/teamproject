@@ -2,8 +2,9 @@ package com.itwillbs.domain;
 
 public class CodeDetailDTO {
 	
+	private String detail_code_num;
 	private String code_id;
-	private String codeValue;
+	private String code_value;
 	private String detail_code;
 	private String detail_value;
 	private String code_yn;
@@ -11,15 +12,24 @@ public class CodeDetailDTO {
 	// 기본 생성자
 	public CodeDetailDTO() {
 	}
-	
-	// 생성자
-	public CodeDetailDTO(String code_id, String codeValue, String detail_code, String detail_value, String codeYn) {
+
+	public CodeDetailDTO(String detail_code_num, String code_id, String code_value, String detail_code,
+			String detail_value, String code_yn) {
 		super();
+		this.detail_code_num = detail_code_num;
 		this.code_id = code_id;
-		this.codeValue = codeValue;
+		this.code_value = code_value;
 		this.detail_code = detail_code;
 		this.detail_value = detail_value;
-		this.code_yn = codeYn;
+		this.code_yn = code_yn;
+	}
+
+	public String getDetail_code_num() {
+		return detail_code_num;
+	}
+
+	public void setDetail_code_num(String detail_code_num) {
+		this.detail_code_num = detail_code_num;
 	}
 
 	public String getCode_id() {
@@ -30,12 +40,12 @@ public class CodeDetailDTO {
 		this.code_id = code_id;
 	}
 
-	public String getCodeValue() {
-		return codeValue;
+	public String getCode_value() {
+		return code_value;
 	}
 
-	public void setCodeValue(String codeValue) {
-		this.codeValue = codeValue;
+	public void setCode_value(String codeValue) {
+		this.code_value = codeValue;
 	}
 
 	public String getDetail_code() {

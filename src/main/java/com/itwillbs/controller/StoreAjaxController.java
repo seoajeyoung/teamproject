@@ -43,4 +43,19 @@ public class StoreAjaxController {
 //
 //	    return "success";
 //	}
+	
+	
+	@PostMapping("/store/deleteCode")
+	@ResponseBody
+	public String deleteCode(@RequestParam("detail_code_num") String detail_code_num) {
+	    System.out.println("StoreAjaxController deleteCode()");
+	    
+	    boolean result = storeService.deleteCode(detail_code_num);
+	    
+	    if (result) {
+	        return "success";
+	    } else {
+	        return "error";
+	    }
+	}
 }

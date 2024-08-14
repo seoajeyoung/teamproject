@@ -57,7 +57,7 @@ public class MemberController {
 		return "redirect:/member/login";
 	}
 						
-								     // 회원가입완료화면 // session에 저장된 id값으로 아이디 조회,
+								     // 네이버회원가입 시 닉네임 정하기 
 	@GetMapping("/naverRegister")
     public String naverRegister(HttpSession session, Model model) {
         String member_id = (String) session.getAttribute("member_id");
@@ -86,7 +86,7 @@ public class MemberController {
             memberService.saveNaverNickname(existingMember); // 업데이트된 회원 정보 DB에 저장
 
             session.setAttribute("member_nickname", existingMember.getMember_nickname()); // 메인 문구에 사용하기 위해 세션에 저장
-            return "redirect:/member/main"; // 메인 페이지로 이동
+            return "redirect:/main/main"; // 메인 페이지로 이동
         }
 
         return "redirect:/error"; // 만약 문제가 발생한다면 에러 페이지로 이동

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itwillbs.domain.AdminDTO;
 import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
+import com.itwillbs.domain.CodeDetailDTO;
 import com.itwillbs.domain.StoreDTO;
 import com.itwillbs.service.StoreService;
 
@@ -105,9 +106,11 @@ public class StoreController {
 	public String controlmenu(Model model) {
 
 		List<CodeDTO> codeList = storeService.getCodeList();
+		List<CodeDetailDTO> codeDetailList = storeService.getCodeDetail();
         System.out.println("Code List: " + codeList); // 디버깅 로그
         // Model에 데이터 추가
         model.addAttribute("codeList", codeList);
+        model.addAttribute("codeDetailList", codeDetailList);
 		
 
 		return "store/controlmenu";
@@ -117,22 +120,40 @@ public class StoreController {
 	public String addCode(CodeDTO codeDTO, RedirectAttributes redirectAttributes) {
 		System.out.println("StoreController addCode()");
 		
+		if(storeService.codeIdCheck(codeDTO.getCode_id()) != null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Code ID가 이미 존재합니다.");
+	        return "redirect:/store/controlmenu";
+		}
+		
+		if(storeService.codeValCheck(codeDTO.getCode_value()) != null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Code Value가 이미 존재합니다.");
+	        return "redirect:/store/controlmenu";
+		}
+		
 		storeService.addCode(codeDTO);
 		redirectAttributes.addFlashAttribute("message", "코드가 성공적으로 등록되었습니다.");
 		
 		return "redirect:/store/controlmenu";
 	}
 	
-//	 @GetMapping("/getCodeList")
-//	    public String getCodeList(Model model) {
-//		 System.out.println("StoreController getCodeList()");
-//	        // 코드 리스트를 조회
-//	        List<CodeDTO> codeList = storeService.getCodeList();
-//	        System.out.println("Code List: " + codeList); // 디버깅 로그
-//	        // Model에 데이터 추가
-//	        model.addAttribute("codeList", codeList);
-//	        
-//	        // JSP로 이동
-//	        return "store/controlmenu";
-//	    }
+	@PostMapping("/addDetailCode")
+	public String addDetailCode(CodeDetailDTO codeDetailDTO, RedirectAttributes redirectAttributes) {
+		System.out.println("StoreController addDetailCode()");
+		
+		if(storeService.codeDetailCheck(codeDetailDTO) != null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "이 상세 메뉴 코드는 이미 존재합니다.");
+	        return "redirect:/store/controlmenu";
+		}
+		
+		storeService.addDetailCode(codeDetailDTO);
+		redirectAttributes.addFlashAttribute("message", "코드가 성공적으로 등록되었습니다.");
+		
+		
+		List<CodeDetailDTO> codeDetailList = storeService.getCodeDetail();
+	    redirectAttributes.addFlashAttribute("codeDetailList", codeDetailList);
+		
+		return "redirect:/store/controlmenu";
+	}
+ 	
+	
 }

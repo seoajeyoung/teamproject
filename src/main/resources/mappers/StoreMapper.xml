@@ -64,12 +64,44 @@
         VALUES (#{code_id}, #{code_value})
 	</insert>
 
+	<insert id="addDetailCode">
+        INSERT INTO CODEDETAILTEST (code_id, code_value, detail_code, detail_value)
+        VALUES (#{code_id}, #{code_value}, #{detail_code}, #{detail_value})
+	</insert>
+
 	<select id="getCodeList" resultType="com.itwillbs.domain.CodeDTO">
         SELECT *
         FROM CODETEST
   
     </select>
 	
+	<select id="getCodeDetail" resultType="com.itwillbs.domain.CodeDetailDTO">
+        SELECT *
+        FROM CODEDETAILTEST
+  
+    </select>
 
-
+	<delete id="deleteCode">
+    	DELETE FROM CODEDETAILTEST
+    	WHERE detail_code_num = #{detail_code_num}
+	</delete>
+	
+	<select id="codeIdCheck" resultType="com.itwillbs.domain.CodeDTO">
+    	SELECT *
+    	FROM CODETEST
+    	WHERE code_id = #{codeId}
+	</select>
+	
+	<select id="codeValCheck" resultType="com.itwillbs.domain.CodeDTO">
+    	SELECT *
+    	FROM CODETEST
+    	WHERE code_value = #{code_value}
+	</select>
+	
+	<select id="codeDetailCheck" resultType="com.itwillbs.domain.CodeDetailDTO">
+	    SELECT *
+	    FROM CODEDETAILTEST
+	    WHERE code_id = #{code_id} AND detail_code = #{detail_code}
+	</select>
+	
 </mapper>

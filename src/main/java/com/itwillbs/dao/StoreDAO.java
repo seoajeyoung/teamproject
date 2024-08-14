@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
+import com.itwillbs.domain.CodeDetailDTO;
 import com.itwillbs.domain.StoreDTO;
 
 @Repository
@@ -69,11 +70,50 @@ public class StoreDAO {
 		
 	}
 
+
+	public void addDetailCode(CodeDetailDTO codeDetailDTO) {
+		System.out.println("storeDAO addDetailCode()");
+		
+		sqlSession.insert(namespace + ".addDetailCode", codeDetailDTO);
+	}
+	
 	public List<CodeDTO> getCodeList() {
 		System.out.println("storeDAO getCodeList()");
 		
 		return sqlSession.selectList(namespace + ".getCodeList");
 	}
-	
+
+	public List<CodeDetailDTO> getCodeDetail() {
+		System.out.println("storeDAO getCodeDetail()");
+		
+		return sqlSession.selectList(namespace + ".getCodeDetail");
+	}
     
+	public boolean deleteCode(String detail_code_num) {
+	    System.out.println("storeDAO deleteCode()");
+	    
+	    // SQL 세션을 통해 'deleteCode' 쿼리를 실행하고 영향을 받은 행 수를 반환
+	    int rowsAffected = sqlSession.delete(namespace + ".deleteCode", detail_code_num);
+	    
+	    // 영향을 받은 행 수가 0보다 크면 삭제가 성공적으로 이루어진 것
+	    return rowsAffected > 0;
+	}
+
+	public CodeDTO codeIdCheck(String code_id) {
+		System.out.println("storeDAO codeIdCheck()");
+		
+		return sqlSession.selectOne(namespace + ".codeIdCheck", code_id);
+	}
+	
+	public CodeDTO codeValCheck(String code_value) {
+		System.out.println("storeDAO codeValCheck()");
+		
+		return sqlSession.selectOne(namespace + ".codeValCheck", code_value);
+	}
+	
+	public CodeDetailDTO codeDetailCheck(CodeDetailDTO codeDetailDTO) {
+		System.out.println("storeDAO codeDetailCheck()");
+		
+		return sqlSession.selectOne(namespace + ".codeDetailCheck", codeDetailDTO);
+	}
 }
