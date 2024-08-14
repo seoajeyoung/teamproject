@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<!-- 채현메인 모델값 -->
+<!-- 채현메인 모델값 --> 
 <div id="movie-data" data-movie-num="${movieNum}"></div>
 
 	<a name="t"></a>

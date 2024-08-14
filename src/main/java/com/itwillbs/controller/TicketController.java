@@ -38,7 +38,6 @@ public class TicketController {
 	public String test(@RequestParam(value = "num", required = false) String movieNum, Model model) {
 		
 		model.addAttribute("movieNum", movieNum);
-	
 		System.out.println(movieNum);
 		
 		return "ticket/ticket";
