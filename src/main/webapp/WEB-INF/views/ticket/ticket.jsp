@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <html>
 <head>
 <title>CGV 빠른예매</title>
@@ -14,10 +15,12 @@
 <script
 	src="${pageContext.request.contextPath}/resources/script/ticket.js"></script>
 
-
 </head>
 
 <body>
+<!-- 채현메인 모델값 --> 
+<div id="movie-data" data-movie-num="${movieNum}"></div>
+
 	<a name="t"></a>
 	<div id="wrap" oncontextmenu="return false" ondragstart="return false"
 		onselectstart="return false">

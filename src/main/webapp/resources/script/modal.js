@@ -241,7 +241,7 @@ $(document).ready(function() {
             seatData.push(row);
        		 }
         });
-        debugger;
+        
          $.ajax({
         url: '/myweb/INSERTSEAT', 
         type: 'POST',

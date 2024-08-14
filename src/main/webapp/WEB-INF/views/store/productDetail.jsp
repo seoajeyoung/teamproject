@@ -6,50 +6,24 @@
 <head>
 <meta charset="UTF-8">
 <title>상품상세</title>
+<script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/script/cart.js"></script>
 </head>
 <body>
 
-	<img class="productImage"src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
+	 <!-- 상품 이미지와 정보 -->
+	<img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
 	<h4>${storeDTO.st_name }</h4>
     <p class="price">${storeDTO.st_price }원</p>
+    
+    <!-- 장바구니에 추가하는 폼 -->
+    <form id="addCartForm" data-member-num="${sessionScope.member_num}" action="${pageContext.request.contextPath}/store/addCart" method="POST">
+        <input type="hidden" name="st_num" value="${storeDTO.st_num}" />
+        <input type="hidden" name="member_num" value="${sessionScope.member_num}" />
+        <label for="quantity">수량:</label>
+        <input type="number" id="quantity" name="cart_quantity" value="1" min="1" />
+        <button type="submit" id="addCartBtn">장바구니에 추가</button>
+    </form>
 
-
-이용안내
-• 해당 기프트콘은 CGV모바일, 홈페이지에서 <10라이브즈>(더빙)를 예매할 수 있는 온라인 상품권입니다.
-  * 관람가능 작품 및 개봉일 : <10라이브즈>(더빙) 8/15(목)
-  * 개봉일은 변동될 수 있습니다. 
-  * 프리미어시사회, 특별상영회, 이벤트 상영회에는 적용이 불가합니다. 
-• ID 당 최대 4세트까지만 구매가 가능합니다.
-• 구매 후 전송받으신 기프트콘은,
-   - 사용 가능한 CGV에서 지정된 <10라이브즈> 개봉작(일반 더빙 2D 전용/이벤트 등 특별 프로그램 및 프리미엄 좌석 제외)에 한하여 예매 가능합니다.  
-   - 금액권이 아니므로 차액 환급이 불가합니다. (ex. 조조 관람 시 차액 환급 불가)
-   - 영화 상영 후 환불 및 반품은 불가합니다.
-• "사용가능 CGV 보기" 중 상영극장에 한하여 이용이 가능합니다.
-    - 사용가능 극장 중 일부 극장에서 상영예정
-• 관람권 기프트콘을 온라인에 등록하시는 경우,
-   - 모바일 : MyCGV> 관람권/카드 > 기프트콘에서 [기프트콘 등록] 버튼 선택하여 수신 받은 쿠폰번호 입력
-   - 홈페이지(PC) : ‘MyCGV > 기프트콘'에서 [기프트콘 등록] 버튼 선택하여 수신 받은 쿠폰번호 입력
-• 본 상품의 경우 프로모션 상품으로 유효기간 연장이 불가합니다.
-   - 유효기간: ~ 2024년 8월 28일까지(유효기간 내 상영하는 '<10라이브즈>(더빙)'에만 사용이 가능/ 잔여기간동안 대상 영화의 상영이 되지 않을 시 이용 불가)
-• 본 기프트콘 구매 및 사용 시 CJ ONE 포인트는 적립되지 않습니다. 
-
-취소/환불
-• 기프티콘 미 사용 시 유효기간 이내에 결제 금액의 100%에 대해 결제 취소/환불이 가능하며, 유효기간 만료 후에는 수신자가 결제금액의 90%에 대해 환불 요청 가능합니다.
-• 단, 이미 사용된 기프트콘에 대해서는 유효기간 만료 여부와 무관하게 부분 결제 취소/환불 신청이 불가합니다.(ex. 2매 중 1매 사용 시 1매 환불 불가)
-• 결제 취소/환불 방법
-  - 기프트콘은 구매일로부터 60일 이내 결제 취소 가능하며, 카드 결제 취소 가능 기간이 경과하였을 경우, 고객센터로 연락 부탁드립니다.
-  - 환불은 모바일 App> MY > 기프트콘 or 홈페이지 > My CGV > 스토어 > 내 기프트콘에서 환불을 원하는 기프트콘 등록 후 진행 가능합니다.
-  - 비회원의 경우 고객센터로 신청 가능합니다. (단, 본인 확인 및 계좌 확인 절차가 진행됩니다.)
-• 수신자는 선물 받은 기프트콘의 수신 거절을 요청할 수 있으며, 이 경우 구매자에게 취소 및 환불에 대한 안내가 이루어집니다.
-• CGV고객센터: 1544-1122
-
-미성년자 권리보호 안내
-미성년자인 고객께서 계약을 체결하시는 경우 법정대리인이 그 계약에 동의하지 아니하면 미성년자 본인 또는 법정대리인이 그 계약을 취소할 수 있습니다.
-분쟁 해결
-1) 회사는 이용자가 제기하는 정당한 의견이나 불만을 반영하고 그 피해의 보상 등에 관한 처리를 위하여
-  CGV고객센터(1544-1122)를 설치 운영하고 있습니다.
-2) 회사는 고객센터를 통하여 이용자로부터 제출되는 불만사항 및 의견을 처리합니다.
-  다만, 신속한 처리가 곤란한 경우에는 이용자에게 그 사유와 처리일정을 즉시 통보합니다.
-3) 전자상거래 분쟁(청약철회등)과 관련한 이용자의 피해구제는 이용약관 및 전자상거래법 등 관련 법령에 따릅니다.
 </body>
 </html>

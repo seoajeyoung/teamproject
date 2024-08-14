@@ -14,11 +14,13 @@
 <div id="product">
     <ul class="productList">
     <c:forEach var="storeDTO" items="${productList}">
+    <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
         <li>
             <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
             <h4>${storeDTO.st_name}</h4>
             <p class="price">${storeDTO.st_price}원</p>
         </li>
+        </div>
     </c:forEach>
     </ul>
 </div>
