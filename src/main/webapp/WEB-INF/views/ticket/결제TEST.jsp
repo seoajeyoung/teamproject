@@ -7,8 +7,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ticket/real.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/common.css">
-<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ticket/test.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/ticket/tnb.css">	
@@ -61,66 +59,73 @@
 
 		<div id="seat_num" class="">
 
-			<h1 id="screenArea">Screen</h1>
 
 
 		</div>
 	</article>
 	
-	<div id="ticket_tnb" class="tnb_container ">
-		<div class="tnb step1">
-			<!-- btn-left -->
-			<div class="info movie">
-				<span class="movie_poster"><img src="undefined" alt="영화 포스터" style="display: inline;"></span>
-				<div class="row movie_title colspan2" style="display: block;">
-					<span class="data letter-spacing-min ellipsis-line2"><a href="" target="_blank" title="핸섬가이즈">핸섬가이즈</a></span>
+	  <div id="ticket_tnb" class="tnb_container ">
+        <div class="tnb step1">
+            <!-- btn-left -->
+            <div class="info movie">
+                <span class="movie_poster">
+                    <img src="${param.MovieUrl}" alt="영화 포스터" style="display: inline;">
+                </span>
+                <div class="row movie_title colspan2" style="display: block;">
+                    <span class="data letter-spacing-min ellipsis-line2">
+                        <a href="#" target="_blank" title="${param.movieTitle}">${param.movieTitle}</a>
+                    </span>
+                </div>
+                <div class="row movie_type" style="display: block;">
+                    <span class="data ellipsis-line1" title=""></span>  <!--2D 인곳  -->  
+                </div>
+                <div class="row movie_rating" style="display: block;">
+                    <span class="data" title="${param.MovieRating}">${param.MovieRating}</span>
+                </div>
+                <div class="placeholder" title="영화선택" style="display: none;"></div>
+            </div>
+            <div class="info theater">
+                <div class="row name" style="display: block;">
+                    <span class="header">극장</span>
+                    <span class="data letter-spacing-min ellipsis-line1">
+                        <a href="#" target="_blank" title="${param.theaterTitle}">${param.theaterTitle}</a>
+                    </span>
+                </div>
+                <div class="row date" style="display: block;">
+                    <span class="header">일시</span>
+                    <span class="data" title="${param.fullDate} ${param.starttime}">${param.fullDate} ${param.starttime}</span>
+                </div>
+                <div class="row screen" style="display: block;">
+                    <span class="header">상영관</span>
+                    <span class="data" title="${param.th_number}">${param.th_number}</span>
+                </div>
+                <div class="placeholder" title="극장선택" style="display: none;"></div>
+            </div>
+            <div class="info path">
+                <div class="row colspan4" style="display: block;">
+                    <span class="header">좌석명: </span>
+                    <span class="data">　일반석</span>
+                    <div>
+                    <span class="header">좌석번호:</span>
+                    <span class="data">　일반석</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info payment-ticket">
+            	 <div class="row payment-senior" style="display: block;">
+					<span class="header">청소년</span>
+					<span class="data">
+						<span class="price">7,000</span>
+						<span class="exe"> 원 X </span>
+						<span class="quantity">4</span>
+					</span>
 				</div>
-				<div class="row movie_type" style="display: block;">
-					<span class="data ellipsis-line1" title=""></span>  <!--2D 인곳  -->  
-				</div>
-				<div class="row movie_rating" style="display: block;">
-					<span class="data" title="15">15</span>
-				</div>
-				<div class="placeholder" title="영화선택" style="display: none;"></div>
-			</div>
-			<div class="info theater">
-				<div class="row name" style="display: block;">
-					<span class="header">극장</span>
-					<span class="data letter-spacing-min ellipsis-line1"><a href="" target="_blank" title="강남">강남</a></span>
-				</div>
-				<div class="row date" style="display: block;">
-					<span class="header">일시</span>
-					<span class="data" title="2024-08-16 18:00">2024-08-16 18:00</span>
-				</div>
-				<div class="row screen" style="display: block;">
-					<span class="header">상영관</span>
-					<span class="data" title="1관">1관</span>
-				</div>
-				<div class="placeholder" title="극장선택" style="display: none;"></div>
-			</div>
-			<div class="info seat">
-				<div class="row seat_name" style="display: block;">
-					<span class="header">좌석명</span>
-					<span class="data">일반석</span>
-				</div>
-				<div class="row seat_no colspan3" style="display: block;">
-					<span class="header">좌석번호</span>
-					<span class="data ellipsis-line3"></span>
-				</div>
-				<div class="placeholder" title="좌석선택"></div>
-			</div>
-			<div class="info path">
-				<div class="row colspan4" style="display: block;">
-					<span class="path-step2" title="좌석선택">&nbsp;</span>
-					<span class="path-step3" title="결제">&nbsp;</span>
-				</div>
-			</div>
-			<div class="tnb_step_btn_right_before" id="tnb_step_btn_right_before"></div>
-			<a class="btn-right on" id="tnb_step_btn_right" href="#" title="좌석선택"> </a>
-			
-			
-		</div>
-	</div>
+			</div>	
+            
+            <a class="btn-right on" id="tnb_step_btn_right" href="#" title="좌석선택"> </a>
+        </div>
+    </div>
 	
 	
 	

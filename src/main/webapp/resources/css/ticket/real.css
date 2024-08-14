@@ -158,7 +158,14 @@
 }
 
 .selected { 
-  	background-color: #525252; 
+  	 background-color: black !important;
+  	color: white;
+  	font-weight: bold;
+} 
+
+
+.choose { 
+  	background-color: red !important;
   	color: white;
   	font-weight: bold;
 } 
@@ -249,7 +256,6 @@
 
 #seat_num {
 	position: relative;
-	padding-top:10px;
 	padding-bottom: 20px;
 	margin-top:10px;
 }
@@ -382,6 +388,7 @@
     height: 20px;
     text-align: center;
     line-height: 20px; /* 텍스트 상하 정렬*/
+     cursor: pointer;
 }
 
 .seat-row{
@@ -459,5 +466,6 @@ table.peoSelTable td:nth-of-type(1) {
     height: 50px;
     line-height: 50px;
     margin-bottom: 40px;
+    margin-top: -18.72px;
     
 }

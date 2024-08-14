@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeDateList();
     fetchMovies(''); // 영화 목록 초기값 호출
-
+    
     var selectMovieTitle = '';
     var selectRegionName = '';
     var selectTheaterName = '';
@@ -153,9 +153,11 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     }
+    
 
     // 영화 update 투명도처리 
     function updateMovie() {
+    	
         $.ajax({
             url: '/myweb/UPDATE_MOVIE',
             type: 'GET',
@@ -174,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
             		return movie.title; // title 값만 추출
         		});
 
-
                 // 전체 영화 목록을 HTML 문서에서 가져옴
                 $('#movie li').each(function() {
                     var movieTitle = $(this).find('a').attr('title');
@@ -185,11 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             },
-        });
+        })
     }
 
     // 영화 시간  투명도 처리 
     function updateTime() {
+    
         $.ajax({
             url: '/myweb/UPDATE_TIME',
             type: 'GET',
@@ -233,7 +235,33 @@ document.addEventListener('DOMContentLoaded', function() {
             },
 
         });
+        
+        // 메인-> 모델에 담아온 값(채현)
+        var movieNumToClick = $('#movie-data').data('movie-num');
+        //타이밍 맞추기 위해서 시간 늦춤
+        setTimeout(function(){
+        //자동 클릭 함수//채현
+        autoClickMovie(movieNumToClick)
+        }, 1000);
+        
     }
+    
+    //자동 클릭 함수
+    function autoClickMovie(movieNumToClick) {//채현
+    // 값이 존재할 때만 작업 수행
+    var movieNumToClickStr = String(movieNumToClick).trim();
+	    // 값이 빈 문자열이 아닌 경우에만 작업 수행
+	    
+	if (movieNumToClickStr !== '') {
+	    var movieItem = $('#movie li[data-index="' + movieNumToClickStr + '"] a');
+	    if (movieItem.length) {
+	        movieItem[0].click();
+	    } else {
+	        alert("error");
+	    }
+	}
+	
+}
 
     // 두 자리 숫자로 맞추기 위한 보조 함수
     function padNumber(num) {
@@ -263,11 +291,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+
     // 지역별 극장 이름 가져오기
     function th_name(region) {
         regionvalue = region;
         var $ul = $(`ul[data-region="${region}"]`);
-
         $.ajax({
             url: '/myweb/TH_NAME',
             type: 'GET',
@@ -292,10 +320,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('li[date=fullDate] a').trigger('click');
                 updateMovie();
                 updateTime();
-
+                
             },
         });
     }
+    
 
     // 영화 선택시 극장 비교 
     function updateTheaterList() {
@@ -579,7 +608,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	    if (parentLi.css('opacity') == 0.25) {
         	 if (confirm("선택한 극장에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 영화 및 날짜가 해제됩니다.)")) {
 	    		$('.area_theater_list ul[data-region] li').css('opacity', 1);
-       
        			 parentLi.parent().prepend(parentLi); // ul의 가장 상단으로 이동
       			  resetMovies();
         		  resetDates();
@@ -587,7 +615,6 @@ document.addEventListener('DOMContentLoaded', function() {
         		  return;
         		  }
         }
-        		
         $('.area_theater_list ul[data-region] li').css('background-color', 'transparent');
         $('.area_theater_list ul[data-region] li a').removeClass('selected-theater').css({
             'border': '',
@@ -637,7 +664,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 영화 선택 CSS  @clcick@
     $(document).off('click', '#movie li a').on('click', '#movie li a', function(event) {
         event.preventDefault();
-        
         var currentMovie = $(this);
 	    var movieli = currentMovie.closest('li');
 
@@ -966,6 +992,7 @@ function resetTheaters() {
 }   
     
     
+   
    
    
    
