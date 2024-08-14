@@ -14,6 +14,13 @@
 	
 </head>
 <body>
+	 <script type="text/javascript">
+        var selectRegionName = "${param.selectRegionName}";
+        var theaterTitle = "${param.theaterTitle}";
+        var thNumber = "${param.th_number}";
+    </script>
+
+	<h1 style="font-size: 35px; text-align: center;">좌석 선택</h1>
 	<article id="seat_select">
 		<div id="header_box">
 			 <table class="header_box">
@@ -36,9 +43,9 @@
                     </div>
                 </td>
                 <th colspan="3" class="header_box_Runtime">
-                    ${param.movieTitle}  ${param.th_number} 
+                    ${param.movieTitle}  ${param.selectRegionName} ${param.theaterTitle}  ${param.th_number} 
                     남은좌석  ${param.now_count} / ${param.se_count}<br>
-                    <b>${param.fullDate} ${param.starttime}  ~ ${param.endtime}</b>
+                    <b>${param.fullDate} ${param.starttime}  ~  ${param.endtime}</b>
                 </th>
             </tr>
         </tbody>

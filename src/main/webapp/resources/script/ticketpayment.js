@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // 설정할 인원 수
-    var person = 3; // 이 값을 변경하여 인원 수 조정 가능
+    var person = 8; // 이 값을 변경하여 인원 수 조정 가능
 
     // 유형별로 초기화된 배열
     var types = ['일반', '청소년', '경로', '우대'];
@@ -32,6 +32,62 @@ $(document).ready(function() {
     });
     
     $('#DiscountInformation div').first().text(`*최대 ${person}명 선택 가능`);
+    
+    
+    
+    // 첫 좌석 가져오는 함수 
+  function loadSeats() {
+    $.ajax({
+        url: '/myweb/LOADSEAT', 
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            region: selectRegionName,
+            th_name: theaterTitle,
+            th_number: thNumber
+        },
+        success: function(data) {
+
+            $('#seat_num').empty(); // 기존 좌석 삭제
+
+            var currentRow = '';
+            var rowDiv = null;
+
+            data.forEach(function(seat) {
+                var seatRow = seat.SE_SEAT.charAt(0); 
+
+                if (currentRow !== seatRow) {
+                
+                    currentRow = seatRow;
+                    
+                    rowDiv = $('<div></div>').addClass('seat-row');
+                    
+                    $('#seat_num').append(rowDiv);
+                }
+
+                var seatDiv = $('<div></div>')
+                    .attr('id', 'seat') 
+                    .attr('value', seat.SE_SEAT) 
+                    .text(seat.SE_SEAT) 
+                    .addClass(seat.SE_TYPE);
+
+                rowDiv.append(seatDiv); // 해당 행의 div에 좌석 추가
+            });
+        },
+    });
+}
+
+loadSeats();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
  });  // ready 끝    
     

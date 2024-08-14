@@ -80,5 +80,9 @@ public class TicketDAO {
 		return sqlSession.selectList(namespace + ".selectSecount", param);
 	}
 
+	public List<Map<String, String>> selectloadseat(Map<String, Object> param) {
+		return sqlSession.selectList(namespace + ".selectloadseat", param);
+	}
+
 }
 

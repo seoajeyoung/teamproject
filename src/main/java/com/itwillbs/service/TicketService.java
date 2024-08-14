@@ -76,5 +76,9 @@ public class TicketService {
 		return ticketDAO.selectSecount(param);
 	}
 
+	public List<Map<String, String>> selectloadseat(Map<String, Object> param) {
+		return ticketDAO.selectloadseat(param);
+	}
+
 
 }

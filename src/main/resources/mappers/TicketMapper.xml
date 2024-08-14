@@ -283,6 +283,20 @@
 	</select>	
 
 
+	<select id="selectloadseat" resultType="map" parameterType="map">
+   		
+   		SELECT SE_SEAT 
+   			  ,SE_TYPE 
+   		FROM MSEAT
+ 		WHERE TH_NUM = (SELECT TH_NUM 
+ 						FROM THEATER
+ 						WHERE TH_REGION = #{region}
+ 						AND TH_NAME = #{th_name} 
+ 						AND TH_NUMBER = #{th_number})	
+   		
+	</select>	
+
+
 
 
 </mapper>  
