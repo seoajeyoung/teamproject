@@ -31,5 +31,7 @@ $(document).ready(function() {
         tbody.append(tr);
     });
     
+    $('#DiscountInformation div').first().text(`*최대 ${person}명 선택 가능`);
+    
  });  // ready 끝    
     

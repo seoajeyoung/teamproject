@@ -8,3 +8,15 @@
     border: 1px solid #858796;
     pont_size: 14px !important;
 }
+
+
+.btn-detailinfo {
+    color: #fff !important;
+    background-color: #ff4b47 !important; /* CGV 스타일의 빨간색 */
+    border-color: #ff4b47 !important;
+    padding: 8px 16px !important; /* 버튼 여백 */
+    border-radius: 4px !important; /* 버튼 모서리 둥글게 */
+    font-size: 14px !important; /* 글자 크기 조정 */
+    transition: background-color 0.3s ease !important; /* 호버 시 색상 변화 애니메이션 */
+    font-family: 'Noto Sans KR', sans-serif !important;
+}

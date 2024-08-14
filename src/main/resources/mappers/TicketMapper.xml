@@ -148,16 +148,20 @@
 
 	<select id="selectSecount" resultType="map" parameterType="map">
 	
-		SELECT DISTINCT SE_COUNT , COUNT(SE_TYPE) AS NOW_COUNT
-   		FROM MSEAT
-   		WHERE TH_NUM = (SELECT TH_NUM 
-   						FROM THEATER 
-   						WHERE TH_REGION = #{region}
-   						AND TH_NAME = #{selectTheaterName}
-   						AND TH_NUMBER = #{th_number} )
-		AND SE_TYPE = 'empty'
-        group by SE_COUNT;
-	
+		 SELECT
+    	 THEATER.TH_NUMBER,
+   		 MSEAT.SE_COUNT,
+    	 COUNT(MSEAT.SE_TYPE) AS NOW_COUNT
+		 FROM MSEAT
+		 JOIN THEATER ON MSEAT.TH_NUM = THEATER.TH_NUM
+		 WHERE THEATER.TH_REGION = #{region}
+		 AND THEATER.TH_NAME = #{selectTheaterName}
+		 AND THEATER.TH_NUMBER IN
+    	 <foreach item="item" collection="thNumbers" open="(" separator="," close=")">
+     		    #{item}
+   	 	 </foreach>
+		 AND MSEAT.SE_TYPE = 'empty'
+		 GROUP BY THEATER.TH_NUMBER, MSEAT.SE_COUNT;
 	
 	
 	</select>

@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var regionvalue = '';
 	var languagetype = '';
 	var truetime = '';
-	
+	var secountMap = {};
+	var th_number ='';
+	var starttime ='';
+	var endtime ='';
+	var se_count ='';
+	var now_count ='';
 	var topPosition =0;
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
     
@@ -351,9 +356,18 @@ document.addEventListener('DOMContentLoaded', function() {
         success: function(response) {
             var mtime = response.mtime;
             var mcinema = response.mcinema;
-            var secount = response.secount[0].SE_COUNT;
-            var nowcount = response.secount[0].NOW_COUNT;
+            var secount = response.secount;
+
+            // Map 형태로 데이터를 저장
+            secount.forEach(function(item) {
+                secountMap[item.TH_NUMBER] = {
+                    SE_COUNT: item.SE_COUNT,
+                    NOW_COUNT: item.NOW_COUNT
+                }; // TH_NUMBER를 키로, SE_COUNT와 NOW_COUNT를 값으로 저장
+            });
+
             var MtimeHtml = '';
+
             // 현재 시간 가져오기
             var now = new Date();
             var nowDay = now.getDate();
@@ -362,23 +376,27 @@ document.addEventListener('DOMContentLoaded', function() {
             var nowTimeStr = `${nowHours}:${nowMinutes}`;
 
             $.each(mcinema, function(index, cinema) {
+                var thNumber = cinema.TH_NUMBER;
+                var secount = secountMap[thNumber] ? secountMap[thNumber].SE_COUNT : 0; // 해당 TH_NUMBER에 맞는 SE_COUNT 값
                 var cinemaHtml =
                     `<div class="theater">
                     <span class="title">
-                        <span class="floor">${cinema.TH_NUMBER}</span>
-                        <span class="seatcount">(총 ${secount}석)</span>
+                        <span class="floor">${thNumber}</span>
+                        <span class="seatcount">(총 ${secount}석)</span> <!-- SE_COUNT 값이 여기 들어감 -->
                     </span>
                     <ul>`;
 
                 $.each(mtime, function(index, time) {
-                    if (time.TH_NUMBER === cinema.TH_NUMBER) {
+                    if (time.TH_NUMBER === thNumber) {
                         var showTime = time.SC_TIME;
-                        
+
                         // 현재 시간이 상영 시간보다 늦은 경우, 해당 <li> 태그를 숨기기
                         if (nowDay > selectDate || (nowDay === selectDate && nowTimeStr > showTime)) {
                             return; // 해당 시간에 맞는 <li> 태그를 건너뛰기
                         }
-                        
+
+                        var nowcount = secountMap[time.TH_NUMBER] ? secountMap[time.TH_NUMBER].NOW_COUNT : 0; // 해당 time.TH_NUMBER에 맞는 NOW_COUNT 값
+
                         cinemaHtml +=
                             `<li>
                             <a class="button" data-id="${time.TH_NUMBER}" href="#">
@@ -401,14 +419,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </span>
                                 <span class="count">
-                                   ${nowcount}석
+                                   ${nowcount}석 <!-- NOW_COUNT 값이 여기 들어감 -->
                                 </span>
                                 <span class="sreader mod"></span>
                             </a>
                         </li>`;
                     }
                 });
-
                 cinemaHtml += `</ul></div>`;
                 MtimeHtml += cinemaHtml;
             });
@@ -433,6 +450,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 }
+
+
 
 	// 영화 시간 update 
 	function updatetruetime() {
@@ -462,6 +481,13 @@ document.addEventListener('DOMContentLoaded', function() {
         'background-color': 'rgb(57, 53, 53)',
         'color': '#fff'
     });
+    
+    th_number = $(this).data('id'); 
+    starttime = $(this).find('span.starttime').text().trim();
+    endtime = $(this).find('div.endtime').text().replace('종료 ', '').trim();
+    se_count = secountMap[th_number] ? secountMap[th_number].SE_COUNT : 0;
+    now_count = secountMap[th_number] ? secountMap[th_number].NOW_COUNT : 0;
+    
     updatetimebottom($(this).data('id'),$(this).find('span.time').find('span.starttime').text().trim(),fullDate); 
 });
 
@@ -696,7 +722,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 	var param = 'movieTitle=' + movieTitle +
                    '&theaterTitle=' + theaterTitle +
-                   '&dateSpan=' + dateSpan;
+                   '&fullDate=' + fullDate +
+                   '&th_number=' + th_number + 
+                   '&starttime=' + starttime +
+                   '&endtime=' + endtime +
+                   '&se_count=' + se_count +
+                   '&now_count=' + now_count + 
+                   '&selectRegionName=' + selectRegionName  
+                   ;
 		   window.location.href = '/myweb/결제TEST?' + param;
 
 

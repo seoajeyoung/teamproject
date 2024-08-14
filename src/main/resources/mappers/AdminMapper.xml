@@ -295,7 +295,7 @@
 		VALUES (
 		#{CI_NUM},
 		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME =
-		#{TH_NAME}),
+		#{TH_NAME} AND TH_NUMBER = #{TH_NUMBER}),
 		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title})
 		);
 	</insert>
@@ -441,6 +441,29 @@
 		SELECT * FROM STORE
 	</select>
     
+    
+    <select id="getstoreInfo"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE, ST_TYPE
+		FROM STORE
+		WHERE ST_NUM = #{ST_NUM}
+	</select>
+	
+	<update id="updateStore" parameterType="com.itwillbs.domain.AdminDTO">
+		UPDATE STORE
+		SET
+		ST_NAME = #{ST_NAME},
+		ST_DETAIL = #{ST_DETAIL},
+		ST_PRICE = #{ST_PRICE},
+		ST_PICTURE = #{ST_PICTURE},
+		ST_TYPE = #{ST_TYPE}
+		WHERE ST_NUM = #{ST_NUM};
+	</update>
+	
+	<delete id="deleteStore" parameterType="String">
+		DELETE FROM STORE WHERE ST_NUM = #{ST_NUM};
+	</delete>
+	
 
     
 </mapper>

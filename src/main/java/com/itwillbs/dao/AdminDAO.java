@@ -337,6 +337,21 @@ public class AdminDAO {
 	public List<AdminDTO> getStoreList() {
 		return sqlSession.selectList(namespace + ".getStoreList");
 	}
+
+	public AdminDTO getstoreInfo(String storeNum) {
+		return sqlSession.selectOne(namespace+ ".getstoreInfo", storeNum);
+	}
+
+	public void updateStore(AdminDTO adminDTO) {
+		sqlSession.update(namespace + ".updateStore", adminDTO);
+		
+	}
+
+	public void deleteStore(String stNum) {
+		sqlSession.delete(namespace + ".deleteStore", stNum);
+		
+	}
+
 	
 
 }
