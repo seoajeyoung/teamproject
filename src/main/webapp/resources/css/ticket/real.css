@@ -248,8 +248,10 @@
 }
 
 #seat_num {
-	margin-bottom: 50px;
 	position: relative;
+	padding-top:10px;
+	padding-bottom: 20px;
+	margin-top:10px;
 }
 
 .opacity{
@@ -357,7 +359,7 @@
 
 #DiscountInformation{
 	width: auto;
-	padding-right: 20px;
+	padding-right: 60px;
 }
 #DiscountInformation div{
 	color:red;
@@ -409,7 +411,7 @@ table.peoSelTable td:nth-of-type(1) {
 
 #peoSelTableTh{
 	width: auto;
-	padding-left: 120px;
+	padding-left: 50px;
 }
 
 #height50{
@@ -419,6 +421,8 @@ table.peoSelTable td:nth-of-type(1) {
 .header_box_Runtime{
 	width: 45%;
 	text-align: left;
+	vertical-align: top;
+	padding-left: 70px;
 }
 
 /* table { border-collapse: collapse; } */
@@ -455,5 +459,5 @@ table.peoSelTable td:nth-of-type(1) {
     height: 50px;
     line-height: 50px;
     margin-bottom: 40px;
-    margin-top: -18.72px;
+    
 }

@@ -38,7 +38,6 @@ public class TicketController {
 	public String test(@RequestParam(value = "num", required = false) String movieNum, Model model) {
 		
 		model.addAttribute("movieNum", movieNum);
-		System.out.println(movieNum);
 		
 		return "ticket/ticket";
 	}
@@ -62,9 +61,10 @@ public class TicketController {
 	@GetMapping("/결제TEST") // 영화 결제 TEST
 	public String TEST3(
 			@RequestParam Map<String, String> param, Model model){
-		System.out.println(param);
 		
 		model.addAttribute(param);
+		
+		System.out.println(param);
 		
 		return "ticket/결제TEST";
 	}
@@ -266,7 +266,6 @@ public class TicketController {
 		
 		List<Map<String, String>> selectsaveseat = ticketService.selectloadseat(param);
 		
-		System.out.println(selectsaveseat);
 
 		return new ResponseEntity<List<Map<String, String>>>(selectsaveseat, HttpStatus.OK);
 	}

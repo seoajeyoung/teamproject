@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	var se_count ='';
 	var now_count ='';
 	var topPosition =0;
+	var MovieRating ='';
+	var MovieUrl = '';
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
     
     
@@ -502,7 +504,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var $ciNumberSpan = $('.info.theater').find('span.data').eq(2); 
     $ciNumberSpan.attr('title', TH_NUMBER); 
     $ciNumberSpan.text(TH_NUMBER); 
-        
 }
     
     
@@ -678,7 +679,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 하단 영화 정보 표시 함수 
     function updatemoviebottom(selectMovieTitle, selectMovieRating , selectMovieUrl) {
-    
+    MovieRating = selectMovieRating; 
+    MovieUrl = selectMovieUrl;
     // 영화 제목 업데이트
     const $movieLink = $('.row.movie_title.colspan2 .data.letter-spacing-min.ellipsis-line2 a');
     $movieLink.text(selectMovieTitle);
@@ -695,8 +697,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     $moviePosterImg.css('display', 'inline');
     $('.info.movie .placeholder').css('display', 'none');
-    
 }
+
     //좌석 버튼 선택 버튼 클릭 이벤트  @click@
      $(document).off('click', '#tnb_step_btn_right').on('click', '#tnb_step_btn_right', function(event) {
         event.preventDefault();
@@ -728,9 +730,12 @@ document.addEventListener('DOMContentLoaded', function() {
                    '&endtime=' + endtime +
                    '&se_count=' + se_count +
                    '&now_count=' + now_count + 
-                   '&selectRegionName=' + selectRegionName  
+                   '&selectRegionName=' + selectRegionName + 
+                   '&MovieRating=' + MovieRating +
+                   '&MovieUrl=' + MovieUrl
                    ;
 		   window.location.href = '/myweb/결제TEST?' + param;
+
 
 
     // 모든 값이 유효한 경우
