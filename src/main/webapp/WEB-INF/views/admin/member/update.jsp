@@ -144,7 +144,7 @@
 											</tr>
 										</tbody>
 									</table>
-									<button type="submit" class="btn btn-success btn-user">수정완료</button>
+									<button type="submit" class="btn btn-success btn-user">수정</button>
 								</form>
 							</div>
 						</div>

@@ -325,8 +325,6 @@ public class MemberController {
 			redirectAttributes.addFlashAttribute("error", "입력하신 정보에 해당하는 계정이 없습니다.");
 		    return "redirect:/member/findPass"; // URL을 변경하면서 사용자 정보를 다시 입력하도록 유도
 		}
-	
-        
 		
 	}
 

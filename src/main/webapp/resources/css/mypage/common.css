@@ -1,0 +1,709 @@
+@charset "utf-8";
+
+/* Common */
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td,
+	form, fieldset, legend, input, textarea, button, select {
+	margin: 0;
+	padding: 0;
+	border: 0
+}
+
+body, input, select, textarea, header, footer {
+	color: #333;
+	font-family: 'Tahoma', '돋움', dotum, Nanum Gothic, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+body.mac-os, input.mac-os, select.mac-os, textarea.mac-os, header.mac-os,
+	footer.mac-os {
+	font-family: Apple SD Gothic Neo, AppleGothic, '돋움', dotum, Nanum Gothic,
+		sans-serif
+}
+
+body {
+	background: #fff;
+	-webkit-text-size-adjust: none;
+	text-align: left;
+} /*background:#f2f0e4*/
+table {
+	border-spacing: 0;
+	border-collapse: collapse
+}
+
+img, fieldset {
+	border: 0 none;
+}
+
+img, input, select, textarea {
+	vertical-align: top;
+}
+
+em, cite, address, dfn, var {
+	font-style: normal;
+}
+
+dl, ul, ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	color: #333;
+}
+
+a:link, a:active {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+caption, legend {
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	font-size: 0
+}
+
+em {
+	font-style: normal
+}
+
+.hidden {
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+}
+
+.blind {
+	visibility: hidden;
+	height: 0;
+	font-size: 0;
+	width: 0;
+}
+
+.btnMoreH {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	line-height: 0;
+	margin: -1px 0 0 -1px;
+	color: #336699;
+	font-size: 0;
+	text-align: right
+}
+
+.btnMoreH:focus, .btnMoreH:active {
+	position: relative;
+	width: 100%;
+	height: 12px;
+	line-height: 12px;
+	margin: 0;
+	font-size: 12px;
+	text-decoration: underline
+}
+
+button {
+	border: none;
+	cursor: pointer;
+}
+
+button span {
+	display: none;
+}
+
+label {
+	cursor: pointer;
+}
+
+input.text {
+	margin-right: 2px;
+	height: 14px;
+	width: 219px;
+	padding: 6px 7px 7px;
+	*padding: 6px 7px 7px;
+	border: 1px solid #b5b5b5;
+	background: #f2f0e5;
+}
+
+input[type="checkbox"], input[type="radio"] {
+	vertical-align: middle
+}
+
+input.nohan {
+	ime-mode: disabled
+}
+
+/* FONT */
+/*@font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothic.eot);
+  src: url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothic.eot?#iefix) format('embedded-opentype'),
+       url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothic.woff) format('woff'),
+       url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothic.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 700;
+  src: url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothicBold.eot);
+  src: url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothicBold.eot?#iefix) format('embedded-opentype'),
+       url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothicBold.woff) format('woff'),
+       url(http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/font/NanumBarunGothicBold.ttf) format('truetype');
+}
+*/
+/* margin, padding 클래스 모음 */
+.mgb20 {
+	margin-bottom: 20px !important
+}
+
+.pdr7 {
+	padding-right: 7px
+}
+
+/* text */
+.lh20 {
+	line-height: 20px
+}
+
+.txt_type01 {
+	line-height: 20px;
+	font-size: 12px;
+	letter-spacing: -1px
+}
+
+.txt_type02 {
+	line-height: 20px;
+	font-size: 12px
+}
+
+.align-right {
+	text-align: right
+}
+
+.align-center {
+	text-align: center
+}
+
+/* select box */
+.select-box {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	width: 150px;
+	height: 27px;
+	line-height: 27px; #
+	margin-right: 4px;
+	padding: 0 11px 0 10px;
+	border: 1px solid #b5b5b5;
+	background: #f2f0e4
+		url('http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/selectbox-btn.png')
+		no-repeat right 50%;
+	color: #333;
+	font-size: 13px;
+	text-align: left;
+	vertical-align: middle
+}
+
+.select-box.vt {
+	vertical-align: top; #
+	vertical-align: middle !important
+}
+
+.select-box.wht {
+	background-color: #ffffff
+}
+
+.select-box.pop {
+	background-color: #f6f6f4
+}
+
+.select-box.comm {
+	border: 1px solid #d5d3c9 !important;
+	background-color: #ffffff
+}
+
+.select-box select {
+	background: #f2f0e4;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-weight: normal;
+	color: #333;
+}
+
+.select-box.hover {
+	border: 1px dotted #000
+}
+
+/* 레이어팝업 및 일반팝업 */
+.layer_popup {
+	display: none;
+	background-color: #f6f6f4;
+	border: 5px solid #333;
+	position: fixed;
+	left: 50%;
+	top: 10%;
+	width: 624px;
+	margin-left: -312px;
+	z-index: 1000;
+	text-align: left;
+}
+
+.popup_area {
+	background-color: #f6f6f4;
+	border: 5px solid #333;
+	width: 624px;
+	text-align: left;
+}
+
+.layer_popup a.close, .popup_area a.close {
+	display: block;
+	background:
+		url("http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/k_layer_common.png")
+		no-repeat 0 0;
+}
+
+.layer_popup span.des, .popup_area span.des {
+	line-height: 18px;
+	display: block;
+}
+
+.layer_popup .hd, .popup_area .hd {
+	border-bottom: 4px solid #333;
+	height: 51px !important;
+	background-color: #333 !important;
+	padding-top: 0 !important;
+	padding-left: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.popup_area .hd {
+	position: relative;
+}
+
+.layer_popup .title_area h4, .popup_area .title_area h2 {
+	float: none !important;
+	width: auto !important;
+	margin-right: 0 !important;
+	background: none !important;
+	color: #f2f0e5;
+	border: 1px solid #707070;
+	height: 35px !important;
+	padding-top: 14px;
+	padding-left: 20px;
+	font-family: Nanum Gothic, Apple SD Gothic Neo, AppleGothic, 돋움, dotum,
+		Sans-serif;
+	font-size: 22px;
+	line-height: 22px;
+	letter-spacing: -2px;
+}
+
+.layer_popup .hd a.close, .popup_area .hd a.close {
+	position: absolute;
+	top: 17px;
+	right: 20px;
+	width: 18px;
+	height: 18px;
+}
+
+.layer_popup .bd {
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
+	max-height: 460px;
+	margin: 0 auto;
+	padding-left: 40px;
+	padding-right: 30px;
+	padding-top: 39px;
+}
+
+.popup_area .bd {
+	margin: 0 auto;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 27px;
+}
+
+.layer_popup .ft, .popup_area .ft {
+	text-align: center;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 22px;
+	padding-bottom: 23px;
+}
+
+.layer_popup .ft * {
+	vertical-align: middle;
+}
+
+.layer_popup .ft a.close, .popup_area .ft a.close {
+	display: inline-block;
+	width: 53px;
+	height: 29px;
+	background-position: 0 -42px;
+}
+
+.layer_popup .ft a.close span.hidden, .popup_area .ft a.close span.hidden
+	{
+	font-size: 0;
+	line-height: 0;
+	text-indent: -9999px;
+}
+
+.layer_popup .bd h5, .popup_area .bd h5 {
+	margin-top: 28px;
+	margin-bottom: 8px;
+	font-family: Nanum Gothic, Apple SD Gothic Neo, AppleGothic, 돋움, dotum,
+		Sans-serif;
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	letter-spacing: -2px;
+}
+
+.layer_popup .bd h5 strong, .popup_area .bd h5 strong {
+	color: #c62424;
+}
+
+.layer_popup .bd span.des span, .popup_area .bd span.des span {
+	color: #666;
+}
+
+.layer_popup .bd ul.list li, .popup_area .bd ul.list li {
+	padding-left: 10px;
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+	border: 0 !important;
+	line-height: 20px;
+	background:
+		url("http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/k_layer_common.png")
+		no-repeat 0 -84px;
+	color: #666;
+}
+
+.layer_popup .bd em, .popup_area .bd em {
+	color: #c62424;
+}
+
+.pop_close {
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	top: 17px;
+	right: 20px;
+	width: 18px;
+	height: 18px;
+	line-height: 0;
+	background:
+		url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/k_layer_common.png)
+		no-repeat top left;
+	color: #ffffff;
+	font-size: 0
+}
+
+.pop_btn_wrap {
+	padding: 0 0 30px;
+	text-align: center
+}
+
+/* input */
+.input_txt {
+	height: 25px;
+	line-height: 23px;
+	padding-top: 2px;
+	padding-left: 5px;
+	border: 1px solid #b5b5b5;
+	background:
+		url('http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/trans_bg.png');
+}
+
+.textarea {
+	border: 1px solid #bdbdbb;
+	padding: 10px
+}
+
+.textarea textarea {
+	width: 100%;
+	background: none;
+	outline: none
+}
+
+.textarea_info {
+	margin-top: 5px;
+	color: #999999
+}
+
+/* blackscreen */
+.blackscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	_height: 1000px;
+	filter: alpha(opacity = 30);
+	opacity: 0.3;
+	background-color: #fff;
+	text-align: center;
+	z-index: 10000;
+}
+
+/* btn */
+.btn_wrap {
+	overflow: hidden;
+	margin: 20px 0 40px;
+	text-align: center
+}
+
+.btn_wrap.type02 {
+	margin: 10px 0 30px
+}
+
+.btn_pack *:hover, .btn_pack *:active, .btn_pack *:focus {
+	color: #690
+}
+
+table .btn_pack {
+	vertical-align: middle !important
+}
+
+.btn_pack, .btn_pack>* {
+	display: inline-block;
+	position: relative;
+	background:
+		url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/btn_pack.gif)
+		no-repeat;
+	white-space: nowrap
+}
+
+.btn_pack {
+	margin-right: 4px;
+	vertical-align: top; #
+	vertical-align: middle
+}
+
+.btn_pack>* {
+	left: 4px;
+	cursor: pointer;
+	_cursor: hand
+}
+
+.btn_pack a {
+	display: block;
+	text-decoration: none
+}
+
+.btn_pack.sm, .btn_pack.sm>* {
+	height: 23px;
+	line-height: 24px; #
+	line-height: 23px;
+	font-size: 12px;
+	font-weight: bold
+}
+
+.btn_pack.me, .btn_pack.me>* {
+	height: 29px;
+	line-height: 30px; #
+	line-height: 29px;
+	font-size: 12px;
+	font-weight: bold
+}
+
+.btn_pack.la, .btn_pack.la>* {
+	height: 48px;
+	line-height: 50px; #
+	line-height: 49px;
+	font-size: 12px;
+	font-weight: bold
+}
+
+.btn_pack.la02, .btn_pack.la02>* {
+	height: 58px;
+	line-height: 60px; #
+	line-height: 59px;
+	font-size: 12px;
+	font-weight: bold
+}
+
+.btn_pack.me.type04 {
+	background-position: left -90px
+}
+
+.btn_pack.me.type04>* {
+	padding: 0 15px 0 11px;
+	background-position: right -90px;
+	color: #f6f6f4
+}
+
+.btn_pack.me.type05 {
+	background-position: left -124px
+}
+
+.btn_pack.me.type05>* {
+	padding: 0 15px 0 11px;
+	background-position: right -124px;
+	color: #333333
+}
+
+.btn_pack.me.type06 {
+	background-position: left -158px
+}
+
+.btn_pack.me.type06>* {
+	padding: 0 15px 0 11px;
+	background-position: right -158px;
+	color: #c62324
+}
+
+.btn_pack.me.type07 {
+	background-position: left -192px
+}
+
+.btn_pack.me.type07>* {
+	padding: 0 15px 0 11px;
+	background-position: right -192px;
+	color: #666666
+}
+
+.btn_pack.la.type01 {
+	background-position: left -362px
+}
+
+.btn_pack.la.type01>* {
+	padding: 0 15px 0 11px;
+	background-position: right -362px;
+	color: #ffffff
+}
+
+.btn_pack.la02.type01 {
+	background-position: left -415px
+}
+
+.btn_pack.la02.type01>* {
+	padding: 0 15px 0 11px;
+	background-position: right -415px;
+	color: #ffffff
+}
+
+/* box */
+.bxType06 {
+	padding: 20px 0;
+	border: 1px solid #b5b5b5
+}
+
+.bxType07 {
+	padding: 20px;
+	background-color: #ececea
+}
+
+/* loading */
+#ticket_loading {
+	display: none;
+	position: relative;
+	z-index: 99999
+}
+
+.loadWrap {
+	position: fixed;
+	top: 50%;
+	left: 0;
+	right: 0;
+	margin-top: -33px;
+	text-align: center
+}
+
+.loadTxt {
+	display: block;
+	padding-top: 15px;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: Nanum Gothic, 나눔고딕, Apple SD Gothic Neo, AppleGothic, 돋움,
+		dotum, Sans-serif;
+	letter-spacing: 0 !important
+}
+
+.dimm {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background:
+		url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/trans_bg.png);
+}
+/*url(http://img.cgv.co.kr/CGV_RIA/Ticket/image/reservation/common/loading_bg.png) repeat;}*/
+
+
+i.cgvIcon.etc.ageAll {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23ageAll)'%3e%3cpath d='M17.745 20H2.256A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.256 0h15.49A2.253 2.253 0 0 1 20 2.255v15.49A2.254 2.254 0 0 1 17.745 20Z' fill='%23269C56'/%3e%3cpath d='M5.74 15.076 5.5 13.56H3.748l-.24 1.516H1.24v-.027L3.383 4.898h2.47l2.144 10.145v.027l-2.256.006ZM4.627 8.18l-.56 3.462h1.116L4.626 8.18ZM8.402 15.078V4.904h2.264v8.136h2.663v2.038H8.402ZM13.808 15.076V4.904h2.263v8.136h2.664v2.038l-4.927-.002Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='ageAll'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+
+
+i.cgvIcon.etc.age12 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23age12)'%3e%3cpath d='M17.745 20H2.255A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.255 0h15.49A2.255 2.255 0 0 1 20 2.255v15.49A2.256 2.256 0 0 1 17.745 20Z' fill='%23E9B62F'/%3e%3cpath d='M4.328 16.891v-9.94H3.227L4.65 3.108h2.761V16.89H4.328ZM16.303 3.109H8.765a.308.308 0 0 0-.307.307v4.165h3.013V5.706h2.13v1.659l-5.258 7.488v2.022h8.228v-2.69h-4.396l3.842-5.394c.12-.17.216-.32.29-.443.068-.12.128-.243.18-.37.05-.127.083-.26.098-.397.02-.173.029-.348.027-.522V3.416a.307.307 0 0 0-.309-.307Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age12'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+
+
+i.cgvIcon.etc.age15 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23age15)'%3e%3cpath d='M17.745 20H2.255A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.255 0h15.49A2.253 2.253 0 0 1 20 2.255v15.49A2.254 2.254 0 0 1 17.745 20Z' fill='%23DD742F'/%3e%3cpath d='M4.318 16.891v-9.94H3.217L4.643 3.11h2.761V16.89H4.318ZM16.313 7.815h-4.834v-2.02h5.052V3.107H8.45v7.342h5.177v3.85h-2.183v-1.812H8.45v4.095a.306.306 0 0 0 .307.308h7.556a.306.306 0 0 0 .308-.308V8.125a.307.307 0 0 0-.308-.31Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age15'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+
+i.cgvIcon.etc.age18 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' fill='none'%3e%3cg clip-path='url(%23age19)'%3e%3cpath fill='%23D92B35' d='M44.363 50H5.637a5.603 5.603 0 0 1-3.981-1.646A5.651 5.651 0 0 1 0 44.362V5.638a5.671 5.671 0 0 1 1.656-3.992A5.623 5.623 0 0 1 5.637 0h38.726a5.603 5.603 0 0 1 3.981 1.646A5.65 5.65 0 0 1 50 5.638v38.724a5.67 5.67 0 0 1-1.656 3.992A5.623 5.623 0 0 1 44.363 50z'/%3e%3cpath fill='%23fff' d='M10.593 42.225V17.377H7.84l3.565-9.607h6.9v34.456h-7.712zM40.921 7.77H21.759a.766.766 0 0 0-.714.476.777.777 0 0 0-.059.297v17.35a1.545 1.545 0 0 0 .95 1.424c.186.077.386.116.588.116h11.68v8.282h-5.457v-4.493h-7.49v10.235a.774.774 0 0 0 .77.768H40.92a.767.767 0 0 0 .769-.768V8.543a.774.774 0 0 0-.769-.773zm-12.31 7.107a.773.773 0 0 1 .773-.769h3.96a.767.767 0 0 1 .769.769v6.034a.774.774 0 0 1-.77.772h-3.959a.766.766 0 0 1-.714-.476.775.775 0 0 1-.059-.296v-6.034z'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age19'%3e%3cpath fill='%23fff' d='M0 0h50v50H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+
+i.cgvIcon.etc.ageNotyet {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='21' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M17.745 20.002H2.255A2.254 2.254 0 0 1 0 17.747V2.255A2.253 2.253 0 0 1 2.255 0h15.49A2.253 2.253 0 0 1 20 2.255v15.492a2.254 2.254 0 0 1-2.255 2.255Z' fill='%23666'/%3e%3cpath d='M9.018 14.79V5.88h-1.17v8.91h1.17Zm-3.91-3.2h-1.88V7.63h1.88v3.96Zm1.18-4.89h-4.23v5.82h4.23V6.7Zm11.442 6.31c0-1.11-1.15-1.79-3.12-1.79-1.97 0-3.12.68-3.12 1.79 0 1.08 1.15 1.76 3.12 1.76 1.97 0 3.12-.68 3.12-1.76Zm-7.12-5.54h1.77c-.07 1.27-.89 2.21-2.14 2.66.24.3.46.6.7.91.86-.3 1.8-1.14 2.07-2 .38.81 1.25 1.48 1.93 1.74.21-.31.43-.61.63-.92-.97-.32-1.87-1.15-1.96-2.39h1.69v-.96h-4.69v.96Zm4.55 1.48h1.34v2.23h1.17v-5.3H16.5v2.13h-1.34v.94Zm-.55 3.21c1.23 0 1.93.31 1.93.85 0 .52-.7.83-1.93.83-1.21 0-1.92-.31-1.92-.83 0-.54.71-.85 1.92-.85Z' fill='%23fff'/%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+
+i.cgvIcon {
+    display: inline-flex;	
+    font-size: 0;
+}
+
+
