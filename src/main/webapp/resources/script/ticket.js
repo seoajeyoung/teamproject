@@ -737,6 +737,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		   window.location.href = '/myweb/결제TEST?' + param;
 
 
+
     // 모든 값이 유효한 경우
      var sessionId = sessionStorage.getItem('id');
 
