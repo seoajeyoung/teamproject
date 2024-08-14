@@ -53,7 +53,7 @@ public class MemberController {
 		System.out.println(memberDTO); // 정보 들어왔나 확인
 		memberService.registerMember(memberDTO);
 
-		session.setAttribute("member_id", memberDTO.getMember_id()); // 세션에 아이디값 저장
+//		session.setAttribute("member_id", memberDTO.getMember_id()); // 세션에 아이디값 저장
 		return "redirect:/member/login";
 	}
 						
@@ -68,7 +68,7 @@ public class MemberController {
         }
 
         if (memberDTO.getMember_nickname() != null) {
-            return "redirect:/member/main"; // 이미 닉네임이 설정된 경우 -> 메인 페이지로 이동
+            return "redirect:/main/main"; // 이미 닉네임이 설정된 경우 -> 메인 페이지로 이동
         }
 
         model.addAttribute("memberDTO", memberDTO);
@@ -120,15 +120,14 @@ public class MemberController {
 		System.out.println("MemberController loginPro()");
 
 		MemberDTO memberDTO2 = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
-		System.out.println(memberDTO2);
 
 		if (memberDTO2 != null) {
 			// 아이디 비밀번호 일치 -> 로그인표시값을 session 저장 -> /member/main 이동
-			session.setAttribute("member_num", memberDTO.getMember_num());
-			session.setAttribute("member_id", memberDTO.getMember_id());
+			session.setAttribute("member_num", memberDTO2.getMember_num());
+			session.setAttribute("member_id", memberDTO2.getMember_id());
 
 			// /member/main 주소변경하면서 이동
-			return "redirect:/member/main";
+			return "redirect:/main/main";
 		} else {
 			// 아이디 비밀번호 틀림 => 주소변경하면서 /member/login 이동
 			// /member/login 주소변경하면서 이동

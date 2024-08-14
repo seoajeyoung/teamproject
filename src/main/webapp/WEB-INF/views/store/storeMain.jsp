@@ -29,7 +29,7 @@
         <span class="category">패키지</span>
         <ul class="productList">
         <c:forEach var="storeDTO" items="${productList }">
-        <a href="${pageContext.request.contextPath}/store/productDetail"><div class=productWrap>
+        <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '패키지'}">
                 <li>
                     <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
@@ -46,7 +46,7 @@
         <span class="category">영화관람권</span>
         <ul class="productList">
         <c:forEach var="storeDTO" items="${productList }">
-        <div class=productWrap>
+        <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '영화관람권'}">
                 <li>
                     <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
@@ -63,7 +63,7 @@
         <span class="category">기프트카드</span>
         <ul class="productList">
         <c:forEach var="storeDTO" items="${productList }">
-        <div class=productWrap>
+        <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '기프트카드'}">
                 <li>
                     <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />

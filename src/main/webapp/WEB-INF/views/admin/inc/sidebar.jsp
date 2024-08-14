@@ -139,7 +139,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">store:</h6>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/store/controlstore">스토어상품관리</a>
-                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/store/controlmenu">스토어메뉴관리</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/store/controlmenu">스토어메뉴관리</a>
                     </div>
                 </div>
             </li>
