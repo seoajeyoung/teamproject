@@ -32,29 +32,31 @@
 	
 	<!-- 해당 극장에서 상영일자만 중복없이 -->
 	<select id="getRunningDate" parameterType="map" resultType="map">
-	    SELECT DISTINCT DATE_FORMAT(SC_TIME, '%Y-%m-%d') AS DATE,
-		    CASE DAYOFWEEK(SC_TIME)
-		        WHEN 1 THEN "일"
-		        WHEN 2 THEN "월"
-		        WHEN 3 THEN "화"
-		        WHEN 4 THEN "수"
-		        WHEN 5 THEN "목"
-		        WHEN 6 THEN "금"
-		        WHEN 7 THEN "토"
-		    END AS dayWeek
-		FROM SCREEN
-		WHERE CI_NUM IN (SELECT CI_NUM
-					     FROM CINEMA
-                         WHERE TH_NUM IN (SELECT TH_NUM
-										  FROM THEATER
-										  WHERE 1 = 1
-										  <if test="TH_NAME != null">AND TH_NAME = #{TH_NAME}</if>
-										  <if test="TH_REGION != null">AND TH_REGION = #{TH_REGION}</if>
-										  ))
-		AND DATE_FORMAT(SC_TIME, '%Y-%m-%d') >= CURRENT_DATE()
-		ORDER BY DATE_FORMAT(SC_TIME, '%Y-%m-%d');
+		SELECT DISTINCT DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') AS DATE,
+			CASE DAYOFWEEK(S.SC_TIME)
+				WHEN 1 THEN "일"
+				WHEN 2 THEN "월"
+				WHEN 3 THEN "화"
+				WHEN 4 THEN "수"
+				WHEN 5 THEN "목"
+				WHEN 6 THEN "금"
+				WHEN 7 THEN "토"
+			END AS dayWeek
+		FROM SCREEN S JOIN CINEMA C
+		ON S.CI_NUM = C.CI_NUM
+		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
+		WHERE now() &lt;= S.SC_TIME
+		<if test="TH_NAME == null || TH_NAME.isEmpty()">
+		AND TH_REGION = #{TH_REGION}
+	    AND C.MOVIE_NUM = #{MOVIE_NUM}
+	    </if>
+	    <if test="TH_REGION == null || TH_REGION.isEmpty()">
+	    AND C.TH_NUM IN (SELECT TH_NUM
+						 FROM THEATER
+		                 WHERE TH_NAME = #{TH_NAME})
+	    </if>
 	</select>
-	
+<!--  -->	
 	
 	<!-- 특정 극장의 특정일에 상영하는 모든 영화 리스트 -->
 	<select id="getRunningMovie" resultType="map">

@@ -253,12 +253,12 @@ $(function() {
 		    data: {'TH_NAME': thName},
 		    datatype: 'JSON',
 		    success: function(result) {
-		    	if(result.length == 0) {
-	    			$('.slider').remove();
-	    			return;	
-	    		};
+// 		    	if(result.length == 0) {
+// 	    			$('.slider').remove();
+// 	    			return;	
+// 	    		};
 				$('.item').html('');
-		    	result.forEach(function(resultDate) {
+				result.forEach(function(resultDate) {
 		    		var date = resultDate.DATE.split('-');
 		    		var dayWeek = resultDate.dayWeek
 		    		var text = `		
@@ -278,7 +278,7 @@ $(function() {
               	$('.day').eq(0).find('a').trigger('click');
 		    },
 		    error: function(error) {
-		    	
+		    	debugger;
 			}
 		});// ajax 끝
 	});
@@ -372,7 +372,7 @@ $(document).on('click', '.day>a', function() {
 		    data: {'TH_NUM': thNum, 'SC_DATE': scDate},
 		    datatype: 'JSON',
 		    success: function(result) {
-		    	$('.sect-showtimes>ul').html('')
+// 		    	$('.sect-showtimes>ul').html('')
 		    	var rNum = 0;
 		    	var tNum = 0;
 		    	var pre;
