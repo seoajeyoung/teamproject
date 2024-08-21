@@ -10,16 +10,17 @@
     word-break: break-all;
 }
 
+
 #product {
     width: 980px;
     margin: 0 auto;
     padding: 30px 0;
 }
 
-img {
-    width: 50%;    /* 부모 요소 너비의 50%로 이미지 크기 조정 */
-    height: auto;  /* 비율을 유지하면서 자동으로 높이를 조정 */
-}
+/* img { */
+/*     width: 50%;    부모 요소 너비의 50%로 이미지 크기 조정 */
+/*     height: auto;  비율을 유지하면서 자동으로 높이를 조정 */
+/* } */
 
 .categoryMenu {
     display: flex;
@@ -49,25 +50,32 @@ img {
 .productList {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-/*     text-align: center; */
+/*     gap: 15px; */
+    
 }
 
 .productList li {
     flex: 1 1 calc(25% - 15px); /* 4개 열로 나누기, 간격을 고려 */
     list-style: none;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+/*     border: 1px solid #ddd; */
     border-radius: 8px;
     overflow: hidden;
     padding: 10px;
     text-align: center;
     background: #fff;
+    width:220px;
+    
 }
 
+img {
+	vertical-align: middle;
+	overflow-clip-margin: content-box;
+    overflow: clip;
+}
 
 .productImage {
-    width: 60%; /* 이미지를 컨테이너의 너비에 맞게 설정 */
+    width: 100%; /* 이미지를 컨테이너의 너비에 맞게 설정 */
     height: auto; /* 이미지 비율 유지 */
     margin-bottom: 10px;
 }

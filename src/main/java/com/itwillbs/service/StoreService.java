@@ -11,6 +11,7 @@ import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
 import com.itwillbs.domain.CodeDetailDTO;
 import com.itwillbs.domain.StoreDTO;
+import com.itwillbs.domain.StorePaymentDTO;
 
 @Service
 public class StoreService {
@@ -60,6 +61,10 @@ public class StoreService {
         return storeDAO.getCartItem(member_num);
     
 	}
+    
+    public void deleteCartItem(String cart_num, String member_num) {
+        storeDAO.deleteCart(cart_num, member_num);
+    }
 
 
 	public void addCode(CodeDTO codeDTO) {
@@ -123,6 +128,12 @@ public class StoreService {
 	
 	public List<CodeDetailDTO> getGlobalCategories() {
         return getCategories("ST");
+    }
+	
+	public void processPayment(StorePaymentDTO paymentDTO) throws Exception {
+		
+		
+        storeDAO.insertPayment(paymentDTO);
     }
 	
 }

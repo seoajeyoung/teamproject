@@ -13,6 +13,7 @@ import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
 import com.itwillbs.domain.CodeDetailDTO;
 import com.itwillbs.domain.StoreDTO;
+import com.itwillbs.domain.StorePaymentDTO;
 
 @Repository
 public class StoreDAO {
@@ -62,6 +63,7 @@ public class StoreDAO {
     public List<CartDTO> getCartItem(String member_num) {
         return sqlSession.selectList(namespace + ".getCartItem", member_num);
     }
+    
 
 	public void addCode(CodeDTO codeDTO) {
 		System.out.println("storeDAO addCode()");
@@ -122,4 +124,32 @@ public class StoreDAO {
 		
 		return sqlSession.selectList(namespace + ".getCategories", code_id);
 	}
+	
+//	public void insertPayment(StorePaymentDTO payment) throws Exception {
+//        sqlSession.insert(namespace + ".insertPayment", payment);
+//	}
+
+	public void deleteCart(String cart_num, String member_num) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("member_num", member_num);
+        params.put("cart_num", cart_num);
+        sqlSession.delete(namespace + ".deleteCart", params);
+		
+	}
+	
+	public void insertPayment(StorePaymentDTO paymentDTO) throws Exception {
+	    for (int i = 0; i < paymentDTO.getSt_num().size(); i++) {
+	        final int index = i;  // 'i'를 'index'라는 새로운 변수에 할당
+	        
+	        sqlSession.insert(namespace + ".insertPayment", new HashMap<String, Object>() {{
+	            put("imp_uid", paymentDTO.getImp_uid());
+	            put("merchant_uid", paymentDTO.getMerchant_uid());
+	            put("member_num", paymentDTO.getMember_num());
+	            put("st_num", paymentDTO.getSt_num().get(index));
+	            put("cart_quantity", paymentDTO.getCart_quantity().get(index));
+	            put("cart_num", paymentDTO.getCart_num().get(index));
+	        }});
+	    }
+	}
+	
 }

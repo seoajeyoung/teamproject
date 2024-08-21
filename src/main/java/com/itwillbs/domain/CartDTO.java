@@ -11,6 +11,8 @@ public class CartDTO {
     private Timestamp cart_date;
     private String st_name;
     private String st_price;
+    private String st_picture;
+    
 
     
 	
@@ -90,6 +92,16 @@ public class CartDTO {
 
 	public void setSt_price(String st_price) {
 		this.st_price = st_price;
+	}
+
+
+	public String getSt_picture() {
+		return st_picture;
+	}
+
+
+	public void setSt_picture(String st_picture) {
+		this.st_picture = st_picture;
 	}
 
 
