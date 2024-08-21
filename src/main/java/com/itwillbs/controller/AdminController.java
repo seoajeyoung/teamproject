@@ -551,7 +551,7 @@ public class AdminController {
 	@GetMapping("/movie/bookinginfo")
 	public String bookinginfo(AdminDTO adminDTO, Model model) {
 
-		AdminDTO adminDTO2 = adminService.getBookinginfo(adminDTO.getSP_NUM());
+		AdminDTO adminDTO2 = adminService.getBookinginfo(adminDTO.getTP_NUM());
 
 		model.addAttribute("adminDTO", adminDTO2);
 

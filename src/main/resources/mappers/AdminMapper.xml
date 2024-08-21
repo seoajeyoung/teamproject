@@ -462,7 +462,14 @@
 
 	<select id="getTypeList"
 		resultType="com.itwillbs.domain.AdminDTO">
-		SELECT DISTINCT ST_TYPE FROM STORE
+		SELECT
+		CDT.detail_value AS ST_TYPE
+		FROM
+		CODEDETAILTEST CDT
+		JOIN
+		CODETEST CT ON CDT.code_num = CT.code_num
+		WHERE
+		CT.code_id = 'ST'
 	</select>
 
 
@@ -510,58 +517,59 @@
 	<select id="getBookinglist"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
-		SP.SP_NUM,
-		SP.SP_SEAT,
-		SP.SC_NUM,
+		TP.TP_NUM,
+		TP.TOTAL_PRICE,
+		TP.SP_SEAT,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
-		MV.title,
 		T.TH_NAME,
 		T.TH_REGION,
-		T.TH_NUMBER
+		T.TH_NUMBER,
+		MV.title
 		FROM
-		SEATPAYMENT SP
+		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON TP.member_num = M.member_num
 		JOIN
-		SCREEN S ON SP.SC_NUM = S.SC_NUM
+		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
 		CINEMA C ON S.CI_NUM = C.CI_NUM
 		JOIN
-		MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
+		THEATER T ON C.TH_NUM = T.TH_NUM
 		JOIN
-		THEATER T ON C.TH_NUM =
-		T.TH_NUM
+		MOVIE MV ON C.MOVIE_NUM =
+		MV.MOVIE_NUM
 	</select>
 
 	<select id="getBookinginfo"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
-		SP.SP_NUM,
-		SP.SP_SEAT,
-		SP.SC_NUM,
+		TP.TP_NUM,
+		TP.TOTAL_PRICE,
+		TP.SP_SEAT,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
-		MV.title,
 		T.TH_NAME,
 		T.TH_REGION,
-		T.TH_NUMBER
+		T.TH_NUMBER,
+		MV.title
 		FROM
-		SEATPAYMENT SP
+		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON TP.member_num = M.member_num
 		JOIN
-		SCREEN S ON SP.SC_NUM = S.SC_NUM
+		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
 		CINEMA C ON S.CI_NUM = C.CI_NUM
 		JOIN
-		MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
-		JOIN
 		THEATER T ON C.TH_NUM = T.TH_NUM
+		JOIN
+		MOVIE MV ON C.MOVIE_NUM =
+		MV.MOVIE_NUM
 		WHERE
-		SP.SP_NUM = #{sp_NUM}
+		TP.TP_NUM = #{tp_NUM}
 	</select>
 
 

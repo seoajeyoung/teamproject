@@ -356,8 +356,8 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + ".getBookinglist");
 	}
 
-	public AdminDTO getBookinginfo(String sp_NUM) {
-		return sqlSession.selectOne(namespace + ".getBookinginfo", sp_NUM);
+	public AdminDTO getBookinginfo(String tp_NUM) {
+		return sqlSession.selectOne(namespace + ".getBookinginfo", tp_NUM);
 	}
 
 	

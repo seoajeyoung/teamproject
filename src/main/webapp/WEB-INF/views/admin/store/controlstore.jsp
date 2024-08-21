@@ -210,7 +210,7 @@ function deleteRow(stNum) {
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
-											<th>상품코드</th>
+											<th>상품번호</th>
 											<td><input type="text" id="ST_NUM" name="ST_NUM"
 												style="margin-right: 5px;"> <span
 												id="numCheckMessage"></span></td>

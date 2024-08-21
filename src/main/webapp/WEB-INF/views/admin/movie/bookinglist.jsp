@@ -100,14 +100,14 @@
 									<tbody>
 										<c:forEach var="list" items="${bookingList}">
 											<tr>
-												<td>${list.SP_NUM }</td>
+												<td>${list.TP_NUM }</td>
 												<td>${list.member_id }</td>
 												<td>${list.title }</td>
 												<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
 												<td>${list.SP_SEAT }</td>
 												<td>${list.SC_TIME }</td>
 												<td><a
-													href="${pageContext.request.contextPath}/admin/movie/bookinginfo?SP_NUM=${list.SP_NUM}"
+													href="${pageContext.request.contextPath}/admin/movie/bookinginfo?TP_NUM=${list.TP_NUM}"
 													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
 											</tr>
 										</c:forEach>
