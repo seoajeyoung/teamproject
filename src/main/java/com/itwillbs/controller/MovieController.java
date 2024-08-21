@@ -42,59 +42,48 @@ public class MovieController implements WebMvcConfigurer {
 	private MovieService movieService;
 	// 영화 차트 
 	@GetMapping("/movie")
-	public String moviePost(@RequestParam(required = false) String page, Model model) {
-		List<MovieDTO> movieList = movieService.getMovie(page);
-		
+	public String moviePost(Model model) {
+		List<MovieDTO> movieList = movieService.getMovie();
 		model.addAttribute("movieList", movieList);
-		model.addAttribute("page", page);
-				
-		
-		//page값이 있으면 추가 구문
-		if(page != null) {
-			List<MovieDTO> Top3List = movieService.getTop3();
-			model.addAttribute("Top3List", Top3List);
-			List<LinkedHashMap<String, String>> movieDate = movieService.getReleseDate();
-			model.addAttribute("movieDate", movieDate);
-			
-			model.addAttribute("on1", "");
-			model.addAttribute("test", "on");
-		} else {
-			model.addAttribute("on1", "on"); // 무비차트와 상영 예정작에 css가 적용된 on class를 찔러넣기 위한
-			model.addAttribute("on2", "");   // 데이터
-		}
-		
-		
 		return "/movie/movie";
 	}
 	
-//	// 상영중인 영화
-//	@GetMapping("/showMovies")
-//	@ResponseBody
-//	public List<MovieDTO> showMovies() {
-//		List<MovieDTO> movielList = movieService.getShowMovies();
-//		
-//		return movielList;
-//	}
+//	상영예정 영화
+	@GetMapping("/upcomingMovies")
+	@ResponseBody
+	public Map<String, List<Map<String, String>>> upcomingMovies() {
+		List<Map<String, String>> movieList = movieService.getUpcomingMovies();
+		List<Map<String, String>> Top3List = movieService.getTop3();
+		Map<String, List<Map<String, String>>> list = new HashMap<String, List<Map<String, String>>>();
+		list.put("movieDTO", movieList);
+		list.put("Top3List", Top3List);
+		System.out.println(Top3List);
+		System.out.println(movieList);
+		
+		
+		return list;
+	}
 	
 	
 	// 무비차트 정렬
 	@GetMapping("/sortMovies")
 	@ResponseBody
-	public List<MovieDTO> sortMovies(@RequestParam int val) {
-		List<MovieDTO> movieList = movieService.getSortMovies(val);
+	public List<Map<String, Object>> sortMovies(@RequestParam int val) {
+		List<Map<String, Object>> movieList = movieService.getSortMovies(val);
 		
 		return movieList;
 	}
 	
-	// 페이지 사이즈를 상수로 등록해 한번에 관리
+	// 페이지 사이즈
 	private final int pageSize = 6;
 	// 영화 상세정보
 	@GetMapping("/information")
 	public String information(@RequestParam("num") int num, Model model) {
 		// 영화정보
 		MovieDTO movieDTO = movieService.movieInfo(num);
-		
+		System.out.println(movieDTO);
 		//리뷰 페이지 수 구하기
+		
 		int maxCount = movieService.getMaxPage(num);
 		int endPage = maxCount / pageSize + (maxCount % pageSize > 0 ? 1 : 0);
 		List<Map<String, String>> relMovie = movieService.getRelMovies(num);
@@ -120,7 +109,7 @@ public class MovieController implements WebMvcConfigurer {
 				int index3 = str.indexOf(".jpg")-1;
 				String subStr1 = str.substring(index1, index2);
 				String subStr2 = str.substring(index2+4, index3+1);
-				String url = "http://file.koreafilm.or.kr/still/"+subStr1+"/"+subStr2+"_01.JPG";
+				String url = "http://file.koreafilm.or.kr/still/"+subStr1+"/"+subStr2+"_01";
 				stillcutUrl.add(url);
 			}
 		}
@@ -159,35 +148,71 @@ public class MovieController implements WebMvcConfigurer {
 		return "/movie/information";
 	}
 	
+	@GetMapping("/ad")
+	public String ad(Model model) {
+		Map<String, String> adMovie = movieService.getAdMovie();
+		System.out.println(adMovie);
+		model.addAttribute("adMovie", adMovie);
+		return "/movie/ad";
+	}
+	
+	@GetMapping("/pointChart")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> pointChart(@RequestParam int MOVIE_NUM) {
+		Map<String, Object> chartMap = movieService.pointChart(MOVIE_NUM);
+		if(chartMap != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(chartMap);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(chartMap);
+		}
+	}
+	
+	
 	
 	// =============================== 리뷰 ======================================
 	// Review
+	//평점 저장
+	@ResponseBody
+	@PostMapping("/insertReview")
+	public ResponseEntity<Boolean> insertReview(@RequestParam Map<String, Object> data) {
+		boolean result = movieService.getReviewUser(data);
+		
+		if(result) {
+			movieService.insertReview(data);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+		}
+	}
+	
 //	List<List<String>>
 	@GetMapping("/review")
 	@ResponseBody
-	public List<Map<String, Object>> review(@RequestParam("MOVIE_NUM") int MOVIE_NUM,
-											@RequestParam("currentPage") int currentPage) {
+	public List<Map<String, Object>> review(@RequestParam Map<String, String> data) {
 		Map<String, Integer> rMap = new HashMap<String, Integer>();
-		rMap.put("MOVIE_NUM", MOVIE_NUM);
+		int num = Integer.parseInt(data.get("MOVIE_NUM")); 
+		rMap.put("MOVIE_NUM", num);
+		int currentPage =  Integer.parseInt(data.get("currentPage"));
 		int startRow = (currentPage - 1) * pageSize;
 		rMap.put("startRow", startRow);
 		rMap.put("pageSize", pageSize);
+		int sortTab = Integer.parseInt(data.get("SORT_TAB"));
+		rMap.put("SORT_TAB", sortTab);
 		
 		ArrayList<Map<String, Object>> reviewList = movieService.getReview(rMap);
 		
 		return reviewList;
 	}
+	
 	// 추천기능 ajax 처리
 	@PostMapping("/recommend")
 	@ResponseBody
 	public ResponseEntity<String> recommend(@RequestParam Map<String, String> rMap) {
-		System.out.println("추천기능 ajax처리");
-		
-		boolean check = movieService.reUserCheck(rMap);
-		
+		boolean check = movieService.reUserCheck(rMap); // 해당 리뷰에 기록 있는지 확인
+		System.out.println(check);
 		if(check) {
-			movieService.reUserinsert(rMap);
-			String str = movieService.updateRecommend(rMap);
+			String str = movieService.reUserinsert(rMap);
+			System.out.println(str);
 			return ResponseEntity.status(HttpStatus.OK).body(str);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복");
@@ -209,7 +234,6 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
 		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
-		System.out.println(date);
 		return date;
 	}
 	
@@ -217,10 +241,8 @@ public class MovieController implements WebMvcConfigurer {
 	
 	@GetMapping("/thMovies")
 	@ResponseBody
-	public List<Map<String, String>> thMovies(@RequestParam Map<String, String> rMap) {
-		System.out.println("시작");
-		List<Map<String, String>> list = movieService.getThMovies(rMap);
-		System.out.println("테스트");
+	public List<Map<String, Object>> thMovies(@RequestParam Map<String, String> rMap) {
+		List<Map<String, Object>> list = movieService.getThMovies(rMap);
 		System.out.println(list);
 		return list;
 	}

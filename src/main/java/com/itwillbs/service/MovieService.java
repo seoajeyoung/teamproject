@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
+import javax.print.DocFlavor.READER;
+import javax.print.DocFlavor.STRING;
+import javax.xml.crypto.Data;
 
 import org.springframework.stereotype.Service;
 
@@ -22,14 +25,8 @@ public class MovieService {
 	private MovieDAO movieDAO;
 	
 	// 영화 리스트
-	public List<MovieDTO> getMovie(String page) {
-		// page값이 있으면
-		if(page != null && page.equals("")) {
-			//상영 예정작
-			return movieDAO.getMovie2();
-		} else {
-			return movieDAO.getMovie();
-		}
+	public List<MovieDTO> getMovie() {
+		return movieDAO.getMovie();
 	}
 	
 	// 상영 예정 영화의 상영일을 분류하기 위한 메서드
@@ -37,7 +34,7 @@ public class MovieService {
 		return movieDAO.getReleseDate();
 	}
 	// 상영 예정작 top3
-	public List<MovieDTO> getTop3() {
+	public List<Map<String, String>> getTop3() {
 		return movieDAO.getTop3();
 	}
 	
@@ -45,42 +42,44 @@ public class MovieService {
 	
 	
 	
-	// 상영중인 영화 리스트
-	public List<MovieDTO> getShowMovies() {
-		
-		return movieDAO.getShowMovies();
+	// 상예정인 영화 리스트
+	public List<Map<String, String>> getUpcomingMovies() {
+		return movieDAO.getUpcomingMovies();
 	}
 	
 	
 	
 //	 영화 정렬
-	public List<MovieDTO> getSortMovies(int val) {
-		if(val == 1) {
-			// 예매율
-			return movieDAO.getSortMovies1();
-		} else if (val == 2) {
-			// 평점
-			return movieDAO.getSortMovies2();
-		} else {
-			// 관람객
-			return movieDAO.getSortMovies3();
+	public List<Map<String, Object>> getSortMovies(int val) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		switch (val) {
+			case 1: list = movieDAO.getSortMovies1();
+				break;
+			case 2: list = movieDAO.getSortMovies2();
+				break;
+			case 3: list = movieDAO.getSortMovies3();
+				break;
 		}
+		
+		return list;
 	}
-	
 	
 	// 영화 상세정보
 	public MovieDTO movieInfo(int num) {
 		MovieDTO movieDTO = movieDAO.movieInfo(num);
-		String str = "";
-		
-		if(movieDTO.getRating() != null) {
-			str = movieDTO.getRating().equals("전체") ? "All" :
-				 	     Integer.parseInt(movieDTO.getRating()) >= 18 ? "18" : movieDTO.getRating();
-		}
-		
-		movieDTO.setRating(str);
 		return movieDTO;
 	}
+	//광고페이지
+	public Map<String, String> getAdMovie() {
+		return movieDAO.getAdMovie();
+	}
+	
+	//리뷰 차트 데이터
+	public Map<String, Object> pointChart(int MOVIE_NUM) {
+		return movieDAO.pointChart(MOVIE_NUM);
+	}
+	
+	
 	
 	public List<Map<String, String>> getRelMovies(int num) {
 		List<Map<String, String>> list = movieDAO.getRelMovies(num);
@@ -94,7 +93,16 @@ public class MovieService {
 		return movieDAO.getRelMovies(num);
 	}
 	
-	
+	// 해당 영화에 유저의 리뷰가 있는지 검색
+	public boolean getReviewUser(Map<String, Object> data) {
+		boolean result = movieDAO.getReviewUser(data) == null ? true : false;
+		return result;
+	}
+	//평점(리뷰)저장
+	public boolean insertReview(Map<String, Object> data) {
+		boolean result = movieDAO.insertReview(data) == 1 ? true : false;
+		return result;
+	}
 	
 	// 리뷰
 	public ArrayList<Map<String, Object>> getReview(Map<String, Integer> rMap) {
@@ -105,17 +113,17 @@ public class MovieService {
 		return movieDAO.getMaxPage(num);
 	}
 	
-	// 리뷰 추천수 증가
-	public String updateRecommend(Map<String, String> rMap) {
-		return movieDAO.updateRecommend(rMap);
-	}
 	// 추천한 유저정보 검색
 	public boolean reUserCheck(Map<String, String> rMap) {
-		return movieDAO.reUserCheck(rMap);
+		if(rMap.get("MEMBER_ID") == null && rMap.get("MEMBER_ID").equals("")) return false;
+		boolean result = movieDAO.reUserCheck(rMap) == 0 ? true : false;
+		return result;
 	}
-	// 추천한 유저정보 저장
-	public void reUserinsert(Map<String, String> rMap) {
+	// 추천한 유저정보 저장 + 해당 리뷰 추천수 업데이트 갱신된 추천값 반환
+	public String reUserinsert(Map<String, String> rMap) {
 		movieDAO.reUserinsert(rMap);
+		movieDAO.updateRecommend(rMap);
+		return movieDAO.getRecommend(rMap);
 	}
 	
 	// -------- 영화 상영시각구하기 -------
@@ -124,9 +132,9 @@ public class MovieService {
 	}
 	
 	// 영화번호, 상영시각, 지역을 통해 현재 상영일정이 있는 모든 지역구하기 
-	public List<Map<String, String>> getThMovies(Map<String, String> rMap) {
-		System.out.println("getTheaterMovies1");
-		return movieDAO.getThMovies(rMap);
+	public List<Map<String, Object>> getThMovies(Map<String, String> rMap) {
+		List<Map<String, Object>> list =  movieDAO.getThMovies(rMap);
+		return list; 
 	}
 
 	
