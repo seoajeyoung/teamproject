@@ -81,7 +81,10 @@ public class MovieController implements WebMvcConfigurer {
 	public String information(@RequestParam("num") int num, Model model) {
 		// 영화정보
 		MovieDTO movieDTO = movieService.movieInfo(num);
-		System.out.println(movieDTO);
+		if(movieDTO == null) {
+			return "/movie/back";
+		}
+		
 		//리뷰 페이지 수 구하기
 		
 		int maxCount = movieService.getMaxPage(num);
