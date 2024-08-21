@@ -64,21 +64,7 @@
 						<button type="button" class="btn_search" title="검색하기" id="btn_search">검색</button>
 					</form>	
 					</div>
-<!-- 					<div class="c_qu"> -->
-                       
-<!-- 						    <a href="#none">현금영수증</a>                        -->
-                        
-<!-- 						    <a href="#none">관람권</a>                        -->
-                        
-<!-- 						    <a href="#none">예매</a>                        -->
-                        
-<!-- 						    <a href="#none">환불</a>                        -->
-                        
-<!-- 						    <a href="#none">취소</a>                        -->
-                        
-<!-- 						    <a href="#none"></a>                        -->
-                        
-<!-- 					</div> -->
+
 				</div>
                 <div class="c_box talk_inquiry" style="cursor:pointer;">
                     <strong class="c_tit">문의/답변</strong>

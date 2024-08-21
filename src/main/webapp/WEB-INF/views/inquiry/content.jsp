@@ -121,7 +121,7 @@
 							</div>
 							<!-- 이전글,다음글 (s) -->
 							<div class="btm_sup_list">
-								<ul class="line_sup_prev">
+								<ul class="line_sup_next">
 									<li class="stit">이전글</li>
 
 									<c:choose>
@@ -130,13 +130,13 @@
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${prev.INQUIRY_NUM}"
+												href="${pageContext.request.contextPath}/inquiry/content?search=${search}&inquiry_num=${prev.INQUIRY_NUM}"
 												class="txt">${prev.INQUIRY_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>
 
 								</ul>
-								<ul class="line_sup_next">
+								<ul class="line_sup_prev">
 									<li class="stit">다음글</li>
 									<c:choose>
 										<c:when test="${empty next}">
@@ -144,7 +144,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}"
+												href="${pageContext.request.contextPath}/inquiry/content?search=${search}&inquiry_num=${next.INQUIRY_NUM}"
 												class="txt">${next.INQUIRY_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>

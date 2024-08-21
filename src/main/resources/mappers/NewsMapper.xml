@@ -38,7 +38,6 @@
     		   END AS NEWS_SECTION
 		  FROM NEWS 
 		  WHERE 1 = 1
-		  
 		 <if test="searchtext != null and !searchtext.equals('')">
 		   AND NEWS_NAME LIKE CONCAT('%', #{searchtext}, '%')
 		 </if>
@@ -68,7 +67,7 @@
 		FROM NEWS
 		WHERE 1 = 1
 		<if test="searchtext != null and !searchtext.equals('')">
-		 AND NEWS_NAME LIKE CONCAT('%',#{search},'%') 
+		 AND NEWS_NAME LIKE CONCAT('%',#{searchtext},'%') 
 		</if>
 		<if test="newsSection != null and !newsSection.equals('')">
 		 AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
@@ -153,6 +152,88 @@
 		  ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC
 		  LIMIT 1
 	</select>
+	
+	<select id="getNewsContent" resultType="java.util.LinkedHashMap" parameterType="Map">
+	SELECT NEWS_NUM
+		 , NEWS_NAME
+		 , NEWS_CONTENT
+         , NEWS_DATE
+         , CASE
+    	   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+       	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+       	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+       	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+		   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+		   ELSE NEWS_SECTION
+   		   END AS NEWS_SECTION
+	  FROM NEWS
+	 WHERE 1 = 1
+	<if test="searchtext != null and !searchtext.equals('')">
+	   AND NEWS_NAME LIKE CONCAT('%',#{searchtext},'%') 
+	</if>
+	<if test="newsSection != null and !newsSection.equals('')">
+	   AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
+	</if>
+ 	   AND NEWS_NUM = #{currentNewsNum}	
+	</select>
+	
+	<select id="NewsPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
+		SELECT NEWS_NUM
+			 , NEWS_NAME
+			 , NEWS_CONTENT
+			 , NEWS_DATE
+			 , CASE
+       		   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+        	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+        	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+        	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+			   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+			   ELSE NEWS_SECTION
+    		   END AS NEWS_SECTION
+	      FROM NEWS
+	      WHERE 1 = 1
+	<if test="searchtext != null and !searchtext.equals('')">
+	   AND NEWS_NAME LIKE CONCAT('%',#{searchtext},'%') 
+	</if>
+	<if test="newsSection != null and !newsSection.equals('')">
+	   AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
+	</if>
+	<![CDATA[
+	 AND CAST(NEWS_NUM AS UNSIGNED) < #{currentNewsNum} 
+	 ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC
+	 LIMIT 1
+	]]>
+	</select>
+	
+	<select id="NewsNext" resultType="java.util.LinkedHashMap" parameterType="Map">
+	SELECT NEWS_NUM
+		 , NEWS_NAME
+		 , NEWS_CONTENT
+         , NEWS_DATE
+         , CASE
+    	   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
+       	   WHEN NEWS_SECTION = 'TH' THEN '극장'
+       	   WHEN NEWS_SECTION = 'EV' THEN '행사/이벤트'
+       	   WHEN NEWS_SECTION = 'RE' THEN '제휴이벤트'
+		   WHEN NEWS_SECTION = 'ECT' THEN '기타'
+		   ELSE NEWS_SECTION
+   		   END AS NEWS_SECTION
+	  FROM NEWS
+	  WHERE 1 = 1
+	<if test="searchtext != null and !searchtext.equals('')">
+	   AND NEWS_NAME LIKE CONCAT('%',#{searchtext},'%') 
+	</if>
+	<if test="newsSection != null and !newsSection.equals('')">
+	   AND NEWS_SECTION LIKE CONCAT('%',#{newsSection},'%')
+	</if>
+	<![CDATA[
+	 AND CAST(NEWS_NUM AS UNSIGNED) > #{currentNewsNum}
+	 ORDER BY CAST(NEWS_NUM AS UNSIGNED) 
+	 LIMIT 1
+	]]>
+	</select>
+	
+	
 	
 	<select id="getShowNews" resultType="java.util.LinkedHashMap">
 		SELECT NEWS_NUM

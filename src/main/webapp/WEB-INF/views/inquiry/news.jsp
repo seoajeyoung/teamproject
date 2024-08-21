@@ -163,7 +163,6 @@
 
 <script type="text/javascript">
 
-
 $(function(){
 	//페이지 로드 시 모든 데이터 로드
 	var newsSection = ''; //$('#all').data();
@@ -302,7 +301,7 @@ function updatePaging(pageDTO) {
     
     // "이전" 버튼
     if (pageDTO.startPage > pageDTO.pageBlock) {
-    	pagingHtml += '<li><a href="#" data-page="' + (currentPage - 1) + '">« Prev</a></li>';
+    	pagingHtml += '<li><a href="#" data-page="' + (currentPage - 1) + '">'+'[이전]'+'</a></li>';
     }
  	// 페이지 번호 버튼
     for (let i = pageDTO.startPage; i <= pageDTO.endPage; i++) {
@@ -320,14 +319,14 @@ function updatePaging(pageDTO) {
     });
  	
   	//페이지 클릭
-	$('#page').on('click', 'a', function(){
-		// 현재 페이지 번호를 가져옵니다.
-        const pageNumber = $(this).data('page');
-		// 모든 페이지 링크에서 'on' 클래스 제거
-        $('#page li').removeClass('on');
-        // 클릭한 링크의 부모 'li'에 'on' 클래스 추가
-        $(this).parent('li').addClass('on');
-	});
+// 	$('#page').on('click', 'a', function(){
+// 		// 현재 페이지 번호를 가져옵니다.
+//         const pageNumber = $(this).data('page');
+// 		// 모든 페이지 링크에서 'on' 클래스 제거
+//         $('#page li').removeClass('on');
+//         // 클릭한 링크의 부모 'li'에 'on' 클래스 추가
+//         $(this).parent('li').addClass('on');
+// 	});
   	
  	
  	// 새로 생성한 페이지네이션 HTML을 삽입

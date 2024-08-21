@@ -138,11 +138,11 @@
 											<td>${inquiryDTO.MEMBER_NICKNAME}</td>
 											<c:if test="${sessionScope.member_name eq 'admin'}">
 											<td id="title0" class="txt"><a
-												href="${pageContext.request.contextPath}/inquiry/answer?inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
+												href="${pageContext.request.contextPath}/inquiry/answer?search=${pageDTO.search}&inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
 											</c:if>
 											<c:if test="${sessionScope.member_name ne 'admin'}">
 											<td id="title0" class="txt"><a
-												href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
+												href="${pageContext.request.contextPath}/inquiry/content?search=${pageDTO.search}&inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
 											</c:if>
 											<td class="num">${inquiryDTO.AS_NUM}</td>
 										</tr>
