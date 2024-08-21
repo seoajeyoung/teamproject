@@ -80,5 +80,27 @@ public class TicketService {
 		return ticketDAO.selectloadseat(param);
 	}
 
+	public void insertselectseat(Map<String, Object> request) {
+		ticketDAO.insertselectseat(request);
+		
+		 new Thread(() -> {
+	            try {
+	                Thread.sleep(600000); // 10분 대기
+	                ticketDAO.deleteseat(request);
+	            } catch (Exception e) {
+	            	e.printStackTrace();
+	            }
+	        }).start();
+	    
+	}
+
+	public int checkseat(Map<String, Object> request) {
+		return ticketDAO.checkseat(request);
+	}
+
+	public List<Map<String, String>> selectpaymentseat(Map<String, Object> param) {
+		return ticketDAO.selectpaymentseat(param);
+	}
+
 
 }

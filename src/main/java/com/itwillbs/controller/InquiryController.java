@@ -61,7 +61,7 @@ public class InquiryController {
 	private String uploadPath;
 
 	@GetMapping("/Imain")//고객센터 메인
-	public String Imain(HttpSession session, Model model) {
+	public String Imain(HttpServletRequest request, HttpSession session, Model model) {
 		
         // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
 		session.setAttribute("member_num", "10");
@@ -69,8 +69,10 @@ public class InquiryController {
         session.setAttribute("member_phone", "010-1234-5678");
         session.setAttribute("member_email", "aaa1234@gmail.com");
         
+        List<Map<String, Object>> newslist = newsService.getShowNews();
+        model.addAttribute("newslist", newslist);
 
-		return "inquiry/Imain";
+        return "inquiry/Imain";
 	}
 
 	@GetMapping("/news")//공지&뉴스 리스트
@@ -646,11 +648,22 @@ public class InquiryController {
 	}
 	
 	@GetMapping("/oftencontent")
-	public String oftencontent(OfteniqDTO ofteniqDTO, Model model, HttpSession session) {
+	public String oftencontent(@RequestParam("search") String search, OfteniqDTO ofteniqDTO, Model model, HttpSession session) {
+		
 		String clickNo = ofteniqDTO.getOF_NUM();
-		Map<String, Object> ofteniqDTO2 = ofteniqService.getOften(clickNo);
-		Map<String, Object> ofteniqDTO3 = ofteniqService.getOftenPrev(clickNo);
-		Map<String, Object> ofteniqDTO4 = ofteniqService.getOftenNext(clickNo);
+		//검색어
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("clickNo", clickNo);
+		param.put("search", search);
+		
+		System.out.println("search"+ search);
+		Map<String, Object> ofteniqDTO2 = ofteniqService.getOften(param);
+		Map<String, Object> ofteniqDTO3 = ofteniqService.getOftenPrev(param);
+		Map<String, Object> ofteniqDTO4 = ofteniqService.getOftenNext(param);
+		System.out.println(ofteniqDTO2);
+		System.out.println("mmmmmmmmmmmmmmmmmmmmm");
+		System.out.println(ofteniqDTO3);
+		System.out.println(ofteniqDTO4);
 
 		model.addAttribute("content", ofteniqDTO2);
 		model.addAttribute("prev", ofteniqDTO3);
@@ -664,8 +677,10 @@ public class InquiryController {
 	@GetMapping("/updateoften")//공지 수정전 보여주기
 	public String updateoften(@RequestParam("OF_NUM")String OF_NUM, Model model) {
 		model.addAttribute("OF_NUM", OF_NUM);
-		
-		Map<String, Object> often = ofteniqService.getOften(OF_NUM);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("OF_NUM", OF_NUM);
+		Map<String, Object> often = ofteniqService.getOften(param);
+		System.out.println(often);
 		model.addAttribute("often", often);
 		
 		return "/inquiry/updateoften";

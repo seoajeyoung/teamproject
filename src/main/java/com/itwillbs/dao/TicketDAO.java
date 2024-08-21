@@ -84,5 +84,22 @@ public class TicketDAO {
 		return sqlSession.selectList(namespace + ".selectloadseat", param);
 	}
 
+	public void insertselectseat(Map<String, Object> request) {
+		// TODO Auto-generated method stub
+		sqlSession.insert(namespace + ".insertselectseat", request);
+	}
+
+	public int checkseat(Map<String, Object> request) {
+		return sqlSession.selectOne(namespace +".checkseat", request);
+	}
+
+	public void deleteseat(Map<String, Object> request) {
+		sqlSession.delete(namespace + ".deleteseat", request);
+	}
+
+	public List<Map<String, String>> selectpaymentseat(Map<String, Object> param) {
+		return sqlSession.selectList(namespace +".selectpaymentseat", param);
+	}
+
 }
 

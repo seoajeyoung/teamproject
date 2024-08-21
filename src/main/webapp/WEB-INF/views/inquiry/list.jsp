@@ -103,16 +103,7 @@
 								<span>검색하기</span>
 							</button>
 						</form>
-							<div class="qu_txt">
-								<em>추천검색어 :</em> <span class="first"> <a href="#none">현금영수증</a></span>
 
-								<span class=""> <a href="#none">관람권</a></span> <span class="">
-									<a href="#none">예매</a>
-								</span> <span class=""> <a href="#none">환불</a></span> <span class="">
-									<a href="#none">취소</a>
-								</span> <span class=""> <a href="#none"></a></span>
-
-							</div>
 						</div>
 
 						<div class="search_result">
@@ -164,47 +155,22 @@
 						</div>
 						<!--?xml version="1.0" encoding="utf-8"?-->
 						<div class="paging">
-						
-						
 							<ul>
-							
-								<li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
-								<li>
-								
-<%-- 								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${i}">${i}</a> --%>
-
+<!-- 								<li class="on"><a title="1 페이지 선택" href=" #pg"></a></li> -->
 							<c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
 								<a href="${pageCountext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
 							</c:if>
 						
 							<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${i}"> ${i}</a>
+								<li class="<c:out value="${i == pageDTO.currentPage ? 'on' : ''}" />">
+								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${i}"> ${i}</a></li>
 							</c:forEach>
 						
 							<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
 								<a href="${pageContext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
 							</c:if>
-
-								</li>
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=3&amp;type=0&amp;searchtext=">3</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=4&amp;type=0&amp;searchtext=">4</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=5&amp;type=0&amp;searchtext=">5</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=6&amp;type=0&amp;searchtext=">6</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=7&amp;type=0&amp;searchtext=">7</a> -->
-<!-- 								</li> -->
-<!-- 								<li><a -->
-<!-- 									href="/support/faq/default.aspx?page=8&amp;type=0&amp;searchtext=">8</a> -->
-<!-- 								</li> -->
 							</ul>
+							
 							<button class="btn-paging end" type="button"
 								onclick="${pageContext.request.contextPath}/inquiry/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">끝</button>
 						</div>
@@ -238,8 +204,7 @@ $('#btn_search').on('click', function() {
      function Search() {
 	        // 폼 제출
 	        $('#searchForm').submit();
-	    }		
-
+	    }
 });
 
 </script>

@@ -108,7 +108,7 @@
 						<td >${oftenDTO.RN}</td>
 <%-- 						<td>${oftenDTO.OF_SECTION}</td> --%>
 						<td id="title0" class="txt"><a
-							href="${pageContext.request.contextPath}/inquiry/oftencontent?OF_NUM=${oftenDTO.OF_NUM}">${oftenDTO.OF_NAME}</a></td>
+							href="${pageContext.request.contextPath}/inquiry/oftencontent?search=${pageDTO.search}&OF_NUM=${oftenDTO.OF_NUM}">${oftenDTO.OF_NAME}</a></td>
 						<td>${oftenDTO.OF_DATE}</td>
 					</tr>
 					</tbody>
@@ -118,13 +118,14 @@
             <!--?xml version="1.0" encoding="utf-8"?-->
 <div class="paging">
   <ul>
-  <li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
+<!--   <li class="on"><a title="1 페이지 선택" href=" #pg"></a></li> -->
       <li id="page">
       	<c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
 			<a href="#" data-page="${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
 		</c:if>
 		
 		<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="<c:out value="${i == pageDTO.currentPage ? 'on' : ''}" />">
 			<a href="#" data-page="${i}"> ${i}</a>
 		</c:forEach>
 		

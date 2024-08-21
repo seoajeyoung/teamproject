@@ -21,8 +21,8 @@
 .btm_sup_list{overflow:hidden;border-top:solid 1px #b8b6aa;border-bottom:solid 1px #b8b6aa;font-size:13px;}
 .btm_sup_list .line_sup_next{overflow:hidden;padding:15px 19px 12px 13px;}
 .btm_sup_list .line_sup_prev{overflow:hidden;padding:15px 19px 12px 13px;border-top:solid 1px #d4d2c6;}
-.btm_sup_list .line_sup_next .stit{float:left;padding-right:15px;background:url(../../img/ico_arrow_customer.png) no-repeat right 3px;}
-.btm_sup_list .line_sup_prev .stit{float:left;padding-right:15px;background:url(../../img/ico_arrow_customer.png) no-repeat right -39px;}
+.btm_sup_list .line_sup_next .stit{float:left;padding-right:15px;background:url(http://img.cgv.co.kr/R2014/images/common/ico/ico_arrow_customer.png) no-repeat right 3px;}
+.btm_sup_list .line_sup_prev .stit{float:left;padding-right:15px;background:url(http://img.cgv.co.kr/R2014/images/common/ico/ico_arrow_customer.png) no-repeat right -39px;}
 .btm_sup_list .check_writ_area{float:right;font-size:12px;}
 .btm_sup_list .name{float:left;margin-left:17px;display:block;width:580px;}
 .btm_sup_list .name a { display: block; width: 575px; text-overflow:ellipsis; white-space:nowrap; overflow: hidden; }
@@ -129,21 +129,21 @@
 /* main */
 .c_check_warp{overflow:hidden}
 .c_check_warp .c_box{float:left; display:block; width:199px; height:260px; text-align:center; border-right:1px solid #dedace}
-.c_check_warp .c_tit{display:block; padding-top:135px; font-size:16px; color:#222; letter-spacing:-0.059em; background:url(../../img/bg_c_check.png) no-repeat;}
+.c_check_warp .c_tit{display:block; padding-top:135px; font-size:16px; color:#222; letter-spacing:-0.059em; /*background:url('http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_check.png')*/ no-repeat;}
 .c_check_warp .c_txt{display:block; margin:11px 0px 17px; font-size:12px; color:#666; letter-spacing:-0.042em}
 .c_check_warp .c_txt + a{overflow:hidden; display:block; width:80px; margin:0 auto; font-size:12px; color:#fff; letter-spacing:-0.042em; line-height:23px; text-align:center; background-color:#666; border-radius:4px}
 
-.c_check_warp .c_box.qna_search{width:200px; background:#fb4357 url('../../img/ico_search.png') center 50px scroll no-repeat; background-size:50px; border-right:none}
+.c_check_warp .c_box.qna_search{width:200px; background:#fb4357 url('http://img.cgv.co.kr/R2014/images/sub/customer/ico_search.png') center 50px scroll no-repeat; background-size:50px; border-right:none}
   .qna_search .c_tit{color:#fff}
   .qna_search .search_box{overflow:hidden; display:inline-block; width:160px; height:30px; margin:12px 0px 9px; text-align:left; background-color:#fff}
   .qna_search .search_box input{float:left; width:126px; height:12px; padding:9px 0; font-size:12px; line-height:12px; text-indent:7px; vertical-align:middle; border:none; background-color:#fff}
-  .qna_search .search_box .btn_search{float:right; display:block; width:34px; height:30px; font-weight:500; font-size:0; line-height:30px; background:transparent url('../../img/bth_search.png') center scroll no-repeat; background-size:16px}
+  .qna_search .search_box .btn_search{float:right; display:block; width:34px; height:30px; font-weight:500; font-size:0; line-height:30px; background:transparent url('http://img.cgv.co.kr/R2014/images/sub/customer/bth_search.png') center scroll no-repeat; background-size:16px}
 
   .qna_search .c_qu a{margin-left:4px; font-size:11px; color:#fff; vertical-align:top}
 
-  .talk_inquiry{background:#f8f8f8 url('../../img/ico_talk.png') center 50px scroll no-repeat; background-size:50px;}
-  .email_inquiry{background:#f8f8f8 url('../../img/ico_email.png') center 50px scroll no-repeat; background-size:50px;}
-  .my_advice{background:#f8f8f8 url('../../img/ico_myAdvice.png') center 50px scroll no-repeat; background-size:50px;}
+  .talk_inquiry{background:#f8f8f8 url('http://img.cgv.co.kr/R2014/images/sub/customer/ico_talk.png') center 50px scroll no-repeat; background-size:50px;}
+  .email_inquiry{background:#f8f8f8 url('http://img.cgv.co.kr/R2014/images/sub/customer/ico_email.png') center 50px scroll no-repeat; background-size:50px;}
+  .my_advice{background:#f8f8f8 url('http://img.cgv.co.kr/R2014/images/sub/customer/ico_myAdvice.png') center 50px scroll no-repeat; background-size:50px;}
 
 .customer_notice_area{overflow:hidden;margin-top:36px;}
 .service_area .tit, .notice_area .tit{color:#222;font-size:16px;font-weight:500;}
@@ -151,7 +151,7 @@
 .service_area .list{padding-top:15px;margin:-5px 0px 0px -5px;*zoom:1;}
 .service_area .list:after {display:block;content:'';clear:both;}
 .service_area .list li {margin:5px 0px 0px 5px;float:left;}
-.service_area .list li a{padding:24px 20px 25px 17px;display:block;width:94px;height:32px;color:#222;line-height:150%;font-weight:500;background:url(../../img/bg_c_main.png) no-repeat 0 -287px;}
+.service_area .list li a{padding:24px 20px 25px 17px;display:block;width:94px;height:32px;color:#222;line-height:150%;font-weight:500;background:url(http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_main.png) no-repeat 0 -287px;}
 .service_area .list .off a {color:rgba(149, 149, 143, 0.5); background-position: 0 -377px;}
 
 .notice_area{position:relative;left:0;top:0;float:right;width:473px; height:287px;} 
@@ -161,16 +161,16 @@
 .notice_area .txt li a{float:left;overflow:hidden;display:block;width:400px;color:#222;white-space:nowrap;text-overflow:ellipsis;text-align:left;}
 .notice_area .txt li a:hover, .notice_area .txt li a:active{font-weight:500;text-decoration:underline;}
 .notice_area .txt .day{color:#222;font-size:11px;}
-.notice_area .more{position:absolute;top:0;left:75px;display:inline-block;width:20px;height:19px;background:url(../../img/bg_c_main.png) no-repeat -159px -287px;text-indent:-999px;}
+.notice_area .more{position:absolute;top:0;left:75px;display:inline-block;width:20px;height:19px;background:url(http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_main.png) no-repeat -159px -287px;text-indent:-999px;}
 .noti_ban_area{position:absolute; left:0; right:0; bottom:0; overflow:hidden;margin-top:36px;}
 .noti_ban_area:after {display:block; content:''; clear:both;}
-.noti_ban_area .ban_preview{float:left; display:block;width:231px;height:95px;background:url(../../img/bg_c_main.png) no-repeat 0 -163px;text-indent:-999px;*zoom:1;*display:inline;*zoom:1;}
-.noti_ban_area .ban_discount{float:right; display:block;width:232px;height:95px;background:url(../../img/bg_c_main.png) no-repeat -241px -163px;text-indent:-999px;*display:inline;*zoom:1;}
+.noti_ban_area .ban_preview{float:left; display:block;width:231px;height:95px;background:url(http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_main.png) no-repeat 0 -163px;text-indent:-999px;*zoom:1;*display:inline;*zoom:1;}
+.noti_ban_area .ban_discount{float:right; display:block;width:232px;height:95px;background:url(http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_main.png) no-repeat -241px -163px;text-indent:-999px;*display:inline;*zoom:1;}
 
 .shortcu_area{overflow:hidden;margin-top:60px;padding:30px 0px 35px 0px;color:#222;border-top:solid 1px #cacac1;border-bottom:solid 1px #cacac1;}
 .shortcu_area li:first-child{margin-left:0;}
 .shortcu_area li{float:left;width:25%;}
-.shortcu_area .tit_shortcut{display:inline-block;height:33px;line-height:33px;font-size:16px;background:url(../../img/bg_c_main.png) no-repeat;}
+.shortcu_area .tit_shortcut{display:inline-block;height:33px;line-height:33px;font-size:16px;background:url(http://img.cgv.co.kr/R2014/images/sub/customer/bg_c_main.png) no-repeat;}
 .shortcu_area .ico_lost{padding-left:48px;background-position:-3px -88px;}
 .shortcu_area .ico_general{padding-left:53px;background-position:-158px -88px;}
 .shortcu_area .ico_vipinfo{padding-left:49px;background-position:-361px -88px;}

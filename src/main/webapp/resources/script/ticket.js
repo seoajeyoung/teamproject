@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDateList();
     fetchMovies(''); // 영화 목록 초기값 호출
     
+    
     var selectMovieTitle = '';
     var selectRegionName = '';
     var selectTheaterName = '';
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var MovieRating ='';
 	var MovieUrl = '';
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
+    var isSelected = false;	// 영화 클릭하고 예매 페이지 왓을때 자동 클릭
     
     
     // 영어 버튼 눌렀을때 클릭 이벤트 
@@ -241,27 +243,28 @@ document.addEventListener('DOMContentLoaded', function() {
         //타이밍 맞추기 위해서 시간 늦춤
         setTimeout(function(){
         //자동 클릭 함수//채현
-        autoClickMovie(movieNumToClick)
+        if (!isSelected){
+        	autoClickMovie(movieNumToClick);	
+        	}
         }, 1000);
         
     }
     
     //자동 클릭 함수
     function autoClickMovie(movieNumToClick) {//채현
-    // 값이 존재할 때만 작업 수행
-    var movieNumToClickStr = String(movieNumToClick).trim();
-	    // 값이 빈 문자열이 아닌 경우에만 작업 수행
-	    
-	if (movieNumToClickStr !== '') {
-	    var movieItem = $('#movie li[data-index="' + movieNumToClickStr + '"] a');
-	    if (movieItem.length) {
-	        movieItem[0].click();
-	    } else {
-	        alert("error");
-	    }
-	}
-	
-}
+    	// 값이 존재할 때만 작업 수행
+	    var movieNumToClickStr = String(movieNumToClick).trim();
+		    // 값이 빈 문자열이 아닌 경우에만 작업 수행
+		if (movieNumToClickStr !== '') {
+		    var movieItem = $('#movie li[data-index="' + movieNumToClickStr + '"] a');
+		    if (movieItem.length) {
+		        movieItem[0].click();
+		        isSelected = true;
+		    } else {
+		        alert("error");
+		    }
+		}
+	}//autoClickMovie
 
     // 두 자리 숫자로 맞추기 위한 보조 함수
     function padNumber(num) {
@@ -671,12 +674,12 @@ document.addEventListener('DOMContentLoaded', function() {
         	 if (confirm("선택한 영화에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 날짜 및 극장이 해제됩니다.)")) {
 	    		  $('#movie li').css('opacity', 1);
        
-       			  movieli.parent().prepend(movieli);
-        		  resetDates();
-       			  resetTheaters();
-        		  }else {
-        		  return;
-        		  }
+	   			  movieli.parent().prepend(movieli);
+	    		  resetDates();
+	   			  resetTheaters();
+    		  } else {
+    		  	return;
+    		  }
         } 
         
         
@@ -802,18 +805,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		var currentDate = $(this);
     	var Dateli = currentDate.closest('li')
     
-    if (Dateli.css('opacity') == 0.25) {
-        if (confirm("선택한 날짜에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 영화 및 극장이 해제됩니다.)")) {
-        
-           $('#date_list .content li').css('opacity', '1');
-			resetMovies();            
-            resetTheaters(); 
-            $('.day').removeAttr('style');
-            $('.week').removeAttr('style');
-        } else {
-            return; // 취소를 클릭하면 이벤트 핸들러를 종료
-        }
-    }
+	    if (Dateli.css('opacity') == 0.25) {
+	        if (confirm("선택한 날짜에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 영화 및 극장이 해제됩니다.)")) {
+	        
+	           $('#date_list .content li').css('opacity', '1');
+				resetMovies();            
+	            resetTheaters(); 
+	            $('.day').removeAttr('style');
+	            $('.week').removeAttr('style');
+	        } else {
+	            return; // 취소를 클릭하면 이벤트 핸들러를 종료
+	        }
+	    }
 		
 		
 		
