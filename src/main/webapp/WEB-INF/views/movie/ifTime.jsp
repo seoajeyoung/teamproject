@@ -97,7 +97,7 @@ $(document).on('click', '.day>a', function() {
 					$('#movieShowtimes>ul').append(text);
 				} // $('.sect-showtimes>ul').append;
 				
-				if(index == 0 || thList.TH_NUMBER != prevList.TH_NUMBER) {
+				if(index == 0 || thList.TH_NUMBER != prevList.TH_NUMBER || thList.TH_NAME != prevList.TH_NAME) {
 					$('.col-times:last').append(`
 							<div class="type-hall">
 		                        <div class="info-hall">
@@ -126,7 +126,6 @@ $(document).on('click', '.day>a', function() {
 							  </a>
 							</li>
 						`)
-				
 				prevList = thList;
 			})
 		},

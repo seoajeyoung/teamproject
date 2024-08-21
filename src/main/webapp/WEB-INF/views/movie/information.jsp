@@ -273,6 +273,7 @@ function pointChart() {
     <div class="box-contents">
         <div class="movieTitle title"> 
             <strong>${movieDTO.title}</strong>
+            <c:if test="${movieDTO.dDay != null}">
             <c:choose>
 	            <c:when test="${movieDTO.dDay > 0}">
 		            <em class="round brown"><span>예매중</span></em>
@@ -282,6 +283,7 @@ function pointChart() {
 	            	<em class="round lightblue"><span>현재상영중</span></em>
 	            </c:otherwise>
             </c:choose>
+            </c:if>
             <p>${movieDTO.titleEng}</p>
         </div>
         <div class="score"> 
@@ -316,7 +318,7 @@ function pointChart() {
                 <dt>&nbsp;/ 기본 정보 :&nbsp;</dt>
                 <!-- 2023.04.27 영화상세 등급 표기 수정--> 
                 <!--<dd class="on">18,&nbsp;상영시간,&nbsp;국가</dd>-->
-                <dd class="on">${movieDTO.rating}<c:if test="movieDTO.rating.matches('[0-9]+')">세</c:if>,
+                <dd class="on">${!empty movieDTO.rating ? movieDTO.rating : '연령등급미정'},
                 &nbsp;${movieDTO.runtime}분,&nbsp;${movieDTO.nation}</dd>
                 <dt>개봉 :&nbsp;</dt>
                 <dd class="on releaseDate">${movieDTO.releaseDate}</dd>
@@ -377,6 +379,10 @@ $(function() {
 	
 	// 트레일러
 	$('.movieTrailer').on('click', function() {
+		if(movieTrailer == null) {
+			alert('해당 영화의 트레일러가 존재하지 않습니다')
+			return;
+		};
 // 		$(".col-detail > div").not('.sect-trailer').hide();
 		$(".col-detail > *").not('.tab-menu').remove();
 		$(".col-detail").append(movieTrailer);
@@ -387,7 +393,11 @@ $(function() {
 	
 	
 	$('.movieStillCut').on('click', function() {
-// 		$(".col-detail > div").not('.sect-stillcut').hide();
+		if(movieStillCut == null) {
+			alert('해당 영화의 스틸컷이 존재하지 않습니다')
+			return;
+		}
+		
 		$(".col-detail > *").not('.tab-menu').remove();
 		$('.col-detail').append(movieStillCut);
 // 		$('.sect-stillcut').show();
@@ -410,8 +420,6 @@ $(function() {
 		    var $minImgSect = $('.imgSect').toArray().reduce(function(minSect, currentSect) {
 		        return $(currentSect).height() < $(minSect).height() ? currentSect : minSect;
 		    });
-		    
-		    debugger;
 		    
 		    $($minImgSect).append(`
 		    	    <div class="itemSect" style="display: block; margin-top: 10px;">
@@ -582,7 +590,7 @@ $(function() {
 						<c:forEach var="stillcutUrl" items="${stillcutUrl}" varStatus="Status">
 							<div class="item-wrap" style=""> <!--  ${Status.index != 0 ? 'display:none;' : ''}} -->
 	                            <div class="item" style="width: 800px; height: 450px; text-align: center;">
-									<img alt="${movieDTO.title}" onerror="this.src='${stillcutUrl}.jpeg';" src="${stillcutUrl}.jpg" style="min-width:260px; max-width: 90%; min-height: 95%; max-height: 100%;">
+									<img alt="${movieDTO.title}" onerror="this.src='${stillcutUrl}.jpeg';" src="${stillcutUrl}.jpg" style="min-width:260px; max-width: 90%; height: 100%;">
 	                            </div>
 	                        </div>
                         </c:forEach>

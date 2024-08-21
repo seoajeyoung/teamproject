@@ -3,7 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.mappers.TheaterMapper">
-
+	
+	<!-- 극장 가져오기 지역 -->
 	<select id="getRegionList" resultType="java.util.HashMap">
 		SELECT TH_REGION, COUNT(DISTINCT TH_NAME) AS 'COUNT'
 		FROM (

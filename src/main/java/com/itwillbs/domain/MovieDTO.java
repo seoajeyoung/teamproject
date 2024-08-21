@@ -29,12 +29,12 @@ public class MovieDTO {
     private String movieNm;
     private String show;
     private int rn;
-    private int dDay;
-    public int getdDay() {
+    private Integer dDay;
+    public Integer getdDay() {
 		return dDay;
 	}
 
-	public void setdDay(int dDay) {
+	public void setdDay(Integer dDay) {
 		this.dDay = dDay;
 	}
 

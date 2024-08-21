@@ -199,51 +199,51 @@ $(function() {
 	<!-- 상영예정작페이지 경우 page에 값이 있고 그 경우에 서식을 다르게 -->
         <div class="sect-movie-chart">
             <ol id="ol-movie-chart">
-            <c:forEach var="movieDTO" items="${movieList}">
-				<li class="${movieDTO.show} chart-box">
-                    <div class="box-image">
-                        <strong class="rank"></strong>
-                        <a href="${pageContext.request.contextPath}/movie/information?num=${movieDTO.MOVIE_NUM}">
-                            <span class="thumb-image">
-                                <img src="${movieDTO.posterUrl}" alt="???" style="min-height: 260px;">
-                                <!-- 영상물 등급 노출 변경 2022.08.24 -->
-                                <c:set var="subRating" value="${fn:substring(movieDTO.rating, 0, 2)}" />
-                				<i class="cgvIcon etc age${subRating == '전체' || subRating == '청소'  ? 'All' : subRating}">${movieDTO.rating}</i>
-                                <span class="ico-grade ${movieDTO.rating}">${movieDTO.rating}</span>
-                            </span>
-                        </a>
-<!--                         <span class="screentype"> -->
-<!--                                 <a class="imax" href="#" title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a> -->
-<!--                         </span> -->
-                    </div>
+<%--             <c:forEach var="movieDTO" items="${movieList}"> --%>
+<%-- 				<li class="${movieDTO.show} chart-box"> --%>
+<!--                     <div class="box-image"> -->
+<!--                         <strong class="rank"></strong> -->
+<%--                         <a href="${pageContext.request.contextPath}/movie/information?num=${movieDTO.MOVIE_NUM}"> --%>
+<!--                             <span class="thumb-image"> -->
+<%--                                 <img src="${movieDTO.posterUrl}" alt="???" style="min-height: 260px;"> --%>
+<!--                                 영상물 등급 노출 변경 2022.08.24 -->
+<%--                                 <c:set var="subRating" value="${fn:substring(movieDTO.rating, 0, 2)}" /> --%>
+<%--                 				<i class="cgvIcon etc age${subRating == '전체' || subRating == '청소'  ? 'All' : subRating}">${movieDTO.rating}</i> --%>
+<%--                                 <span class="ico-grade ${movieDTO.rating}">${movieDTO.rating}</span> --%>
+<!--                             </span> -->
+<!--                         </a> -->
+<!-- <!--                         <span class="screentype"> --> -->
+<!-- <!--                                 <a class="imax" href="#" title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a> --> -->
+<!-- <!--                         </span> --> -->
+<!--                     </div> -->
                     
-                    <div class="">
-                        <a href="${pageContext.request.contextPath}/movie/information?num=${movieDTO.MOVIE_NUM}">
-                            <strong class="title">${movieDTO.title}</strong>
-                        </a>
+<!--                     <div class=""> -->
+<%--                         <a href="${pageContext.request.contextPath}/movie/information?num=${movieDTO.MOVIE_NUM}"> --%>
+<%--                             <strong class="title">${movieDTO.title}</strong> --%>
+<!--                         </a> -->
 
-                        <div class="score">
-                            <strong class="percent">예매율<span>26.2%</span></strong>
-                            <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 (적용 범위1~ 3위)-->
-<!--                             <div class="egg-gage small"> -->
-<!--                                             <span class="sprite_preegg default"></span> -->
-<!--                                             <span class="percent">99%</span> -->
-<!--                             </div> -->
-                        </div>
-                        <span class="txt-info">
-                            <strong>
-                                ${movieDTO.releaseDate}
-                                <span>개봉</span>
-                                <em class="dday">
-                                </em>
-                            </strong>
-                        </span>
-                        <span class="like"> 
-                            <a class="link-reservation" href="${pageContext.request.contextPath}/ticket?num=${movieDTO.MOVIE_NUM}">예매하기</a>
-                        </span>
-                    </div>    
-                </li>
-            </c:forEach>
+<!--                         <div class="score"> -->
+<!--                             <strong class="percent">예매율<span>26.2%</span></strong> -->
+<!--                             2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 (적용 범위1~ 3위) -->
+<!-- <!--                             <div class="egg-gage small"> --> -->
+<!-- <!--                                             <span class="sprite_preegg default"></span> --> -->
+<!-- <!--                                             <span class="percent">99%</span> --> -->
+<!-- <!--                             </div> --> -->
+<!--                         </div> -->
+<!--                         <span class="txt-info"> -->
+<!--                             <strong> -->
+<%--                                 ${movieDTO.releaseDate} --%>
+<!--                                 <span>개봉</span> -->
+<!--                                 <em class="dday"> -->
+<!--                                 </em> -->
+<!--                             </strong> -->
+<!--                         </span> -->
+<!--                         <span class="like">  -->
+<%--                             <a class="link-reservation" href="${pageContext.request.contextPath}/ticket?num=${movieDTO.MOVIE_NUM}">예매하기</a> --%>
+<!--                         </span> -->
+<!--                     </div>     -->
+<!--                 </li> -->
+<%--             </c:forEach> --%>
             </ol>
             
             <button class="btn-more-fontbold">

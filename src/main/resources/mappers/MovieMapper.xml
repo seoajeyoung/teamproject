@@ -148,11 +148,7 @@
 				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 				 WHERE M.MOVIE_NUM = A.MOVIE_NUM
 				 ), 'showMovie', 'notShow') AS 'show'
-            , A.RN AS RN
-		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY M.RANK) AS RN
-			  FROM MOVIE M) A
-		ORDER BY A.RN
+	  	FROM MOVIE A
 	</select>
 	
 	<!-- 평점순 -->
@@ -183,6 +179,8 @@
 			, SUM(IFNULL(R.MOVIE_LIKED, 0)) AS MOVIE_LIKED
 		FROM MOVIE A LEFT JOIN REVIEW R
 		ON A.MOVIE_NUM = R.MOVIE_NUM
+		WHERE A.MOVIE_NUM IN (SELECT MOVIE_NUM
+							  FROM CINEMA)
 		group by A.MOVIE_NUM
 		ORDER BY MOVIE_LIKED DESC;
 	</select>
@@ -208,47 +206,50 @@
 			, (RELEASEDATE - CURRENT_DATE()) AS D_DAY
 			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
 				 SELECT MAX(DATE_FORMAT(S.SC_TIME_END, '%Y-%M-%D'))
-				 FROM MOVIE M
-				 JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
+				 FROM MOVIE M JOIN CINEMA C 
+				 ON M.MOVIE_NUM = C.MOVIE_NUM
 				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 				 WHERE M.MOVIE_NUM = A.MOVIE_NUM
 			 	 ), 'showMovie', 'notShow') AS 'show'
-            , A.RN AS RN
-		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY M.RANK) AS RN
-			  FROM MOVIE M) A
-		ORDER BY A.RN
+		FROM MOVIE A
 	</select>
 	
 	<!-- 영화 상세정보 -->
 	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
 		SELECT MOVIE_NUM
-		      , TITLE
-		      , DIRECOTRNM
-		      , ACTORNM
-		      , NATION
-		      , GENRE
-		      , DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
-		      , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
-		      , STILLURL
-		      , VODURL
-		      , AUDIACC
-		      , PLOT
-		      , RUNTIME
-		      , RATING
-		      , THEMSSONG
-		      , SOUNDTRACK
-		      , AWARDS1
-		      , RELEASEDTS
-		      , RELEASEDTE
-		      , TARGETDT
-		      , M.RANK AS 'RANK'
-		      , MOVIENM
-		      , (DATE(RELEASEDATE) - CURRENT_DATE()) AS "dDay"
+			  , TITLE
+			  , DIRECOTRNM
+			  , ACTORNM
+			  , NATION
+			  , GENRE
+			  , DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			  , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+			  , STILLURL
+			  , VODURL
+			  , AUDIACC
+			  , PLOT
+			  , RUNTIME
+			  , RATING
+			  , THEMSSONG
+			  , SOUNDTRACK
+			  , AWARDS1
+			  , RELEASEDTS
+			  , RELEASEDTE
+			  , TARGETDT
+			  , M.RANK AS 'RANK'
+			  , MOVIENM
+			  , if((current_date() BETWEEN DATE(M.RELEASEDATE) AND (
+					SELECT MAX(SC_TIME_END)
+					FROM CINEMA C JOIN SCREEN S
+					ON C.CI_NUM = S.CI_NUM
+					WHERE C.MOVIE_NUM = M.MOVIE_NUM
+				)), (DATE(RELEASEDATE) - CURRENT_DATE()), NULL) AS "dDay"
 		FROM MOVIE M
-		WHERE MOVIE_NUM = #{num}
+		WHERE MOVIE_NUM = #{MOVIE_NUM}
 		ORDER BY M.RANK;
 	</select>
+	<!-- (DATE(RELEASEDATE) - CURRENT_DATE()) AS "dDay" -->
+	
 	<!-- 예매1위 영화 광고 ifream -->
 	<select id="getAdMovie" resultType="map">
 		SELECT MOVIE_NUM
