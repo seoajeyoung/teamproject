@@ -2,6 +2,8 @@ $(document).ready(function() {
     // 설정할 인원 수
     var person = 8; // 이 값을 변경하여 인원 수 조정 가능
     var selectedPerCategory = {};
+    var selectsenum = [];
+    var totalSelected ='';
 
     // 유형별로 초기화된 배열
     var types = ['일반', '청소년', '경로', '우대'];
@@ -49,7 +51,6 @@ $(document).ready(function() {
             th_number: thNumber
         },
         success: function(data) {
-
             $('#seat_num').empty(); // 기존 좌석 삭제
 	
             var currentRow = '';
@@ -88,8 +89,8 @@ loadSeats();
 				var category = $parentRow.find('td:first').text();
                 var currentValue = parseInt($clickedDiv.text(), 10);
 			
-                // 카테고리별 선택된 인원 수를 추적합니다.
                 selectedPerCategory[category] = selectedPerCategory[category] || 0;
+                
                 if ($clickedDiv.hasClass('selected')) {
                     $clickedDiv.removeClass('selected');
                     selectedPerCategory[category] -= currentValue;
@@ -107,32 +108,122 @@ loadSeats();
                     $parentRow.find('.NumOfPeo').removeClass('selected');
                     $clickedDiv.addClass('selected');
                 }
+                debugger;
             });
     
 	// 좌석  선택 클릭 이벤트     
-        $('#seat_num').on('click', '#seat.empty', function() {
-        		var seattext = $(this).text();
-        		
-                var totalSelected = Object.values(selectedPerCategory).reduce((a, b) => a + b, 0);
+        $('#seat_num').on('click', '#seat.empty, #seat.choose', function() {
+    var seattext = $(this).text(); // 클릭한 좌석의 텍스트
+     totalSelected = Object.values(selectedPerCategory).reduce((a, b) => a + b, 0);
 
-                if (totalSelected === 0) {
-                    alert('인원 선택을 먼저 해주세요.');
-                    return;
-                }
+    // 인원 선택이 안된 경우
+    if (totalSelected === 0) {
+        alert('인원 선택을 먼저 해주세요.');
+        return;
+    }
 
-                var selectedSeats = $('#seat_num .empty.choose').length;
+    var selectedSeats = $('#seat_num .choose').length;
 
-                if (selectedSeats < totalSelected) {
-                    $(this).addClass('choose');
-                } else {
-                    alert('선택 가능한 좌석 수를 초과했습니다.');
-                }
+     if ($(this).hasClass('choose')) {
+        // 이미 선택된 좌석인 경우
+        $(this).removeClass('choose').addClass('empty'); 
+        var index = selectsenum.indexOf(seattext);
+        if (index !== -1) {
+            selectsenum.splice(index, 1); // 배열에서 해당 좌석 제거
+        }
+    } else {
+        // 선택된 좌석이 아닌 경우
+        if (selectedSeats < totalSelected) {
+            $(this).removeClass('empty').addClass('choose'); 
+            selectsenum.push(seattext); 
+        } else {
+            alert('선택 가능한 좌석 수를 초과했습니다.');
+        }
+    }
+    
+    $('#seatnum').text(selectsenum.join(', ')); 
+});
+    
+    // 결제하기 버튼 클릭 이벤트함수
+     $('#tnb_step_btn_right').on('click', function(event) {
+        event.preventDefault(); 
+
+
+        if ( selectsenum.length < totalSelected) {
+            alert(`선택한 인원(${totalSelected}명)만큼 좌석을 선택해주세요.`);
+            return;
+        }
+
+		
+		
+		
+		
+		var categoryPrices = {
+        '일반': 10000,
+        '청소년': 7000,
+        '경로': 5000,
+        '우대': 3000
+    };
+
+    var totalPrice = 0;
+    var summary = [];
+
+    for (var category in selectedPerCategory) {
+        if (selectedPerCategory.hasOwnProperty(category)) {
+            var count = selectedPerCategory[category];
+            var price = categoryPrices[category] || 0;
+            var categoryTotal = price * count;
+            totalPrice += categoryTotal;
+            summary.push(`${category} ${price} * ${count} = ${categoryTotal}`);
+        }
+    }
+
+    // Confirm 대화상자 표시
+    var confirmMessage = `선택된 좌석:\n${selectsenum.join(', ')}\n\n`;
+    confirmMessage += `인원 및 가격:\n${summary.join('\n')}\n\n`;
+    confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
+		
+		
+        if (confirm(confirmMessage)) {
+        // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
+        $.ajax({
+            url: '/myweb/SEATPAYMENT', 
+            method: 'POST', 
+            contentType: 'application/json', 
+            data: JSON.stringify({
+                th_region: selectRegionName,
+                th_name: theaterTitle,
+                th_number: thNumber,
+                movietitle: title,
+                fulldate: fullDate,
+                sctime: sc_time,
+                seseat: selectsenum 
+            }),
+            success: function(response) {
+               if (response === "success") {
+               		const queryParams = new URLSearchParams({
+                    th_region: selectRegionName,
+                    th_name: theaterTitle,
+                    th_number: thNumber,
+                    movietitle: title,
+                    fulldate: fullDate,
+                    sctime: sc_time,
+                    seseat: selectsenum.join(',')
+                }).toString();
                 
-                
-                
-                debugger;
-                
-            });
+                window.location.href = `/myweb/ticketpayment?${queryParams}`;
+            	} else {
+               	 alert(response);
+           		 }
+            },
+        });
+    } else {
+        
+        return;
+    }
+    });
+    
+    
     
     		
     		

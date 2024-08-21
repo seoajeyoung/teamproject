@@ -64,10 +64,16 @@ public class TicketController {
 		
 		model.addAttribute(param);
 		
-		System.out.println(param);
 		
 		return "ticket/결제TEST";
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	@GetMapping("/MovieTicket") // 서재영 영화 보여주는 맵핑
 	public ResponseEntity<List<Map<String, Object>>> getMovies(
@@ -232,7 +238,7 @@ public class TicketController {
 		return new ResponseEntity<List<Map<String, String>>>(getregion, HttpStatus.OK);
 	}
 
-	@PostMapping("/INSERTSEAT") // 서재영 해당 지역의 극장이름 가져오는 맵핑 (modal) 
+	@PostMapping("/INSERTSEAT") // 서재영 관리자 관에 좌석 저장하는 맵핑 
 	public void INSERTSEAT(
 			@RequestBody Map<String, Object> request){
 		
@@ -261,7 +267,7 @@ public class TicketController {
 	@GetMapping("/LOADSEAT") // 예매페이지 좌석 가져오기 서재영
 	public ResponseEntity<List<Map<String, String>>> selectLOADSEAT(
 		   @RequestParam Map<String,Object> param)  {
-
+		
 		
 		
 		List<Map<String, String>> selectsaveseat = ticketService.selectloadseat(param);
@@ -271,7 +277,18 @@ public class TicketController {
 	}
 
 	
-	
-	
+	@PostMapping("/SEATPAYMENT")
+	public ResponseEntity<String> SEATPAYMENT(@RequestBody Map<String, Object> request) {
+	    int checkseat = ticketService.checkseat(request);
+	    
+	    if (checkseat == 0) {
+	        ticketService.insertselectseat(request);
+	        return ResponseEntity.ok("success"); 
+	    } else {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 선택된 좌석입니다. 다른 좌석을 선택해주세요.");
+	    }
+	}
 
+	
+	
 }

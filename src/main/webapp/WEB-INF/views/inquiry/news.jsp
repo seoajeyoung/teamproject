@@ -140,17 +140,17 @@
   <ul>
     <li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
       <li id="page">
-      	<c:if test="${pageDTO.startPage > pageDTO.pageBlock }">
-			<a href="#" data-page="${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a>
-		</c:if>
+<%--       	<c:if test="${pageDTO.startPage > pageDTO.pageBlock }"> --%>
+<%-- 			<a href="#" data-page="${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a> --%>
+<%-- 		</c:if> --%>
 		
-		<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-			<a href="#" data-page="${i}"> ${i}</a>
-		</c:forEach>
+<%-- 		<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1"> --%>
+<%-- 			<li><a href="#" data-page="${i}"> ${i}</a></li> --%>
+<%-- 		</c:forEach> --%>
 		
-		<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
-			<a href="#" data-page="${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
-		</c:if>
+<%-- 		<c:if test="${pageDTO.endPage < pageDTO.pageCount }"> --%>
+<%-- 			<a href="#" data-page="${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a> --%>
+<%-- 		</c:if> --%>
     </li>
   </ul>
   <button class="btn-paging end" type="button" data-page="${pageDTO.pageCount}">끝</button>  
@@ -202,7 +202,7 @@ $(function(){
 	});
     
 	//섹션클릭
-	$('#list').on('click', 'a',function() {
+	$('#list').on('click', 'a', function() {
 		// 현재 활성화된 섹션에서 'active' 클래스 제거
         $('#list a').removeClass('active');
         // 클릭한 섹션에 'active' 클래스 추가
@@ -220,7 +220,9 @@ $(function(){
             searchtext = ''; // 검색어 변수 초기화
         }
         loadNewsData(searchtext, newsSection, pageNum);//ajax호출
-    });    
+    });
+	
+	
 });//function
 
 //특정 섹션의 데이터 로드 함수
@@ -310,6 +312,23 @@ function updatePaging(pageDTO) {
     if (pageDTO.endPage < pageDTO.pageCount) {
     	pagingHtml += '<li><a href="#" data-page="'+ pageDTO.startPage + pageDTO.pageBlock +'">'+'[다음]'+'</a></li>'		
     }
+ 	
+    $('#page a').each(function() {
+        if ($(this).data('page') == pageDTO.currentPage) {
+            $(this).parent('li').addClass('on');
+        }
+    });
+ 	
+  	//페이지 클릭
+	$('#page').on('click', 'a', function(){
+		// 현재 페이지 번호를 가져옵니다.
+        const pageNumber = $(this).data('page');
+		// 모든 페이지 링크에서 'on' 클래스 제거
+        $('#page li').removeClass('on');
+        // 클릭한 링크의 부모 'li'에 'on' 클래스 추가
+        $(this).parent('li').addClass('on');
+	});
+  	
  	
  	// 새로 생성한 페이지네이션 HTML을 삽입
     $page.html(pagingHtml); // 새로운 HTML로 교체

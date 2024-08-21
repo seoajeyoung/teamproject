@@ -35,7 +35,10 @@
 	</delete>
 	
 	<select id="getOftenCount" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM OFTENIQ			
+		SELECT COUNT(*) FROM OFTENIQ
+		<if test="search != null and !search.equals('')">
+		  WHERE OF_NAME LIKE CONCAT('%', #{search}, '%')
+		</if>			
 	</select>
 	
 	<select id="getOftenList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
@@ -52,40 +55,53 @@
 		  LIMIT #{startRow}, #{pageSize}
 	</select>
 	
-	<select id="getOften" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
+	<select id="getOften" resultType="java.util.LinkedHashMap" parameterType="Map">
 		SELECT OF_NUM
 			 , OF_NAME
 			 , OF_DETAIL
 			 , OF_DATE
 	 	  FROM OFTENIQ
-		  WHERE OF_NUM = #{OF_NUM}
+	 	 WHERE 1 = 1
+	 	 <if test="search != null and !search.equals('')">
+		  AND OF_NAME LIKE CONCAT('%', #{search}, '%')
+		 </if>
+		  AND OF_NUM = #{clickNo}
 	</select>
 	
 	
-	<select id="getOftenPrev" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-	<![CDATA[
+	<select id="getOftenPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 		SELECT OF_NUM
 			 , OF_NAME
 			 , OF_DETAIL
 			 , OF_DATE
 	      FROM OFTENIQ
-	 WHERE CAST(OF_NUM AS UNSIGNED) < #{OF_NUM} 
+	     WHERE 1 = 1
+	     <if test="search != null and !search.equals('')">
+		  AND OF_NAME LIKE CONCAT('%', #{search}, '%')
+		 </if>
+	<![CDATA[	 
+	 AND CAST(OF_NUM AS UNSIGNED) < #{clickNo} 
 	 ORDER BY CAST(OF_NUM AS UNSIGNED) DESC
 	 LIMIT 1
 	]]>
 	</select>
 	
-	<select id="getOftenNext" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-	<![CDATA[
+	<select id="getOftenNext" resultType="java.util.LinkedHashMap" parameterType="Map">
+	
 	SELECT OF_NUM
 		 , OF_NAME
 		 , OF_DETAIL
          , OF_DATE
 	  FROM OFTENIQ
-	 WHERE CAST(OF_NUM AS UNSIGNED) > #{OF_NUM}
+	 WHERE 1 = 1
+     <if test="search != null and !search.equals('')">
+	  AND OF_NAME LIKE CONCAT('%', #{search}, '%')
+	 </if>
+	 <![CDATA[ 
+	 AND CAST(OF_NUM AS UNSIGNED) > #{clickNo}
 	 ORDER BY CAST(OF_NUM AS UNSIGNED) 
 	 LIMIT 1
-	]]>
+	 ]]>
 	</select>
 	
 </mapper>  

@@ -365,6 +365,11 @@
                 $('.pop_wrap').removeClass('active');
                 $('.popup').fadeOut();
             };
+            
+            $().on('click',function(){
+            	
+            	
+            });
 
         });
 

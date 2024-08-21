@@ -46,16 +46,16 @@ public class OfteniqDAO {
 		return sqlSession.selectOne(namespace + ".getOftenCount", pageDTO);
 	}
 	
-	public Map<String, Object> getOften(String num) {
-		return sqlSession.selectOne(namespace + ".getOften", num);
+	public Map<String, Object> getOften(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".getOften", param);
 	}
 
-	public Map<String, Object> getOftenPrev(String num) {
-		return sqlSession.selectOne(namespace + ".getOftenPrev", num);
+	public Map<String, Object> getOftenPrev(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".getOftenPrev", param);
 	}
 
-	public Map<String, Object> getOftenNext(String num) {
-		return sqlSession.selectOne(namespace + ".getOftenNext", num);
+	public Map<String, Object> getOftenNext(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".getOftenNext", param);
 	}
 	
 

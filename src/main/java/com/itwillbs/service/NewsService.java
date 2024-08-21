@@ -80,19 +80,9 @@ public class NewsService {
 		return newsDAO.getNewNews();
 	}
 
-//	public List<Map<String, Object>> getNewsSection(Map<String, Object> param) {
-//		// 시작하는 행번호
-//		PageDTO pageDTO = (PageDTO) param.get("pageDTO");
-//		int startRow = (pageDTO.getCurrentPage() - 1)*pageDTO.getPageSize() + 1;
-////				//끝나는 행번호
-//		int endRow = startRow + pageDTO.getPageSize() - 1;
-////				//pageDTO 에 저장
-////				// sql에서 사용할 구문 => limit startRow-1, pageSize 
-//		pageDTO.setStartRow(startRow-1); //sql구문에서 하기 힘드니까 미리 -1 하기
-//		pageDTO.setEndRow(endRow);
-//		param.put("pageDTO", pageDTO);
-//		return newsDAO.getNewsSection(param);
-//	}
-	
+	public List<Map<String, Object>> getShowNews() {
+		return newsDAO.getShowNews();
+	}
+
 
 }
