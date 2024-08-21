@@ -74,5 +74,9 @@ public class NewsDAO {
 		return sqlSession.selectOne(namespace + ".getNewNews");
 	}
 
+	public List<Map<String, Object>> getShowNews() {
+		return sqlSession.selectList(namespace + ".getShowNews");
+	}
+
 	
 }

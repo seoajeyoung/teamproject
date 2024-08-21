@@ -352,14 +352,14 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .layer-wrap .popwrap button[type='button'].btn-close {display:block; position:absolute; top:20px; left:auto; right:20px; width:18px; height:18px; background:url(../images/sprite/sprite_btn.png) no-repeat -72px -62px; border:none; font-size:0px; line-height:0; zoom:1; }
 
 /* 삭제 버튼 */
-.btn-delete{ height:9px; background:url('../images/sprite/sprite_icon.png') -200px -40px no-repeat;}
-.btn-my-delete{ height:9px; background:url('../images/sprite/sprite_icon.png') -200px -40px no-repeat;}
+.btn-delete{ height:9px; background:url('https://img.cgv.co.kr/R2014/images/sprite/btn_paging.gif') -200px -40px no-repeat;}
+.btn-my-delete{ height:9px; background:url('https://img.cgv.co.kr/R2014/images/sprite/btn_paging.gif') -200px -40px no-repeat;}
 
 /* 신고 */
-.btn-report{ height:11px; background:url('../images/sprite/sprite_icon.png') -200px -28px no-repeat;}
+.btn-report{ height:11px; background:url('https://img.cgv.co.kr/R2014/images/sprite/btn_paging.gif') -200px -28px no-repeat;}
 
 /* Paging Button */
-.btn-paging{display:inline-block; min-width:56px; min-height:40px; margin:0 2px; font-weight:500; font-size:14px; color:#222; background:url('../../img/btn_paging.gif') no-repeat; border:1px solid #d8d8d8}
+.btn-paging{display:inline-block; min-width:56px; min-height:40px; margin:0 2px; font-weight:500; font-size:14px; color:#222; background:url('https://img.cgv.co.kr/R2014/images/sprite/btn_paging.gif') no-repeat; border:1px solid #d8d8d8}
 .btn-paging.dim{ color:#b0afa9;cursor:default}
 .btn-paging.prev{margin-right:16px;  padding:0 10px 0 24px; vertical-align:top; background-position:2px 7px; border-radius:4px}
 .btn-paging.prev.dim{ background-position: 2px -19px;}
