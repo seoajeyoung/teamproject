@@ -29,7 +29,25 @@ public class MovieDTO {
     private String movieNm;
     private String show;
     private int rn;
-    
+    private Integer dDay;
+    public Integer getdDay() {
+		return dDay;
+	}
+
+	public void setdDay(Integer dDay) {
+		this.dDay = dDay;
+	}
+
+	@Override
+	public String toString() {
+		return "MovieDTO [MOVIE_NUM=" + MOVIE_NUM + ", movieNum=" + movieNum + ", title=" + title + ", titleEng="
+				+ titleEng + ", direcotrNm=" + direcotrNm + ", actorNm=" + actorNm + ", nation=" + nation + ", genre="
+				+ genre + ", posterUrl=" + posterUrl + ", stillUrl=" + stillUrl + ", vodUrl=" + vodUrl + ", audiAcc="
+				+ audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating + ", themsSong="
+				+ themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", targetDt=" + targetDt
+				+ ", rank=" + rank + ", movieNm=" + movieNm + ", show=" + show + ", rn=" + rn + ", dDay=" + dDay
+				+ ", releaseDate=" + releaseDate + ", releaseDts=" + releaseDts + ", releaseDte=" + releaseDte + "]";
+	}
     
 	public String getVodUrl() {
 		return vodUrl;
@@ -56,34 +74,11 @@ public class MovieDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDte;
     
-    
-   
-
-
 	public String getMOVIE_NUM() {
 		return MOVIE_NUM;
 	}
 	public void setMOVIE_NUM(String MOVIE_NUM) {
 		this.MOVIE_NUM = MOVIE_NUM;
-	}
-	@Override
-	public String toString() {
-		return "MovieDTO [movieNum=" + movieNum + ", title=" + title + ", titleEng=" + titleEng + ", direcotrNm="
-				+ direcotrNm + ", actorNm=" + actorNm + ", nation=" + nation + ", genre=" + genre + ", posterUrl="
-				+ posterUrl + ", audiAcc=" + audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating
-				+ ", themsSong=" + themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", targetDt="
-				+ targetDt + ", rank=" + rank + ", movieNm=" + movieNm + ", releaseDate=" + releaseDate
-				+ ", releaseDts=" + releaseDts + ", releaseDte=" + releaseDte + ", MOVIE_NUM=" + MOVIE_NUM
-				+ ", getMOVIE_NUM()=" + getMOVIE_NUM() + ", getMovieNum()=" + getMovieNum() + ", getTitle()="
-				+ getTitle() + ", getTitleEng()=" + getTitleEng() + ", getDirecotrNm()=" + getDirecotrNm()
-				+ ", getActorNm()=" + getActorNm() + ", getNation()=" + getNation() + ", getGenre()=" + getGenre()
-				+ ", getReleaseDate()=" + getReleaseDate() + ", getPosterUrl()=" + getPosterUrl() + ", getAudiAcc()="
-				+ getAudiAcc() + ", getPlot()=" + getPlot() + ", getRuntime()=" + getRuntime() + ", getRating()="
-				+ getRating() + ", getThemsSong()=" + getThemsSong() + ", getSoundtrack()=" + getSoundtrack()
-				+ ", getAwards1()=" + getAwards1() + ", getReleaseDts()=" + getReleaseDts() + ", getReleaseDte()="
-				+ getReleaseDte() + ", getTargetDt()=" + getTargetDt() + ", getRank()=" + getRank() + ", getMovieNm()="
-				+ getMovieNm() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
 	}
 	public String getMovieNum() {
 		return movieNum;

@@ -427,15 +427,18 @@
 		WHERE SC_NUM = (
 		SELECT SC_NUM
 		FROM SCREEN
-		WHERE CI_NUM = (
+		WHERE
+		CI_NUM = (
 		SELECT CI_NUM
 		FROM CINEMA
 		WHERE TH_NUM = (
 		SELECT TH_NUM
-		FROM THEATER
+		FROM
+		THEATER
 		WHERE TH_REGION = #{th_region}
 		AND TH_NAME = #{th_name}
-		AND TH_NUMBER = #{th_number}
+		AND
+		TH_NUMBER = #{th_number}
 		)
 		AND MOVIE_NUM = (
 		SELECT MOVIE_NUM
@@ -443,7 +446,8 @@
 		WHERE TITLE = #{movietitle}
 		)
 		)
-		AND SC_TIME = CONCAT(#{fulldate}, ' ', #{sctime})
+		AND SC_TIME = CONCAT(#{fulldate}, ' ',
+		#{sctime})
 		)
 		AND SP_SEAT IN
 		<foreach collection="seseat" item="seat" open="("
@@ -453,8 +457,15 @@
 		AND PAYMENT = 'F'
 	</delete>
 
-
-
+	<select id="selectpaymentseat" resultType="map" parameterType="map">
+		SELECT SP_SEAT FROM SEATPAYMENT
+		WHERE SC_NUM = (SELECT SC_NUM FROM SCREEN
+		WHERE CI_NUM = (SELECT CI_NUM FROM CINEMA
+		WHERE TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION =#{region} AND
+		TH_NAME = #{th_name} AND TH_NUMBER = #{th_number}) AND MOVIE_NUM = (SELECT MOVIE_NUM
+		FROM MOVIE WHERE title =#{movietitle}))
+		AND SC_TIME = CONCAT(#{fulldate}, ' ',#{sctime}) );
+	</select>
 
 
 

@@ -97,5 +97,9 @@ public class TicketDAO {
 		sqlSession.delete(namespace + ".deleteseat", request);
 	}
 
+	public List<Map<String, String>> selectpaymentseat(Map<String, Object> param) {
+		return sqlSession.selectList(namespace +".selectpaymentseat", param);
+	}
+
 }
 

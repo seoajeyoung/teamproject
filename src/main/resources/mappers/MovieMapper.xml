@@ -11,12 +11,12 @@
 		   , ACTORNM
 		   , NATION
 		   , GENRE
-		   , RELEASEDATE
+		   , DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
 		   , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 		   , AUDIACC
 		   , PLOT
 		   , RUNTIME
-		   , IF(LEFT(RATING, 2) = '전체', 'All', LEFT(RATING, 2)) AS RATING
+		   , LEFT(RATING, 2) RATING
 		   , THEMSSONG
 		   , SOUNDTRACK
 		   , AWARDS1
@@ -39,14 +39,25 @@
 	</select>
 	
 	<!-- 상영예정 영화 -->
-	<select id="getMovie2" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM
+	<select id="getUpcomingMovies" resultType="map">
+		SELECT CAST(MOVIE_NUM AS CHAR) AS MOVIE_NUM
 			, TITLE
 			, DIRECOTRNM
 			, ACTORNM
 			, NATION
 			, GENRE
-			, RELEASEDATE
+			, CONCAT(DATE_FORMAT(RELEASEDATE, '%Y-%m-%d'), 
+		           CASE DAYOFWEEK(RELEASEDATE)
+		               WHEN 1 THEN '(일)'
+		               WHEN 2 THEN '(월)'
+		               WHEN 3 THEN '(화)'
+		               WHEN 4 THEN '(수)'
+		               WHEN 5 THEN '(목)'
+		               WHEN 6 THEN '(금)'
+		               WHEN 7 THEN '(토)'
+		           END
+		      ) AS RELEASEDATE
+		    , CAST((RELEASEDATE - CURRENT_DATE()) AS CHAR) AS D_DAY
 			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, AUDIACC
 			, PLOT
@@ -55,13 +66,11 @@
 			, THEMSSONG
 			, SOUNDTRACK
 			, AWARDS1
-			, RELEASEDTS
-			, RELEASEDTE
 			, TARGETDT
 			, m.RANK AS 'RANK'
 			, MOVIENM
 		FROM MOVIE m
-		WHERE current_date() &lt; RELEASEDATE
+		WHERE RELEASEDATE BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)
 		ORDER BY RELEASEDATE, m.RANK
 	</select>
 	
@@ -80,23 +89,24 @@
 		    ) AS rDate
 			, CAST(COUNT(*) AS CHAR) AS 'COUNT'
 		FROM MOVIE
-		 WHERE NOW() &lt; RELEASEDATE
+		WHERE CURRENT_DATE() &lt; RELEASEDATE
 		GROUP BY RELEASEDATE
 		ORDER BY RELEASEDATE;
 	</select>
 	
 	<!-- 상영전 영화 top 3 -->
-	<select id="getTop3" resultType="com.itwillbs.domain.MovieDTO">
-		SELECT MOVIE_NUM
+	<select id="getTop3" resultType="map">
+		SELECT CAST(MOVIE_NUM AS CHAR) AS MOVIE_NUM
 		    , TITLE
 			, DIRECOTRNM
 			, ACTORNM
 			, NATION
 			, GENRE
-			, RELEASEDATE
+			, DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			, CAST((RELEASEDATE - CURRENT_DATE()) AS CHAR) AS D_DAY
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, POSTERURL
 			, AUDIACC
-			, PLOT
 			, RUNTIME
 			, LEFT(RATING, 2) RATING
 			, THEMSSONG
@@ -107,7 +117,6 @@
 			, MOVIENM
 		FROM MOVIE m
 		WHERE NOW() &lt; RELEASEDATE
-<!-- 		and m.RANK &lt;= 3 -->
 		ORDER BY RELEASEDATE, m.RANK
 		limit 0, 3
 	</select>
@@ -116,139 +125,160 @@
 	
 	<!-- 정렬 -->
 	<!-- 예매율순 -->
-	<select id="getSortMovies1" resultType="com.itwillbs.domain.MovieDTO" >
+	<select id="getSortMovies1" resultType="map" >
 		SELECT MOVIE_NUM
 			, TITLE
 			, DIRECOTRNM
 			, ACTORNM
 			, NATION
 			, GENRE
-			, RELEASEDATE
-			, POSTERURL
-			, AUDIACC
-			, PLOT
+			, DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, RUNTIME
 			, RATING
-			, THEMSSONG
-			, SOUNDTRACK
 			, AWARDS1
-			, RELEASEDTS
-			, RELEASEDTE
 			, TARGETDT
-			, a.RANK "RANK"
+			, A.RANK "RANK"
 			, MOVIENM
+			, (RELEASEDATE - current_date()) AS D_DAY
 			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
-				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
-				 FROM MOVIE m
-				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
-				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
-				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
-				 ), 'showMovie', 'notShow') AS 'show'
-            , a.rn as "rn"
-		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY M.RANK) AS RN
-			  FROM MOVIE M) A
-		ORDER BY A.RN
-	</select>
-		<!-- 평점순 -->
-	<select id="getSortMovies2" resultType="com.itwillbs.domain.MovieDTO" >
-		SELECT MOVIE_NUM
-			, TITLE
-			, DIRECOTRNM
-			, ACTORNM
-			, NATION
-			, GENRE
-			, RELEASEDATE
-			, POSTERURL
-			, AUDIACC
-			, PLOT
-			, RUNTIME
-			, RATING
-			, THEMSSONG
-			, SOUNDTRACK
-			, AWARDS1
-			, RELEASEDTS
-			, RELEASEDTE
-			, TARGETDT
-			, a.rank "rank"
-			, MOVIENM
-			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
-				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
+				 SELECT MAX(DATE_FORMAT(S.SC_TIME_END, '%Y-%M-%D'))
 				 FROM MOVIE M
 				 JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
 				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
-				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
-			 	 ), 'showMovie', 'notShow') AS 'show'
-            , A.RN AS "RN"
-		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY M.RANK) AS RN
-			  FROM MOVIE M) A
-		ORDER BY A.RN
+				 WHERE M.MOVIE_NUM = A.MOVIE_NUM
+				 ), 'showMovie', 'notShow') AS 'show'
+	  	FROM MOVIE A
 	</select>
-		<!-- 관람객순 -->
-	<select id="getSortMovies3" resultType="com.itwillbs.domain.MovieDTO">
+	
+	<!-- 평점순 -->
+	<select id="getSortMovies2" resultType="map" >
+		SELECT A.MOVIE_NUM
+			, A.TITLE
+			, A.DIRECOTRNM
+			, A.ACTORNM
+			, A.NATION
+			, A.GENRE
+			, DATE_FORMAT(A.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			, SUBSTRING_INDEX(A.POSTERURL, '|', 1) AS POSTERURL
+			, A.RUNTIME
+			, A.RATING
+			, A.AWARDS1
+			, A.RELEASEDTS
+			, A.RELEASEDTE
+			, A.TARGETDT
+			, A.MOVIENM
+			, (A.RELEASEDATE - current_date()) AS D_DAY
+			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
+				 SELECT MAX(DATE_FORMAT(S.SC_TIME_END, '%Y-%M-%D'))
+				 FROM MOVIE M
+				 JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
+				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+				 WHERE M.MOVIE_NUM = A.MOVIE_NUM
+				 ), 'showMovie', 'notShow') AS 'show'
+			, SUM(IFNULL(R.MOVIE_LIKED, 0)) AS MOVIE_LIKED
+		FROM MOVIE A LEFT JOIN REVIEW R
+		ON A.MOVIE_NUM = R.MOVIE_NUM
+		WHERE A.MOVIE_NUM IN (SELECT MOVIE_NUM
+							  FROM CINEMA)
+		group by A.MOVIE_NUM
+		ORDER BY MOVIE_LIKED DESC;
+	</select>
+	
+	<!-- 관람객순 -->
+	<select id="getSortMovies3" resultType="map">
 		SELECT MOVIE_NUM
 			, TITLE
 			, DIRECOTRNM
 			, ACTORNM
 			, NATION
 			, GENRE
-			, RELEASEDATE
-			, POSTERURL
-			, AUDIACC
-			, PLOT
+			, DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, RUNTIME
 			, RATING
-			, THEMSSONG
-			, SOUNDTRACK
 			, AWARDS1
 			, RELEASEDTS
 			, RELEASEDTE
 			, TARGETDT
-			, a.rank "rank"
+			, A.RANK "RANK"
 			, MOVIENM
+			, (RELEASEDATE - CURRENT_DATE()) AS D_DAY
 			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
-				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
-				 FROM MOVIE m
-				 JOIN CINEMA c ON m.MOVIE_NUM = c.MOVIE_NUM
-				 JOIN SCREEN s ON c.CI_NUM = s.CI_NUM
-				 WHERE m.MOVIE_NUM = a.MOVIE_NUM
-			 	 ), 'showMovie', 'notShow') AS SHOW
-            , a.RN as RN
-		FROM (SELECT *
-			 		, RANK() OVER(ORDER BY m.RANK) as RN
-			  FROM MOVIE m) a
-		ORDER BY a.RN
+				 SELECT MAX(DATE_FORMAT(S.SC_TIME_END, '%Y-%M-%D'))
+				 FROM MOVIE M JOIN CINEMA C 
+				 ON M.MOVIE_NUM = C.MOVIE_NUM
+				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+				 WHERE M.MOVIE_NUM = A.MOVIE_NUM
+			 	 ), 'showMovie', 'notShow') AS 'show'
+		FROM MOVIE A
 	</select>
 	
 	<!-- 영화 상세정보 -->
 	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
 		SELECT MOVIE_NUM
-		      , TITLE
-		      , DIRECOTRNM
-		      , ACTORNM
-		      , NATION
-		      , GENRE
-		      , RELEASEDATE
-		      , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
-		      , STILLURL
-		      , VODURL
-		      , AUDIACC
-		      , PLOT
-		      , RUNTIME
-		      , LEFT(RATING, 2) AS RATING
-		      , THEMSSONG
-		      , SOUNDTRACK
-		      , AWARDS1
-		      , RELEASEDTS
-		      , RELEASEDTE
-		      , TARGETDT
-		      , M.RANK AS 'RANK'
-		      , MOVIENM
+			  , TITLE
+			  , DIRECOTRNM
+			  , ACTORNM
+			  , NATION
+			  , GENRE
+			  , DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+			  , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+			  , STILLURL
+			  , VODURL
+			  , AUDIACC
+			  , PLOT
+			  , RUNTIME
+			  , RATING
+			  , THEMSSONG
+			  , SOUNDTRACK
+			  , AWARDS1
+			  , RELEASEDTS
+			  , RELEASEDTE
+			  , TARGETDT
+			  , M.RANK AS 'RANK'
+			  , MOVIENM
+			  , if((current_date() BETWEEN DATE(M.RELEASEDATE) AND (
+					SELECT MAX(SC_TIME_END)
+					FROM CINEMA C JOIN SCREEN S
+					ON C.CI_NUM = S.CI_NUM
+					WHERE C.MOVIE_NUM = M.MOVIE_NUM
+				)), (DATE(RELEASEDATE) - CURRENT_DATE()), NULL) AS "dDay"
 		FROM MOVIE M
-		WHERE MOVIE_NUM = #{num}
+		WHERE MOVIE_NUM = #{MOVIE_NUM}
 		ORDER BY M.RANK;
 	</select>
+	<!-- (DATE(RELEASEDATE) - CURRENT_DATE()) AS "dDay" -->
+	
+	<!-- 예매1위 영화 광고 ifream -->
+	<select id="getAdMovie" resultType="map">
+		SELECT MOVIE_NUM
+			 , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
+		FROM MOVIE 
+		WHERE POSTERURL IS NOT NULL
+		ORDER BY MOVIE_NUM DESC
+		LIMIT 0, 1;
+	</select>
+	
+	
+	<select id="pointChart" resultType="map">
+		SELECT MOVIE_NUM
+			, ROUND(SUM(CP_EFFECT) / COUNT(*) * 100, 0) AS CP_EFFECT
+			, ROUND(SUM(CP_STORY) / COUNT(*) * 100, 0) AS CP_STORY
+			, ROUND(SUM(CP_VISUAL) / COUNT(*) * 100, 0) AS CP_VISUAL
+			, ROUND(SUM(CP_ACTING) / COUNT(*) * 100, 0) AS CP_ACTING
+			, ROUND(SUM(CP_OST) / COUNT(*) * 100, 0) AS CP_OST
+			, ROUND(SUM(EM_IMMERSE) / COUNT(*) * 100, 0) AS EM_IMMERSE
+			, ROUND(SUM(EM_IMPRESS) / COUNT(*) * 100, 0) AS EM_IMPRESS
+			, ROUND(SUM(EM_RELSTRESS) / COUNT(*) * 100, 0) AS EM_RELSTRESS
+			, ROUND(SUM(EM_PLEASURE) / COUNT(*) * 100, 0) AS EM_PLEASURE
+			, ROUND(SUM(EM_TENSION) / COUNT(*) * 100, 0) AS EM_TENSION
+		FROM REVIEW
+		WHERE MOVIE_NUM = #{MOVIE_NUM};
+	</select>
+	
+	
+	
 	
 	<!-- 관련 영화 -->
 	<select id="getRelMovies" resultType="map">
@@ -260,6 +290,7 @@
 			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
 		FROM MOVIE
 		WHERE POSTERURL IS NOT NULL
+		AND MOVIE_NUM &lt;&gt; #{MOVIE_NUM}
         AND POSTERURL &lt;&gt; ""
 		AND GENRE REGEXP CONCAT('(', REPLACE((SELECT genre
 											  FROM MOVIE
@@ -268,18 +299,69 @@
 		LIMIT 0, 6;
 	</select>
 	
+	<!-- 리뷰 검색 -->
+	<select id="getReviewUser" resultType="String">
+		SELECT REVIEW_CONTENT
+		FROM REVIEW
+		WHERE MOVIE_NUM = #{MOVIE_NUM}
+		AND MEMBER_ID = #{MEMBER_ID}
+	</select>
 	
+	<!-- 평점(리뷰) 저장 -->
+	<insert id="insertReview">
+		INSERT INTO REVIEW(
+			MOVIE_NUM
+			, MEMBER_ID
+			, REVIEW_DATE
+			, REVIEW_CONTENT
+			, RECOMMEND
+			, MOVIE_LIKED
+			, CP_EFFECT
+			, CP_STORY
+			, CP_VISUAL
+			, CP_ACTING
+			, CP_OST
+			, EM_IMMERSE
+			, EM_IMPRESS
+			, EM_RELSTRESS
+			, EM_PLEASURE
+			, EM_TENSION)
+		VALUES(
+			#{MOVIE_NUM}
+			, #{MEMBER_ID}
+			, NOW()
+			, #{REVIEW_CONTENT}
+			, 0
+			, #{MOVIE_LIKED}
+			, #{EFFECT}
+			, #{STORY}
+			, #{VISUAL}
+			, #{ACTING}
+			, #{OST}
+			, #{IMMERSE}
+			, #{IMPRESS}
+			, #{RELSTRESS}
+			, #{PLEASURE}
+			, #{TENSION}
+		);
+	</insert>
 	
 	<!-- 리뷰 -->
 	<select id="getReview" resultType="java.util.LinkedHashMap" parameterType="map">
 		select REVIEW_NUM
 			, MOVIE_NUM
 			, MEMBER_ID
-			, REVIEW_DATE
+			, DATE_FORMAT(REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
 			, REVIEW_CONTENT
 			, RECOMMEND
 		FROM REVIEW
 		WHERE MOVIE_NUM = #{MOVIE_NUM}
+		<if test="SORT_TAB == 1">
+		ORDER BY REVIEW_DATE
+		</if> 
+		<if test="SORT_TAB == 2">
+		ORDER BY RECOMMEND DESC
+		</if>
 		LIMIT #{startRow}, #{pageSize};
 	</select>
 	
@@ -289,22 +371,24 @@
 		where MOVIE_NUM = #{num};
 	</select>
 	
-	
+	<!-- 추천수 업데이트  -->
 	<update id="updateRecommend" >
 		UPDATE REVIEW
 		SET RECOMMEND = RECOMMEND + 1
 		WHERE REVIEW_NUM = #{REVIEW_NUM};
 	</update>
 	
-	<select id="getRecommend" resultType="String">
+	<select id="getRecommend" resultType="java.lang.String">
 		SELECT RECOMMEND
 		FROM REVIEW
-		WHERE REVIEW_NUM = #{REVIEW_NUM};
+		WHERE REVIEW_NUM = #{REVIEW_NUM}
+		limit 0 , 1;
 	</select>
+<!-- 	WHERE REVIEW_NUM = #{REVIEW_NUM}; -->
 	
 	<!-- 리뷰 추천 유저 정보 검색 및 저장 -->
-	<select id="reUserCheck" resultType="java.lang.Boolean">
-		SELECT if(count(*) = 0, 'true', 'false')
+	<select id="reUserCheck" resultType="java.lang.Integer">
+		SELECT count(*)
 		FROM RECOMMEND_CHECK
 		WHERE REVIEW_NUM = #{REVIEW_NUM}
 		AND MEMBER_ID = #{MEMBER_ID};
@@ -324,14 +408,15 @@
 		GROUP BY TH_REGION;
 	</select>
 	
-	<select id="getTheaterMovies" resultType="map">
+	<!-- 상세정보 페이지 상영시간표 -->
+	<select id="getThMovies" resultType="map" parameterType="map">
 		SELECT C.CI_NUM AS CI_NUM
 			, C.TH_NUM AS TH_NUM
 			, S.SC_NUM AS SC_NUM
 			, S.ROW AS "ROW"
 			, S.COL AS "COL"
-	        , DATE_FORMAT(S.SC_TIME, '%Y-%m-%d/%H:%i:%s') AS SC_TIME
-	        , DATE_FORMAT(S.SC_TIME_END, '%Y-%m-%d/%H:%i:%s') AS SC_TIME_END
+	        , DATE_FORMAT(S.SC_TIME, '%H:%i') AS SC_TIME
+	        , DATE_FORMAT(S.SC_TIME_END, '%H:%i') AS SC_TIME_END
 			, T.TH_NAME AS TH_NAME
 			, T.TH_REGION AS TH_REGION
 			, T.TH_REGIONEng AS TH_REGIONEng 
@@ -341,12 +426,10 @@
 		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
 		WHERE TH_REGION = #{TH_REGION}
-		AND date_format(S.SC_TIME, '%Y-%m-%d') = #{C_DATE}
+		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = #{C_DATE}
 		AND MOVIE_NUM = #{MOVIE_NUM};
 	</select>
-	
-	
-	
+
 	<!-- 채현 메인 상영예정 영화 디데이 리스트 -->
 	<select id="getMovie3" resultType="java.util.LinkedHashMap">
 		SELECT MOVIE_NUM

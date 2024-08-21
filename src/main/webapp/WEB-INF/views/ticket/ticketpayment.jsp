@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/ticket/payment.css">	
+	
+<script
+	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
 
@@ -29,20 +34,16 @@
 							<th>좌석 </th>
 							<th>구매금액</th>
 						</tr>
-						<!-- 이미지 가격표 없는 이미지로 편집 -->
-						<!-- 단일 구매 인 경우 바로 결제 페이지에 데이터 입력 -->
-						<!-- 장바구니에서 넘어오는 경우 랑 단일인 경우 판별 -->
-						<!-- 장바구니에서 넘어오는 데이터 테이블화 시켜서 보여줄것 -->
 							<tr class="store_table_box02">
-								<td><span>데드맨</span></td>
+								<td><span> <c:out value="${param.movietitle}" /></span></td>
 								<td> 
-									<span>서면</span><br>
-									<span>1관</span><br>
+									<span><c:out value="${param.th_name}" /></span><br>
+									<span><c:out value="${param.th_number}" /></span><br>
 								</td>
-								<td><span>2024-08-23<br>12:00</span></td>
-								<td>일반3 </td>
-								<td>A5,B5,C5 </td>
-								<td id="totalPrice">45000</td>
+								<td><span><c:out value="${param.fulldate}" /><br><c:out value="${param.sctime}" /></span></td>
+								<td><c:out value="${param.categoryname}" /><c:out value="${param.count}" /></td>
+								<td><c:out value="${param.seseat}" /> </td>
+								<td id="totalPrice"><c:out value="${param.totalprice}" /></td>
 							</tr>
 					</tbody></table>
 					

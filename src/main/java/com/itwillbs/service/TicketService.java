@@ -98,5 +98,9 @@ public class TicketService {
 		return ticketDAO.checkseat(request);
 	}
 
+	public List<Map<String, String>> selectpaymentseat(Map<String, Object> param) {
+		return ticketDAO.selectpaymentseat(param);
+	}
+
 
 }

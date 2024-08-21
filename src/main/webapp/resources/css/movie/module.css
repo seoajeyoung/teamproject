@@ -77,7 +77,7 @@ div[class^="sect-"] .box-contents li a{ display:block; font-weight:500; white-sp
 div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 
 .box-image a{ display:block;}
-.box-image img{ width:100%;}
+.box-image img{ width:100%; height: 280px;}
 .thumb-image{ display:block; position:relative;}
 .thumb-image .cgvIcon.etc{position:absolute; left:5px; top:5px}
 /* .box-contents{} */
@@ -327,7 +327,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .link-question{ display:inline-block; width:31px; height:27px; background:#ffffff url('../images/common/ico/ico_question.gif') 0 0 no-repeat; vertical-align:top; font:0/0 a; zoom:1;}
 
 /* + 정사각형 더보기 버튼 */ /*0726 이미지 주소 수정*/
-.link-more{ display:inline-block; width:20px; height:19px; background:url('../../img/sprite_btn.png') -50px -62px no-repeat; vertical-align:middle; font:0/0 a;zoom:1;}
+.link-more{ display:inline-block; width:20px; height:19px; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_btn.png') -50px -62px no-repeat; vertical-align:middle; font:0/0 a;zoom:1;}
 
 /* 검정색 굵은 text 버튼 */
 .btn-more-fontbold{ height:20px; font-size:13px; font-weight:500; color:#333333; line-height:20px;}
@@ -336,7 +336,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .link-mygrade{ color:#257097; font-weight:500;}
 
 /* 예매링크 */ /* 아이콘 주소 수정 */
-.link-reservation{ display:inline-block; width:91px; height:35px; background:url('../img/sprite_btn.png') 0 0 no-repeat;font:0/0 a;zoom:1; vertical-align:top;}
+.link-reservation{ display:inline-block; width:91px; height:35px; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_btn.png') 0 0 no-repeat;font:0/0 a;zoom:1; vertical-align:top;}
 
 /* 검색 */
 .btn-search{ width:30px; height:29px; background:url('../images/common/btn/btn_search.png') 0 1px no-repeat; font:0/0 a; zoom:1;}
@@ -349,7 +349,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 
 /* 레이어 팝업 닫기 버튼 */  /* 수정 - 0726 백그라운드 이미지 주소 수정 */
 .btn-close,
-.layer-wrap .popwrap button[type='button'].btn-close {display:block; position:absolute; top:20px; left:auto; right:20px; width:18px; height:18px; background:url(../../img/sprite_btn.png) no-repeat -72px -62px; border:none; font-size:0px; line-height:0; zoom:1; }
+.layer-wrap .popwrap button[type='button'].btn-close {display:block; position:absolute; top:20px; left:auto; right:20px; width:18px; height:18px; background:url(https://img.cgv.co.kr/r2014/images/sprite/sprite_btn.png) no-repeat -72px -62px; border:none; font-size:0px; line-height:0; zoom:1; }
 
 /* 삭제 버튼 */
 .btn-delete{ height:9px; background:url('../images/sprite/sprite_icon.png') -200px -40px no-repeat;}
@@ -381,12 +381,12 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .tab-menu li {display:inline-block; margin-left:-4px;}
 .tab-menu li:first-child{ padding-left:20px; background:url('../images/sprite/sprite_corner.png') 0 -20px no-repeat;}
 .tab-menu .last{padding-right:19px; background:url('../images/common/bg/ribon_right.png') right 0 no-repeat;}
-.tab-menu li a{ display:inline-block; position:relative; height:39px;padding:0 15px; background:#fb4357 url('../../img/bg_tebmenu-line.gif') 0 12px no-repeat; color:#ffffff; font-size:15px; font-weight:500; text-align:center; line-height:39px;}
+.tab-menu li a{ display:inline-block; position:relative; height:39px;padding:0 15px; background:#fb4357 url('https://img.cgv.co.kr/R2014/images/common/bg/bg_tebmenu-line.gif') 0 12px no-repeat; color:#ffffff; font-size:15px; font-weight:500; text-align:center; line-height:39px;}
 /* infomation페이지에서 a태그를 button으로 대체중 */
-.tab-menu li button{ display:inline-block; position:relative; height:39px;padding:0 15px; background:#fb4357 url('../images/common/bg/bg_tebmenu-line.gif') 0 12px no-repeat; color:#ffffff; font-size:15px; font-weight:500; text-align:center; line-height:39px;}
+.tab-menu li button{ display:inline-block; position:relative; height:39px;padding:0 15px; background:#fb4357 url('https://img.cgv.co.kr/R2014/images/common/bg/bg_tebmenu-line.gif') 0 12px no-repeat; color:#ffffff; font-size:15px; font-weight:500; text-align:center; line-height:39px;}
 .tab-menu li:first-child a{ background:#fb4357;}
 /*.tab-menu li img{ display:none; }*/ /* 이미지 주소 수정*/
-.tab-menu li.on a:before{ content:''; display:inline-block; width:26px; height:39px; padding-right:5px; background:#fb4357 url('../../img/ico_finger.png') 0 50% no-repeat; vertical-align:top;}
+.tab-menu li.on a:before{ content:''; display:inline-block; width:26px; height:39px; padding-right:5px; background:#fb4357 url('https://img.cgv.co.kr/R2014/images/common/ico/ico_finger.png') 0 50% no-repeat; vertical-align:top;}
 *+html .tab-menu li.on a{ text-decoration:underline;}
 /*.tab-menu li.on img{ display:inline-block; margin-right:5px;}*/
 *+html .tab-menu li{ display:inline;}
@@ -396,7 +396,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .tab-menu-line li{ display:inline-block; padding:0 20px; background:url('../images/common/bg/bg_writeinfo.gif') left 4px no-repeat}
 *+html .tab-menu-line li{ display:inline;}
 .tab-menu-line li:first-child{ background:none;}
-.tab-menu-line li a{ display:block; height:20px; padding-left:23px; background:url('../images/sprite/sprite_icon.png') no-repeat; color:#666666; font-size:13px; font-weight:500; text-align:center; line-height:20px; }
+.tab-menu-line li a{ display:block; height:20px; padding-left:23px; background:url('https://img.cgv.co.kr/r2014/images/sprite/sprite_icon.png') no-repeat; color:#666666; font-size:13px; font-weight:500; text-align:center; line-height:20px; }
 .tab-menu-line li.on a{ color:#fb4357; }
 .tab-menu-line li.ticket a{ background-position:-300px -100px;}
 .tab-menu-line li.grade a{ background-position:-296px -120px;}
@@ -598,7 +598,6 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .wrap-theaterlist > ul > li > a{ display:block; padding-left:9px; color:#222222; font-size:12px; font-weight:500; line-height:29px;white-space:nowrap; text-overflow:ellipsis; overflow:hidden;}
 .wrap-theaterlist > ul > li:hover, .wrap-theaterlist > ul > li.on{ background:url('../images/common/bg/bg_theaterlist.png') 0 0 no-repeat;}
 .wrap-theaterlist > ul > li:hover a, .wrap-theaterlist > ul > li.on a{ color:#ffffff;}
-
 
 /* HD-트레일러 */
 /* .wrap-movie-hd{} */
@@ -912,14 +911,14 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 [class|="sect"][class*="chart"] > h4{ margin-top:30px; color:#222222; font-size:21px; font-weight:500;}
 [class|="sect"][class*="chart"] > h4 + ol{ padding-top:20px;}
 [class|="sect"][class*="chart"] > h3:first-child + ol, [class|="sect"][class*="chart"] > h4:first-child + ol{ padding-top:0;}
-[class|="sect"][class*="chart"] > h3:first-child + ol .rank, [class|="sect"][class*="chart"] > h4:first-child + ol .rank,  [class|="sect"][class*="chart"] > .spec + ol .rank{ background:#fb4357;} 
+#ol-movie-chart>li:nth-of-type(1) .rank, #ol-movie-chart>li:nth-of-type(2) .rank, #ol-movie-chart>li:nth-of-type(3) .rank { background:#fb4357;} 
 [class|="sect"][class*="chart"] > h3{ margin-top:30px; color:#222222; font-size:21px; font-weight:500;}
 [class|="sect"][class*="chart"] > h3 + ol{ padding-top:20px;}
-[class|="sect"][class*="chart"] > ol > li{ float:left; width:197px; margin-left:64px; padding-bottom:30px;}
+[class|="sect"][class*="chart"] > ol > li{float:left; width:197px; height:413px; margin-left:64px; padding-bottom:30px;}
 [class|="sect"][class*="chart"] > h4 + ol > li:first-child .title, [class|="sect"][class*="chart"] > h3 + ol > li:first-child .title{ width:90%;}
 [class|="sect"][class*="chart"] .chart-ad{ position:absolute; right:0; top:0;}
 [class|="sect"][class*="chart"] .btn-more-fontbold{ float:right; margin-top:10px;}
-[class|="sect"][class*="chart"] .box-image{ position:relative; width:197px; min-height:272px; margin-bottom:10px; }
+[class|="sect"][class*="chart"] .box-image{ position:relative; width:197px; min-height:278px; margin-bottom:10px; }
 /* [class|="sect"][class*="chart"] .thumb-image{  border: 6px solid #000000;} */
 [class|="sect"][class*="chart"] .thumb-image > img{height:260px;}
 [class|="sect"][class*="chart"] .screentype{ position:absolute; left:0; bottom:0; width:100%; height:29px; padding-top:27px; background:url('../images/common/bg/bg_poster-gradation.png') 0 0 repeat-x; text-align:center;}
@@ -1763,7 +1762,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .wrap-theaterinfo .box-image .thumb-image > img{width:980px; height:420px;}
 .wrap-theaterinfo .box-image .thumb-image > a{ position:absolute; right:20px; top:20px; display:block; width:104px; height:29px;}
 /* 이미지 링크 수정  */
-.wrap-theaterinfo .box-contents {position:absolute; left:0; bottom:0; width:920px; padding:20px 30px; background:url('../../img/bg_dim80.png') 0 0 repeat;color:#fdfcf0;} /* 20140619 height:104px; Del */
+.wrap-theaterinfo .box-contents {position:absolute; left:0; bottom:0; width:920px; padding:20px 30px; background:url('https://img.cgv.co.kr/R2014/images/common/bg/bg_dim80.png') 0 0 repeat;color:#fdfcf0;} /* 20140619 height:104px; Del */
 .wrap-theaterinfo .theater-info{ position:relative; float:left; width:608px;}
 .wrap-theaterinfo .theater-info .title{ padding-top:10px; width:400px; color:#fdfcf0; font-size:13px; text-overflow:initial; white-space:initial;}
 .wrap-theaterinfo .theater-info .title > a{ display:inline-block; margin-left:10px; color:#b1b1ab; font-size:11px; }

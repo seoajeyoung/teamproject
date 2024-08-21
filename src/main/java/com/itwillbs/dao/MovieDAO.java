@@ -8,8 +8,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.print.DocFlavor.STRING;
+import javax.xml.crypto.Data;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.context.expression.MapAccessor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
@@ -26,40 +28,36 @@ public class MovieDAO {
 		return sqlsession.selectList("movieMapper.getMovie");
 	}
 	// 상영 예정작
-	public List<MovieDTO> getMovie2() {
-		List<MovieDTO> list = sqlsession.selectList("movieMapper.getMovie2");
-		return list;
-	}
+//	public List<MovieDTO> getMovie2() {
+//		List<MovieDTO> list = sqlsession.selectList("movieMapper.getMovie2");
+//		return list;
+//	}
 	// 상영 예정작 개봉일 분류
 	public List<LinkedHashMap<String, String>> getReleseDate() {
 		return sqlsession.selectList("movieMapper.getReleseDate");
 	}
 	// 상영 예정작 top3
-	public List<MovieDTO> getTop3() {
+	public List<Map<String, String>> getTop3() {
 		return sqlsession.selectList("movieMapper.getTop3");		
 	}
 	
 	
-	
-	
-	
-	
-	// 상영중인 영화 목록
-	public List<MovieDTO> getShowMovies() {
-		return sqlsession.selectList("movieMapper.getShowMovies");
+	// 상영예정 영화 목록
+	public List<Map<String, String>> getUpcomingMovies() {
+		return sqlsession.selectList("movieMapper.getUpcomingMovies");
 	}
 	
 	// 영화 정렬
 	//예매
-	public List<MovieDTO> getSortMovies1() {
+	public List<Map<String, Object>> getSortMovies1() {
 		return sqlsession.selectList("movieMapper.getSortMovies1");
 	}
-	// 평점
-	public List<MovieDTO> getSortMovies2() {
+	// 평점순 정렬
+	public List<Map<String, Object>> getSortMovies2() {
 		return sqlsession.selectList("movieMapper.getSortMovies2");
 	}
-	// 관람객
-	public List<MovieDTO> getSortMovies3() {
+	// 관람객순 정렬
+	public List<Map<String, Object>> getSortMovies3() {
 		return sqlsession.selectList("movieMapper.getSortMovies3");
 	}
 	
@@ -72,11 +70,33 @@ public class MovieDAO {
 	public MovieDTO movieInfo(int num) {
 		return sqlsession.selectOne("movieMapper.movieInfo", num);
 	}
+	
+	// 리뷰의 차트탭 데이터
+	public Map<String, Object> pointChart(int MOVIE_NUM) {
+		return sqlsession.selectOne("movieMapper.pointChart", MOVIE_NUM);
+	}
+	
+	
+	// 상영전
 	public List<Map<String, String>> getRelMovies(int num) {
 		return sqlsession.selectList("movieMapper.getRelMovies", num);
 	}
 	
+	//광고 ifream
+	public Map<String, String> getAdMovie() {
+		return sqlsession.selectOne("movieMapper.getAdMovie");
+	}
 	
+	
+	
+	//리뷰 작성한 유저 검색
+	public String getReviewUser(Map<String, Object> data) {
+		return sqlsession.selectOne("movieMapper.getReviewUser", data);
+	}
+	//평점(리뷰) 저장
+	public Integer insertReview(Map<String, Object> data) {
+		return sqlsession.insert("movieMapper.insertReview", data);
+	}
 	//리뷰 페이지 구하기
 	public Integer getMaxPage(int num) {
 		return sqlsession.selectOne("movieMapper.getMaxPage", num);
@@ -90,7 +110,7 @@ public class MovieDAO {
 	
 	
 	// 추천 중복방지를 위한 유저정보 검색
-	public boolean reUserCheck(Map<String, String> rMap) {
+	public Integer reUserCheck(Map<String, String> rMap) {
 		return sqlsession.selectOne("movieMapper.reUserCheck", rMap);
 	}
 	// 추천 중복방지를 위한 유저정보 저장
@@ -98,10 +118,16 @@ public class MovieDAO {
 		sqlsession.insert("movieMapper.reUserinsert", rMap);
 	}
 	//리뷰 추천수 증가
-	public String updateRecommend(Map<String, String> rMap) {
-		sqlsession.update("movieMapper.updateRecommend", rMap);
+	public void updateRecommend(Map<String, String> rMap) {
+		sqlsession.selectOne("movieMapper.updateRecommend", rMap);
+	}
+	//증가한 리뷰추천값 반환
+	public String getRecommend(Map<String, String> rMap) {
 		return sqlsession.selectOne("movieMapper.getRecommend", rMap);
 	}
+	
+	
+	
 	
 	// ifream을 통한 영화 스케줄 구하기
 	public List<Map<String, String>> getMovieSchedule(Map<String, String> rMap) {
@@ -109,9 +135,11 @@ public class MovieDAO {
 	}
 	
 	// 영화번호, 지역, 날자를 통한 상영정보 구하기
-	public List<Map<String, String>> getThMovies(Map<String, String> rMap) {
-		return sqlsession.selectList("movieMapper.getTheaterMovies", rMap);
+	public List<Map<String, Object>> getThMovies(Map<String, String> rMap) {
+		return sqlsession.selectList("movieMapper.getThMovies", rMap);
 	}
+	
+	
 	
 	
 	

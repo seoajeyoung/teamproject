@@ -47,7 +47,7 @@
 .egg-grade .radar-graph .sorry {margin-top:50px;}
 .sect-graph .radar-graph .sorry {margin-top:55px;}
 
-.egg-icon {display:inline-block; margin-right:6px; width:22px; height:22px; background:url('../images/sprite/sprite_egg.png') no-repeat 0 0; vertical-align:middle;}
+.egg-icon {display:inline-block; margin-right:6px; width:22px; height:22px; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_egg.png') no-repeat 0 0; vertical-align:middle;}
 .egg-icon.good {width:17px; background-position:-27px 0;}
 
 .box-image .thumb-image .theater-sticker {margin-top:10px; text-align:center;} 
@@ -70,8 +70,8 @@
 .likeornot .writerinfo .position {padding:0;}
 .likeornot .writerinfo .position .see{padding:0 2px; color:#ffffff; line-height:16px;}
 .likeornot .writerinfo .writer-name {font-weight:500; color:#000000;}
-.likeornot .likebox {position:absolute; top:50px; width:190px; background:url('../images/sprite/sprite_likeornot.png') no-repeat 100% -62px;}
-.likeornot .likebox .likebox-inner {font-weight:500; color:#000000; text-align:center; background:url('../images/sprite/sprite_likeornot.png') no-repeat 0 0;}
+.likeornot .likebox {position:absolute; top:50px; width:190px; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_likeornot.png') no-repeat 100% -62px;}
+.likeornot .likebox .likebox-inner {font-weight:500; color:#000000; text-align:center; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_likeornot.png') no-repeat 0 0;}
 .likeornot .likebox .likebox-inner > label {display:block; padding:16px 10px; height:30px;}
 .likeornot .likebox.t1 {right:372px;}
 .likeornot .likebox.t2 {left:372px; background-position:0 -310px;}
@@ -81,7 +81,7 @@
 .likeornot .likebox.t1.on .likebox-inner{background-position:0 -124px;}
 .likeornot .likebox.t2.on {background-position:0 -434px;}
 .likeornot .likebox.t2.on .likebox-inner{background-position:100% -372px;}
-.likeornot .likebox .egg-icon {position:relative; overflow:hidden; margin-right:6px; width:32px; height:30px; background:url('../images/sprite/sprite_egg.png') no-repeat 0 -200px; vertical-align:middle;}
+.likeornot .likebox .egg-icon {position:relative; overflow:hidden; margin-right:6px; width:32px; height:30px; background:url('https://img.cgv.co.kr/R2014/images/sprite/sprite_egg.png') no-repeat 0 -200px; vertical-align:middle;}
 .likeornot .likebox .egg-icon input{position:absolute; left:50%; top:-50px;}
 .likeornot .likebox .egg-icon.good {width:22px; background-position:-42px -200px;}
 

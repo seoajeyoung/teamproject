@@ -49,50 +49,92 @@ $(function() {
 			dataType: 'json',
 			success: function(result) {
 				$('.item').html('')
-				
 				result.forEach(function(result) {
 					var date = result.DATE.split('-');
-					$('.item').append(`<li>
-							              		<div class="day">
-							                        <a href="./iframeMovie.aspx?midx=88228&amp;mcode=20036434&amp;areacode=13&amp;date=20240806" title="현재 선택">
-							                            <span> \${date[1]}월</span>
-							                            <em>\${result.dayWeek}</em>
-							                            <strong>\${date[2]}</strong>
-							                            <input type="hidden" value="\${result.DATE}">
-							                        </a>
-							                    </div>
-							                </li>`);	
+					var text = `<li>
+						             <div class="day">
+				                        <a href="javascript:void(0)" title="현재 선택">
+				                            <span> \${date[1]}월</span>
+				                            <em>\${result.dayWeek}</em>
+				                            <strong>\${date[2]}</strong>
+				                            <input type="hidden" value="\${result.DATE}">
+				                        </a>
+				                    </div>
+				                </li>`;
+					
+					$('.item').append(text);	
 				});
-// 				$('.day:first').triger('click');
+				$('.day:first').trigger('click');
 			},
 			error: function(e) {
-				debugger;
 			}
 		});// ajax 종료
 	});// function 종료
 	$('.regionLink:first').trigger('click');
 });
-
 $(document).on('click', '.day>a', function() {
 	var currDate = $(this).find('input').val();
 	var url = new URLSearchParams(window.location.search);
 	var movieNum = url.get("MOVIE_NUM");
+	
 	$.ajax({
 		type: 'get',
 		url: '${pageContext.request.contextPath}/movie/thMovies',
 		data: {"TH_REGION": thRegion, "MOVIE_NUM": movieNum, "C_DATE" : currDate},
 		dataType: 'json',
 		success: function(result) {
-			debugger;
-			result.forEach(function(result) {
+			var prevList;
+			result.forEach(function(thList, index) {
+				if(index == 0 || thList.TH_NAME != prevList.TH_NAME) {
+					var text = `<li>
+					                <div class="col-theater"><a href="javascript:return false;" target="_top">\${thList.TH_NAME}</a></div>
+					                <div class="col-times">
+					                </div>
+					                </div>
+					            </li>
+					            `;
+					            
+					$('#movieShowtimes>ul').append(text);
+				} // $('.sect-showtimes>ul').append;
 				
+				if(index == 0 || thList.TH_NUMBER != prevList.TH_NUMBER || thList.TH_NAME != prevList.TH_NAME) {
+					$('.col-times:last').append(`
+							<div class="type-hall">
+		                        <div class="info-hall">
+		                            <ul>
+		                                <li>2D</li>                                
+		                                <li><span class='screentype'>\${thList.TH_NUMBER}</span></li>
+		                                <li>총 30석</li>
+		                            </ul>
+		                        </div>
+		                    </div>
+		                    <div class="info-timetable">
+								<ul>
+								</ul>
+							</div>
+						`);
+				}// $('.col-times:last').append;
+				
+				
+				$('.info-timetable:last>ul').append(`
+							<li>
+							  <a href="">
+							    <em>\${thList.SC_TIME}</em>
+							    <span class="txt-lightblue">
+							      <span class="hidden">잔여좌석</span>24석
+							    </span>
+							  </a>
+							</li>
+						`)
+				prevList = thList;
 			})
 		},
 		error: function(e) {
 			debugger;
 		}
 	});//ajax 종료
-});
+});// $('.day>a').on('click)
+
 </script>
     <div class="sect-schedule">
 		<div id="slider" class="slider">
@@ -116,60 +158,24 @@ $(document).on('click', '.day>a', function() {
     </div>
 
 
-    <div class="sect-showtimes">
+    <div id="movieShowtimes" class="sect-showtimes">
         <ul>
-			<li>
-                <div class="col-theater"><a href="/theaters/?theaterCode=P001" target="_top">씨네드쉐프<br>압구정</a></div>
-                <div class="col-times">
-                    <div class="type-hall">
-                        <div class="info-hall">
-                            <ul>
-                                <li>2D</li>                                
-                                <!--<li><span class='screentype'><span class='tempurCinema'>TEMPUR CINEMA</span></span></li>//-->
-                                <li><span class="screentype"><span class="tempurCinema">TEMPUR CINEMA</span></span></li>
-                                <li>총 30석</li>
-                            </ul>
-                        </div>
-                        <div class="info-timetable">
-                            <ul>
-                                    <li><em>12:00</em><span>마감</span></li>
-                                    <li><a href="/ticket/?MOVIE_CD=20036434&amp;MOVIE_CD_GROUP=20036434&amp;PLAY_YMD=20240806&amp;THEATER_CD=P001&amp;PLAY_START_TM=1450&amp;AREA_CD=13&amp;SCREEN_CD=001" target="_top" data-theatercode="P001" data-playymd="20240806" data-screencode="001" data-playnum="3" data-playstarttime="1450" data-playendtime="1702" data-theatername="씨네드쉐프 압구정" data-seatremaincnt="24" data-screenkorname="템퍼 시네마[CINE de CHEF]"><em>14:50</em><span class="txt-lightblue"><span class="hidden">잔여좌석</span>24석</span></a></li>
-                                    <li><a href="/ticket/?MOVIE_CD=20036434&amp;MOVIE_CD_GROUP=20036434&amp;PLAY_YMD=20240806&amp;THEATER_CD=P001&amp;PLAY_START_TM=2005&amp;AREA_CD=13&amp;SCREEN_CD=001" target="_top" data-theatercode="P001" data-playymd="20240806" data-screencode="001" data-playnum="5" data-playstarttime="2005" data-playendtime="2217" data-theatername="씨네드쉐프 압구정" data-seatremaincnt="24" data-screenkorname="템퍼 시네마[CINE de CHEF]"><em>20:05</em><span class="txt-lightblue"><span class="hidden">잔여좌석</span>24석</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="type-hall">
-                        <div class="info-hall">
-                            <ul>
-                                <li>2D</li>                                
-                                <!--<li>스트레스리스 시네마[CINE de CHEF]</li>//-->
-                                <li>스트레스리스 시네마[CINE de CHEF]</li>
-                                <li>총 46석</li>
-                            </ul>
-                        </div>
-                        <div class="info-timetable">
-                            <ul>
-                                    <li><a href="/ticket/?MOVIE_CD=20036434&amp;MOVIE_CD_GROUP=20036434&amp;PLAY_YMD=20240806&amp;THEATER_CD=P001&amp;PLAY_START_TM=1540&amp;AREA_CD=13&amp;SCREEN_CD=002" target="_top" data-theatercode="P001" data-playymd="20240806" data-screencode="002" data-playnum="3" data-playstarttime="1540" data-playendtime="1752" data-theatername="씨네드쉐프 압구정" data-seatremaincnt="46" data-screenkorname="스트레스리스 시네마[CINE de CHEF]"><em>15:40</em><span class="txt-lightblue"><span class="hidden">잔여좌석</span>46석</span></a></li>
-                                    <li><a href="/ticket/?MOVIE_CD=20036434&amp;MOVIE_CD_GROUP=20036434&amp;PLAY_YMD=20240806&amp;THEATER_CD=P001&amp;PLAY_START_TM=2150&amp;AREA_CD=13&amp;SCREEN_CD=002" target="_top" data-theatercode="P001" data-playymd="20240806" data-screencode="002" data-playnum="5" data-playstarttime="2150" data-playendtime="2402" data-theatername="씨네드쉐프 압구정" data-seatremaincnt="46" data-screenkorname="스트레스리스 시네마[CINE de CHEF]"><em>21:50</em><span class="txt-lightblue"><span class="hidden">잔여좌석</span>46석</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                </div>
-            </li>
-            
-            
+        	<!-- 스크립트로 데이터 추가 -->
         </ul>
     </div>
     <p class="info-noti">* 입장 지연에 따른 관람불편을 최소화하고자 영화는 약 10분 후에 시작됩니다. 관람 에티켓을 위한 사전 입장 부탁드립니다.</p>
 </div>
+<script type="text/javascript">
+// $(document).on('click', '.day>a', function() {
+	
+// });
+</script>
 
 <!--/ Contents End -->
 
 
 <script type="text/javascript">
-    $("html, body, #contaniner, #footer").css("background-color", "#ffffff");
+//     $("html, body, #contaniner, #footer").css("background-color", "#ffffff");
 </script>
 
 
