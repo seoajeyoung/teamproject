@@ -23,6 +23,9 @@
         var selectRegionName = "${param.selectRegionName}";
         var theaterTitle = "${param.theaterTitle}";
         var thNumber = "${param.th_number}";
+        var title = "${param.movieTitle}";
+        var fullDate= "${param.fullDate}" ;
+        var sc_time = "${param.starttime}" ; 
     </script>
 
 	<h1 style="font-size: 35px; text-align: center;">좌석 선택</h1>
@@ -65,7 +68,7 @@
 	</article>
 	
 	  <div id="ticket_tnb" class="tnb_container ">
-        <div class="tnb step1">
+        <div class="tnb step2">
             <!-- btn-left -->
             <div class="info movie">
                 <span class="movie_poster">
@@ -103,31 +106,18 @@
             </div>
             <div class="info path">
                 <div class="row colspan4" style="display: block;">
-                    <span class="header">좌석명: </span>
-                    <span class="data">　일반석</span>
+                    <span class="header">좌석명:일반석 </span>
                     <div>
-                    <span class="header">좌석번호:</span>
-                    <span class="data">　일반석</span>
+                    <span class="header">번호:</span>
+                    <span class="header" id="seatnum"></span>
                     </div>
                 </div>
             </div>
             
-            <div class="info payment-ticket">
-            	 <div class="row payment-senior" style="display: block;">
-					<span class="header">청소년</span>
-					<span class="data">
-						<span class="price">7,000</span>
-						<span class="exe"> 원 X </span>
-						<span class="quantity">4</span>
-					</span>
-				</div>
-			</div>	
             
-            <a class="btn-right on" id="tnb_step_btn_right" href="#" title="좌석선택"> </a>
+            <a class="btn-right on" id="tnb_step_btn_right" href="#" title="결제하기"> </a>
         </div>
     </div>
-	
-	
 	
 	
 	
