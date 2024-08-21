@@ -302,7 +302,15 @@ public class AdminDTO {
 	private String ST_PRICE; 
 	private String ST_PICTURE;
 	private String ST_TYPE;
+	private String detail_value;
+	
 
+	public String getDetail_value() {
+		return detail_value;
+	}
+	public void setDetail_value(String detail_value) {
+		this.detail_value = detail_value;
+	}
 	public String getST_NUM() {
 		return ST_NUM;
 	}
@@ -348,7 +356,23 @@ public class AdminDTO {
 	private String member_id;
 	private String SC_TIME;
 	private String SC_TIME_END;
+	private String TP_NUM;
+	private String TOTAL_PRICE;
 	
+	
+	
+	public String getTP_NUM() {
+		return TP_NUM;
+	}
+	public void setTP_NUM(String TP_NUM) {
+		this.TP_NUM = TP_NUM;
+	}
+	public String getTOTAL_PRICE() {
+		return TOTAL_PRICE;
+	}
+	public void setTOTAL_PRICE(String TOTAL_PRICE) {
+		this.TOTAL_PRICE = TOTAL_PRICE;
+	}
 	public String getSC_TIME() {
 		return SC_TIME;
 	}

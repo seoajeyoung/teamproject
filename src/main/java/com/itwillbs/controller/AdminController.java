@@ -14,6 +14,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -551,12 +552,23 @@ public class AdminController {
 	@GetMapping("/movie/bookinginfo")
 	public String bookinginfo(AdminDTO adminDTO, Model model) {
 
-		AdminDTO adminDTO2 = adminService.getBookinginfo(adminDTO.getSP_NUM());
+		AdminDTO adminDTO2 = adminService.getBookinginfo(adminDTO.getTP_NUM());
 
 		model.addAttribute("adminDTO", adminDTO2);
 
 		return "/admin/movie/bookinginfo";
 	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		System.out.println("AdminController logout()");
+		
+		// 로그아웃 처리
+		session.invalidate();
+		
+		return "redirect:/main/main";
+	}
+	
 	
 
 }

@@ -329,8 +329,8 @@ public class AdminService {
 		return adminDAO.getBookinglist();
 	}
 
-	public AdminDTO getBookinginfo(String sp_NUM) {
-		return adminDAO.getBookinginfo(sp_NUM);
+	public AdminDTO getBookinginfo(String tp_NUM) {
+		return adminDAO.getBookinginfo(tp_NUM);
 	}
 	
 	

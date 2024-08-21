@@ -235,7 +235,7 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 .round.inblack{ background:#222222; border:2px solid #222222; color:#ffffff; line-height:21px;}
 /* .round.inblack:before{ left:-2px; top:-2px; background-position:-10px -10px; z-index:1;}
 .round.inblack:after{ left:-2px; bottom:-2px; background-position:-10px -15px;} */
-.round.inblack > *{ border:1px solid #5b5b58;}
+.round.inblack > *{ border:1px solid #ffffff;}
 /* .round.inblack > *:before{ right:-3px; top:-3px; background-position:-15px -10px;}
 .round.inblack > *:after{ right:-3px; bottom:-3px; background-position:-15px -15px;} */
 .round.inbrown{ background:#a3774d; border:2px solid #a3774d; color:#ffffff; line-height:21px;}

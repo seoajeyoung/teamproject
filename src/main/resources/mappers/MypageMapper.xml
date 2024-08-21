@@ -39,11 +39,123 @@
 
 	<update id="updateMystatus" parameterType="String">
 		update MEMBERS
-		set member_status = '탈퇴유예',
+		set
+		member_status = '탈퇴유예',
 		member_respite = CURRENT_TIMESTAMP,
-		member_out = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
+		member_out =
+		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
 		where member_id = #{id}
 	</update>
+
+	<select id="getMyBookingList"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT
+		TP.TP_NUM,
+		TP.TOTAL_PRICE,
+		TP.SP_SEAT,
+		M.member_id,
+		S.SC_TIME,
+		S.SC_TIME_END,
+		T.TH_NAME,
+		T.TH_REGION,
+		T.TH_NUMBER,
+		MV.title
+		FROM
+		TICKETPAYMENT TP
+		JOIN
+		MEMBERS M ON TP.member_num = M.member_num
+		JOIN
+		SCREEN S ON TP.SC_NUM = S.SC_NUM
+		JOIN
+		CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN
+		THEATER T ON C.TH_NUM = T.TH_NUM
+		JOIN
+		MOVIE MV ON C.MOVIE_NUM =
+		MV.MOVIE_NUM
+		WHERE
+		M.member_id =
+		#{memberId}
+		<if test="pageDTO.search != null and pageDTO.search != ''">
+			AND (
+			TP.TP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR
+			S.SC_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_REGION LIKE
+			CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_NAME LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			OR T.TH_NUMBER LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			OR MV.title LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			)
+		</if>
+		ORDER BY
+		TP.TP_NUM DESC
+		LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
+	</select>
+
+	<select id="getMyBookingInfo"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT
+		TP.TP_NUM,
+		TP.TOTAL_PRICE,
+		TP.SP_SEAT,
+		M.member_id,
+		S.SC_TIME,
+		S.SC_TIME_END,
+		T.TH_NAME,
+		T.TH_REGION,
+		T.TH_NUMBER,
+		MV.title
+		FROM
+		TICKETPAYMENT TP
+		JOIN
+		MEMBERS M ON TP.member_num = M.member_num
+		JOIN
+		SCREEN S ON TP.SC_NUM = S.SC_NUM
+		JOIN
+		CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN
+		THEATER T ON C.TH_NUM = T.TH_NUM
+		JOIN
+		MOVIE MV ON C.MOVIE_NUM =
+		MV.MOVIE_NUM
+		WHERE
+		TP.TP_NUM = #{tp_NUM}
+
+	</select>
+
+	<select id="getMemberNumByMemberId"
+		resultType="java.lang.Integer">
+		SELECT member_num FROM MEMBERS WHERE member_id = #{id}
+	</select>
+
+	<select id="getBoardCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM TICKETPAYMENT TP
+		JOIN MEMBERS M ON TP.member_num = M.member_num
+		JOIN SCREEN S ON TP.SC_NUM = S.SC_NUM
+		JOIN CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
+		JOIN MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
+		WHERE M.member_num = #{memberNum}
+		<if test="pageDTO.search != null and pageDTO.search != ''">
+			AND (
+			TP.TP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.SC_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_REGION LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_NAME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_NUMBER LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR MV.title LIKE CONCAT('%', #{pageDTO.search}, '%')
+			)
+		</if>
+	</select>
+
+
+
+
 
 
 

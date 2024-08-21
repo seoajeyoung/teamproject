@@ -79,7 +79,7 @@
 									<tbody>
 										<tr>
 											<th colspan="2">예매번호</th>
-											<td colspan="4">${adminDTO.SP_NUM}</td>
+											<td colspan="4">${adminDTO.TP_NUM}</td>
 											<th>회원ID</th>
 											<td colspan="3">${adminDTO.member_id}</td>
 										</tr>
@@ -92,10 +92,12 @@
 											<td>${adminDTO.SP_SEAT}</td>
 										</tr>
 										<tr>
-											<th colspan="2">상영시작시간</th>
-											<td colspan="4">${adminDTO.SC_TIME}</td>
-											<th >상영종료시간</th>
-											<td colspan="3">${adminDTO.SC_TIME_END}</td>
+											<th colspan="2">결제가격</th>
+											<td colspan="4">${adminDTO.TOTAL_PRICE}원</td>
+											<th>상영시작시간</th>
+											<td>${adminDTO.SC_TIME}</td>
+											<th>상영종료시간</th>
+											<td>${adminDTO.SC_TIME_END}</td>
 										</tr>
 									</tbody>
 									

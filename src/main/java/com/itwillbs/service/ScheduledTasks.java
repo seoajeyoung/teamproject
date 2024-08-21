@@ -6,12 +6,14 @@ import java.time.format.DateTimeFormatter;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Component
+@EnableScheduling
 public class ScheduledTasks {
 
     private final JdbcTemplate jdbcTemplate;
@@ -25,7 +27,7 @@ public class ScheduledTasks {
     }
 
     // 1분마다 실행되는 작업
-    @Scheduled(fixedRate = 600000000)// 60000 밀리초 == 1분 / 나중에 24시간으로 설정하기
+    @Scheduled(fixedRate = 600000000)// 60000 밀리초 == 1분 / 나중에 24시간 (86400000)으로 설정하기
     public void deleteExpiredMembers() {
 
     	// 1. 먼저 POINT 테이블에서 관련 레코드 삭제
@@ -67,7 +69,17 @@ public class ScheduledTasks {
 
 //          adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr);
     	
-    	
     }
+    
+    @Scheduled(fixedRate = 86400000) // 24시간마다 실행
+    public void deleteMoiveSchedule() {
+    		
+//    	String deleteMoiveScheduleSql = "DELETE FROM SCREEN WHERE SC_TIME_END < DATE_SUB(CURDATE(), INTERVAL 3 DAY)";
+//    	int deleteMoiveSchedule = jdbcTemplate.update(deleteMoiveScheduleSql);
+    	
+    	System.out.println("일정지난 스케쥴 삭제");
+    }
+    
+    
     
 }

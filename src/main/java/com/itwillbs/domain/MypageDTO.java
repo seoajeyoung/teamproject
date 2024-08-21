@@ -27,6 +27,7 @@ public class MypageDTO {
 	private Timestamp point_date;
 	private String point_history;
 	private String member_sns;
+	
 	// ================================================================
 	
 	
@@ -181,6 +182,81 @@ public class MypageDTO {
 				+ ", point_currentP=" + point_currentP + ", point_cumulativeP=" + point_cumulativeP + ", sPoint="
 				+ sPoint + ", point_detail=" + point_detail + ", point_date=" + point_date + ", point_history="
 				+ point_history + ", member_sns=" + member_sns + "]";
+	}
+	
+	// ===========================================================================================================================	
+	
+	private String title;
+	private String TH_NAME;
+	private String TH_REGION;
+	private String TH_NUMBER;
+	private String SP_NUM;
+	private String SP_SEAT;
+	private String SC_TIME;
+	private String SC_TIME_END;
+	private String TP_NUM;
+	private String TOTAL_PRICE;
+	
+	
+	public String getTP_NUM() {
+		return TP_NUM;
+	}
+	public void setTP_NUM(String TP_NUM) {
+		this.TP_NUM = TP_NUM;
+	}
+	public String getTOTAL_PRICE() {
+		return TOTAL_PRICE;
+	}
+	public void setTOTAL_PRICE(String TOTAL_PRICE) {
+		this.TOTAL_PRICE = TOTAL_PRICE;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getTH_NAME() {
+		return TH_NAME;
+	}
+	public void setTH_NAME(String TH_NAME) {
+		this.TH_NAME = TH_NAME;
+	}
+	public String getTH_REGION() {
+		return TH_REGION;
+	}
+	public void setTH_REGION(String TH_REGION) {
+		this.TH_REGION = TH_REGION;
+	}
+	public String getTH_NUMBER() {
+		return TH_NUMBER;
+	}
+	public void setTH_NUMBER(String TH_NUMBER) {
+		this.TH_NUMBER = TH_NUMBER;
+	}
+	public String getSP_NUM() {
+		return SP_NUM;
+	}
+	public void setSP_NUM(String SP_NUM) {
+		this.SP_NUM = SP_NUM;
+	}
+	public String getSP_SEAT() {
+		return SP_SEAT;
+	}
+	public void setSP_SEAT(String SP_SEAT) {
+		this.SP_SEAT = SP_SEAT;
+	}
+	public String getSC_TIME() {
+		return SC_TIME;
+	}
+	public void setSC_TIME(String SC_TIME) {
+		this.SC_TIME = SC_TIME;
+	}
+	public String getSC_TIME_END() {
+		return SC_TIME_END;
+	}
+	public void setSC_TIME_END(String SC_TIME_END) {
+		this.SC_TIME_END = SC_TIME_END;
 	}
 	
 	

@@ -236,6 +236,7 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/runningDate")
 	@ResponseBody
 	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
+		System.out.println(rMap);
 		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
 		return date;
 	}
