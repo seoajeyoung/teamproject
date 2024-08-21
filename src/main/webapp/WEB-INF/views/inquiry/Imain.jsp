@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,32 +59,34 @@
 					<strong class="c_tit">자주찾는 질문 빠른검색</strong>
 					<legend><label for="searchtext">검색</label></legend>
 					<div class="search_box">
-						<input id="searchtext" type="text" title="검색어 입력" placeholder="검색어를 입력해 주세요.">
+					<form action="${pageContext.request.contextPath}/inquiry/often" method="get" id="searchForm">
+						<input id="searchtext" type="text" name="search" title="검색어 입력" placeholder="검색어를 입력해 주세요.">
 						<button type="button" class="btn_search" title="검색하기" id="btn_search">검색</button>
+					</form>	
 					</div>
-					<div class="c_qu">
+<!-- 					<div class="c_qu"> -->
                        
-						    <a href="#none">현금영수증</a>                       
+<!-- 						    <a href="#none">현금영수증</a>                        -->
                         
-						    <a href="#none">관람권</a>                       
+<!-- 						    <a href="#none">관람권</a>                        -->
                         
-						    <a href="#none">예매</a>                       
+<!-- 						    <a href="#none">예매</a>                        -->
                         
-						    <a href="#none">환불</a>                       
+<!-- 						    <a href="#none">환불</a>                        -->
                         
-						    <a href="#none">취소</a>                       
+<!-- 						    <a href="#none">취소</a>                        -->
                         
-						    <a href="#none"></a>                       
+<!-- 						    <a href="#none"></a>                        -->
                         
-					</div>
+<!-- 					</div> -->
 				</div>
                 <div class="c_box talk_inquiry" style="cursor:pointer;">
-                    <strong class="c_tit">상담톡 이용</strong>
-                    <span class="c_txt">상담 톡을 이용해보세요.</span>
-                    <a href="javascript:;">문의하기</a>
+                    <strong class="c_tit">문의/답변</strong>
+                    <span class="c_txt">다양한 문의와 답변을 확인하실 수 있습니다.</span>
+                    <a href="${pageContext.request.contextPath}/inquiry/list">바로가기</a>
                 </div>
 				<div class="c_box email_inquiry" style="cursor:pointer;">
-					<strong class="c_tit">이메일 문의</strong>
+					<strong class="c_tit">1:1 문의하기</strong>
 					<span class="c_txt">24시간 365일 언제든지 문의해주세요.</span>
 					<a href="${pageContext.request.contextPath}/inquiry/write">문의하기</a>
                 </div>
@@ -122,52 +125,27 @@
 					    <span class="tit">공지/뉴스</span>
                     </a>
 					<ul class="txt">
+						<c:forEach var="news" items="${newslist}">
+							<li><a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=${newsDTO.NEWS_NUM}">
+							${news.NEWS_SECTION} ${news.NEWS_NAME }</a>
+							<span class="day">${news.NEWS_DATE}</span></li>
+						</c:forEach>
                     
-                            <li><a href="/support/news/detail-view.aspx?idx=8001&amp;type=3"> [CGV] 무대인사 예매취소 정책 변경 안내</a><span class="day">2024.01.02</span></li>
+<!--                             <li><a href="/support/news/detail-view.aspx?idx=8001&amp;type=3"> [CGV] 무대인사 예매취소 정책 변경 안내</a><span class="day">2024.01.02</span></li> -->
                         
-                            <li><a href="/support/news/detail-view.aspx?idx=8030&amp;type=1">[시스템점검] 2024년 8월 시스템공지</a><span class="day">2024.07.17</span></li>
+<!--                             <li><a href="/support/news/detail-view.aspx?idx=8030&amp;type=1">[시스템점검] 2024년 8월 시스템공지</a><span class="day">2024.07.17</span></li> -->
                         
-                            <li><a href="/support/news/detail-view.aspx?idx=8029&amp;type=4">[기타] CGV 사칭 계정 메시지 주의 안내</a><span class="day">2024.07.15</span></li>
+<!--                             <li><a href="/support/news/detail-view.aspx?idx=8029&amp;type=4">[기타] CGV 사칭 계정 메시지 주의 안내</a><span class="day">2024.07.15</span></li> -->
                         
-                            <li><a href="/support/news/detail-view.aspx?idx=8028&amp;type=5"> [아시아나 마일리지] 제휴 종료 안내</a><span class="day">2024.07.05</span></li>
+<!--                             <li><a href="/support/news/detail-view.aspx?idx=8028&amp;type=5"> [아시아나 마일리지] 제휴 종료 안내</a><span class="day">2024.07.05</span></li> -->
                         
-                            <li><a href="/support/news/detail-view.aspx?idx=8026&amp;type=1">[시스템점검] 2024년 7월 시스템공지</a><span class="day">2024.06.28</span></li>
+<!--                             <li><a href="/support/news/detail-view.aspx?idx=8026&amp;type=1">[시스템점검] 2024년 7월 시스템공지</a><span class="day">2024.06.28</span></li> -->
                         
 					</ul>
 					<a href="${pageContext.request.contextPath}/inquiry/news" class="more">공지/뉴스 더보기</a>
-					<div class="noti_ban_area">
-						<a href="/culture-event/event/preview/?menu=7" class="ban_preview">CGV PREVIEW 시사회/무대인사</a>
-						<a href="/discount/discountlist.aspx" class="ban_discount">DISCOUNT INFO 할인카드 및 혜택 안내</a>
-					</div>
 				</div>
 			</div>
-			<div class="shortcu_area">
-				<ul>
-                    <!--
-					<li>
-						<strong class="tit_shortcut ico_lost">분실물 문의</strong>
-						<span class="txt">CGV에서 잃어버리신 물건을 신속하게 찾아 드리는 서비스</span>
-						<a href="/support/lost/default.aspx" class="round gray on" title=""><i>바로가기</i></a>
-					</li>
-                    //-->
-					<li>
-						<strong class="tit_shortcut ico_general">대관/단체 서비스</strong>
-						<span class="txt">CGV에서 진행하는 우리만의 특별한 이벤트 색다른 문화행사</span>
-						<a href="/support/lease/default.aspx" class="round gray on" title=""><i>바로가기</i></a>
-					</li>
-					<li>
-						<strong class="tit_shortcut ico_vipinfo">VIP 안내</strong>
-						<span class="txt">영화를 사랑하는 당신에게 드리는 특별한 CGV만의 VIP혜택</span>
-						<a href="/user/vip-lounge/" target="_blank" class="round gray on" title="새창열기"><i>바로가기</i></a>
-					</li>
-					<li>
-						<strong class="tit_shortcut ico_vipcustomer">VIP 고객센터</strong>
-						<span class="txt">VIP 고객님들께 알려드리는<br>VIP 혜택 제대로 활용하는 방법</span>
-						<a href="/user/vip-lounge/faq.aspx" target="_blank" class="round gray on" title="새창열기"><i>바로가기</i></a>
-					</li>
-				</ul>
-			</div>
-			
+
 		</div>
 	</div>
 	<!-- //Contents End -->
@@ -201,8 +179,8 @@
 			});
 
             function Search() {
-                location.href = "/support/faq/default.aspx?searchtext=" + escape($("#searchtext").val());
-                //return false;
+            	// 폼 제출
+    	        $('#searchForm').submit();
             }
 
             $('.c_qu').children('a').on("click", function () {

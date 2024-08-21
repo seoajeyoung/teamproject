@@ -54,16 +54,16 @@ public class OfteniqService {
 		return ofteniqDAO.getOftenCount(pageDTO);
 	}
 	
-	public Map<String, Object> getOften(String num) {
-		return ofteniqDAO.getOften(num);
+	public Map<String, Object> getOften(Map<String, Object> param) {
+		return ofteniqDAO.getOften(param);
 	}
 	
-	public Map<String, Object> getOftenPrev(String num) {
-		return ofteniqDAO.getOftenPrev(num);
+	public Map<String, Object> getOftenPrev(Map<String, Object> param) {
+		return ofteniqDAO.getOftenPrev(param);
 	}
 	
-	public Map<String, Object> getOftenNext(String num) {
-		return ofteniqDAO.getOftenNext(num);
+	public Map<String, Object> getOftenNext(Map<String, Object> param) {
+		return ofteniqDAO.getOftenNext(param);
 	}
 	
 	
