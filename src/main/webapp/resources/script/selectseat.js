@@ -4,6 +4,9 @@ $(document).ready(function() {
     var selectedPerCategory = {};
     var selectsenum = [];
     var totalSelected ='';
+    var categoryname = '';
+    var count = '';
+    var totalPrice = 0;
 
     // 유형별로 초기화된 배열
     var types = ['일반', '청소년', '경로', '우대'];
@@ -48,7 +51,10 @@ $(document).ready(function() {
         data: {
             region: selectRegionName,
             th_name: theaterTitle,
-            th_number: thNumber
+            th_number: thNumber,
+            fulldate: fullDate,
+            sctime: sc_time,
+            movietitle: title
         },
         success: function(data) {
             $('#seat_num').empty(); // 기존 좌석 삭제
@@ -57,14 +63,12 @@ $(document).ready(function() {
             var rowDiv = null;
 			$('#seat_num').before('<h1 id="screenArea">Screen</h1>');
 			 
-            data.forEach(function(seat) {
+            data.savedSeats.forEach(function(seat) {
                 var seatRow = seat.SE_SEAT.charAt(0); 
-                if (currentRow !== seatRow) {
                 
+                if (currentRow !== seatRow) {
                     currentRow = seatRow;
-                    
                     rowDiv = $('<div></div>').addClass('seat-row');
-                    
                     $('#seat_num').append(rowDiv);
                 }
 
@@ -73,6 +77,13 @@ $(document).ready(function() {
                     .attr('value', seat.SE_SEAT) 
                     .text(seat.SE_SEAT) 
                     .addClass(seat.SE_TYPE);
+
+                // 결제된 좌석과 비교하여 일치하면 'full' 클래스 추가
+                data.paymentSeats.forEach(function(paidSeat) {
+                    if (seat.SE_SEAT === paidSeat.SP_SEAT) {
+                         seatDiv.removeClass('empty').addClass('full');
+                    }
+                });
 
                 rowDiv.append(seatDiv); // 해당 행의 div에 좌석 추가
             });
@@ -84,33 +95,36 @@ loadSeats();
 
 	// 인원 선택시 클릭 이벤트처리     
       $('#peoSelTableBody').on('click', '.NumOfPeo', function() {
-                var $clickedDiv = $(this);
-                var $parentRow = $clickedDiv.closest('tr');
-				var category = $parentRow.find('td:first').text();
-                var currentValue = parseInt($clickedDiv.text(), 10);
-			
-                selectedPerCategory[category] = selectedPerCategory[category] || 0;
-                
-                if ($clickedDiv.hasClass('selected')) {
-                    $clickedDiv.removeClass('selected');
-                    selectedPerCategory[category] -= currentValue;
-                } else {
-                    selectedPerCategory[category] += currentValue;
+    var $clickedDiv = $(this);
+    var $parentRow = $clickedDiv.closest('tr');
+    var category = $parentRow.find('td:first').text(); // 카테고리 이름
+    var currentValue = parseInt($clickedDiv.text(), 10);
 
-                    // 선택된 인원의 합이 person 값을 넘는지 확인합니다.
-                    var totalSelected = Object.values(selectedPerCategory).reduce((a, b) => a + b, 0);
-                    if (totalSelected > person) {
-                        alert('총 인원 수를 초과했습니다!');
-                        selectedPerCategory[category] -= currentValue;
-                        return;
-                    }
+    // 선택된 카테고리의 기존 값을 가져옵니다.
+    var previousValue = selectedPerCategory[category] || 0;
 
-                    $parentRow.find('.NumOfPeo').removeClass('selected');
-                    $clickedDiv.addClass('selected');
-                }
-                debugger;
-            });
-    
+    if ($clickedDiv.hasClass('selected')) {
+        // 이미 선택된 항목을 클릭하면 선택 해제
+        $clickedDiv.removeClass('selected');
+        selectedPerCategory[category] = 0; // 선택 해제 시 0으로 설정
+
+    } else {
+        // 현재 선택된 값을 추가
+        selectedPerCategory[category] = currentValue;
+
+        // 총 선택 인원 수를 확인합니다.
+        var totalSelected = Object.values(selectedPerCategory).reduce((a, b) => a + b, 0);
+        if (totalSelected > person) {
+            alert('총 인원 수를 초과했습니다!');
+            selectedPerCategory[category] = previousValue; // 이전 값으로 복원
+            return;
+        }
+	
+        // 현재 선택된 항목 외의 선택을 해제
+        $parentRow.find('.NumOfPeo').removeClass('selected');
+        $clickedDiv.addClass('selected');
+    }
+});
 	// 좌석  선택 클릭 이벤트     
         $('#seat_num').on('click', '#seat.empty, #seat.choose', function() {
     var seattext = $(this).text(); // 클릭한 좌석의 텍스트
@@ -165,24 +179,23 @@ loadSeats();
         '우대': 3000
     };
 
-    var totalPrice = 0;
+
     var summary = [];
 
     for (var category in selectedPerCategory) {
         if (selectedPerCategory.hasOwnProperty(category)) {
-            var count = selectedPerCategory[category];
+            count = selectedPerCategory[category];
             var price = categoryPrices[category] || 0;
             var categoryTotal = price * count;
             totalPrice += categoryTotal;
+            categoryname = category;
             summary.push(`${category} ${price} * ${count} = ${categoryTotal}`);
         }
     }
-
     // Confirm 대화상자 표시
     var confirmMessage = `선택된 좌석:\n${selectsenum.join(', ')}\n\n`;
     confirmMessage += `인원 및 가격:\n${summary.join('\n')}\n\n`;
     confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
-		
 		
         if (confirm(confirmMessage)) {
         // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
@@ -208,8 +221,12 @@ loadSeats();
                     movietitle: title,
                     fulldate: fullDate,
                     sctime: sc_time,
+                    categoryname: categoryname,
+                    count: count,
+                    totalprice: totalPrice,
                     seseat: selectsenum.join(',')
                 }).toString();
+                
                 
                 window.location.href = `/myweb/ticketpayment?${queryParams}`;
             	} else {

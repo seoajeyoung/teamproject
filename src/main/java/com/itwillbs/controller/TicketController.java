@@ -69,7 +69,13 @@ public class TicketController {
 	}
 	
 	
-	
+	@GetMapping("/ticketpayment") // 영화 결제 TEST
+	public String ticketpayment(){
+		
+		
+		
+		return "ticket/ticketpayment";
+	}
 	
 	
 	
@@ -265,15 +271,19 @@ public class TicketController {
 	}
 	
 	@GetMapping("/LOADSEAT") // 예매페이지 좌석 가져오기 서재영
-	public ResponseEntity<List<Map<String, String>>> selectLOADSEAT(
+	public ResponseEntity<Map<String, List<Map<String, String>>>> selectLOADSEAT(
 		   @RequestParam Map<String,Object> param)  {
 		
 		
-		
 		List<Map<String, String>> selectsaveseat = ticketService.selectloadseat(param);
+	
+		List<Map<String, String>> selectpaymentseat = ticketService.selectpaymentseat(param);
 		
-
-		return new ResponseEntity<List<Map<String, String>>>(selectsaveseat, HttpStatus.OK);
+		 Map<String, List<Map<String, String>>> response = new HashMap<>();
+		    response.put("savedSeats", selectsaveseat);
+		    response.put("paymentSeats", selectpaymentseat);
+		
+		    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	

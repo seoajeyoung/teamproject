@@ -249,6 +249,7 @@
 
 /* 구매 상품 정보 테이블 윗 간격 */
 .store_basket, .store_pay {
+	margin-left: 430px;
 	margin-top: 20px; /* 상단 진행도 상태창과 테이블 사이 간격   */
 	width: 1000px;	/* 화면 가로 길이 조정 */
 	padding-bottom: 50px;

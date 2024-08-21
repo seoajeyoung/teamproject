@@ -469,3 +469,10 @@ table.peoSelTable td:nth-of-type(1) {
     margin-top: -18.72px;
     
 }
+
+
+#seat.full {
+    background-color: #d6d3ce;; /* 연한 흰색으로 변경 */
+    cursor: not-allowed; /* 클릭 불가 상태 표시 */
+    opacity: 0.6; /* 반투명 처리 */
+}

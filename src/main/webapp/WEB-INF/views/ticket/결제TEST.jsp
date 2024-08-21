@@ -14,7 +14,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script
-	src="${pageContext.request.contextPath}/resources/script/ticketpayment.js"></script>	
+	src="${pageContext.request.contextPath}/resources/script/selectseat.js"></script>	
 	
 	
 </head>
