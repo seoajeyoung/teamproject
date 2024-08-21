@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDateList();
     fetchMovies(''); // 영화 목록 초기값 호출
     
+    
     var selectMovieTitle = '';
     var selectRegionName = '';
     var selectTheaterName = '';
