@@ -115,7 +115,7 @@ public class MypageController {
 		mypageService.updateMystatus(id);
 		session.invalidate();
 
-		return "redirect:/mypage/mymain";
+		return "redirect:/main/main";
 	}
 
 	@GetMapping("/mypoint")
