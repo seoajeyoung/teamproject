@@ -98,7 +98,7 @@
 						
 <!-- 						<li class="name"><a href="#" class="txt">이전 글이 없습니다.</a></li> -->
                         
-					</ul>
+					</ul> 
 					<ul class="line_sup_prev" id="prev">
 						<li class="stit">다음글</li>
 						<c:choose>

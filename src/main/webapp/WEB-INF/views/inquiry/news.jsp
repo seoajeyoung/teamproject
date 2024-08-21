@@ -262,7 +262,7 @@ function formatDate(dateString) { //날자 포멧
 //     // 폼 제출
 //     $('#searchForm').submit();
 // }
-
+ 
 function updateContent(result){
 	//$('.paging').html(result.pageContent);
 	updatePaging(result.pageDTO);

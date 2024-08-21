@@ -43,7 +43,7 @@ public class InquiryDAO {
 	public int getMyInquiryCount(Map<String, Object> params) {
 		return sqlSession.selectOne(namespace + ".getMyInquiryCount", params);
 	}
-	
+	 
 	public Map<String, Object> getInquiry(String num) {
 		return sqlSession.selectOne(namespace + ".getInquiry", num);
 	}	

@@ -162,7 +162,7 @@
 	
 	<select id="getMyNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
-	SELECT M.MEMBER_ID
+	SELECT M.MEMBER_ID 
 		 , I.INQUIRY_NUM
 		 , I.INQUIRY_NAME
 	  FROM INQUIRY I

@@ -653,7 +653,7 @@ public class InquiryController {
 		System.out.println(ofteniqDTO);
 		
 		return "redirect:/inquiry/often";
-	}
+	} 
 	
 	@GetMapping("/oftencontent")
 	public String oftencontent(@RequestParam("search") String search, OfteniqDTO ofteniqDTO, Model model, HttpSession session) {

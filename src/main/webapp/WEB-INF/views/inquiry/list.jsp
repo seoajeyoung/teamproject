@@ -129,7 +129,7 @@
 								<!-- 				@@@@@@@@@@@@@@@ -->
 								<c:forEach var="inquiryDTO" items="${inquiryList}">
 									<tbody>
-
+ 
 										<tr class="first">
 											<!--순번 오름차순으로 변경-->
 											<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->

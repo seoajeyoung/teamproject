@@ -209,7 +209,7 @@
 	SELECT NEWS_NUM
 		 , NEWS_NAME
 		 , NEWS_CONTENT
-         , NEWS_DATE
+         , NEWS_DATE 
          , CASE
     	   WHEN NEWS_SECTION = 'SYS' THEN '시스템 점검'
        	   WHEN NEWS_SECTION = 'TH' THEN '극장'
