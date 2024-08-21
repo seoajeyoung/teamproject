@@ -35,8 +35,15 @@
 <script type="text/javascript">
 // 다른곳에서도 현재 thRegion값을 사용할수 있도록 선언
 let thRegion;
+let movieNum;
 
 $(function() {
+	var url = new URLSearchParams(window.location.search);
+	movieNum = url.get("MOVIE_NUM");
+	
+	
+	
+	
 	$('.regionLink').on('click', function() {
 		thRegion = $(this).text();
 
@@ -45,7 +52,7 @@ $(function() {
 		$.ajax({
 			type: 'get',
 			url: '${pageContext.request.contextPath}/movie/runningDate',
-			data: {"TH_REGION": thRegion},
+			data: {"TH_REGION": thRegion, "MOVIE_NUM" : movieNum},
 			dataType: 'json',
 			success: function(result) {
 				$('.item').html('')
@@ -62,20 +69,22 @@ $(function() {
 				                    </div>
 				                </li>`;
 					
-					$('.item').append(text);	
+					$('.item').append(text);
+					
+					
+					$('.day:first>a').trigger('click');
 				});
-				$('.day:first').trigger('click');
 			},
 			error: function(e) {
 			}
 		});// ajax 종료
 	});// function 종료
+	
+	
 	$('.regionLink:first').trigger('click');
 });
 $(document).on('click', '.day>a', function() {
 	var currDate = $(this).find('input').val();
-	var url = new URLSearchParams(window.location.search);
-	var movieNum = url.get("MOVIE_NUM");
 	
 	$.ajax({
 		type: 'get',
@@ -84,6 +93,7 @@ $(document).on('click', '.day>a', function() {
 		dataType: 'json',
 		success: function(result) {
 			var prevList;
+			$('#movieShowtimes>ul').html('');
 			result.forEach(function(thList, index) {
 				if(index == 0 || thList.TH_NAME != prevList.TH_NAME) {
 					var text = `<li>
@@ -127,7 +137,7 @@ $(document).on('click', '.day>a', function() {
 							</li>
 						`)
 				prevList = thList;
-			})
+			});
 		},
 		error: function(e) {
 			debugger;

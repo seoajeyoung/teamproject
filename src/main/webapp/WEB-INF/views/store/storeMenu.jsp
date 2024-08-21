@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/storeMenu.css">
+
 </head>
 <body>
 <header>
@@ -22,8 +24,8 @@
 		</c:forEach>
      
      </ul>
-     <ul class='cart_content'>
-         <li><a href='#' onclick='javascript:app.goLogin();return false;'>내 기프트콘</a><span id='giftconcnt'>0</span></li>         <li><a href='#' onclick='javascript:app.goLogin();return false;'>장바구니</a><span id='cartviewcnt'>0</span></li>     </ul>
+<!--      <ul class='cart_content'> -->
+<!--          <li><a href='#' onclick='javascript:app.goLogin();return false;'>내 기프트콘</a><span id='giftconcnt'>0</span></li>         <li><a href='#' onclick='javascript:app.goLogin();return false;'>장바구니</a><span id='cartviewcnt'>0</span></li>     </ul> -->
  </div>
 </div>
 </header>

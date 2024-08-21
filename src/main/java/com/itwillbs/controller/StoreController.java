@@ -10,15 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.AdminDTO;
 import com.itwillbs.domain.CartDTO;
 import com.itwillbs.domain.CodeDTO;
 import com.itwillbs.domain.CodeDetailDTO;
+import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.StoreDTO;
+import com.itwillbs.domain.StorePaymentDTO;
 import com.itwillbs.service.StoreService;
 
 @Controller
@@ -55,7 +59,7 @@ public class StoreController {
 		
 		
 		model.addAttribute("storeDTO", storeDTO);
-
+		model.addAttribute("categories", storeService.getGlobalCategories());
 		
 		return "store/productDetail";
 		
@@ -70,6 +74,8 @@ public class StoreController {
 	    List<StoreDTO> productList = storeService.productCategory(category);
 	    
 	    model.addAttribute("productList", productList);
+	    model.addAttribute("category", category);
+	    model.addAttribute("categories", storeService.getGlobalCategories());
 	    
 	    return "store/productCategory"; 
 	}
@@ -94,15 +100,25 @@ public class StoreController {
  	
 	@GetMapping("/storeCart")
 	public String storeCart(HttpSession session, Model model) {
-		System.out.println("StoreController StoreCart()");
-		
-		String member_num = (String)session.getAttribute("member_num");
+	    System.out.println("StoreController StoreCart()");
+	    
+	    String member_num = (String) session.getAttribute("member_num");
 
-		List<CartDTO> cartItemList = storeService.getCartItem(member_num);
-		
-		model.addAttribute("cartItemList", cartItemList);
-		
-		return "store/storeCart";
+	    if (member_num != null) {
+	        MemberDTO memberDTO = new MemberDTO();
+	        memberDTO.setMember_num(member_num);
+	        
+	        List<CartDTO> cartItemList = storeService.getCartItem(member_num);
+	        
+	        model.addAttribute("memberDTO", memberDTO);
+	        model.addAttribute("cartItemList", cartItemList);
+	    } else {
+	        // 로그인을 하지 않은 경우 또는 세션이 만료된 경우에 대한 처리
+	        // 예를 들어, 로그인 페이지로 리디렉션할 수 있습니다.
+	        return "redirect:/member/login";
+	    }
+	    
+	    return "store/storeCart";
 	}
 	
 	@GetMapping("/controlmenu")
@@ -176,5 +192,37 @@ public class StoreController {
 
 	        return "store/storeMenu"; // storeMenu.jsp를 반환
 	    }
+	 
+	 @PostMapping("/processPayment")
+	    @ResponseBody
+	    public String processPayment(@RequestBody StorePaymentDTO paymentDTO) {
+	        try {
+	            storeService.processPayment(paymentDTO);
+	            System.out.println("paymentDTO: " + paymentDTO);
+	            return "success";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "fail";
+	        }
+	    }
+	 
+	 @PostMapping("/store/removeFromCart")
+	 	@ResponseBody
+	    public String removeFromCart(@RequestBody CartDTO cartDTO) {
+	        try {
+	        	System.out.println("Received CartDTO: " + cartDTO);
+	            // storeService의 deleteCartItem 메서드를 호출하여 장바구니에서 삭제
+	            storeService.deleteCartItem(cartDTO.getCart_num(), cartDTO.getMember_num());
+	            return "success";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "fail";
+	        }
+	    }
 	
+//	 @GetMapping("/NewFile1")
+//	 	public String NewFile1() {
+//		 
+//		 return "store/NewFile1";
+//	 }
 }

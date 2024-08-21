@@ -15,6 +15,13 @@
 	]]>
 	</select>
 	
+	<select id="getAllProduct" resultType="com.itwillbs.domain.StoreDTO">
+		SELECT *
+		FROM STORETEST
+		ORDER BY st_type, st_num DESC;
+	
+	</select>
+	
 	<select id="productCategory" resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
         SELECT * 
           FROM STORETEST 
@@ -45,19 +52,30 @@
     <update id="updateCartItem" parameterType="com.itwillbs.domain.CartDTO">
         UPDATE CARTTEST 
            SET cart_quantity = #{cart_quantity}, cart_date = NOW() 
-         WHERE cart_num = #{cart_num}
+         WHERE cart_num = #{cart_num} AND st_num = #{st_num}
     </update>
 
     <!-- 특정 사용자의 장바구니 항목 조회 -->
     <select id="getCartItem" resultType="com.itwillbs.domain.CartDTO">
     	SELECT c.cart_num, c.member_num, c.st_num, c.cart_quantity, c.cart_date, 
-    		   s.st_name, s.st_price
-          FROM CARTTEST c 
-    	  JOIN STORETEST s ON c.st_num = s.st_num
-    	 WHERE c.member_num = #{member_num}
-    	 ORDER BY c.cart_date DESC
-    </select>
+           	s.st_name, s.st_price
+    	FROM CARTTEST c 
+    	JOIN STORETEST s ON c.st_num = s.st_num
+    	WHERE c.member_num = #{member_num}
+      	AND NOT EXISTS (
+          	SELECT 1
+          	FROM STOREPAYMENTTEST p
+          	WHERE p.member_num = #{member_num}
+            	AND p.cart_num = c.cart_num
+      	)
+    	ORDER BY c.cart_date DESC
+</select>
   
+	<delete id="deleteCart">
+		DELETE from CARTTEST
+		WHERE cart_num = #{cart_num} and member_num = #{member_num}
+	
+	</delete>
   
 	<insert id="addCode">
         INSERT INTO CODETEST (code_id, code_value)
@@ -121,6 +139,37 @@
     	JOIN CODETEST ct ON cd.code_num = ct.code_num
     	WHERE ct.code_id = #{code_id}
 	</select>
+	
+<!-- 	<insert id="insertPayment"> -->
+<!--         INSERT INTO STOREPAYMENTTEST -->
+<!--  			(sp_num, imp_uid, merchant_uid, payment_total_price, cart_num, member_num, st_num, cart_quantity) -->
+<!--  		VALUES (SELECT null -->
+<!-- 			 , #{imp_uid} -->
+<!-- 			 , #{merchant_uid} -->
+<!-- 			 , #{payment_total_price} -->
+<!-- 			 , cart_num -->
+<!-- 		     , member_num -->
+<!-- 			 , st_num -->
+<!-- 			 , cart_quantity -->
+<!-- 		  FROM CARTTEST -->
+<!-- 		 WHERE MEMBER_NUM = #{member_num}) -->
+<!--     </insert> -->
+
+	<insert id="insertPayment">
+    INSERT INTO STOREPAYMENTTEST
+    (sp_num, imp_uid, merchant_uid, payment_total_price, cart_num, member_num, st_num, cart_quantity)
+    VALUES (null, 
+            #{imp_uid}, 
+            #{merchant_uid}, 
+            (SELECT s.st_price * c.cart_quantity
+             FROM CARTTEST c 
+             JOIN STORETEST s ON s.st_num = c.st_num 
+             WHERE c.cart_num = #{cart_num}), 
+            #{cart_num}, 
+            #{member_num}, 
+            #{st_num}, 
+            #{cart_quantity})
+</insert>
 	
 	
 </mapper>

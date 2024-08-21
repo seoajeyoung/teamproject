@@ -7,6 +7,7 @@ $(document).ready(function() {
     var categoryname = '';
     var count = '';
     var totalPrice = 0;
+    var selectedSeats = '';
 
     // 유형별로 초기화된 배열
     var types = ['일반', '청소년', '경로', '우대'];
@@ -101,8 +102,7 @@ loadSeats();
     var currentValue = parseInt($clickedDiv.text(), 10);
 
     // 선택된 카테고리의 기존 값을 가져옵니다.
-    var previousValue = selectedPerCategory[category] || 0;
-
+	
     if ($clickedDiv.hasClass('selected')) {
         // 이미 선택된 항목을 클릭하면 선택 해제
         $clickedDiv.removeClass('selected');
@@ -119,6 +119,13 @@ loadSeats();
             selectedPerCategory[category] = previousValue; // 이전 값으로 복원
             return;
         }
+        
+         var previousValue = selectedPerCategory[category] || 0;
+	 if (selectedSeats > totalSelected) {
+        alert('선택한 좌석 수가 예매 인원 수를 초과했습니다!');
+        return;
+    }
+    debugger;
 	
         // 현재 선택된 항목 외의 선택을 해제
         $parentRow.find('.NumOfPeo').removeClass('selected');
@@ -136,8 +143,7 @@ loadSeats();
         return;
     }
 
-    var selectedSeats = $('#seat_num .choose').length;
-
+     selectedSeats = $('#seat_num .choose').length;
      if ($(this).hasClass('choose')) {
         // 이미 선택된 좌석인 경우
         $(this).removeClass('choose').addClass('empty'); 
