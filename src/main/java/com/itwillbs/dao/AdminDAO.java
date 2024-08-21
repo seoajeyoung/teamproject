@@ -352,6 +352,14 @@ public class AdminDAO {
 		
 	}
 
+	public List<AdminDTO> getBookinglist() {
+		return sqlSession.selectList(namespace + ".getBookinglist");
+	}
+
+	public AdminDTO getBookinginfo(String sp_NUM) {
+		return sqlSession.selectOne(namespace + ".getBookinginfo", sp_NUM);
+	}
+
 	
 
 }

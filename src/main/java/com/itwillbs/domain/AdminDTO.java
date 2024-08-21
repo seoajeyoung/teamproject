@@ -341,6 +341,45 @@ public class AdminDTO {
 	}
 	
 	
+//===========================================================================================================================
+	
+	private String SP_NUM;
+	private String SP_SEAT;
+	private String member_id;
+	private String SC_TIME;
+	private String SC_TIME_END;
+	
+	public String getSC_TIME() {
+		return SC_TIME;
+	}
+	public void setSC_TIME(String SC_TIME) {
+		this.SC_TIME = SC_TIME;
+	}
+	public String getSC_TIME_END() {
+		return SC_TIME_END;
+	}
+	public void setSC_TIME_END(String SC_TIME_END) {
+		this.SC_TIME_END = SC_TIME_END;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	public String getSP_NUM() {
+		return SP_NUM;
+	}
+	public void setSP_NUM(String SP_NUM) {
+		this.SP_NUM = SP_NUM;
+	}
+	public String getSP_SEAT() {
+		return SP_SEAT;
+	}
+	public void setSP_SEAT(String SP_SEAT) {
+		this.SP_SEAT = SP_SEAT;
+	}
+
 	
 		
 	

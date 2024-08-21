@@ -124,6 +124,7 @@
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movielist">영화목록</a>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/movieschedule">상영일정관리</a>
                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/theaterinsert">상영지점관리</a>
+                        <a class="collapse-item" href="${pageContext.request.contextPath}/admin/movie/bookinglist">영화예매관리</a>
                     </div>
                 </div>
             </li>

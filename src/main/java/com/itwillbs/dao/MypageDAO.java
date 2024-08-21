@@ -9,7 +9,7 @@ import com.itwillbs.domain.MypageDTO;
 
 @Repository
 public class MypageDAO {
-	
+
 	@Inject
 	private SqlSession sqlSession;
 	
@@ -19,4 +19,20 @@ public class MypageDAO {
 		return sqlSession.selectOne(namespace + ".getMyInfo", id);
 	}
 
+	public MypageDTO getPointByMemberNum(String memberNum) {
+		return sqlSession.selectOne(namespace + ".getPointByMemberNum", memberNum);
+	}
+	
+	public String getPasswordByMemberId(String id) {
+        return sqlSession.selectOne(namespace + ".getPasswordByMemberId", id);
+    }
+
+	public void updateMypage(MypageDTO mypageDTO) {
+		sqlSession.update(namespace + ".updateMypage", mypageDTO);
+	}
+
+	public void updateMystatus(String id) {
+		sqlSession.update(namespace + ".updateMystatus", id);		
+	}
+	
 }

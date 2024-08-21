@@ -325,6 +325,16 @@ public class AdminService {
 		
 	}
 
+	public List<AdminDTO> getBookinglist() {
+		return adminDAO.getBookinglist();
+	}
+
+	public AdminDTO getBookinginfo(String sp_NUM) {
+		return adminDAO.getBookinginfo(sp_NUM);
+	}
+	
+	
+
 		
 	
 	

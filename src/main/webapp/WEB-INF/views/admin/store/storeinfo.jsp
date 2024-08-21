@@ -222,7 +222,7 @@ $(document).ready(function() {
 									</table>
 									<div class="button-container">
 										<button type="submit"
-											class="btn btn-danger btn-user same-size"
+											class="btn btn-danger btn-user"
 											style="margin-right: 2px;">수정완료</button>
 									</div>
 								</form>

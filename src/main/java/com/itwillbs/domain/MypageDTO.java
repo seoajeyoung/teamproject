@@ -27,6 +27,8 @@ public class MypageDTO {
 	private Timestamp point_date;
 	private String point_history;
 	private String member_sns;
+	// ================================================================
+	
 	
 	
 	public String getMember_num() {

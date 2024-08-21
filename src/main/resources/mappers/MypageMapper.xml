@@ -2,11 +2,51 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mypageMapper">
-	
-<!-- 	<select id="getMyInfo" resultType="com.itwillbs.domain.MypageDTO"> -->
-<!-- 		select * from MEMBERS -->
-<!-- 		where id = #{id} -->
-<!-- 	</select> -->
-	
+<mapper namespace="com.itwillbs.mappers.MypageMapper">
+
+	<select id="getMyInfo"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT * FROM MEMBERS
+		WHERE member_id = #{id}
+	</select>
+
+	<select id="getPointByMemberNum"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT *
+		FROM POINT
+		WHERE member_num = #{member_num}
+	</select>
+
+	<select id="getPasswordByMemberId" resultType="String"
+		parameterType="String">
+		SELECT member_pass
+		FROM MEMBERS
+		WHERE member_id = #{id}
+	</select>
+
+	<update id="updateMypage"
+		parameterType="com.itwillbs.domain.MypageDTO">
+		UPDATE MEMBERS
+		SET
+		member_name = #{member_name},
+		member_pass = #{member_pass},
+		member_gender = #{member_gender},
+		member_phone = #{member_phone},
+		member_email = #{member_email},
+		member_address = #{member_address}
+		WHERE member_id = #{member_id}
+	</update>
+
+	<update id="updateMystatus" parameterType="String">
+		update MEMBERS
+		set member_status = '탈퇴유예',
+		member_respite = CURRENT_TIMESTAMP,
+		member_out = DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
+		where member_id = #{id}
+	</update>
+
+
+
+
+
 </mapper>

@@ -164,7 +164,8 @@
 		values
 		(FLOOR(RAND() * 1000000), #{title}, #{titleEng}, #{directorNm},
 		#{actorNm}, #{nation}, #{genre}, #{plot}, #{runtime}, #{rating},
-		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{vodUrl}, #{audiAcc}, #{themeSong},
+		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{vodUrl}, #{audiAcc},
+		#{themeSong},
 		#{soundtrack}, #{Awards1})
 	</insert>
 
@@ -202,16 +203,19 @@
 	<update id="movieupdate"
 		parameterType="com.itwillbs.domain.MovieDTO">
 		update MOVIE set title = #{title},
-		titleEng = #{titleEng},
+		titleEng =
+		#{titleEng},
 		direcotrNm = #{direcotrNm},
 		actorNm = #{actorNm},
-		genre = #{genre},
+		genre =
+		#{genre},
 		rating = #{rating},
 		runtime = #{runtime},
 		audiAcc = #{audiAcc},
 		posterUrl = #{posterUrl},
 		releaseDate = #{releaseDate},
-		releaseDts = #{releaseDts},
+		releaseDts =
+		#{releaseDts},
 		releaseDte = #{releaseDte}
 		where MOVIE_NUM = #{MOVIE_NUM}
 	</update>
@@ -254,14 +258,16 @@
 		resultType="String">
 		SELECT DISTINCT TH_NUMBER
 		FROM THEATER
-		WHERE TH_NAME = #{TH_NAME}
+		WHERE TH_NAME =
+		#{TH_NAME}
 	</select>
 
 	<select id="getMovieNameList" parameterType="map"
 		resultType="hashmap">
 		SELECT TITLE, TITLEENG, RUNTIME
 		FROM MOVIE
-		WHERE REPLACE(releaseDate, '-', '') BETWEEN #{threeMonthsAgo} AND
+		WHERE
+		REPLACE(releaseDate, '-', '') BETWEEN #{threeMonthsAgo} AND
 		#{releaseDate}
 	</select>
 
@@ -279,12 +285,14 @@
 
 	<!-- 영문 제목 업데이트 -->
 	<update id="updateTitleEng" parameterType="map">
-		UPDATE MOVIE SET TITLEENG = #{titleEng} WHERE TITLE = #{title}
+		UPDATE MOVIE SET
+		TITLEENG = #{titleEng} WHERE TITLE = #{title}
 	</update>
 
 	<!-- 런타임 업데이트 -->
 	<update id="updateRuntime" parameterType="map">
-		UPDATE MOVIE SET RUNTIME = #{runtime} WHERE TITLE = #{title}
+		UPDATE MOVIE SET
+		RUNTIME = #{runtime} WHERE TITLE = #{title}
 	</update>
 
 
@@ -294,9 +302,11 @@
 		INSERT INTO CINEMA (CI_NUM, TH_NUM, MOVIE_NUM)
 		VALUES (
 		#{CI_NUM},
-		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME =
+		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME
+		=
 		#{TH_NAME} AND TH_NUMBER = #{TH_NUMBER}),
-		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title})
+		(SELECT MOVIE_NUM FROM MOVIE
+		WHERE TITLE = #{title})
 		);
 	</insert>
 	<insert id="insertScreenTime" parameterType="map">
@@ -312,48 +322,60 @@
 	<update id="updateSchedule" parameterType="map">
 		UPDATE CINEMA
 		SET
-		TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND
+		TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION}
+		AND
 		TH_NAME = #{TH_NAME}),
-		MOVIE_NUM = (SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title}),
+		MOVIE_NUM = (SELECT MOVIE_NUM FROM MOVIE
+		WHERE TITLE = #{title}),
 		CI_NUMBER = #{CI_NUMBER}
-		WHERE CI_NUM = #{CI_NUM};
+		WHERE CI_NUM =
+		#{CI_NUM};
 	</update>
 
 
 	<select id="getScheduleList"
 		resultType="com.itwillbs.domain.ScheduleDTO">
-		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE, S.SC_TIME, C.CI_NUM,
+		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
+		S.SC_TIME, C.CI_NUM,
 		S.SC_TIME_END
 		FROM THEATER T
-		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		JOIN CINEMA C ON
+		T.TH_NUM = C.TH_NUM
 		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+		JOIN
+		SCREEN S ON C.CI_NUM = S.CI_NUM
 	</select>
 
 	<select id="getScheduleByCinema" parameterType="map"
 		resultType="com.itwillbs.domain.ScheduleDTO">
-		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE, S.SC_TIME,
+		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
+		S.SC_TIME,
 		S.SC_TIME_END
 		FROM THEATER T
-		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		JOIN CINEMA C ON T.TH_NUM =
+		C.TH_NUM
 		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+		JOIN SCREEN S ON
+		C.CI_NUM = S.CI_NUM
 		WHERE T.TH_REGION = #{TH_REGION}
-		AND T.TH_NAME = #{TH_NAME}
+		AND T.TH_NAME =
+		#{TH_NAME}
 		AND T.TH_NUMBER = #{TH_NUMBER}
 	</select>
-	
+
 	<!-- SCREEN 테이블에서 삭제 -->
 	<delete id="deleteScreenByCINum" parameterType="int">
-		DELETE FROM SCREEN WHERE CI_NUM = #{CI_NUM};
+		DELETE FROM
+		SCREEN WHERE CI_NUM = #{CI_NUM};
 	</delete>
-	
-	<!-- CINEMA 테이블에서 삭제  -->
+
+	<!-- CINEMA 테이블에서 삭제 -->
 	<delete id="deleteCinemaByCINum" parameterType="int">
-		DELETE FROM CINEMA WHERE CI_NUM = #{CI_NUM};
+		DELETE FROM
+		CINEMA WHERE CI_NUM = #{CI_NUM};
 	</delete>
-	
-	
+
+
 
 	<select id="getBranchList" parameterType="map"
 		resultType="com.itwillbs.domain.AdminDTO">
@@ -368,7 +390,8 @@
 		FROM
 		THEATER T
 		LEFT JOIN
-		CINEMA C ON T.TH_NUM = C.TH_NUM;
+		CINEMA C
+		ON T.TH_NUM = C.TH_NUM;
 	</select>
 
 	<!-- 영문지역명 찾기 -->
@@ -384,12 +407,15 @@
 		FROM
 		THEATER T
 		LEFT JOIN
-		CINEMA C ON T.TH_NUM = C.TH_NUM;
+		CINEMA C
+		ON T.TH_NUM = C.TH_NUM;
 	</select>
 
 	<insert id="insertTheater" parameterType="map">
-		INSERT INTO THEATER (TH_NUM, TH_REGION, TH_REGIONEng, TH_NAME, TH_NAMEEng,
-		TH_ADDR, TH_NUMBER, TH_ORDER)
+		INSERT INTO THEATER
+		(TH_NUM, TH_REGION, TH_REGIONEng, TH_NAME, TH_NAMEEng,
+		TH_ADDR,
+		TH_NUMBER, TH_ORDER)
 		VALUES (
 		#{TH_NUM},
 		#{TH_REGION},
@@ -408,62 +434,138 @@
 		SET
 		TH_REGION = #{TH_REGION},
 		TH_REGIONEng = #{TH_REGIONEng},
-		TH_NAME = #{TH_NAME},
+		TH_NAME =
+		#{TH_NAME},
 		TH_NAMEEng = #{TH_NAMEEng},
 		TH_ADDR = #{TH_ADDR},
-		TH_NUMBER = #{TH_NUMBER}
+		TH_NUMBER =
+		#{TH_NUMBER}
 		WHERE TH_NUM = #{TH_NUM};
 	</update>
 
 	<delete id="deleteTheater" parameterType="int">
-		DELETE FROM THEATER WHERE TH_NUM = #{TH_NUM};
+		DELETE FROM THEATER
+		WHERE TH_NUM = #{TH_NUM};
 	</delete>
-	
-	
-	<select id="checkStoreDetails" parameterType="map" resultType="map" useCache="false">
-        SELECT EXISTS(SELECT 1 FROM STORE WHERE ST_NUM = #{ST_NUM}) AS numExists,
-       		   EXISTS(SELECT 1 FROM STORE WHERE ST_NAME = #{ST_NAME}) AS nameExists,
-       		   EXISTS(SELECT 1 FROM STORE WHERE ST_DETAIL = #{ST_DETAIL}) AS detailExists;
-    </select>
-    
-    <select id="getTypeList"  resultType="com.itwillbs.domain.AdminDTO">
+
+
+	<select id="checkStoreDetails" parameterType="map"
+		resultType="map" useCache="false">
+		SELECT EXISTS(SELECT 1 FROM STORE WHERE
+		ST_NUM = #{ST_NUM}) AS numExists,
+		EXISTS(SELECT 1 FROM STORE WHERE
+		ST_NAME = #{ST_NAME}) AS nameExists,
+		EXISTS(SELECT 1 FROM STORE WHERE
+		ST_DETAIL = #{ST_DETAIL}) AS
+		detailExists
+	</select>
+
+	<select id="getTypeList"
+		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT DISTINCT ST_TYPE FROM STORE
 	</select>
-	
-	
-	<insert id="insertStore" parameterType="com.itwillbs.domain.AdminDTO">
-		INSERT INTO STORE (ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE, ST_TYPE)
+
+
+	<insert id="insertStore"
+		parameterType="com.itwillbs.domain.AdminDTO">
+		INSERT INTO STORE (ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE,
+		ST_PICTURE, ST_TYPE)
 		VALUES
-		(#{ST_NUM}, #{ST_NAME}, #{ST_DETAIL}, #{ST_PRICE}, #{ST_PICTURE}, #{ST_TYPE})
+		(#{ST_NUM}, #{ST_NAME}, #{ST_DETAIL},
+		#{ST_PRICE}, #{ST_PICTURE}, #{ST_TYPE})
 	</insert>
-	
-	<select id="getStoreList" resultType="com.itwillbs.domain.AdminDTO">
+
+	<select id="getStoreList"
+		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT * FROM STORE
 	</select>
-    
-    
-    <select id="getstoreInfo"
+
+
+	<select id="getstoreInfo"
 		resultType="com.itwillbs.domain.AdminDTO">
-		SELECT ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE, ST_TYPE
+		SELECT ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE,
+		ST_TYPE
 		FROM STORE
 		WHERE ST_NUM = #{ST_NUM}
 	</select>
-	
-	<update id="updateStore" parameterType="com.itwillbs.domain.AdminDTO">
+
+	<update id="updateStore"
+		parameterType="com.itwillbs.domain.AdminDTO">
 		UPDATE STORE
 		SET
 		ST_NAME = #{ST_NAME},
-		ST_DETAIL = #{ST_DETAIL},
+		ST_DETAIL =
+		#{ST_DETAIL},
 		ST_PRICE = #{ST_PRICE},
 		ST_PICTURE = #{ST_PICTURE},
 		ST_TYPE = #{ST_TYPE}
-		WHERE ST_NUM = #{ST_NUM};
+		WHERE ST_NUM = #{ST_NUM}
 	</update>
-	
-	<delete id="deleteStore" parameterType="String">
-		DELETE FROM STORE WHERE ST_NUM = #{ST_NUM};
-	</delete>
-	
 
-    
+	<delete id="deleteStore" parameterType="String">
+		DELETE FROM STORE WHERE
+		ST_NUM = #{ST_NUM}
+	</delete>
+
+	<select id="getBookinglist"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT
+		SP.SP_NUM,
+		SP.SP_SEAT,
+		SP.SC_NUM,
+		M.member_id,
+		S.SC_TIME,
+		S.SC_TIME_END,
+		MV.title,
+		T.TH_NAME,
+		T.TH_REGION,
+		T.TH_NUMBER
+		FROM
+		SEATPAYMENT SP
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+		JOIN
+		SCREEN S ON SP.SC_NUM = S.SC_NUM
+		JOIN
+		CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN
+		MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
+		JOIN
+		THEATER T ON C.TH_NUM =
+		T.TH_NUM
+	</select>
+
+	<select id="getBookinginfo"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT
+		SP.SP_NUM,
+		SP.SP_SEAT,
+		SP.SC_NUM,
+		M.member_id,
+		S.SC_TIME,
+		S.SC_TIME_END,
+		MV.title,
+		T.TH_NAME,
+		T.TH_REGION,
+		T.TH_NUMBER
+		FROM
+		SEATPAYMENT SP
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+		JOIN
+		SCREEN S ON SP.SC_NUM = S.SC_NUM
+		JOIN
+		CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN
+		MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
+		JOIN
+		THEATER T ON C.TH_NUM = T.TH_NUM
+		WHERE
+		SP.SP_NUM = #{sp_NUM}
+	</select>
+
+
+
+
+
 </mapper>

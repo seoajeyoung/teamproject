@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>mypage/mytest.jsp</title>
+<link
+	href="${pageContext.request.contextPath}/resources/css/mypage/base.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/css/mypage/participate.css"
+	rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/resources/css/mypage/customer.css"
 	rel="stylesheet">
@@ -32,6 +39,7 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
 </head>
+
 <body>
 	<div id="contaniner" class="">
 		<!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
@@ -39,7 +47,6 @@
 
 		<!-- Contents Area -->
 		<div id="contents" class="">
-
 
 			<!-- Contents Start -->
 
@@ -95,82 +102,79 @@
 					<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 					<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 					<div class="col-detail">
-						<div class="mycgv-info-wrap">
-							<div class="skipnaiv">
-								<a href="#menu" id="skipPersoninfo">개인화영역 건너띄기</a>
-							</div>
-							<div class="sect-person-info">
-								<h2 class="hidden">개인화 영역</h2>
-								<div class="box-image">
-									<span class="thumb-image"> <img
-										src="https://img.cgv.co.kr/MyCGV/Profile/2015/0713/kis0726_053122_M.jpg"
-										alt="김우석                                            님 프로필 사진"
-										onerror="errorImage(this, {'type':'profile'})"> <span
-										class="profile-mask"></span>
-									</span>
-								</div>
-								<div class="box-contents newtype" style="width: 520px;">
-									<div class="person-info">
-										<strong>${mypageDTO.member_name}님</strong> <em>${sessionScope.member_id}</em>
-										<span>닉네임 : ${mypageDTO.member_nickname} </span>
+						<div class="cont_area">
+							<div class="mypage_sec">
+								<div class="member_info">
+									<!-- 기본정보 -->
+									<div class="table_header">
+										<h3 class="h3_tit">기본정보</h3>
 									</div>
-									<div class="grade-info">
+									<div class="table_col">
+										<table>
+											<colgroup>
+												<col style="width: 25%">
+												<col>
+											</colgroup>
+											<tbody>
 
-										<p
-											style="margin-bottom: 4px; color: #342929; font-family: 'NanumBarunGothicBold', '맑은 고딕', '돋움', Dotum, sans-serif; font-size: 20px; line-height: 20px;">
 
-											고객님은 <strong class="txt-purple">${mypageDTO.member_grade}</strong>
-											입니다.
+												<tr class="input">
+													<th scope="row">이름</th>
+													<td style="padding-top: 20px;">
+														<div class="input_group"
+															style="display: flex; justify-content: center; align-items: center;">
+															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.member_name}</span>
+														</div>
+													</td>
+												</tr>
 
-										</p>
-
-										<button type="button" id="view_usergrade" class="round black"
-											onclick="location.href='${pageContext.request.contextPath}/mypage/mypoint';">
-											<span>MY POINT 이력 보기</span>
-										</button>
-
+												<tr>
+													<th scope="row">아이디</th>
+													<td style="padding-top: 20px;"><span id="mbr_id_area">${sessionScope.member_id}</span></td>
+												</tr>
+												
+												<tr>
+													<th scope="row">회원등급</th>
+													<td style="padding-top: 20px; padding-left: 0px; padding-right: 0px;"><span
+														id="mbr_id_area">${mypageDTO.member_grade}</span></td>
+												</tr>
+												
+												<tr>
+													<th scope="row">현재 포인트</th>
+													<td style="padding-top: 20px;"><span id="mbr_point_currentP_area">${point.point_currentP}점</span></td>
+												</tr>
+												
+												<tr>
+													<th scope="row">누적 포인트</th>
+													<td style="padding-top: 20px;"><span id="mbr_point_cumulativeP_area">${point.point_cumulativeP}점</span></td>
+												</tr>
+												
+												<tr>
+													<th scope="row">포인트 적립내역</th>
+													<td style="padding-top: 20px; padding-left: 90px;"><pre style="text-align: left;"><span id="mbr_point_history_area">${point.point_history}</span></pre></td>
+												</tr>
+												
+											</tbody>
+										</table>
+										<!-- 										<div class="btn_sec btn_center"> -->
+										<!-- 											<button type="button" class="btn" id="btn_cancel">취소</button> -->
+										<!-- 											<button type="button" class="btn btn_em" id="btn_submit">수정</button> -->
+										<!-- 	
+																			</div> -->
+									
 									</div>
+									<!-- //기본정보 -->
+
+
 								</div>
+								<!--/ Contents End -->
 							</div>
-							<div class="cols-benefit-info">
-								<div class="col-my-coupon">
-									<h3>보유중인 상품</h3>
-									<br> <br>
-									<ul>
-
-										<li><strong>OSTicket 할인쿠폰</strong>개</li>
-										<li><strong>영화관람권</strong>개</li>
-									</ul>
-								</div>
-
-
-								<div class="col-one-point">
-									<h3>OSTicket POINT</h3>
-									<ul>
-										<li><strong>OSTicket 사용가능 포인트</strong> <span><em
-												class="txt-maroon">${point.point_currentP}</em> 점</span></li>
-									</ul>
-									<!-- 2022.11.15 VIP 1차 개편 관련 수정-->
-									<div class="myCgv_content">
-										<h3>VIP 점수</h3>
-										<ul>
-											<li><strong>VIP 누적 포인트 </strong> <span>${point.point_cumulativeP}점</span></li>
-										</ul>
-									</div>
-
-
-								</div>
-
-
-
-							</div>
+							<!-- /Contents Area -->
 						</div>
-
 					</div>
-
-					<!--/ Contents End -->
 				</div>
-				<!-- /Contents Area -->
 			</div>
+		</div>
+	</div>
 </body>
 </html>

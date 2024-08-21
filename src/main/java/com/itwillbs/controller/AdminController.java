@@ -538,4 +538,25 @@ public class AdminController {
 		return "redirect:/admin/store/controlstore";
 	}
 	
+	@GetMapping("/movie/bookinglist")
+	public String bookingmovie(Model model) {
+		
+		List<AdminDTO> bookingList = adminService.getBookinglist();
+		System.out.println("Booking List: " + bookingList);
+		model.addAttribute("bookingList", bookingList);
+		
+		return "/admin/movie/bookinglist";
+	}
+	
+	@GetMapping("/movie/bookinginfo")
+	public String bookinginfo(AdminDTO adminDTO, Model model) {
+
+		AdminDTO adminDTO2 = adminService.getBookinginfo(adminDTO.getSP_NUM());
+
+		model.addAttribute("adminDTO", adminDTO2);
+
+		return "/admin/movie/bookinginfo";
+	}
+	
+
 }
