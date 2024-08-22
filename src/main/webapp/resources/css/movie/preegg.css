@@ -9,7 +9,7 @@
     공통 아이콘
  */
 .sprite_preegg {
-    background: url('../images/sprite/sprite_preegg.png') no-repeat 0 0;
+    background: url('https://img.cgv.co.kr/R2014/images/sprite/sprite_preegg.png') no-repeat 0 0;
     background-size: 300px;
     display: inline-block;
     vertical-align: middle;
@@ -343,7 +343,7 @@
 
 
 .link-count {
-    width: 104px;
+    width: 80px;
     height: 33px;
     border: 1px solid #222222;
     line-height: 33px;

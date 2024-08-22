@@ -69,30 +69,49 @@ public class MovieService {
 		MovieDTO movieDTO = movieDAO.movieInfo(num);
 		return movieDTO;
 	}
+	// 북마크(찜하기)기록 검색
+	public boolean getBookmark(Map<String, Object> rMap) {
+		return movieDAO.getBookmark(rMap) == 1 ? true : false;
+	}
+	
+	public void insertBookmark(Map<String, Object> rMap) {
+		movieDAO.insertBookmark(rMap);
+	}
+	
+	public void deleteBookmark(Map<String, Object> rMap) {
+		movieDAO.deleteBookmark(rMap);
+	}
+	
+	
+	
 	//광고페이지
 	public Map<String, String> getAdMovie() {
 		return movieDAO.getAdMovie();
 	}
 	
-	//리뷰 차트 데이터
+	//포인트 차트 데이터
 	public Map<String, Object> pointChart(int MOVIE_NUM) {
 		return movieDAO.pointChart(MOVIE_NUM);
 	}
 	
-	
-	
-	public List<Map<String, String>> getRelMovies(int num) {
-		List<Map<String, String>> list = movieDAO.getRelMovies(num);
-		for(Map<String, String> map : list) {
-			Object rating = map.get("RATING");
+	//상영예정영화 페이지
+	public List<Map<String, Object>> getRelMovies(Map<String, Object> map) {
+		List<Map<String, Object>> list = movieDAO.getRelMovies(map);
+		for(Map<String, Object> data : list) {
+			Object rating = data.get("RATING");
 			if(rating instanceof Integer) {
 				rating = Integer.parseInt((String)rating) > 18 ? 18 : rating;
-				map.put("RATING", (String)rating);
+				data.put("RATING", (String)rating);
+			} else if(rating instanceof String) {
+				rating = rating.equals("청소") ? 18 : rating;
 			}
 		}
-		return movieDAO.getRelMovies(num);
+		return movieDAO.getRelMovies(map);
 	}
 	
+	
+	
+	// ==================================== 리뷰 ==================================
 	// 해당 영화에 유저의 리뷰가 있는지 검색
 	public boolean getReviewUser(Map<String, Object> data) {
 		boolean result = movieDAO.getReviewUser(data) == null ? true : false;
@@ -104,8 +123,8 @@ public class MovieService {
 		return result;
 	}
 	
-	// 리뷰
-	public ArrayList<Map<String, Object>> getReview(Map<String, Integer> rMap) {
+	// 리뷰값 구하기
+	public ArrayList<Map<String, Object>> getReview(Map<String, Object> rMap) {
 		return movieDAO.getReview(rMap);
 	}
 	// 최대페이지 구하기
@@ -114,18 +133,28 @@ public class MovieService {
 	}
 	
 	// 추천한 유저정보 검색
-	public boolean reUserCheck(Map<String, String> rMap) {
+	public boolean reUserCheck(Map<String, Object> rMap) {
 		if(rMap.get("MEMBER_ID") == null && rMap.get("MEMBER_ID").equals("")) return false;
 		boolean result = movieDAO.reUserCheck(rMap) == 0 ? true : false;
 		return result;
 	}
 	// 추천한 유저정보 저장 + 해당 리뷰 추천수 업데이트 갱신된 추천값 반환
-	public String reUserinsert(Map<String, String> rMap) {
+	public String reUserinsert(Map<String, Object> rMap) {
 		movieDAO.reUserinsert(rMap);
 		movieDAO.updateRecommend(rMap);
 		return movieDAO.getRecommend(rMap);
 	}
+	// 리뷰 업데이트
+	public boolean updateReview(Map<String, Object> rMap) {
+		boolean result = movieDAO.updateReview(rMap) == 1 ? true : false;
+		return result;
+	}
 	
+	
+	
+	
+	
+	// ================================== 상영시간표 ================================
 	// -------- 영화 상영시각구하기 -------
 	public List<Map<String, String>> getMovieSchedule(Map<String, String> rMap) {
 		return movieDAO.getMovieSchedule(rMap);
@@ -135,6 +164,13 @@ public class MovieService {
 	public List<Map<String, Object>> getThMovies(Map<String, String> rMap) {
 		List<Map<String, Object>> list =  movieDAO.getThMovies(rMap);
 		return list; 
+	}
+	
+	
+	// ================================== 북마크 페이지 ==============================
+	
+	public Map<String, Object> getBookmarkPage(String MEMBER_ID) {
+		return movieDAO.getBookmarkPage(MEMBER_ID);
 	}
 
 	

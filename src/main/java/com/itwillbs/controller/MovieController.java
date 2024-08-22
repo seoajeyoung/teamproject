@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -42,11 +43,27 @@ public class MovieController implements WebMvcConfigurer {
 	private MovieService movieService;
 	// 영화 차트 
 	@GetMapping("/movie")
-	public String moviePost(Model model) {
-		List<MovieDTO> movieList = movieService.getMovie();
-		model.addAttribute("movieList", movieList);
+	public String moviePost(Model model, HttpSession session) {
+//		List<MovieDTO> movieList = movieService.getMovie();
+//		model.addAttribute("movieList", movieList);
 		return "/movie/movie";
 	}
+	
+	@PostMapping("/favorMovie")
+	@ResponseBody
+	public List<Map<String, Object>> favorMovie(HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		List<Map<String, Object>> relMovie = new ArrayList<Map<String,Object>>();
+		if(id != null) {
+			Map<String, Object> rMap = new HashMap<String, Object>();
+			
+			rMap.put("MEMBER_ID", id);
+			relMovie = movieService.getRelMovies(rMap);
+		}
+		return relMovie;
+	}
+	
+	
 	
 //	상영예정 영화
 	@GetMapping("/upcomingMovies")
@@ -57,9 +74,6 @@ public class MovieController implements WebMvcConfigurer {
 		Map<String, List<Map<String, String>>> list = new HashMap<String, List<Map<String, String>>>();
 		list.put("movieDTO", movieList);
 		list.put("Top3List", Top3List);
-		System.out.println(Top3List);
-		System.out.println(movieList);
-		
 		
 		return list;
 	}
@@ -70,7 +84,6 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	public List<Map<String, Object>> sortMovies(@RequestParam int val) {
 		List<Map<String, Object>> movieList = movieService.getSortMovies(val);
-		
 		return movieList;
 	}
 	
@@ -78,7 +91,7 @@ public class MovieController implements WebMvcConfigurer {
 	private final int pageSize = 6;
 	// 영화 상세정보
 	@GetMapping("/information")
-	public String information(@RequestParam("num") int num, Model model) {
+	public String information(@RequestParam("num") int num, Model model, HttpSession session) {
 		// 영화정보
 		MovieDTO movieDTO = movieService.movieInfo(num);
 		if(movieDTO == null) {
@@ -89,7 +102,10 @@ public class MovieController implements WebMvcConfigurer {
 		
 		int maxCount = movieService.getMaxPage(num);
 		int endPage = maxCount / pageSize + (maxCount % pageSize > 0 ? 1 : 0);
-		List<Map<String, String>> relMovie = movieService.getRelMovies(num);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("MOVIE_NUM", num);
+		List<Map<String, Object>> relMovie = movieService.getRelMovies(map);
 
 		// 스틸컷
 		String stillcut = movieDTO.getStillUrl();
@@ -136,7 +152,6 @@ public class MovieController implements WebMvcConfigurer {
 				String subStr1 = str.substring(index);
 				String subStr2 = subStr1.substring(0, 8);
 				String url = "http://file.koreafilm.or.kr/multi/"+"00"+"/"+subStr2.substring(2, 4)+"/"+subStr2.substring(4, 6)+"/"+subStr2+".jpg";
-				System.out.println(url);
 				trailerTeaser.add(url);
 			}
 		}
@@ -148,13 +163,38 @@ public class MovieController implements WebMvcConfigurer {
 		model.addAttribute("trailerTeaser", trailerTeaser);
 		model.addAttribute("stillcutUrl", stillcutUrl);
 		
+		String id = (String)session.getAttribute("id");
+		if(id != null) {
+			map.put("MEMBER_ID", id);
+			String bookmark = movieService.getBookmark(map) ? "favor" : "hate";
+			model.addAttribute("BOOKMARK", bookmark);
+		}
+		
+		
+		
+		
 		return "/movie/information";
 	}
 	
+	@PostMapping("/bookmark")
+	@ResponseBody
+	public ResponseEntity<String> bookmark(@RequestParam Map<String, Object> rMap) {
+		boolean check = movieService.getBookmark(rMap);
+		
+		if(!check) {
+			movieService.insertBookmark(rMap);
+			return ResponseEntity.status(HttpStatus.OK).body("save");
+		} else {
+			movieService.deleteBookmark(rMap);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("delete");
+		}
+	}
+	
+	
+	//ifream 광고 ?
 	@GetMapping("/ad")
 	public String ad(Model model) {
 		Map<String, String> adMovie = movieService.getAdMovie();
-		System.out.println(adMovie);
 		model.addAttribute("adMovie", adMovie);
 		return "/movie/ad";
 	}
@@ -192,7 +232,7 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/review")
 	@ResponseBody
 	public List<Map<String, Object>> review(@RequestParam Map<String, String> data) {
-		Map<String, Integer> rMap = new HashMap<String, Integer>();
+		Map<String, Object> rMap = new HashMap<String, Object>();
 		int num = Integer.parseInt(data.get("MOVIE_NUM")); 
 		rMap.put("MOVIE_NUM", num);
 		int currentPage =  Integer.parseInt(data.get("currentPage"));
@@ -210,17 +250,48 @@ public class MovieController implements WebMvcConfigurer {
 	// 추천기능 ajax 처리
 	@PostMapping("/recommend")
 	@ResponseBody
-	public ResponseEntity<String> recommend(@RequestParam Map<String, String> rMap) {
+	public ResponseEntity<String> recommend(@RequestParam Map<String, Object> rMap) {
 		boolean check = movieService.reUserCheck(rMap); // 해당 리뷰에 기록 있는지 확인
-		System.out.println(check);
 		if(check) {
 			String str = movieService.reUserinsert(rMap);
-			System.out.println(str);
 			return ResponseEntity.status(HttpStatus.OK).body(str);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복");
 		}
 	}
+	
+	@GetMapping("/getMemberReview")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getMemberReview(@RequestParam Map<String, Object> rMap) {
+		boolean check = movieService.reUserCheck(rMap);
+		Map<String, Object> review = new HashMap<String,Object>();
+		if(check) {
+			ArrayList<Map<String, Object>> list = movieService.getReview(rMap);
+			review = list.get(0);
+			return ResponseEntity.status(HttpStatus.OK).body(review);
+		} else {
+			review.put("error", "error");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(review);
+		}
+	}
+	
+	// 리뷰 수정
+	@PostMapping("/updateReview")
+	@ResponseBody
+	public ResponseEntity<String> updateReview(@RequestParam Map<String, Object> rMap) {
+		boolean result = movieService.updateReview(rMap);
+		if(result) {
+			return ResponseEntity.status(HttpStatus.OK).body("OK");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("notOK"); 
+		}
+			
+	}
+	
+	
+	
+	
+	// =============================== 상영 시간표 =====================================
 	
 	// 상영 시간표 탭 ifream 활용
 	@GetMapping("/ifTime")
@@ -236,7 +307,6 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/runningDate")
 	@ResponseBody
 	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
-		System.out.println(rMap);
 		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
 		return date;
 	}
@@ -247,10 +317,19 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	public List<Map<String, Object>> thMovies(@RequestParam Map<String, String> rMap) {
 		List<Map<String, Object>> list = movieService.getThMovies(rMap);
-		System.out.println(list);
 		return list;
 	}
 	
+	
+	// ============================= 찜한 페이지 =======================================
+	@GetMapping("/bookmarkMovie")
+	public String bookmarkMovie(HttpSession session, Model model) {
+		String id = (String)session.getAttribute("id");
+		if(id == null) return "/movie/back";
+		Map<String, Object> data = movieService.getBookmarkPage(id);
+		model.addAttribute("count", data);
+		return "/movie/bookmarkMovie";
+	}
 
 
 }

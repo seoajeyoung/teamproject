@@ -125,7 +125,7 @@
 	
 	<!-- 정렬 -->
 	<!-- 예매율순 -->
-	<select id="getSortMovies1" resultType="map" >
+	<select id="getSortMovies1" resultType="map">
 		SELECT MOVIE_NUM
 			, TITLE
 			, DIRECOTRNM
@@ -250,6 +250,27 @@
 	</select>
 	<!-- (DATE(RELEASEDATE) - CURRENT_DATE()) AS "dDay" -->
 	
+	
+	<!-- 영화 찜하기전 검색 기능 -->
+	<select id="getBookmark" resultType="java.lang.Integer">
+		SELECT IF(COUNT(*) != 0, TRUE, FALSE)
+		FROM BOOKMARK
+		WHERE MEMBER_ID = #{MEMBER_ID}
+		AND MOVIE_NUM = #{MOVIE_NUM}
+	</select>
+	<!-- 찜한 정보 저장 -->
+	<insert id="insertBookmark">
+		INSERT INTO BOOKMARK(MEMBER_ID, MOVIE_NUM)
+		VALUES(#{MEMBER_ID}, #{MOVIE_NUM})
+	</insert>
+	<!-- 찜한 정보 삭제 -->
+	<delete id="deleteBookmark">
+		DELETE FROM BOOKMARK
+		WHERE MEMBER_ID = #{MEMBER_ID}
+		AND MOVIE_NUM = #{MOVIE_NUM}
+	</delete>
+	
+	
 	<!-- 예매1위 영화 광고 ifream -->
 	<select id="getAdMovie" resultType="map">
 		SELECT MOVIE_NUM
@@ -278,8 +299,6 @@
 	</select>
 	
 	
-	
-	
 	<!-- 관련 영화 -->
 	<select id="getRelMovies" resultType="map">
 		SELECT MOVIE_NUM
@@ -288,16 +307,45 @@
 			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, GENRE
 			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
-		FROM MOVIE
+			, DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+		    , if((current_date() BETWEEN DATE(M.RELEASEDATE)
+		    	  AND (
+					SELECT MAX(SC_TIME_END)
+					FROM CINEMA C JOIN SCREEN S
+					ON C.CI_NUM = S.CI_NUM
+					WHERE C.MOVIE_NUM = M.MOVIE_NUM
+				)),
+				(DATE(RELEASEDATE) - CURRENT_DATE()), NULL) AS "dDay"
+		FROM MOVIE M
 		WHERE POSTERURL IS NOT NULL
+		<if test="MOVIE_NUM != NULL">
 		AND MOVIE_NUM &lt;&gt; #{MOVIE_NUM}
+		</if>
         AND POSTERURL &lt;&gt; ""
-		AND GENRE REGEXP CONCAT('(', REPLACE((SELECT genre
-											  FROM MOVIE
-											  WHERE MOVIE_NUM = #{MOVIE_NUM}), ',', '|'), ')')
--- 	 	ORDER BY MOVIE_NUM
-		LIMIT 0, 6;
+        <choose>
+	        <when test="MOVIE_NUM != null">
+	        AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
+			        		  FROM MOVIE
+			        		  WHERE MOVIE_NUM = #{MOVIE_NUM})
+	        ORDER BY M.RANK
+	        LIMIT 6
+	        </when>
+	        <when test="MEMBER_ID != null">
+			AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
+							  FROM MOVIE
+							  WHERE MOVIE_NUM IN (SELECT MOVIE_NUM
+											      FROM BOOKMARK
+												  WHERE MEMBER_ID = #{MEMBER_ID})
+							  GROUP BY GENRE
+							  ORDER BY COUNT(GENRE) DESC
+					   		  limit 1)
+			ORDER BY M.RANK
+			LIMIT 10
+			</when>
+	    </choose>
 	</select>
+	
+	
 	
 	<!-- 리뷰 검색 -->
 	<select id="getReviewUser" resultType="String">
@@ -355,14 +403,25 @@
 			, REVIEW_CONTENT
 			, RECOMMEND
 		FROM REVIEW
-		WHERE MOVIE_NUM = #{MOVIE_NUM}
-		<if test="SORT_TAB == 1">
-		ORDER BY REVIEW_DATE
-		</if> 
-		<if test="SORT_TAB == 2">
-		ORDER BY RECOMMEND DESC
+		WHERE 1=1
+		
+		<if test="MEMBER_ID != null and MOVIE_NUM != null">
+		AND MEMBER_ID = #{MEMBER_ID}
+		AND MOVIE_NUM = #{MOVIE_NUM}
 		</if>
-		LIMIT #{startRow}, #{pageSize};
+		
+		<if test="MEMBER_ID == null and MOVIE_NUM != null"> 
+		AND MOVIE_NUM = #{MOVIE_NUM}
+        <choose>
+            <when test="SORT_TAB.equals('most')">
+                ORDER BY REVIEW_DATE
+            </when>
+            <when test="SORT_TAB.equals('recom')">
+                ORDER BY RECOMMEND DESC
+            </when>
+        </choose>
+			LIMIT #{startRow}, #{pageSize};
+		</if>
 	</select>
 	
 	<select id="getMaxPage" resultType="java.lang.Integer">
@@ -393,12 +452,34 @@
 		WHERE REVIEW_NUM = #{REVIEW_NUM}
 		AND MEMBER_ID = #{MEMBER_ID};
 	</select>
-	<!-- 추천유저 정보 저장 -->
+	
+	<!-- 리뷰 추천유저 정보 저장 -->
 	<insert id="reUserinsert">
 		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEMBER_ID)
 		VALUES(#{REVIEW_NUM}, #{MEMBER_ID});
 	</insert>
 	
+	<update id="updateReview">
+		UPDATE REVIEW
+		SET REVIEW_CONTENT = #{REVIEW_CONTENT}
+		WHERE REVIEW_NUM = #{REVIEW_NUM};
+	</update>
+	
+	
+	<select id="getBookmarkPage" resultType="map">
+		SELECT (SELECT COUNT(*)
+				FROM REVIEW
+		        WHERE MEMBER_ID = #{MEMBER_ID}) AS REVIEW
+		    	,    
+				(SELECT COUNT(*)
+				FROM BOOKMARK
+		        WHERE MEMBER_ID = #{MEMBER_ID}) AS BOOKMARK
+		FROM DUAL;
+	</select>
+	
+	
+	
+	<!--  ================================ 상영시간표 ================================ -->
 	<!-- 영화별 상영 시간표 페이지의 지역 구하기 -->
 	<select id="getMovieSchedule" resultType="map">
 		SELECT TH_REGION
