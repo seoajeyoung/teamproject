@@ -12,6 +12,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
@@ -112,7 +113,7 @@
                     </a>
 					<ul class="txt">
 						<c:forEach var="news" items="${newslist}">
-							<li><a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=${newsDTO.NEWS_NUM}">
+							<li><a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM=${news.NEWS_NUM}">
 							${news.NEWS_SECTION} ${news.NEWS_NAME }</a>
 							<span class="day">${news.NEWS_DATE}</span></li>
 						</c:forEach>
@@ -164,10 +165,7 @@
 				}
 			});
 
-            function Search() {
-            	// 폼 제출
-    	        $('#searchForm').submit();
-            }
+            //$('#btn_search').on('click', Search);
 
             $('.c_qu').children('a').on("click", function () {
                 location.href = "/support/faq/default.aspx?searchtext=" + escape($(this).html());
@@ -218,6 +216,12 @@
         });
     })(jQuery);
 
+    // 폼 제출
+    function Search() {
+        $('#searchForm').submit();
+    }
+    
+    
 //]]>
 </script>
 

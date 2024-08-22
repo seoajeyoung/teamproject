@@ -10,7 +10,28 @@
 	
 <script
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
+
+<script 
+ 	src="https://cdn.iamport.kr/v1/iamport.js"></script>
+ 		
+<script
+	src="${pageContext.request.contextPath}/resources/script/ticketpayment.js"></script>
+	
 </head>
+
+<script type="text/javascript">
+var movietitle = "${param.movietitle}";
+var th_region = "${param.th_region}";
+var th_name = "${param.th_name}";
+var th_number = "${param.th_number}";
+var sctime = "${param.sctime}";
+var seseat = "${param.seseat}";
+var fulldate = "${param.fulldate}";
+var totalprice = "${param.totalprice}";
+var tp_num = "${param.tp_num}";
+
+</script>
+
 <body>
 
 <section id="content">
@@ -55,50 +76,16 @@
 						<!-- 이름과 휴대전화 번호는 자동 저장 -->
 						<!-- 이름 중간 *, 번호 중간 네자리 * 처리 -->
 						<section>
-							<span><b>이름</b> <input type="text" value="관리자" readonly="readonly"></span>
-							<span><b>휴대전화 번호</b> <input type="text" value="010-1111-2222" readonly="readonly"></span>
+							<span><b>이름</b> <input type="text" value="${selectmember.member_name}" readonly="readonly"></span>
+							<span><b>휴대전화 번호</b> <input type="text" value="${selectmember.member_phone}" readonly="readonly"></span>
 						</section>
 					</div>
-					<div class="store_member_info_ex">* 구매하신 기프티콘은 주문자 정보에 입력된 휴대전화 번호로
-					MMS로 발송 됩니다. <br> &nbsp; 입력된 휴대전화 번호가 맞는지 꼭 확인하세요</div>
 				</div>
 				
-				<div class="store_payment">
-					<div class="store_subject" onclick="passTriger()">결제 수단</div>
-					<div class="store_payment_line">
-						<section>
-							<span><input type="radio" value="html5_inicis" name="radiocheck" onclick="radio(this)"><b>신용카드</b></span>
-							<span><input type="radio" value="kakaopay" name="radiocheck" onclick="radio(this)">kakao<b>Pay</b></span>
-						</section>
-					</div>	
-				</div>
 			
-				<div class="store_pay_info">
-					<div class="store_pay_info_check"><input type="checkbox" onclick="checkAll()">주문정보/결제 대행 서비스 약관 모두 동의</div>
-					<div class="store_pay_info_group">
-						<div class="info01"><input type="checkbox">기프트콘 구매 동의
-							<br> <span class="info01_01">&nbsp;&nbsp;&nbsp;기프트콘 발송 및 CS 처리 등을 이해 수신자로부터 영화관에 수신자의 전화번호를 제공하는 것에 대한 적합한 동의를 받습니다.</span>
-						</div>
-						<div class="info02"><input type="checkbox" onclick="checkAll2()">결제 대행 서비스 약관 모두 동의 
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms1">전자금융거래 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms2">개인정보 수집 이용약관
-							<br>&nbsp;&nbsp;<input type="checkbox" id="terms3">개인정보 제공 및 위탁안내
-						</div>
-					</div>
-				</div>
 				<div class="paybtn">
-					<form action="completePay" method="get" id="reservePayForm">
-						<input type="button" value="이전화면" class="back">
-						<input type="hidden" name="movie_title" id="movie_title" value="데드맨">
-						<input type="hidden" name="theater_name" value="서면">
-						<input type="hidden" name="room_name" value="1관">
-						<input type="hidden" name="play_date" value="2024-08-23">
-						<input type="hidden" name="play_start_time" value="12:00">
-						<input type="hidden" name="typeCount" value="일반3">
-						<input type="hidden" name="seat_name" value="A5,B5,C5">
-						<input type="hidden" class="totalPriceResult" name="payment_total_price" value="45000">
-						<input type="button" value="결제하기" id="subBtn" onclick="subBtnClick()">
-					</form>
+						<input type="button" value="이전화면" id="backbtn">
+						<input type="button" value="결제하기" id="paymentbtn">
 				</div>
 			</div>
 		</section>

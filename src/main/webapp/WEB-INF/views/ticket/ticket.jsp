@@ -20,7 +20,7 @@
 <body>
 <!-- 채현메인 모델값 --> 
 <div id="movie-data" data-movie-num="${movieNum}"></div>
-
+ <div id="member_num" data-member-num="${member_num}"></div>
 	<a name="t"></a>
 	<div id="wrap" oncontextmenu="return false" ondragstart="return false"
 		onselectstart="return false">
@@ -32,8 +32,7 @@
 				<!-- 타이틀 -->
 				<div class="navi">
 					<div class="newsletter"></div>
-					<span class="right"> <a class="button button-english"
-						href=""> <span>ENGLISH</span></a>
+					<span class="right">
 						<a class="button button-reservation-restart" href=""> <span>예매다시하기</span></a>
 					</span>
 

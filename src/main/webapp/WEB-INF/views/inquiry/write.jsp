@@ -113,7 +113,7 @@ function __doPostBack(eventTarget, eventArgument) {
                     </div>
                 </form>
                 <!-- 팝업끝 -->
-			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/newswritePro" method="post" novalidate="novalidate">
+			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/writePro" method="post" novalidate="novalidate">
 					
                     <input type="hidden" id="hIsTemp" name="hIsTemp" value="N">
                     <input type="hidden" id="hIdx" name="hIdx" value="">

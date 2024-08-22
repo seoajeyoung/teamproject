@@ -139,11 +139,12 @@ document.addEventListener('DOMContentLoaded', function() {
             data: requestData,
             success: function(data) {
                 var movieListHtml = '';
+                var ratingText = getRatingText(movie.rating);
                 $.each(data, function(index, movie) {
                     movieListHtml +=
                         `<li data-index="${movie.MOVIE_NUM}"  data-post-url="${movie.posterUrl}">
                             <a href="#"  title="${movie.title}" alt="${movie.title}">
-                                <i class="cgvIcon etc age${movie.rating}">${movie.rating}</i>
+                                <i class="cgvIcon etc age${ratingText}">${ratingText}</i>
                                 <span class="text">${movie.title}</span>
                                 <span class="sreader"></span>
                             </a>
@@ -763,25 +764,18 @@ document.addEventListener('DOMContentLoaded', function() {
                    '&MovieRating=' + MovieRating +
                    '&MovieUrl=' + MovieUrl
                    ;
-		   window.location.href = '/myweb/결제TEST?' + param;
-
-
 
     // 모든 값이 유효한 경우
-     var sessionId = sessionStorage.getItem('id');
-
- //       if (!sessionId) {	
- //        var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
- //       	 if (confirmLogin) {
- //           	window.location.href = 'login'; // 로그인 페이지로 이동
- //       	}
- //       } else {
- //         var param = 'movieTitle=' + movieTitle +
-                   '&theaterTitle=' + theaterTitle +
-                   '&dateSpan=' + dateSpan;
- //       window.location.href = 'myweb/결제TEST?' + params.toString();
- //       }
-   
+       var member_num = $('#member_num').data('memberNum');
+		debugger;
+        if (!member_num) {	
+         var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
+        	 if (confirmLogin) {
+            	window.location.href = `/myweb/member/login`; // 로그인 페이지로 이동
+        	}
+        } else {
+           window.location.href = '/myweb/결제TEST?' + param;
+        }
    
     });
     

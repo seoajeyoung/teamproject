@@ -132,7 +132,7 @@
 								<li class="name">이전글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 					</ul>
@@ -146,7 +146,7 @@
 								<li class="name">다음글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 						  

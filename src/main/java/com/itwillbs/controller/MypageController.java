@@ -40,6 +40,7 @@ public class MypageController {
 		System.out.println("MypageController mymain()");
 
 		String id = (String) session.getAttribute("member_id");
+		
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
 		System.out.println(mypageDTO);
 		model.addAttribute("mypageDTO", mypageDTO);

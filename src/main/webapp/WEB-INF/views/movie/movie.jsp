@@ -7,12 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>movie</title>
+
 <link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/icon.css" rel=stylesheet>
 <link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel=stylesheet>
 <link href="${pageContext.request.contextPath}/resources/css/movie/preegg.css" rel=stylesheet>
+<link href="${pageContext.request.contextPath}/resources/css/movie/content.css" rel="stylesheet">
+
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script type="text/javascript">
 
@@ -90,10 +93,12 @@ $(function() {
             success: function(result) {
             	$('#ol-movie-chart').html('');
                 $.each(result, function(index, movieDTO) {
-                	var subRating = movieDTO.RATING.substring(0, 2);
-					subRating = subRating == '전체' 	? 	'All' 	:
-								subRating == '청소' 	? 	18 		: subRating;
-                	
+                	var subRating = movieDTO.RATING;
+                	if(subRating != null) {
+                		subRating = subRating.substring(0, 2);
+                		subRating = subRating == '전체' 	? 	'All' 	:
+						subRating == '청소' 	? 	18 		: subRating;
+                	}
                 	var curr_d_day = movieDTO.D_DAY
 					var D_DAY = curr_d_day > 0 ? 'D-'+ curr_d_day : '';
                 	
@@ -158,20 +163,100 @@ $(function() {
 	$('.sort_btn').trigger('click');
 });
 
+
+$(function() {
+	$('.favorMovie').on('click', function() {
+		$.ajax({
+			type: 'POST',
+    		url: "${pageContext.request.contextPath}/movie/favorMovie",
+            dataType: 'json',
+            success: function(result) {
+            	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
+            		<div class="layer-wrap stillcut-viewer" style="margin-top: -253px; margin-left: -490px; position: fixed; height: 400px">
+        			<div class="layer-contents" style="height:400px;">
+        				<div class="slider" id="sliderBox" style="display: flex; align-items: center; justify-content: center;">
+        					<button type="button" class="btn-prev">이전 페이지 이동</button>
+        					<button type="button" class="btn-next">다음 페이지 이동</button>
+        				</div>
+        				<button class="btn-close">[팝업제목] 닫기</button>
+        			</div>
+        		</div>	
+            	`
+            	$('body').append(text);
+            	result.forEach(function(relMovie) {
+            		var text = `<div class="item-wrap relPage" style="display: flex; width: 300px; height:350px;">
+				       		        <div class="item" style="background:none;">
+				       				<div class="img_wrap" style="width: 300px; height:350px; display: flex; align-items: center; justify-content: center;">
+				       					<a href="${pageContext.request.contextPath}/movie/information?num=\${relMovie.MOVIE_NUM}" style="position: relative">
+					    				<img src="\${relMovie.POSTERURL}" alt=" 사일런트 나잇" style="position: relative">
+					    					<i class="cgvIcon etc age${relMovie.RATING}" style="position:absolute; left: 5px; top: 5px;">18</i>
+					    				</a>
+					    			</div>
+				   	     		</div>
+				   	     		`
+				   	$('.slider').append(text);  		
+				});
+            	
+            	$('.item-wrap').not(':eq(0), :eq(1), :eq(2)').css('display', 'none');
+            },
+            error: function(e) {
+				
+			}
+		})// ajax 끝
+	});// favorMovie 클릭 이벤트 끝
+});
+
+//이전 요소
+$(document).on('click', '.btn-prev', function() {
+	var index = $('.relPage:visible:first').index('.relPage');
+	if(index == 0) return;
+	index = index - 1;
+	$('.relPage').eq(index).show();
+	$('.relPage:visible:last').hide();
+});
+
+$(document).on('click', '.btn-next', function() {
+	var index = $('.relPage:visible:last').index('.relPage');
+	var lastIndex = $('.relPage:last').index('.relPage');
+	if(index == lastIndex) return;
+	index = index + 1;
+	$('.relPage').eq(index).show();
+	$('.relPage:visible:first').hide();
+});
+
+// 회원 영화추천 페이지 닫기
+$(document).on('click', '.btn-close', function() {
+    $('.mask').remove();
+    $('.layer-wrap').remove();
+});
 </script>
+<style type="text/css">
+.btn-next {
+	position: relative;
+	right: 10px;
+}
+
+</style>
 </head>
 <body>
-
 		<!-- Contents Area -->
-	<div id="contents">
+	<div id="contents"> 
+	
 <!--             Contents Start -->
 <!-- 실컨텐츠 시작 -->
     <div class="wrap-movie-chart">
+    
+    
+    
+    
         <!-- Heading Map Multi -->
         <div class="tit-heading-wrap">
             <h3>무비차트</h3>
             <div class="submenu">
                 <ul>
+                	<c:if test="${sessionScope.id != null}">
+                	<li><a class="favorMovie" href="javascript:void(0)">회원추천영화</a></li>
+                	</c:if>
                     <li class="on"><a href="${pageContext.request.contextPath}/movie/movie" title="선택">무비차트</a></li>
                     <li class="upcomingMovies"><a href="javascript:void(0)">상영예정작</a></li>
                     <!--<li><a href="/movie/?lt=3">CGV아트하우스</a></li>//-->
@@ -195,7 +280,6 @@ $(function() {
         </div>
         <!-- //Sorting -->
 
-
 	<!-- 상영예정작페이지 경우 page에 값이 있고 그 경우에 서식을 다르게 -->
         <div class="sect-movie-chart">
             <ol id="ol-movie-chart">
@@ -212,9 +296,9 @@ $(function() {
 <%--                                 <span class="ico-grade ${movieDTO.rating}">${movieDTO.rating}</span> --%>
 <!--                             </span> -->
 <!--                         </a> -->
-<!-- <!--                         <span class="screentype"> --> -->
-<!-- <!--                                 <a class="imax" href="#" title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a> --> -->
-<!-- <!--                         </span> --> -->
+<!--                         <span class="screentype"> -->
+<!--                                 <a class="imax" href="#" title="IMAX 상세정보 바로가기" data-regioncode="07">IMAX</a> -->
+<!--                          </span> -->
 <!--                     </div> -->
                     
 <!--                     <div class=""> -->
@@ -225,10 +309,10 @@ $(function() {
 <!--                         <div class="score"> -->
 <!--                             <strong class="percent">예매율<span>26.2%</span></strong> -->
 <!--                             2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 (적용 범위1~ 3위) -->
-<!-- <!--                             <div class="egg-gage small"> --> -->
-<!-- <!--                                             <span class="sprite_preegg default"></span> --> -->
-<!-- <!--                                             <span class="percent">99%</span> --> -->
-<!-- <!--                             </div> --> -->
+<!-- <!--                             <div class="egg-gage small"> -->
+<!-- <!--                                             <span class="sprite_preegg default"></span> -->
+<!-- <!--                                             <span class="percent">99%</span> -->
+<!-- <!--                             </div> -->
 <!--                         </div> -->
 <!--                         <span class="txt-info"> -->
 <!--                             <strong> -->
@@ -245,7 +329,6 @@ $(function() {
 <!--                 </li> -->
 <%--             </c:forEach> --%>
             </ol>
-            
             <button class="btn-more-fontbold">
             더보기
             <i class="link-more">더보기</i>
@@ -263,7 +346,7 @@ $(function() {
 // 			data: {},
 			dataType: 'json',
 			success: function(result) {
-				$('#ol-movie-chart').html('');
+				$('.sect-movie-chart>ol').html('');
 				$('.sect-sorting').remove(); // 정렬 & 현재상작 영역 삭제
 				$('.btn-more-fontbold').remove(); // 더보기 버튼 삭제
 				
@@ -311,6 +394,7 @@ $(function() {
 						`;
 								$('#ol-movie-chart').append(text);
 				}); // top3.forEach
+				
 				movieDTO.forEach(function(movieDTO, index) {
 					if(index == 0 || movieDTO.RELEASEDATE != prevDTO.RELEASEDATE) {
 						var text = `<h4><span class="hidden">상영예정작</span> \${movieDTO.RELEASEDATE}</h4><ol></ol>`;
@@ -347,7 +431,7 @@ $(function() {
 					prevDTO = movieDTO;
 				});
 			}, //success: 종료
-			error: function() {
+			error: function(e) {
 				alert('실패');
 			}
 		});// ajax 종료
@@ -355,7 +439,7 @@ $(function() {
 })
 </script>
 </div>
-
-
 </body>
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
 </html>

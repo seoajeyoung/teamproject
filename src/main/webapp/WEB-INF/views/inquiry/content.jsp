@@ -104,7 +104,7 @@
 							<tbody>
 								<tr>
 
-									<th scope="row"><label for="inp_textbox">답글 <em><img
+									<th scope="row"><label for="inp_textbox">답변 <em><img
 												src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png"
 												alt="필수"></em></label></th>
 									<td colspan="3"><textarea cols="60" rows="5"
@@ -125,13 +125,13 @@
 									<li class="stit">이전글</li>
 
 									<c:choose>
-										<c:when test="${empty prev}">
+										<c:when test="${empty next}">
 											<li class="name">이전글이 없습니다.</li>
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?search=${search}&inquiry_num=${prev.INQUIRY_NUM}"
-												class="txt">${prev.INQUIRY_NAME}</a></li>
+												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&inquiry_num=${next.INQUIRY_NUM}"
+												class="txt">${next.INQUIRY_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>
 
@@ -139,13 +139,13 @@
 								<ul class="line_sup_prev">
 									<li class="stit">다음글</li>
 									<c:choose>
-										<c:when test="${empty next}">
+										<c:when test="${empty prev}">
 											<li class="name">다음글이 없습니다.</li>
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?search=${search}&inquiry_num=${next.INQUIRY_NUM}"
-												class="txt">${next.INQUIRY_NAME}</a></li>
+												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&inquiry_num=${prev.INQUIRY_NUM}"
+												class="txt">${prev.INQUIRY_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>
 

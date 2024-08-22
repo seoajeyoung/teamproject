@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -33,12 +34,13 @@ public class TicketController {
 	@Inject
 	private TicketService ticketService;
 
-	//채현 메인 => 해당영화 클릭하면 예매에서 자동클릭
+	// 채현 메인 => 해당영화 클릭하면 예매에서 자동클릭
 	@GetMapping("/ticket")
-	public String test(@RequestParam(value = "num", required = false) String movieNum, Model model) {
-		
+	public String test(@RequestParam(value = "num", required = false) String movieNum, Model model,
+			HttpSession session) {
+
 		model.addAttribute("movieNum", movieNum);
-		
+		model.addAttribute("member_num", session.getAttribute("member_num"));
 		return "ticket/ticket";
 	}
 
@@ -59,27 +61,34 @@ public class TicketController {
 	}
 
 	@GetMapping("/결제TEST") // 영화 결제 TEST
-	public String TEST3(
-			@RequestParam Map<String, String> param, Model model){
-		
+	public String TEST3(@RequestParam Map<String, String> param, Model model) {
+
 		model.addAttribute(param);
+
+		System.out.println("param: " + param);
+
+		Integer selectnowcount = ticketService.selectnowcount(param);
 		
+		int seCount = Integer.parseInt(param.get("se_count"));
+		
+		int nowCount =  seCount - selectnowcount;
+		System.out.println(nowCount);
+		
+		model.addAttribute("nowCount", nowCount);
 		
 		return "ticket/결제TEST";
 	}
-	
-	
+
 	@GetMapping("/ticketpayment") // 영화 결제 TEST
-	public String ticketpayment(){
-		
-		
-		
+	public String ticketpayment(HttpSession session, Model model) {
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("member_num", (String) session.getAttribute("member_num"));
+		Map<String, String> selectmember = ticketService.selectmember(param);
+
+		model.addAttribute("selectmember", selectmember);
+
 		return "ticket/ticketpayment";
 	}
-	
-	
-	
-	
 
 	@GetMapping("/MovieTicket") // 서재영 영화 보여주는 맵핑
 	public ResponseEntity<List<Map<String, Object>>> getMovies(
@@ -123,8 +132,7 @@ public class TicketController {
 		param.put("type", type);
 
 		List<Map<String, Object>> th_name = ticketService.selectTh_nameList(param);
-		
-		
+
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(th_name,
 				HttpStatus.OK);
 
@@ -162,7 +170,7 @@ public class TicketController {
 		param.put("fullDate", fullDate);
 		param.put("region", region);
 		param.put("type", type);
-		
+
 		List<Map<String, Object>> update_movie = ticketService.selectupdate_movie(param);
 
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(update_movie,
@@ -202,11 +210,10 @@ public class TicketController {
 
 		List<Map<String, Object>> mtime = ticketService.selectMtime(param);
 		List<Map<String, Object>> mcinema = ticketService.selectMcinema(param);
-		List<String> thNumbers = mcinema.stream()
-                						.map(cinema -> (String) cinema.get("TH_NUMBER"))
-                						.collect(Collectors.toList());
+		List<String> thNumbers = mcinema.stream().map(cinema -> (String) cinema.get("TH_NUMBER"))
+				.collect(Collectors.toList());
 		param.put("thNumbers", thNumbers);
-		
+
 		List<Map<String, Object>> secount = ticketService.selectSecount(param);
 
 		Map<String, List<Map<String, Object>>> response = new HashMap<String, List<Map<String, Object>>>();
@@ -244,61 +251,92 @@ public class TicketController {
 		return new ResponseEntity<List<Map<String, String>>>(getregion, HttpStatus.OK);
 	}
 
-	@PostMapping("/INSERTSEAT") // 서재영 관리자 관에 좌석 저장하는 맵핑 
-	public void INSERTSEAT(
-			@RequestBody Map<String, Object> request){
-		
-			    ticketService.insertseat(request);
-			
+	@PostMapping("/INSERTSEAT") // 서재영 관리자 관에 좌석 저장하는 맵핑
+	public void INSERTSEAT(@RequestBody Map<String, Object> request) {
+
+		ticketService.insertseat(request);
+
 	}
-	
-	@GetMapping("/SAVECI_NUMBER") // 서재영 저장된 관의 좌석 가져오기  (modal)
-	public ResponseEntity<List<Map<String, String>>> SELECTSAVECI_NUMBER(
-			@RequestParam("region") String region
-		   ,@RequestParam("th_name") String th_name
-		   ,@RequestParam("th_number") String th_number) {
+
+	@GetMapping("/SAVECI_NUMBER") // 서재영 저장된 관의 좌석 가져오기 (modal)
+	public ResponseEntity<List<Map<String, String>>> SELECTSAVECI_NUMBER(@RequestParam("region") String region,
+			@RequestParam("th_name") String th_name, @RequestParam("th_number") String th_number) {
 
 		Map<String, Object> param = new HashMap<String, Object>();
 
 		param.put("region", region);
 		param.put("th_name", th_name);
 		param.put("th_number", th_number);
-		
-		
+
 		List<Map<String, String>> selectsaveseat = ticketService.selectsaveseat(param);
 
 		return new ResponseEntity<List<Map<String, String>>>(selectsaveseat, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/LOADSEAT") // 예매페이지 좌석 가져오기 서재영
 	public ResponseEntity<Map<String, List<Map<String, String>>>> selectLOADSEAT(
-		   @RequestParam Map<String,Object> param)  {
-		
-		
+			@RequestParam Map<String, Object> param) {
+
 		List<Map<String, String>> selectsaveseat = ticketService.selectloadseat(param);
-	
+
 		List<Map<String, String>> selectpaymentseat = ticketService.selectpaymentseat(param);
-		
-		 Map<String, List<Map<String, String>>> response = new HashMap<>();
-		    response.put("savedSeats", selectsaveseat);
-		    response.put("paymentSeats", selectpaymentseat);
-		
-		    return new ResponseEntity<>(response, HttpStatus.OK);
+		Map<String, List<Map<String, String>>> response = new HashMap<>();
+		response.put("savedSeats", selectsaveseat);
+		response.put("paymentSeats", selectpaymentseat);
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	
 	@PostMapping("/SEATPAYMENT")
-	public ResponseEntity<String> SEATPAYMENT(@RequestBody Map<String, Object> request) {
-	    int checkseat = ticketService.checkseat(request);
-	    
-	    if (checkseat == 0) {
-	        ticketService.insertselectseat(request);
-	        return ResponseEntity.ok("success"); 
-	    } else {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 선택된 좌석입니다. 다른 좌석을 선택해주세요.");
-	    }
+	public ResponseEntity<Map<String, Object>> SEATPAYMENT(@RequestBody Map<String, Object> request,
+			HttpSession session) {
+		int checkseat = ticketService.checkseat(request);
+
+		request.put("member_num", session.getAttribute("member_num"));
+
+		if (checkseat == 0) {
+
+			ticketService.insertticketpayment(request);
+
+			List<Map<String, String>> tp_num = ticketService.selectticketpayment(request);
+
+			List<Object> tpNumList = new ArrayList<>();
+
+			for (Map<String, String> tpNumMap : tp_num) {
+				tpNumList.add(tpNumMap.get("TP_NUM"));
+			}
+
+			request.put("tp_num", tpNumList);
+
+			ticketService.insertselectseat(request);
+
+			Map<String, Object> responseBody = new HashMap<>();
+			responseBody.put("status", "success");
+			responseBody.put("tpNumList", tpNumList);
+
+			return ResponseEntity.ok(responseBody);
+		} else {
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("status", "error");
+			errorResponse.put("message", "이미 선택된 좌석입니다. 다른 좌석을 선택해주세요.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		}
 	}
 
-	
-	
+	@PostMapping("/DELETESEAT") // 결제화면에서 이전누르면 전에 선택한 좌석 지우는 맵핑
+	public void DELETESEAT(@RequestBody Map<String, Object> request) {
+
+		ticketService.deleteticket(request);
+
+		ticketService.deleteseat(request);
+
+	}
+
+	@PostMapping("/UPDATEPAYMENT") // 결제화면에서 이전누르면 전에 선택한 좌석 지우는 맵핑
+	public void INSERTPAYMENT(@RequestBody Map<String, Object> request) {
+
+		ticketService.updatepayment(request);
+
+	}
+
 }

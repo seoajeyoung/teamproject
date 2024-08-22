@@ -8,6 +8,7 @@ $(document).ready(function() {
     var count = '';
     var totalPrice = 0;
     var selectedSeats = '';
+    var payment = [];
 
     // 유형별로 초기화된 배열
     var types = ['일반', '청소년', '경로', '우대'];
@@ -125,7 +126,6 @@ loadSeats();
         alert('선택한 좌석 수가 예매 인원 수를 초과했습니다!');
         return;
     }
-    debugger;
 	
         // 현재 선택된 항목 외의 선택을 해제
         $parentRow.find('.NumOfPeo').removeClass('selected');
@@ -173,7 +173,11 @@ loadSeats();
             alert(`선택한 인원(${totalSelected}명)만큼 좌석을 선택해주세요.`);
             return;
         }
-
+		
+		if(totalSelected == 0 ){
+			alert(`좌석을 선택하셔야 합니다.`);
+			return;
+		}
 		
 		
 		
@@ -187,7 +191,7 @@ loadSeats();
 
 
     var summary = [];
-
+	payment = [];
     for (var category in selectedPerCategory) {
         if (selectedPerCategory.hasOwnProperty(category)) {
             count = selectedPerCategory[category];
@@ -195,6 +199,12 @@ loadSeats();
             var categoryTotal = price * count;
             totalPrice += categoryTotal;
             categoryname = category;
+            
+             for (var i = 0; i < count; i++) {
+             
+             	payment.push([category, price]);
+             }
+            
             summary.push(`${category} ${price} * ${count} = ${categoryTotal}`);
         }
     }
@@ -202,7 +212,6 @@ loadSeats();
     var confirmMessage = `선택된 좌석:\n${selectsenum.join(', ')}\n\n`;
     confirmMessage += `인원 및 가격:\n${summary.join('\n')}\n\n`;
     confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
-		
         if (confirm(confirmMessage)) {
         // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
         $.ajax({
@@ -216,10 +225,12 @@ loadSeats();
                 movietitle: title,
                 fulldate: fullDate,
                 sctime: sc_time,
-                seseat: selectsenum 
+                seseat: selectsenum, 
+                payment: payment
             }),
             success: function(response) {
-               if (response === "success") {
+               if (response.status === "success") {
+            		  var tpNumList = response.tpNumList;
                		const queryParams = new URLSearchParams({
                     th_region: selectRegionName,
                     th_name: theaterTitle,
@@ -230,13 +241,13 @@ loadSeats();
                     categoryname: categoryname,
                     count: count,
                     totalprice: totalPrice,
-                    seseat: selectsenum.join(',')
+                    seseat: selectsenum.join(','),
+                    tp_num: tpNumList.join(',')
                 }).toString();
-                
                 
                 window.location.href = `/myweb/ticketpayment?${queryParams}`;
             	} else {
-               	 alert(response);
+               	 alert(response.message);
            		 }
             },
         });

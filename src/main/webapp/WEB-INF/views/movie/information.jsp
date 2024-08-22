@@ -272,7 +272,7 @@ function pointChart() {
     </div>
     <div class="box-contents">
         <div class="movieTitle title"> 
-            <strong>${movieDTO.title}</strong>
+            <strong id="movieTitle" data-Title="${movieDTO.title}">${movieDTO.title}</strong>
             <c:if test="${movieDTO.dDay != null}">
             <c:choose>
 	            <c:when test="${movieDTO.dDay > 0}">
@@ -330,11 +330,40 @@ function pointChart() {
 <!--         </span> -->
         <span class="like">
 <!--             2020.05.07 영화찜하기 -> 프리에그 선택 변경(조회하여 노출) -->
+            <a id="bookmark" class="link-count favor" href="javascript:void (0);"><i class="sprite_preegg btn_md ${BOOKMARK}"></i>찜하기</a>
             <a class="link-reservation" href="${pageContext.request.contextPath}/ticket?num=${movieDTO.MOVIE_NUM}">예매</a> 
         </span>
     </div>
 </div><!-- .sect-base -->
-
+<script type="text/javascript">
+//전역변수저장
+let urlNum
+let currentPage
+let memberId;
+$(function() {
+	let url = new URLSearchParams(window.location.search);
+	urlNum = parseInt(url.get('num'));
+	memberId = $('.sessionId').val();
+	
+	
+	$("#bookmark").on('click', function() {
+		$.ajax({
+			type: 'POST',
+			url: '${pageContext.request.contextPath}/movie/bookmark',
+			data: {"MOVIE_NUM": urlNum, "MEMBER_ID": memberId},
+			dataType: 'text',
+			success: function(result) {
+				$('#bookmark>i').removeClass('hate').addClass('favor');
+			},
+			error: function(e) {
+				if(e.responseText == "delete") {
+					$('#bookmark>i').removeClass('favor').addClass('hate');
+				}
+			}
+		})
+	});
+});
+</script>
 
     <div class="cols-content" id="menu">
         <div class="col-detail">
@@ -648,23 +677,16 @@ $(function() {
                     <p class="title">관람일 포함 7일 이내에 관람평을 남기실 수 있습니다. </p>
                     <p class="desc">현재 <span><em>0</em> 명의 실관람객이 평가해주셨습니다.</span></p>
                     <div class="wrap_btn">
-                        <a class="link-gradewrite" href="javascript:void(0);"><span>평점작성</span></a><a class="link-reviewwrite" href="/movies/point/my-list.aspx"><span>내 평점</span></a>
+                        <a class="link-gradewrite" href="javascript:void(0);"><span>평점작성</span></a>
+                        <a class="link-reviewwrite" href="javascript:void(0);"><span>내 평점</span></a>
                     </div>
                 </div>
                 <!-- //preegg.css 연관 UI -->
                 <ul class="sort" id="sortTab">
-                    <li class="sortTab on" value="1"><a href="javascript:void(0);" class="most">최신순<span class="arrow-down"></span></a></li>
-                    <li class="sortTab" value="2"><a href="javascript:void(0);" class="recom">추천순<span class="arrow-down"></span></a></li>
+                    <li class="sortTab on" value="most"><a href="javascript:void(0);" class="most">최신순<span class="arrow-down"></span></a></li>
+                    <li class="sortTab" value="recom"><a href="javascript:void(0);" class="recom">추천순<span class="arrow-down"></span></a></li>
                 </ul>
 <script type="text/javascript">
-// 페이지 영화번호 저장
-let urlNum
-let currentPage
-$(function() {
-	let url = new URLSearchParams(window.location.search);
-	urlNum = parseInt(url.get('num'));
-});
-
 
 // 현재 페이지
 currentPage = 1;
@@ -1015,16 +1037,16 @@ $(document).on('click', '.btn-close', function() {
     $('.layer-wrap').remove();
 });
 
-var memberId;
 // 평점 작성 버튼 클릭
 $(document).on('click', '.link-gradewrite', function() {
-	memberId = $('.sessionId').val();
+	
 	
 	if(memberId == null || memberId == "") {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
 	var title = $('.movieTitle>strong').text();
+	
 	
 	var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
 					<div class="popup-general">
@@ -1169,6 +1191,83 @@ $(document).on('click', '.set-btn>button', function() {
 	$('.btn-close').trigger('click');
 });
 
+var reviewNum;
+$(document).on('click', '.link-reviewwrite', function() {
+	$.ajax({
+		type: 'GET',
+		url: '${pageContext.request.contextPath}/movie/getMemberReview',
+		data: {"MOVIE_NUM":urlNum, "MEMBER_ID":memberId},
+		success: function(result) {
+			reviewNum = result.REVIEW_NUM;
+			var title = $("#movieTitle").data("title");
+			
+			var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
+							<div class="popup-general">
+							<div class="popwrap">
+								<h1>평점작성</h1>
+								<div class="pop-contents write-mygrade">
+									<div class="mygrade-cont">
+										<div class="movietit"><strong id="regTitle">\${title}</strong></div>
+										<div class="likeornot">
+											<div class="writerinfo">
+												<div class="box-image">
+													<span class="thumb-image">   
+														<img id="regUserPro" src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif" alt="사용자 프로필" onerror="errorImage(this, {'type':'profile'})">                                            
+														<span class="profile-mask"></span>
+													</span>
+												</div>
+												<span class="round red on"><span class="position"><em class="see">\${result.MEMBER_ID}</em></span></span>
+												<span class="writer-name" id="regUserName"></span>
+											</div>
+										</div>
+			
+										<div class="textbox">
+											<textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280"></textarea>
+										</div>
+			
+										<div class="footbox">
+											<div class="rbox">
+												<span class="count"><strong id="text_count">${result.REVIEW_CONTENT.length}</strong>/280(byte)</span>
+												<button type="button" class="round red on" id="regUpBtn"><span>작성완료!</span></button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<button type="button" class="btn-close" id="regLayerClose">평점작성 팝업 닫기</button>
+							</div>
+						</div>
+					</div>`
+			$('body').append(text);		
+		},
+		error: function(e) {
+			if(e.error != null) {
+				alert('해당 영화에 작성한 리뷰가 없습니다')
+			} else {
+				alert('오류 발생');
+			}
+		}
+	});
+});
+
+$(document).on('click', '#regUpBtn', function() {
+	var content = $('#textReviewContent').val();
+	$.ajax({
+		type: 'POST',
+		url: '${pageContext.request.contextPath}/movie/updateReview',
+		data: {"REVIEW_NUM":reviewNum, "REVIEW_CONTENT": content},
+		success: function() {
+			alert('리뷰 수정 완료');
+			$('.tab-menu>li.on').find('a').trigger('click');
+		},
+		error: function(str) {
+			if(str == "notOK"){
+				alert('업데이트실패')
+			}
+		}
+	});
+	
+	$('.btn-close').trigger('click');
+});
 </script>
 </body>
 </html>

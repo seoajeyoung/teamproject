@@ -911,7 +911,13 @@ div[class^="sect-"] .btn-itemmore{ margin-top:30px;}
 [class|="sect"][class*="chart"] > h4{ margin-top:30px; color:#222222; font-size:21px; font-weight:500;}
 [class|="sect"][class*="chart"] > h4 + ol{ padding-top:20px;}
 [class|="sect"][class*="chart"] > h3:first-child + ol, [class|="sect"][class*="chart"] > h4:first-child + ol{ padding-top:0;}
-#ol-movie-chart>li:nth-of-type(1) .rank, #ol-movie-chart>li:nth-of-type(2) .rank, #ol-movie-chart>li:nth-of-type(3) .rank { background:#fb4357;} 
+
+
+
+.relMovie-chart .rank {
+    background: #fb4357 !important;
+}
+#ol-movie-chart>li:nth-of-type(1) .rank, #ol-movie-chart>li:nth-of-type(2) .rank, #ol-movie-chart>li:nth-of-type(3) .rank, #ol-movie-chart>li:nth-of-type(4) .rank { background:#fb4357;} 
 [class|="sect"][class*="chart"] > h3{ margin-top:30px; color:#222222; font-size:21px; font-weight:500;}
 [class|="sect"][class*="chart"] > h3 + ol{ padding-top:20px;}
 [class|="sect"][class*="chart"] > ol > li{float:left; width:197px; height:413px; margin-left:64px; padding-bottom:30px;}

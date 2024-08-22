@@ -71,15 +71,29 @@ public class MovieDAO {
 		return sqlsession.selectOne("movieMapper.movieInfo", num);
 	}
 	
+	// 북마크(찜하기)기능
+	// 북마크 기록 검색
+	public Integer getBookmark(Map<String, Object> rMap) {
+		return sqlsession.selectOne("movieMapper.getBookmark", rMap);
+	}
+	public void insertBookmark(Map<String, Object> rMap) {
+		sqlsession.insert("movieMapper.insertBookmark", rMap);
+	}
+	public void deleteBookmark(Map<String, Object> rMap) {
+		sqlsession.delete("movieMapper.deleteBookmark", rMap);
+	}
+	
 	// 리뷰의 차트탭 데이터
 	public Map<String, Object> pointChart(int MOVIE_NUM) {
 		return sqlsession.selectOne("movieMapper.pointChart", MOVIE_NUM);
 	}
 	
 	
+	
+	
 	// 상영전
-	public List<Map<String, String>> getRelMovies(int num) {
-		return sqlsession.selectList("movieMapper.getRelMovies", num);
+	public List<Map<String, Object>> getRelMovies(Map<String, Object> map) {
+		return sqlsession.selectList("movieMapper.getRelMovies", map);
 	}
 	
 	//광고 ifream
@@ -102,7 +116,7 @@ public class MovieDAO {
 		return sqlsession.selectOne("movieMapper.getMaxPage", num);
 	}
 	// 리뷰
-	public ArrayList<Map<String, Object>> getReview(Map<String, Integer> rMap) {
+	public ArrayList<Map<String, Object>> getReview(Map<String, Object> rMap) {
 		ArrayList<Map<String, Object>> reviewList =
 				(ArrayList)sqlsession.selectList("movieMapper.getReview", rMap); 
 		return reviewList;
@@ -110,20 +124,24 @@ public class MovieDAO {
 	
 	
 	// 추천 중복방지를 위한 유저정보 검색
-	public Integer reUserCheck(Map<String, String> rMap) {
+	public Integer reUserCheck(Map<String, Object> rMap) {
 		return sqlsession.selectOne("movieMapper.reUserCheck", rMap);
 	}
 	// 추천 중복방지를 위한 유저정보 저장
-	public void reUserinsert(Map<String, String> rMap) {
+	public void reUserinsert(Map<String, Object> rMap) {
 		sqlsession.insert("movieMapper.reUserinsert", rMap);
 	}
 	//리뷰 추천수 증가
-	public void updateRecommend(Map<String, String> rMap) {
+	public void updateRecommend(Map<String,Object> rMap) {
 		sqlsession.selectOne("movieMapper.updateRecommend", rMap);
 	}
 	//증가한 리뷰추천값 반환
-	public String getRecommend(Map<String, String> rMap) {
+	public String getRecommend(Map<String,Object> rMap) {
 		return sqlsession.selectOne("movieMapper.getRecommend", rMap);
+	}
+	//리뷰 수정
+	public Integer updateReview(Map<String, Object> rMap) {
+		return sqlsession.update("movieMapper.updateReview", rMap);
 	}
 	
 	
@@ -137,6 +155,13 @@ public class MovieDAO {
 	// 영화번호, 지역, 날자를 통한 상영정보 구하기
 	public List<Map<String, Object>> getThMovies(Map<String, String> rMap) {
 		return sqlsession.selectList("movieMapper.getThMovies", rMap);
+	}
+	
+	
+	// ================= 북마크 페이지 ==============
+	
+	public Map<String, Object> getBookmarkPage(String MEMBER_ID) {
+		return sqlsession.selectOne("movieMapper.getBookmarkPage", MEMBER_ID);
 	}
 	
 	

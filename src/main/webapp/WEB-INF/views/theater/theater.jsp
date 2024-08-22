@@ -283,7 +283,7 @@ $(function() {
 		});// ajax 끝
 	});
 	
-// 	$('.region:first').trigger('click');
+// 	$('.region:first'	).trigger('click');
 });
 </script>
 <div class="wrap-theater">
