@@ -174,7 +174,6 @@ public class InquiryController {
 			pageDTO.setPageCount(pageCount);
 
 			model.addAttribute("pageDTO", pageDTO);
-			System.out.println(pageDTO.getCount());
 			model.addAttribute("mylist", mylist);
 		}
 			
@@ -224,21 +223,15 @@ public class InquiryController {
 	
 	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile inquiry_picture, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
-		System.out.println("InquiryController writePro()");
 		String member_num = (String)session.getAttribute("member_num");
 		
-		System.out.println(request.getParameter("inquiry_name"));
-		System.out.println(request.getParameter("inquiry_detail"));
-		System.out.println(request.getParameter("inquiry_type"));
-		System.out.println(member_num);
-		
-//		UUID uuid = UUID.randomUUID();
-//		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
-//		System.out.println("파일이름 : " + file);
-//
-//		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
-//		System.out.println("파일경로 :" + uploadPath);
-//		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
+		UUID uuid = UUID.randomUUID();
+		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
+		System.out.println("파일이름 : " + file);
+
+		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
+		System.out.println("파일경로 :" + uploadPath);
+		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
 
 		InquiryDTO inquiryDTO = new InquiryDTO();
 
@@ -246,8 +239,7 @@ public class InquiryController {
 		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
 		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
 		inquiryDTO.setInquiry_type(request.getParameter("inquiry_type"));
-		//inquiryDTO.setInquiry_picture(file);
-		System.out.println(inquiryDTO);
+		inquiryDTO.setInquiry_picture(file);
 		
 		inquiryService.insertInquiry(inquiryDTO);
 		String inquiry_type = inquiryDTO.getInquiry_type();

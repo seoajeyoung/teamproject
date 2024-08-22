@@ -243,6 +243,7 @@ function loadNewsData(searchtext, newsSection, pageNum) {
 		error: function(e){
 			alert("에러");
 		}
+		
 	});//ajax
 	
 	//이벤트 한번만 동작하고 멈춤
@@ -266,6 +267,7 @@ function formatDate(dateString) { //날자 포멧
 function updateContent(result){
 	//$('.paging').html(result.pageContent);
 	updatePaging(result.pageDTO);
+	Paging(result.pageDTO);
 	//뉴스 리스트 업데이트
 	var tbody = $('#newsTableBody');
     tbody.empty(); // 기존 데이터 제거
@@ -287,10 +289,7 @@ function updateContent(result){
     
 	// 카운트 작업
     var count = result.pageDTO.count; // 페이지 DTO에서 총 개수 가져오기
-		$('.search_result .num').text(count); // .num 요소의 텍스트를 총 개수로 설정
-	// 페이징 작업
-    // 페이징 처리
-		updatePaging(result.pageDTO);
+	$('.search_result .num').text(count); // .num 요소의 텍스트를 총 개수로 설정
 	
 }
 
@@ -311,22 +310,30 @@ function updatePaging(pageDTO) {
     if (pageDTO.endPage < pageDTO.pageCount) {
     	pagingHtml += '<li><a href="#" data-page="'+ pageDTO.startPage + pageDTO.pageBlock +'">'+'[다음]'+'</a></li>'		
     }
+    $page.html(pagingHtml);
  	
     $('#page a').each(function() {
         if ($(this).data('page') == pageDTO.currentPage) {
             $(this).parent('li').addClass('on');
         }
     });
+    
  	
   	//페이지 클릭
-// 	$('#page').on('click', 'a', function(){
-// 		// 현재 페이지 번호를 가져옵니다.
-//         const pageNumber = $(this).data('page');
-// 		// 모든 페이지 링크에서 'on' 클래스 제거
-//         $('#page li').removeClass('on');
-//         // 클릭한 링크의 부모 'li'에 'on' 클래스 추가
-//         $(this).parent('li').addClass('on');
-// 	});
+	$('#page').on('click', 'a', function(){
+		
+		// 현재 페이지 번호를 가져옵니다.
+        const pageNumber = $(this).data('page');
+		
+		// 모든 페이지 링크에서 'on' 클래스 제거
+        $('#page li').removeClass('on');
+		
+        // 클릭한 링크의 부모 'li'에 'on' 클래스 추가
+        $(this).parent('li').addClass('on');
+        
+     	// 페이지 상태 업데이트
+        Paging({ currentPage: pageNumber }); // 현재 페이지 번호를 업데이트
+	});
   	
  	
  	// 새로 생성한 페이지네이션 HTML을 삽입
@@ -347,6 +354,16 @@ function updatePaging(pageDTO) {
  	// "끝" 버튼 업데이트
     $('.btn-paging.end').attr('data-page', pageDTO.pageCount).text('끝');
     	
+}
+
+//페이지 상태 초기화 및 클래스 업데이트
+function Paging(pageDTO) {
+    $('#page a').each(function() {
+        if ($(this).data('page') == pageDTO.currentPage) {
+            $(this).parent('li').addClass('on');
+            pageNum = pageDTO.currentPage;
+        }
+    });
 }
 
 

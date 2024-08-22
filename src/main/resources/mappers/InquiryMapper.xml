@@ -5,8 +5,8 @@
 <mapper namespace="com.itwillbs.mappers.inquiryMapper">
 
 	<insert id="insertInquiry">
-		INSERT INTO INQUIRY(inquiry_num, member_num, inquiry_name, inquiry_detail, inquiry_date, inquiry_type)
-		VALUES(#{inquiry_num},#{member_num},#{inquiry_name},#{inquiry_detail},#{inquiry_date},#{inquiry_type})
+		INSERT INTO INQUIRY(inquiry_num, member_num, inquiry_name, inquiry_detail, inquiry_picture, inquiry_date, inquiry_type)
+		VALUES(#{inquiry_num},#{member_num},#{inquiry_name},#{inquiry_detail}, #{inquiry_picture}, #{inquiry_date},#{inquiry_type})
 	</insert>
 	
 	<select id="getMaxNum" resultType="java.lang.Integer">

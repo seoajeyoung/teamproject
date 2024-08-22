@@ -137,8 +137,8 @@
 						
 							<ul>
 							
-								<li class="on"><a title="1 페이지 선택" href=" #pg"></a></li>
-								<li>
+<!-- 								<li class="on"><a title="1 페이지 선택" href=" #pg"></a></li> -->
+								
 								
 <%-- 								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${i}">${i}</a> --%>
 
@@ -147,14 +147,15 @@
 							</c:if>
 						
 							<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${i}"> ${i}</a>
+								<li class="<c:out value="${i == pageDTO.currentPage ? 'on' : ''}" />">
+								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${i}"> ${i}</a></li>
 							</c:forEach>
 						
 							<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
 								<a href="${pageContext.request.contextPath}/inquiry/me?pageNum=${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
 							</c:if>
 
-								</li>
+								
 
 							</ul>
 							<button class="btn-paging end" type="button"

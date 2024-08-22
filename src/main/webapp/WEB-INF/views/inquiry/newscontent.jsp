@@ -151,10 +151,10 @@ function loading(currentNewsNum, searchtext, newsSection){
         success: function(result) {
         	displayContent(result.content)
             // 다음글
-            displayPrev(result.prev)
+            displayPrev(result.prev, searchtext, newsSection)
             // 이전글
             debugger;
-            displayNext(result.next)
+            displayNext(result.next, searchtext, newsSection)
         },
         error: function() {
             alert('이전글 및 다음글 정보를 가져오는 데 실패했습니다.');
@@ -184,12 +184,14 @@ function displayContent(content){
 	
 	};//displayContent
 	
-	function displayPrev(prev){
+	function displayPrev(prev, searchtext, newsSection){
 	const $prev = $('#prev'); 
 	$prev.empty();
 	if(prev){
 		var row3 = '<li class="stit">다음글</li>' + 
 		'<li class="name"><a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM='+ prev.NEWS_NUM 
+		+ '&searchtext=' + encodeURIComponent(searchtext)
+        + '&newsSection=' + encodeURIComponent(newsSection)
 				+ '"' +'class="txt">'+ prev.NEWS_NAME + '</a></li>';
 		}else{
 			var row3 = '<li class="stit">다음글</li>' +
@@ -198,12 +200,14 @@ function displayContent(content){
 	$prev.html(row3);
 	};//displayNext
 	
-	function displayNext(next){
+	function displayNext(next, searchtext, newsSection){
 	const $next = $('#next'); 
 	$next.empty();
 	if(next){
 		var row4 = '<li class="stit">이전글</li>' + 
 		'<li class="name"><a href="${pageContext.request.contextPath}/inquiry/newscontent?NEWS_NUM='+ next.NEWS_NUM 
+		+ '&searchtext=' + encodeURIComponent(searchtext)
+        + '&newsSection=' + encodeURIComponent(newsSection)
 				+ '"' +'class="txt">'+ next.NEWS_NAME + '</a></li>';
 		}else{
 			var row4 = '<li class="stit">이전글</li>' +
