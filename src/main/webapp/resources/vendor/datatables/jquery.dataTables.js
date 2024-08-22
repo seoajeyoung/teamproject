@@ -11462,7 +11462,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "다음",
 	
 	
 				/**
@@ -11485,7 +11485,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "이전"
 			},
 	
 			/**
@@ -11540,7 +11540,9 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_(전체) entries",
+			"sInfo": "전체 _TOTAL_개 항목 중 _START_ 에서 _END_ 까지 표시됩니다.", 
+			/*"Showing _START_ to _END_ of _TOTAL_(전체) entries",*/
+			
 	
 	
 			/**

@@ -137,6 +137,16 @@ public class AdminDAO {
 	public boolean checkMovieExists(String title) {
 		return sqlSession.selectOne(namespace + ".checkMovieExists", title);
 	}
+	
+	public void resetMovieRank() { 
+		sqlSession.update(namespace + ".resetMovieRank"); 
+	}
+	
+	public void updateMovieRank(List<AdminDTO> adminDTOList) { 
+		System.out.println("sqlSession: " + sqlSession);
+		System.out.println("AdminDAO: update movie rank - " + adminDTOList);
+		sqlSession.update(namespace + ".updateMovieRank", adminDTOList); 
+	}
 
 // ===========================================================================	
 

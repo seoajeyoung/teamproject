@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,6 +74,9 @@
 										결제내역<i></i>
 								</a></li>
 								<li class=""><a
+									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의 선호 영화<i></i>
+								</a></li>
+								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/often"
 									title="현재선택">자주찾는 질문<i></i></a></li>
 								<li class=""><a
@@ -143,7 +147,7 @@
 												</tr>
 												<tr>
 													<th scope="row">상영관</th>
-													<td style="padding-top: 20px;"><span id="">${mypageDTO.TH_REGION}/${mypageDTO.TH_NAME}/${mypageDTO.TH_NUMBER}/${mypageDTO.SP_SEAT}</span></td>
+													<td style="padding-top: 20px;"><span id="">${mypageDTO.TH_REGION}/${mypageDTO.TH_NAME}/${mypageDTO.TH_NUMBER}/${mypageDTO.TP_SEAT}</span></td>
 												</tr>
 												<tr class="input">
 													<th scope="row" style="padding-top: 27px;"><label
@@ -162,11 +166,33 @@
 													</td>
 												</tr>
 												<tr class="input">
+													<th scope="row">결제정보</th>
+													<td style="padding-top: 20px;">
+														<div class="" style="width: 560px;">
+															${mypageDTO.TP_TYPE}</div>
+													</td>
+												</tr>
+												<tr class="input">
 													<th scope="row">결제가격</th>
 													<td style="padding-top: 20px;">
 														<div class="" style="width: 560px;">
-															${mypageDTO.TOTAL_PRICE}원</div>
+															${mypageDTO.TP_PRICE}원</div>
 													</td>
+												</tr>
+												<tr class="input">
+    												<th scope="row">결제상태</th>
+    												<td style="padding-top: 20px;">
+        												<div style="width: 560px;">
+            												<c:choose>
+                												<c:when test="${mypageDTO.TP_PAYMENT == 'T'}">
+                    												결제완료
+                												</c:when>
+                												<c:otherwise>
+                    												${mypageDTO.TP_PAYMENT}
+                												</c:otherwise>
+            												</c:choose>
+        												</div>
+    												</td>
 												</tr>
 											</tbody>
 										</table>

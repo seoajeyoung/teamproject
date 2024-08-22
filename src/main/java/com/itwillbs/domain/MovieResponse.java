@@ -18,6 +18,25 @@ public class MovieResponse {
     private String themeSong;
     private String soundtrack;
     private String Awards1;
+    private String movieNm;
+	private String rank;
+	
+
+	public String getMovieNm() {
+		return movieNm;
+	}
+
+	public void setMovieNm(String movieNm) {
+		this.movieNm = movieNm;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
 
     // Getters and Setters
     // ...

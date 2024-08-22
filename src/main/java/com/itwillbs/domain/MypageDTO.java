@@ -191,25 +191,14 @@ public class MypageDTO {
 	private String TH_REGION;
 	private String TH_NUMBER;
 	private String SP_NUM;
-	private String SP_SEAT;
+	private String TP_SEAT;
 	private String SC_TIME;
 	private String SC_TIME_END;
 	private String TP_NUM;
-	private String TOTAL_PRICE;
-	
-	
-	public String getTP_NUM() {
-		return TP_NUM;
-	}
-	public void setTP_NUM(String TP_NUM) {
-		this.TP_NUM = TP_NUM;
-	}
-	public String getTOTAL_PRICE() {
-		return TOTAL_PRICE;
-	}
-	public void setTOTAL_PRICE(String TOTAL_PRICE) {
-		this.TOTAL_PRICE = TOTAL_PRICE;
-	}
+	private String TP_PRICE;
+	private String TP_TYPE;
+	private String TP_PAYMENT;
+
 	public String getTitle() {
 		return title;
 	}
@@ -240,11 +229,11 @@ public class MypageDTO {
 	public void setSP_NUM(String SP_NUM) {
 		this.SP_NUM = SP_NUM;
 	}
-	public String getSP_SEAT() {
-		return SP_SEAT;
+	public String getTP_SEAT() {
+		return TP_SEAT;
 	}
-	public void setSP_SEAT(String SP_SEAT) {
-		this.SP_SEAT = SP_SEAT;
+	public void setTP_SEAT(String TP_SEAT) {
+		this.TP_SEAT = TP_SEAT;
 	}
 	public String getSC_TIME() {
 		return SC_TIME;
@@ -258,6 +247,32 @@ public class MypageDTO {
 	public void setSC_TIME_END(String SC_TIME_END) {
 		this.SC_TIME_END = SC_TIME_END;
 	}
+	public String getTP_NUM() {
+		return TP_NUM;
+	}
+	public void setTP_NUM(String TP_NUM) {
+		this.TP_NUM = TP_NUM;
+	}
+	public String getTP_PRICE() {
+		return TP_PRICE;
+	}
+	public void setTP_PRICE(String TP_PRICE) {
+		this.TP_PRICE = TP_PRICE;
+	}
+	public String getTP_TYPE() {
+		return TP_TYPE;
+	}
+	public void setTP_TYPE(String TP_TYPE) {
+		this.TP_TYPE = TP_TYPE;
+	}
+	public String getTP_PAYMENT() {
+		return TP_PAYMENT;
+	}
+	public void setTP_PAYMENT(String TP_PAYMENT) {
+		this.TP_PAYMENT = TP_PAYMENT;
+	}
+	
+	
 	
 	
 

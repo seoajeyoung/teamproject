@@ -77,18 +77,19 @@ function deleteMovie(movieNum) {
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">영화정보</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">영화 상세정보</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
@@ -99,7 +100,7 @@ function deleteMovie(movieNum) {
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="4">${movieDTO.title}상세정보</th>
+											<th colspan="4">${movieDTO.title} 상세정보</th>
 											<th colspan="2">영화 포스터</th>
 										</tr>
 									</thead>
@@ -160,7 +161,7 @@ function deleteMovie(movieNum) {
 									</tbody>
 								</table>
 
-								<div class="button-container">
+								<div class="button-container" style="text-align: right;">
 									<a
 										href="${pageContext.request.contextPath}/admin/movie/movieupdate?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
 										class="btn btn-success btn-user">영화정보수정</a>

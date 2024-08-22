@@ -161,12 +161,12 @@
         <div id="content-wrapper" class="d-flex flex-column">
     	
             <!-- Main Content -->
-            <div id="content">
+            <div id="content"><br>
             
         <!--  ======================================================================================== -->    
 
             <!--  Topbar include -->
-            <jsp:include page = "/WEB-INF/views/admin/inc/top.jsp"/>
+<%--             <jsp:include page = "/WEB-INF/views/admin/inc/top.jsp"/> --%>
             
             <!-- Topbar 시작 (원본 Topbar 참고용으로 index page에 하나만 주석으로 유지) -->
             

@@ -56,23 +56,26 @@ public class KMDBApiService {
                     movieResponse.setPlot(resultNode.path("plots").path("plot").get(0).path("plotText").asText());
                     movieResponse.setRuntime(resultNode.path("runtime").asText());
                     movieResponse.setRating(resultNode.path("ratings").path("rating").get(0).path("ratingGrade").asText());
-                    movieResponse.setReleaseDate(resultNode.path("ratings").path("rating").get(0).path("releaseDate").asText());
+//                    movieResponse.setReleaseDate(resultNode.path("ratings").path("rating").get(0).path("releaseDate").asText());
                     movieResponse.setPosterUrl(resultNode.path("posters").asText());
                     movieResponse.setVodUrl(resultNode.path("vods").path("vod").get(0).path("vodUrl").asText());
                                         
                     
                     // stlls 필드를 받아와서 %7C 기준으로 나누기
+                    String releaseDate = resultNode.path("ratings").path("rating").get(0).path("releaseDate").asText(); 
                     String stlls = resultNode.path("stlls").asText();
 
                     // %7C를 기준으로 분할
                     String[] stillUrls = stlls.split("\\|");
-
+                    String[] releaseDates = releaseDate.split("\\|");
                     // 분할된 URL들을 ", "로 연결
                     String joinedStillUrls = String.join(", ", stillUrls);
-
+                    String joinedreleaseDates = String.join(", ", releaseDates);
                     // movieResponse의 posterUrl에 설정
                     movieResponse.setStillUrl(joinedStillUrls);
-                    
+                    if (releaseDates.length > 0) {
+                        movieResponse.setReleaseDate(releaseDates[0]);
+                    }
                     
                     movieResponse.setAudiAcc(resultNode.path("stat").path("audiAcc").asText());
                     movieResponse.setThemeSong(resultNode.path("themeSong").asText());

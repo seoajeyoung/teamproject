@@ -67,6 +67,9 @@
 										결제내역<i></i>
 								</a></li>
 								<li class=""><a
+									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의 선호 영화<i></i>
+								</a></li>
+								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/often"
 									title="현재선택">자주찾는 질문<i></i></a></li>
 								<li class=""><a
