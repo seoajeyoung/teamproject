@@ -62,7 +62,7 @@ public class NewsService {
 	
 	public Map<String, Object> getNewsNext(String num) {
 		return newsDAO.getNewsNext(num);
-	}
+	} 
 
 	public Map<String, Object> getNewsContent(Map<String, String> param) {
 		return newsDAO.getNewsContent(param);

@@ -65,7 +65,7 @@ public class InquiryController {
 		
         // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
 		session.setAttribute("member_num", "10");
-        session.setAttribute("member_name", "admin");
+        session.setAttribute("member_name", "admi");
         session.setAttribute("member_phone", "010-1234-5678");
         session.setAttribute("member_email", "aaa1234@gmail.com");
         
@@ -346,16 +346,22 @@ public class InquiryController {
 	}
 
 	@GetMapping("/content")//글 목록에서 제목 눌러서 해당글 + 이전/이후글 이동가능
-	public String content(InquiryDTO inquiryDTO, Model model, HttpSession session) {
+	public String content(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
 
-		String clickNo = inquiryDTO.getInquiry_num();
-		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(clickNo);
-		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(clickNo);
-		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(clickNo);
-
+		String INQUIRY_NUM = inquiryDTO.getInquiry_num();
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("INQUIRY_NUM", INQUIRY_NUM);
+		param.put("search", search);
+		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(INQUIRY_NUM);
+		System.out.println(inquiryDTO2);
+		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(param);
+		System.out.println(inquiryDTO3);
+		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(param);
+		
 		model.addAttribute("inquiryDTO", inquiryDTO2);
 		model.addAttribute("prev", inquiryDTO3);
 		model.addAttribute("next", inquiryDTO4);
+		model.addAttribute("search", search);
 		
 		return "/inquiry/content";
 	}
@@ -402,12 +408,14 @@ public class InquiryController {
 	}
 	
 	@GetMapping("/answer")//해당문의글 답변 @@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
-	public String answer(@RequestParam("inquiry_num") String inquiryNum, Model model, HttpSession session) {
-		
+	public String answer(@RequestParam("search") String search, @RequestParam("inquiry_num") String inquiryNum, Model model, HttpSession session) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("search", search);
+		param.put("inquiryNum", inquiryNum);
 		//System.out.println(session.getAttribute("member_name"));
 		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(inquiryNum);
-		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(inquiryNum);
-		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(inquiryNum);
+		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(param);
+		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(param);
 
 		model.addAttribute("inquiryDTO", inquiryDTO2);
 		model.addAttribute("AS_NUM", inquiryDTO2.get("AS_NUM"));
@@ -645,7 +653,7 @@ public class InquiryController {
 		System.out.println(ofteniqDTO);
 		
 		return "redirect:/inquiry/often";
-	}
+	} 
 	
 	@GetMapping("/oftencontent")
 	public String oftencontent(@RequestParam("search") String search, OfteniqDTO ofteniqDTO, Model model, HttpSession session) {
@@ -656,14 +664,9 @@ public class InquiryController {
 		param.put("clickNo", clickNo);
 		param.put("search", search);
 		
-		System.out.println("search"+ search);
 		Map<String, Object> ofteniqDTO2 = ofteniqService.getOften(param);
 		Map<String, Object> ofteniqDTO3 = ofteniqService.getOftenPrev(param);
 		Map<String, Object> ofteniqDTO4 = ofteniqService.getOftenNext(param);
-		System.out.println(ofteniqDTO2);
-		System.out.println("mmmmmmmmmmmmmmmmmmmmm");
-		System.out.println(ofteniqDTO3);
-		System.out.println(ofteniqDTO4);
 
 		model.addAttribute("content", ofteniqDTO2);
 		model.addAttribute("prev", ofteniqDTO3);

@@ -67,12 +67,12 @@ public class InquiryService {
 		return inquiryDAO.getInquiry(num);
 	}
 	
-	public Map<String, Object> getInquiryPrev(String num) {
-		return inquiryDAO.getInquiryPrev(num);
+	public Map<String, Object> getInquiryPrev(Map<String, Object> param) {
+		return inquiryDAO.getInquiryPrev(param);
 	}
 	
-	public Map<String, Object> getInquiryNext(String num) {
-		return inquiryDAO.getInquiryNext(num);
+	public Map<String, Object> getInquiryNext(Map<String, Object> param) {
+		return inquiryDAO.getInquiryNext(param);
 	}
 	
 	public List<Map<String, Object>> getMyInquiryList(Map<String, Object> params) {

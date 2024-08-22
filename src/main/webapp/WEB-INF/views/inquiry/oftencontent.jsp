@@ -91,14 +91,14 @@
 								<li class="name">이전글이 없습니다.</li>
 							</c:when>
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/oftencontent?OF_NUM=${next.OF_NUM}"
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/oftencontent?search=${search}&OF_NUM=${next.OF_NUM}"
 									class="txt">${next.OF_NAME}</a></li>
 							</c:otherwise>
 						</c:choose>
 						
 <!-- 						<li class="name"><a href="#" class="txt">이전 글이 없습니다.</a></li> -->
                         
-					</ul>
+					</ul> 
 					<ul class="line_sup_prev" id="prev">
 						<li class="stit">다음글</li>
 						<c:choose>
@@ -107,7 +107,7 @@
 							</c:when>
 						<c:otherwise>
 							<li class="name"><a
-								href="${pageContext.request.contextPath}/inquiry/oftencontent?OF_NUM=${prev.OF_NUM}"
+								href="${pageContext.request.contextPath}/inquiry/oftencontent?search=${search}&OF_NUM=${prev.OF_NUM}"
 								class="txt">${prev.OF_NAME}</a></li>
 						</c:otherwise>
 					</c:choose>

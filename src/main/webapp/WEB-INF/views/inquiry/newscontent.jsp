@@ -68,7 +68,7 @@
 				</ul>
 				<div class="view_area" id="content2">
 					<p></p><p class="ce_exstyle" style="line-height: 1.3; font-family: &quot;맑은 고딕&quot;; font-size: 10pt;">
-					<span style="font-size: inherit;">}</span>
+					<span style="font-size: inherit;"></span>
 					</p>
 					<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</div>
@@ -131,7 +131,12 @@ $(function(){
     var searchtext = urlParams.get('searchtext') || '';
     var newsSection = urlParams.get('newsSection') || '';
     var currentNewsNum = urlParams.get('NEWS_NUM');
-    
+    loading(currentNewsNum, searchtext, newsSection);
+});	//function
+
+function loading(currentNewsNum, searchtext, newsSection){
+	
+
     // AJAX 요청을 통해 이전글과 다음글 정보를 가져오는 코드
     $.ajax({
         type: 'POST',
@@ -147,21 +152,19 @@ $(function(){
         	displayContent(result.content)
             // 다음글
             displayPrev(result.prev)
-            //과 다음글 정보를 페이지에 표시
+            // 이전글
             displayNext(result.next)
-            //$('#prev-news').attr('href', response.prevNewsLink).text(response.prevNewsTitle);
-            //$('#next-news').attr('href', response.nextNewsLink).text(response.nextNewsTitle);
         },
         error: function() {
             alert('이전글 및 다음글 정보를 가져오는 데 실패했습니다.');
         }
     });
-});	//function
 
+};
 function displayContent(content){
  	// 현재글
 	const $content1 = $('#content1');
-	$content1.empty(); 
+	$content1.empty();
 	if(content){ 
 		var row1 = '<li class="title">'+content.NEWS_NAME + '</li><li class="stit_area"><span>등록일<em class="regist_day">'
 		+ formatDate(content.NEWS_DATE) + '</em></span><span class="check_tit_area">구분<em class="check_num">'	
@@ -254,6 +257,16 @@ function redirectToUpdatePage(url) {
     window.location.href = url; // 수정 클릭 시 해당 URL로 이동
 }
 
+//이전글 링크 클릭 시 호출
+// $('#next li a').on('click', function(e) {
+// 	debugger;
+//     e.preventDefault();
+//     const currentNewsNum = $(this).data('currentNewsNum');
+//     const searchtext = $(this).data('searchtext');
+//     const newsSection = $(this).data('newsSection');
+//     loading(currentNewsNum, searchtext, newsSection);
+    
+// });
 
 //]]>
 </script>

@@ -83,8 +83,7 @@
 		  WHERE I.INQUIRY_NUM = #{INQUIRY_NUM}
 	</select>
 	
-	<select id="getInquiryPrev" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-	<![CDATA[
+	<select id="getInquiryPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
 		 , I.INQUIRY_NUM
 		 , I.INQUIRY_NAME
@@ -96,13 +95,18 @@
 		ON I.MEMBER_NUM = M.MEMBER_NUM
 		LEFT JOIN ANSWER A
 	    ON I.INQUIRY_NUM = A.IQ_NUM
-	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM} 
+	    WHERE 1 = 1
+	<if test="search != null and !search.equals('')">
+	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	</if>
+	<![CDATA[
+	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM} 
 	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
 	 LIMIT 1
 	]]>
 	</select>
-	<select id="getInquiryNext" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-	<![CDATA[
+	
+	<select id="getInquiryNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
 		 , I.INQUIRY_NUM
 		 , I.INQUIRY_NAME
@@ -114,7 +118,12 @@
 		ON I.MEMBER_NUM = M.MEMBER_NUM
       LEFT JOIN ANSWER A
 	    ON I.INQUIRY_NUM = A.IQ_NUM
-	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM}
+	    WHERE 1 = 1
+	<if test="search != null and !search.equals('')">
+	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	</if>
+	<![CDATA[
+	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM}
 	 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) 
 	 LIMIT 1
 	]]>
@@ -153,7 +162,7 @@
 	
 	<select id="getMyNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
-	SELECT M.MEMBER_ID
+	SELECT M.MEMBER_ID 
 		 , I.INQUIRY_NUM
 		 , I.INQUIRY_NAME
 	  FROM INQUIRY I

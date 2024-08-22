@@ -43,17 +43,17 @@ public class InquiryDAO {
 	public int getMyInquiryCount(Map<String, Object> params) {
 		return sqlSession.selectOne(namespace + ".getMyInquiryCount", params);
 	}
-	
+	 
 	public Map<String, Object> getInquiry(String num) {
 		return sqlSession.selectOne(namespace + ".getInquiry", num);
 	}	
 	
-	public Map<String, Object> getInquiryPrev(String num) {
-		return sqlSession.selectOne(namespace + ".getInquiryPrev", num);
+	public Map<String, Object> getInquiryPrev(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".getInquiryPrev", param);
 	}
 	
-	public Map<String, Object> getInquiryNext(String num) {
-		return sqlSession.selectOne(namespace + ".getInquiryNext", num);
+	public Map<String, Object> getInquiryNext(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".getInquiryNext", param);
 	}
 	
 	public List<Map<String, Object>> getMyInquiryList(Map<String, Object> params) {
