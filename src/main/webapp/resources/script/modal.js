@@ -59,7 +59,7 @@ $(document).ready(function() {
 	// 관 불러오는 함수    
     function getci_number() {
     $.ajax({
-        url: '/myweb/CI_NUMBER', // 임시 
+        url: '/myweb/CI_NUMBER',  
         type: 'GET',
         dataType: 'json',
         data: {
@@ -70,9 +70,7 @@ $(document).ready(function() {
             $('.theater-select').empty(); // 기존 옵션 제거
             $('.theater-select').append('<option value="" disabled selected>저장된 극장 불러오기</option>'); // 기본 옵션 추가
             response.forEach(function(theater) {
-                 if (theater.TH_NUMBER !== ci_number) {
-       				 $('.theater-select').append('<option value="' + theater.TH_NUMBER + '">' + theater.TH_NUMBER + '</option>');
-    			 }
+       		$('.theater-select').append('<option value="' + theater.TH_NUMBER + '">' + theater.TH_NUMBER + '</option>');
             });
         }
     });
@@ -87,32 +85,44 @@ $(document).ready(function() {
     // 저장된 관 불러와 좌석 생성 
     function createsave_seat() {
     $.ajax({
-        url: '/myweb/SAVECI_NUMBER', 
-        method: 'GET', 
+        url: '/myweb/SAVECI_NUMBER',
+        method: 'GET',
         data: {
             region: regionvalue,
             th_name: th_namevalue,
             th_number: saveci_number
         },
         success: function(response) {
+        	if (!response || response.length === 0) {
+                alert("저장된 관이 없습니다");
+                $('#theater-select').val("");
+                return; 
+            }
         
             const seatTable = $('#seat-table');
             seatTable.empty();
-			rows = response[0].SE_ROW;
-			cols = response[0].SE_COL;
-            const removedSeats = response.map(item => item.SE_SEAT);
+            rows = response[0].SE_ROW;
+            cols = response[0].SE_COL;
+
+            // Create table and tbody elements
             const table = $('<table></table>');
             const tbody = $('<tbody></tbody>');
 
+            // Iterate over rows
             for (let i = 0; i < rows; i++) {
                 const tr = $('<tr></tr>');
                 tr.append('<th>' + String.fromCharCode(65 + i) + '</th>');
 
+                // Iterate over columns
                 for (let j = 1; j <= cols; j++) {
                     const seatLabel = String.fromCharCode(65 + i) + j;
 
+                    // Find the seat type (empty or removed) for the current seatLabel
+                    const seatData = response.find(item => item.SE_SEAT === seatLabel);
+                    const seatType = seatData ? seatData.SE_TYPE : 'empty';
+
                     const td = $('<td></td>')
-                        .addClass('empty')
+                        .addClass(seatType) // Set the class based on SE_TYPE
                         .text(seatLabel)
                         .on('click', function() {
                             if ($(this).hasClass('empty')) {
@@ -122,22 +132,21 @@ $(document).ready(function() {
                             }
                         });
 
-                    if (removedSeats.includes(seatLabel)) {
-                        td.removeClass('empty').addClass('removed');
-                    }
-
                     tr.append(td);
                 }
                 tbody.append(tr);
             }
 
+            // Append tbody to the table and table to the seatTable container
             table.append(tbody);
             seatTable.append(table);
+
+            // Show the save and onetouch buttons
             $('#btn-save').removeClass('hidden'); 
-      	    $('#onetouch').removeClass('hidden');
-     	   }
-   	 	});	
-	}
+            $('#onetouch').removeClass('hidden');
+        }
+    });
+}
     
     // 관 불러오기 클릭시 관 호출   
     	$('#theater-select').on('change', function() {
@@ -293,8 +302,8 @@ $(document).ready(function() {
     });
 
     // 테이블 셀에 마우스를 올리면 클릭처럼 처리 (onetouch 모드일 때만 적용)
-    $('#seat-table').on('mouseover', 'td', function() {
-     $('#onetouch').blur(); 
+    $('#seat-table').on('mouseover', 'td', function(e) {
+      $('#onetouch').blur(); 
         if (isOnetouchActive) {
             if ($(this).hasClass('empty')) {
                 $(this).removeClass('empty').addClass('removed');

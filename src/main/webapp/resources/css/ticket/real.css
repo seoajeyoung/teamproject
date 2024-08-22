@@ -454,9 +454,7 @@ table.peoSelTable td:nth-of-type(1) {
 
 
 .removed {
-    visibility: hidden; 
     opacity: 0; 
-    pointer-events: none; 
 }
 
 

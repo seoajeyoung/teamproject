@@ -268,7 +268,7 @@
 	<select id="getth_name" resultType="map" parameterType="map">
 
 		SELECT
-		TH_NAME
+		distinct TH_NAME
 		FROM THEATER
 		WHERE TH_REGION = #{region}
 
@@ -313,6 +313,7 @@
 	<select id="selectsaveseat" resultType="map" parameterType="map">
 
 		SELECT SE_SEAT
+		,SE_TYPE
 		,SE_ROW
 		,SE_COL
 		FROM MSEAT

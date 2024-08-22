@@ -52,15 +52,17 @@
 }
 
 .button-container {
-    display: flex;
-    align-items: stretch;
+     display: flex;
     justify-content: flex-end;
-    width: 20%;
-    align-content: flex-end;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
+.button-container button {
+    margin-right: 10px; /* 오른쪽 버튼과의 간격 */
+}
 
 #onetouch {
     margin-bottom: 20px; /* 버튼과 컨테이너의 아래쪽 여백 */
@@ -84,7 +86,6 @@
 table {
     border-collapse: collapse;
     width: auto; /* 테이블의 너비를 자동으로 조정 */
-    max-width: 90%; /* 최대 너비 */
 }
 
 th, td {
