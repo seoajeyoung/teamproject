@@ -1,5 +1,6 @@
 package com.itwillbs.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.dao.AdminDAO;
 import com.itwillbs.domain.AdminDTO;
@@ -23,6 +25,9 @@ public class AdminService {
 
 	@Autowired
 	private KMDBApiService kmdbApiService;
+	
+	@Autowired
+	private KobisApiService kobisApiService;
 
 // =========================================================== 	
 	// 회원가입
@@ -144,6 +149,30 @@ public class AdminService {
 
 			processMovie(adminDTO);
 		}
+	}
+	
+	public void resetMovieRank() {
+        
+		adminDAO.resetMovieRank();
+	}
+	
+	public void updateMoviesRank(String targetDt) {
+		
+		List<MovieResponse> movies = kobisApiService.fetchMovies(targetDt);
+		List<AdminDTO> adminDTOList = new ArrayList();
+
+        for (MovieResponse movie : movies) {
+            AdminDTO adminDTO = new AdminDTO();
+            adminDTO.setMovieNm(movie.getMovieNm());
+            adminDTO.setRank(movie.getRank());
+            adminDTOList.add(adminDTO);  
+        }
+        
+        System.out.println(adminDTOList);
+		
+        
+		adminDAO.updateMovieRank(adminDTOList);
+		
 	}
 
 	public void processMovie(AdminDTO adminDTO) {

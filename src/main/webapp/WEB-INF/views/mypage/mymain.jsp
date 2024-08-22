@@ -62,7 +62,10 @@
 								</a></li>
 								<li class=""><a
 									href="${pageContext.request.contextPath}/mypage/mypayment">나의
-										결제내역<i></i>
+										결제 내역<i></i>
+								</a></li>
+								<li class=""><a
+									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의 선호 영화<i></i>
 								</a></li>
 								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/often"

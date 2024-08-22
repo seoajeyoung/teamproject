@@ -53,10 +53,10 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->

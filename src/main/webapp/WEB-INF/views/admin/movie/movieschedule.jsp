@@ -256,9 +256,17 @@ $(function() {
             }
 
             // 가능한 시간대를 포맷하여 출력
-            var timeMessage = "<상영등록가능시간>\n";
+            var timeMessage = "[상영 등록 가능 시간]\n";
+            possibleTimesField.css({
+            	  'font-family': 'Arial, sans-serif',  // 글꼴 설정
+            	  'text-align': 'center',               // 텍스트 가운데 정렬
+            	  'color': '#858796', 
+            	  'font-weight': 'bold',
+            	  'font-size': '17px'
+            	});
+            
             possibleTimes.forEach(function(time) {
-                timeMessage += formatDate(time.start) + " " + formatTime(time.start) + " ~ " + formatDate(time.end) + " " + formatTime(time.end) + "\n";
+                timeMessage += "* " + formatDate(time.start) + " " + formatTime(time.start) + " ~ " + formatDate(time.end) + " " + formatTime(time.end) + "\n";
             });
             
             if (possibleTimes.length === 0) {
@@ -377,9 +385,10 @@ function deleteRow(ciNum) {
 
 			<!-- Main Content -->
 			<div id="content">
+				<br>
 
 				<!-- Topbar Include -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -388,13 +397,14 @@ function deleteRow(ciNum) {
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">상영일정관리</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">상영 일정 관리</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">상영일정등록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">상영 일정 등록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -403,58 +413,62 @@ function deleteRow(ciNum) {
 									method="post">
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
-											<tr>
-												<th>개봉날짜(최근3개월)</th>
-												<td><input type="date" id="dateInput" name="date"></td>
-												<th>상영시작시간</th>
-												<td><input type="datetime-local" id="runningDts"
-													name="runningDts"></td>
-												<th>상영가능시간</th>
-											</tr>
-											<tr>
-												<th>지역</th>
-												<td><select id="regionList" name="TH_REGION">
-														<option value="">지역 선택</option>
-														<c:forEach var="list" items="${regionList}">
-															<option value="${list.TH_REGION}">${list.TH_REGION}</option>
-														</c:forEach>
-												</select></td>
-												<th>상영종료시간</th>
-												<td><input type="datetime-local" id="runningDte"
-													name="runningDte"></td>
-												<td rowspan="10"><textarea id="possibleTimes" name="possibleTimes"
-														rows="10" cols="50"></textarea></td>
-											<tr>
-												<th>지점명</th>
-												<td colspan="3"><select id="theaterList" name="TH_NAME">
-														<option value="${list.TH_NAME}">먼저 지역을 선택하세요</option>
-												</select></td>
-											</tr>
-											<tr>
-												<th>상영관</th>
-												<td colspan="3"><select id="cinemaList" name="TH_NUMBER">
-														<option value="${list.TH_NUMBER}">먼저 지점명을 선택하세요</option>
-												</select></td>
-											</tr>
-											<tr>
-												<th>영화제목</th>
-												<td colspan="3"><select id="movieNameList" name="title">
-														<option value="${list.title}">영화를 선택하세요</option>
-												</select></td>
-											</tr>
-											<tr>
-												<th id="titleEngTh">영문제목</th>
-												<td id="titleEngTd"><input type="text" id="titleEng"
-													name="titleEng" value="영문제목을 입력해주세요"></td>
-											</tr>
-											<tr>
-												<th>런타임(분)</th>
-												<td colspan="3"><input type="text" id="runtime" name="runtime"
-													value=""></td>
-											</tr>
+										<tr>
+											<th>개봉날짜(최근3개월)</th>
+											<td><input type="date" id="dateInput" name="date"></td>
+											<th>상영시작시간</th>
+											<td><input type="datetime-local" id="runningDts"
+												name="runningDts"></td>
+											<th>상영 등록 가능 시간</th>
+										</tr>
+										<tr>
+											<th>지역</th>
+											<td><select id="regionList" name="TH_REGION">
+													<option value="">지역 선택</option>
+													<c:forEach var="list" items="${regionList}">
+														<option value="${list.TH_REGION}">${list.TH_REGION}</option>
+													</c:forEach>
+											</select></td>
+											<th>상영종료시간</th>
+											<td><input type="datetime-local" id="runningDte"
+												name="runningDte"></td>
+											<td rowspan="10"><textarea id="possibleTimes"
+													name="possibleTimes" rows="10" cols="50"></textarea></td>
+										<tr>
+											<th>지점명</th>
+											<td colspan="3"><select id="theaterList" name="TH_NAME">
+													<option value="${list.TH_NAME}">먼저 지역을 선택하세요</option>
+											</select></td>
+										</tr>
+										<tr>
+											<th>상영관</th>
+											<td colspan="3"><select id="cinemaList" name="TH_NUMBER">
+													<option value="${list.TH_NUMBER}">먼저 지점명을 선택하세요</option>
+											</select></td>
+										</tr>
+										<tr>
+											<th>영화제목</th>
+											<td colspan="3"><select id="movieNameList" name="title">
+													<option value="${list.title}">영화를 선택하세요</option>
+											</select></td>
+										</tr>
+										<tr>
+											<th id="titleEngTh">영문제목</th>
+											<td id="titleEngTd"><input type="text" id="titleEng"
+												name="titleEng" value="영문제목을 입력해주세요"></td>
+										</tr>
+										<tr>
+											<th>런타임(분)</th>
+											<td colspan="3"><input type="text" id="runtime"
+												name="runtime" value=""></td>
+										</tr>
 									</table>
 									<div class="button-container">
-									<button type="submit" class="btn btn-danger btn-user same-size" style="margin-right: 2px;">등록</button><button type="reset" class="btn btn-secondary btn-user same-size">초기화</button>
+										<button type="submit"
+											class="btn btn-danger btn-user same-size"
+											style="margin-right: 2px;">등록</button>
+										<button type="reset"
+											class="btn btn-secondary btn-user same-size">초기화</button>
 									</div>
 								</form>
 
@@ -471,6 +485,7 @@ function deleteRow(ciNum) {
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
+					<hr>
 					<!-- container-fluid -->
 
 
@@ -480,12 +495,12 @@ function deleteRow(ciNum) {
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">예정상영일정</h6>
+							<h6 class="m-0 font-weight-bold text-danger">예정 상영 일정</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table schedule-bordered2" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table schedule-bordered2" id="dataTable"
+									width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>지역</th>
@@ -506,7 +521,9 @@ function deleteRow(ciNum) {
 												<td id="title${scheduleDTO.CI_NUM}">${scheduleDTO.title}</td>
 												<td id="scTime${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME}</td>
 												<td id="scTimeEnd${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME_END}</td>
-												<td id="delete-button-cell"><button type="button" onclick="deleteRow(${scheduleDTO.CI_NUM})" class="btn btn-danger btn-user">일정삭제</button></td>
+												<td id="delete-button-cell"><button type="button"
+														onclick="deleteRow(${scheduleDTO.CI_NUM})"
+														class="btn btn-danger btn-user">일정삭제</button></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -518,7 +535,9 @@ function deleteRow(ciNum) {
 						<!-- card-body -->
 					</div>
 					<!-- card shadow mb-4 -->
-
+					<!-- Footer Include-->
+					<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
+					<!-- End of Footer -->
 				</div>
 				<!-- End of Page Content -->
 
@@ -530,14 +549,12 @@ function deleteRow(ciNum) {
 
 
 
-
-
 	</div>
+
+
 	<!-- End of Page Wrapper -->
 
-	<!-- Footer Include-->
-	<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
-	<!-- End of Footer -->
+
 
 	<!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
@@ -566,6 +583,86 @@ function deleteRow(ciNum) {
 			</div>
 		</div>
 	</div>
+	<script>	
+	$(document).ready(function() {
+    $('form').on('submit', function(event) {
+        // 각 입력 필드 가져오기
+        var dateInput = $('#dateInput');
+        var runningDts = $('#runningDts');
+        var runningDte = $('#runningDte');
+        var regionList = $('#regionList');
+        var theaterList = $('#theaterList');
+        var cinemaList = $('#cinemaList');
+        var movieNameList = $('#movieNameList');
+        var titleEng = $('#titleEng');
+        var runtime = $('#runtime');
+
+        // 빈 칸 체크
+        if (!dateInput.val()) {
+            alert('개봉날짜를 입력해주세요.');
+            dateInput.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!runningDts.val()) {
+            alert('상영시작시간을 입력해주세요.');
+            runningDts.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!runningDte.val()) {
+            alert('상영종료시간을 입력해주세요.');
+            runningDte.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!regionList.val()) {
+            alert('지역을 선택해주세요.');
+            regionList.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!theaterList.val()) {
+            alert('지점명을 선택해주세요.');
+            theaterList.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!cinemaList.val()) {
+            alert('상영관을 선택해주세요.');
+            cinemaList.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!movieNameList.val()) {
+            alert('영화를 선택해주세요.');
+            movieNameList.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!titleEng.val() || titleEng.val() === '영문제목을 입력해주세요') {
+            alert('영문제목을 입력해주세요.');
+            titleEng.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+
+        if (!runtime.val()) {
+            alert('런타임을 입력해주세요.');
+            runtime.focus();
+            event.preventDefault(); // 폼 제출 막기
+            return false;
+        }
+    	});
+	});
+	</script>
 
 	<!-- Bootstrap core JavaScript-->
 	<script

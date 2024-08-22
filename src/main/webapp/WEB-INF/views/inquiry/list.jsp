@@ -144,7 +144,7 @@
 											<td id="title0" class="txt"><a
 												href="${pageContext.request.contextPath}/inquiry/content?search=${pageDTO.search}&inquiry_num=${inquiryDTO.INQUIRY_NUM}">${inquiryDTO.INQUIRY_NAME}</a></td>
 											</c:if>
-											<td class="num">${inquiryDTO.AS_NUM}</td>
+											<td class="num">${inquiryDTO.ISANSWERED}</td>
 										</tr>
 																								
 

@@ -5,10 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ticket/modal.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/.css">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/script/modal.js"></script>
 </head>
 <body>
+<jsp:include page = "/WEB-INF/views/admin/inc/sidebar.jsp"/>
 		<select id="region" name="region">
 			<option value="" disabled selected>지역 선택해주세요</option>
             <c:forEach var="region" items="${th_region}">

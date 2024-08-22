@@ -6,9 +6,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
-
 import com.itwillbs.dao.TicketDAO;
-
 @Service
 public class TicketService {
 
@@ -83,14 +81,17 @@ public class TicketService {
 	public void insertselectseat(Map<String, Object> request) {
 		ticketDAO.insertselectseat(request);
 		
-		 new Thread(() -> {
-	            try {
-	                Thread.sleep(600000); // 10분 대기
-	                ticketDAO.deleteseat(request);
-	            } catch (Exception e) {
-	            	e.printStackTrace();
-	            }
-	        }).start();
+		System.out.println("@#@#@#@@" + request);
+		
+		new Thread(() -> {
+			try {
+				Thread.sleep(600000); // 10분 대기
+				ticketDAO.deleteticket(request);
+                ticketDAO.deleteseat(request);
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
+		}).start();
 	    
 	}
 
@@ -100,6 +101,35 @@ public class TicketService {
 
 	public List<Map<String, String>> selectpaymentseat(Map<String, Object> param) {
 		return ticketDAO.selectpaymentseat(param);
+	}
+
+	public Map<String, String> selectmember(Map<String, String> param) {
+		return ticketDAO.selectmember(param);
+	}
+
+	public void deleteseat(Map<String, Object> request) {
+		 ticketDAO.deleteseat(request);
+		
+	}
+
+	public void insertticketpayment(Map<String, Object> request) {
+		ticketDAO.insertticketpayment(request);
+	}
+
+	public List<Map<String, String>> selectticketpayment(Map<String, Object> request) {
+		return ticketDAO.selectticketpayment(request);
+	}
+
+	public void deleteticket(Map<String, Object> request) {
+		ticketDAO.deleteticket(request);
+	}
+
+	public void updatepayment(Map<String, Object> request) {
+		ticketDAO.updatepayment(request);
+	}
+
+	public Integer selectnowcount(Map<String, String> param) {
+		return ticketDAO.selectnowcount(param);
 	}
 
 

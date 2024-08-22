@@ -59,27 +59,23 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar include -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">영화정보</h1>
-					<p class="mb-4">
-						넣을 것 있으면 넣기 <a target="_blank" href="https://datatables.net">하이퍼링크
-							넣을거면 넣기</a>.
-					</p>
+					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
+						영화 정보 수정</h1>
+					<hr style="margin-bottom: 20px;margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">영화정보</h6>
-						</div>
+						
 						<div class="card-body">
 							<div class="table-responsive">
 
@@ -169,7 +165,7 @@
 											</tr>
 										</tbody>
 									</table>
-									<button type="submit" class="btn btn-success btn-user">수정완료</button>
+									<button type="submit" class="btn btn-success btn-user" style="float: right;">수정완료</button>
 								</form>
 							</div>
 						</div>

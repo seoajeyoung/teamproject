@@ -76,27 +76,27 @@
 				<div class="customer_btn"><button type="button" class="round inblack" id="btn_list"><span>목록으로</span></button></div>
 				<!-- 이전글,다음글 (s) -->
 				<div class="btm_sup_list">
-					<ul class="line_sup_prev">
+					<ul class="line_sup_next">
 						<li class="stit">이전글</li>
 						
                         <c:choose>  
-							<c:when test="${empty prev}"> 
+							<c:when test="${empty next}"> 
 								<li class="name">이전글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 						  
 					</ul>
-					<ul class="line_sup_next">
+					<ul class="line_sup_prev">
                         <li class="stit">다음글</li>
                         <c:choose>  
-							<c:when test="${empty next}"> 
+							<c:when test="${empty prev}"> 
 								<li class="name">다음글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
                         

@@ -78,6 +78,7 @@ public class InquiryService {
 	public List<Map<String, Object>> getMyInquiryList(Map<String, Object> params) {
 //		// 시작하는 행번호
 		PageDTO pageDTO = (PageDTO) params.get("pageDTO");
+		
 		int startRow = (pageDTO.getCurrentPage() - 1)*pageDTO.getPageSize() + 1;
 //		//끝나는 행번호
 		int endRow = startRow + pageDTO.getPageSize() - 1;
@@ -136,6 +137,16 @@ public class InquiryService {
 	public int getAdminCountF(PageDTO pageDTO) {
 		return inquiryDAO.getAdminCountF(pageDTO);
 	}
+	public Map<String, Object> adminPrev(Map<String, Object> param) {
+		return inquiryDAO.adminPrev(param);
+	}
+	public Map<String, Object> adminNext(Map<String, Object> param) {
+		return inquiryDAO.adminNext(param);
+	}
+	public Map<String, Object> adminInquiry(String iNQUIRY_NUM) {
+		return inquiryDAO.adminInquiry(iNQUIRY_NUM);
+	}
+	
 	
 
 }//클래스

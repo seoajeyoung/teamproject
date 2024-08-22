@@ -182,10 +182,10 @@ function deleteRow(stNum) {
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar Include -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -194,13 +194,14 @@ function deleteRow(stNum) {
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">스토어상품관리</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
+						스토어 상품 관리</h1>
+					<hr style="margin-bottom: 20px;margin-top: 30px;">
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">스토어 상품등록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">스토어 상품 등록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -269,7 +270,7 @@ function deleteRow(stNum) {
 				<!-- End of Page Content -->
 
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
+				<div class="container-fluid"><hr>
 					<!-- container-fluid -->
 
 
@@ -279,7 +280,7 @@ function deleteRow(stNum) {
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">스토어 상품목록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">스토어 상품 목록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">

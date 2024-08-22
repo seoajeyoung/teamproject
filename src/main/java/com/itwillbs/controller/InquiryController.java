@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -117,10 +118,6 @@ public class InquiryController {
 		pageDTO.setCurrentPage(currentPage);
 		//넘버값으로 들어가서 본인이 쓴 글 DB에서 찾아서 뿌리기
 		
-		//검색어
-		String search = request.getParameter("search");
-		pageDTO.setSearch(search);
-		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member_num", member_num);
 		params.put("pageDTO", pageDTO);
@@ -128,11 +125,8 @@ public class InquiryController {
 		String memberName = (String) session.getAttribute("member_name");
 		
 		if(memberName != null && memberName.equals("admin")) {
-			System.out.println("admin");
 			List<Map<String, Object>> mylist = inquiryService.getAdminListF(pageDTO);
-			System.out.println("1111111111111111");
 			int count = inquiryService.getAdminCountF(pageDTO);
-			System.out.println("222222222222222");
 			// 한 화면에 보여줄 페이지 개수
 			int pageBlock = 10;
 			// 시작하는 페이지 번호 구하기
@@ -180,6 +174,7 @@ public class InquiryController {
 			pageDTO.setPageCount(pageCount);
 
 			model.addAttribute("pageDTO", pageDTO);
+			System.out.println(pageDTO.getCount());
 			model.addAttribute("mylist", mylist);
 		}
 			
@@ -188,7 +183,7 @@ public class InquiryController {
 	}
 	
 	@GetMapping("/mycontent")//내가 쓴 글 하나씩 뿌려줌
-	public String myconcent(InquiryDTO inquiryDTO, HttpSession session, Model model) {
+	public String myconcent(@RequestParam(value = "search", required = false) String search, InquiryDTO inquiryDTO, HttpSession session, Model model) {
 		
 		String inquiry_num = inquiryDTO.getInquiry_num();
 		String member_num = (String)session.getAttribute("member_num");
@@ -230,23 +225,28 @@ public class InquiryController {
 	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile inquiry_picture, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
 		System.out.println("InquiryController writePro()");
-
-		UUID uuid = UUID.randomUUID();
-		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
-		System.out.println("파일이름 : " + file);
-
-		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
-		System.out.println("파일경로 :" + uploadPath);
-		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
+		String member_num = (String)session.getAttribute("member_num");
+		
+		System.out.println(request.getParameter("inquiry_name"));
+		System.out.println(request.getParameter("inquiry_detail"));
+		System.out.println(request.getParameter("inquiry_type"));
+		System.out.println(member_num);
+		
+//		UUID uuid = UUID.randomUUID();
+//		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
+//		System.out.println("파일이름 : " + file);
+//
+//		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
+//		System.out.println("파일경로 :" + uploadPath);
+//		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
 
 		InquiryDTO inquiryDTO = new InquiryDTO();
-		String member_num = (String)session.getAttribute("member_num");
 
 		inquiryDTO.setMember_num(member_num);
 		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
 		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
 		inquiryDTO.setInquiry_type(request.getParameter("inquiry_type"));
-		inquiryDTO.setInquiry_picture(file);
+		//inquiryDTO.setInquiry_picture(file);
 		System.out.println(inquiryDTO);
 		
 		inquiryService.insertInquiry(inquiryDTO);
@@ -258,7 +258,6 @@ public class InquiryController {
         // RedirectAttributes를 사용하여 값 전달
         redirectAttributes.addAttribute("inquiry_type", inquiry_type);
         redirectAttributes.addAttribute("inquiry_date", inquiry_date);
-		
 
 		return "redirect:/inquiry/complete";
 	}
@@ -287,7 +286,7 @@ public class InquiryController {
 		String search = request.getParameter("search");
 		pageDTO.setSearch(search);
 		
-		String memberName = (String) session.getAttribute("member_name");
+		String memberName = (String)session.getAttribute("member_name");
 		
 		//@@@@@@@@@@@@@@@@@@@@@@관리자만 모든 게시글 보이게################################안에 세션값 수정
 		if(memberName != null && memberName.equals("admin")) {
@@ -348,20 +347,18 @@ public class InquiryController {
 	@GetMapping("/content")//글 목록에서 제목 눌러서 해당글 + 이전/이후글 이동가능
 	public String content(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
 
-		String INQUIRY_NUM = inquiryDTO.getInquiry_num();
+		String inquiryNum = inquiryDTO.getInquiry_num();
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("INQUIRY_NUM", INQUIRY_NUM);
+		param.put("inquiryNum", inquiryNum);
 		param.put("search", search);
-		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(INQUIRY_NUM);
-		System.out.println(inquiryDTO2);
+		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(inquiryNum);
 		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(param);
-		System.out.println(inquiryDTO3);
 		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(param);
 		
 		model.addAttribute("inquiryDTO", inquiryDTO2);
 		model.addAttribute("prev", inquiryDTO3);
 		model.addAttribute("next", inquiryDTO4);
-		model.addAttribute("search", search);
+		model.addAttribute("param", param);
 		
 		return "/inquiry/content";
 	}
@@ -385,12 +382,10 @@ public class InquiryController {
 
 	@PostMapping("/updatePro") // 문의 글 업데이트
 	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, Model model) {
-		System.out.println();
 		InquiryDTO inquiryDTO = new InquiryDTO();
 		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
 		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
 		inquiryDTO.setInquiry_num(num);
-		System.out.println(inquiryDTO);
 		
 		inquiryService.updateInquiry(inquiryDTO);
 		model.addAttribute("InquiryDTO", inquiryDTO);
@@ -400,7 +395,6 @@ public class InquiryController {
 
 	@GetMapping("/delete")//게시글, 답변 동시 삭제// MYCONENT에서 오면 ME로 이동
 	public String deleteInquiry(@RequestParam("num")String num,HttpSession session, Model model) {
-		System.out.println(num);
 
 		inquiryService.deleteInquiry(num);
 
@@ -408,20 +402,21 @@ public class InquiryController {
 	}
 	
 	@GetMapping("/answer")//해당문의글 답변 @@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
-	public String answer(@RequestParam("search") String search, @RequestParam("inquiry_num") String inquiryNum, Model model, HttpSession session) {
+	public String answer(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
+		String INQUIRY_NUM = inquiryDTO.getInquiry_num();
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("search", search);
-		param.put("inquiryNum", inquiryNum);
+		param.put("INQUIRY_NUM", INQUIRY_NUM);
 		//System.out.println(session.getAttribute("member_name"));
-		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(inquiryNum);
-		Map<String, Object> inquiryDTO3 = inquiryService.getInquiryPrev(param);
-		Map<String, Object> inquiryDTO4 = inquiryService.getInquiryNext(param);
+		Map<String, Object> inquiryDTO2 = inquiryService.adminInquiry(INQUIRY_NUM);
+		Map<String, Object> inquiryDTO3 = inquiryService.adminPrev(param);
+		Map<String, Object> inquiryDTO4 = inquiryService.adminNext(param);
 
 		model.addAttribute("inquiryDTO", inquiryDTO2);
 		model.addAttribute("AS_NUM", inquiryDTO2.get("AS_NUM"));
-		//session.setAttribute("inquiryDTO2", inquiryDTO2);
 		model.addAttribute("prev", inquiryDTO3);
 		model.addAttribute("next", inquiryDTO4);
+		model.addAttribute("param", param);
 		
 		return "/inquiry/answer";
 	}
@@ -454,6 +449,7 @@ public class InquiryController {
 	
 	@PostMapping("/deleteAs")//답변만 삭제! 문의글은 그대로
 	public String deleteAs(AnswerDTO answerDTO) {
+		System.out.println(answerDTO.getAS_NUM());
 		answerService.deleteAs(answerDTO.getAS_NUM());
 		return "redirect:/inquiry/list";
 	}
@@ -469,8 +465,6 @@ public class InquiryController {
 	@PostMapping("/newswritePro")//뉴스 업데이트
 	public String newswritePro(NewsDTO newsDTO) {
 		newsService.insertNews(newsDTO);
-		System.out.println(newsDTO);
-		
 		
 		return "redirect:/inquiry/news";
 	}
@@ -637,8 +631,6 @@ public class InquiryController {
 		model.addAttribute("oftenList", oftenList);// 스프링에서 get,set자동제공
 		model.addAttribute("pageDTO", pageDTO);
 		
-		System.out.println(oftenList);
-		System.out.println(pageDTO);
 		return "inquiry/often";
 	}
 	
@@ -650,7 +642,6 @@ public class InquiryController {
 	@PostMapping("/oftenwritePro")
 	public String newswritePro(OfteniqDTO ofteniqDTO) {
 		ofteniqService.insertOfteniq(ofteniqDTO);
-		System.out.println(ofteniqDTO);
 		
 		return "redirect:/inquiry/often";
 	} 
@@ -683,7 +674,6 @@ public class InquiryController {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("OF_NUM", OF_NUM);
 		Map<String, Object> often = ofteniqService.getOften(param);
-		System.out.println(often);
 		model.addAttribute("often", often);
 		
 		return "/inquiry/updateoften";

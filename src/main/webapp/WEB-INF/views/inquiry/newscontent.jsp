@@ -153,6 +153,7 @@ function loading(currentNewsNum, searchtext, newsSection){
             // 다음글
             displayPrev(result.prev)
             // 이전글
+            debugger;
             displayNext(result.next)
         },
         error: function() {

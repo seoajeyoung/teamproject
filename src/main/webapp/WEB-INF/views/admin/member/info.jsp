@@ -53,18 +53,19 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">회원상세정보</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
+						회원 상세정보</h1>
+					<hr style="margin-bottom: 20px;margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
@@ -135,7 +136,7 @@
 									</tbody>
 								</table>
 
-								<div class="button-container">
+								<div class="button-container" style="text-align: right;">
 									<a
 										href="${pageContext.request.contextPath}/admin/member/update?member_num=${memberDTO.member_num}"
 										class="btn btn-success btn-user">회원정보수정</a> 
