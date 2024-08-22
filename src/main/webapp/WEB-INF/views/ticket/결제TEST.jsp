@@ -52,7 +52,7 @@
                 </td>
                 <th colspan="3" class="header_box_Runtime">
                     ${param.movieTitle}  ${param.selectRegionName} ${param.theaterTitle}  ${param.th_number} 
-                    남은좌석  ${param.now_count} / ${param.se_count}<br>
+                    남은좌석  ${nowCount} / ${param.se_count}<br>
                     <b>${param.fullDate} ${param.starttime}  ~  ${param.endtime}</b>
                 </th>
             </tr>

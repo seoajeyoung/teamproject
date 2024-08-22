@@ -348,41 +348,77 @@
 
 
 	<insert id="insertselectseat" parameterType="map">
-		INSERT INTO SEATPAYMENT (member_num, PAYMENT, SC_NUM, SP_SEAT)
-		VALUES
-		<foreach collection="seseat" item="seat" separator=",">
-			(
-			0,
-			'F',
-			(SELECT SC_NUM
-			FROM SCREEN
-			WHERE CI_NUM = (
-			SELECT CI_NUM
-			FROM CINEMA
-			WHERE
-			TH_NUM = (
-			SELECT TH_NUM
-			FROM THEATER
-			WHERE TH_REGION =
-			#{th_region}
-			AND
-			TH_NAME = #{th_name}
-			AND TH_NUMBER = #{th_number}
-			)
-			AND
-			MOVIE_NUM = (
-			SELECT MOVIE_NUM
-			FROM MOVIE
-			WHERE TITLE = #{movietitle}
-			)
-			)
-			AND SC_TIME =
-			CONCAT(#{fulldate}, ' ', #{sctime})
-			),
-			#{seat}
-			)
-		</foreach>
+		INSERT INTO
+		SEATPAYMENT (
+		SC_NUM,
+		TP_NUM,
+		SP_SEAT
+		)
+		VALUES (
+		(
+		SELECT SC_NUM
+		FROM SCREEN
+		WHERE CI_NUM = (
+		SELECT CI_NUM
+		FROM CINEMA
+		WHERE TH_NUM = (
+		SELECT TH_NUM
+		FROM THEATER
+		WHERE TH_REGION = #{th_region}
+		AND TH_NAME = #{th_name}
+		AND
+		TH_NUMBER = #{th_number}
+		)
+		AND MOVIE_NUM = (
+		SELECT MOVIE_NUM
+		FROM MOVIE
+		WHERE TITLE = #{movietitle}
+		)
+		)
+		AND SC_TIME = CONCAT(#{fulldate}, ' ',
+		#{sctime})
+		),
+		#{tpNum},
+		#{tpSeat}
+		)
 	</insert>
+
+	<insert id="insertticketpayment" parameterType="map">
+		INSERT INTO TICKETPAYMENT (member_num, TP_PAYMENT, SC_NUM, TP_PRICE,
+		TP_TYPE, TP_SEAT)
+		VALUES (
+		#{member_num},  <!-- member_num -->
+		'F',  <!-- TP_PAYMENT -->
+		(
+		SELECT SC_NUM
+		FROM SCREEN
+		WHERE CI_NUM = (
+		SELECT CI_NUM
+		FROM CINEMA
+		WHERE TH_NUM = (
+		SELECT TH_NUM
+		FROM THEATER
+		WHERE TH_REGION =
+		#{th_region}
+		AND TH_NAME = #{th_name}
+		AND TH_NUMBER = #{th_number}
+		)
+		AND
+		MOVIE_NUM = (
+		SELECT MOVIE_NUM
+		FROM MOVIE
+		WHERE TITLE = #{movietitle}
+		)
+		)
+		AND SC_TIME = CONCAT(#{fulldate}, ' ', #{sctime})
+		),
+		#{tpPrice},  <!-- TP_PRICE -->
+		#{tpType},    <!-- TP_TYPE -->
+		#{tpSeat}
+		)
+	</insert>
+
+
 
 	<select id="checkseat" parameterType="map" resultType="int">
 		SELECT COUNT(*)
@@ -423,51 +459,124 @@
 
 
 	<delete id="deleteseat" parameterType="map">
-		DELETE FROM SEATPAYMENT
+		DELETE FROM TICKETPAYMENT
+		WHERE TP_NUM IN
+		<foreach collection="tp_num" item="tpNum" open="("
+			separator="," close=")">
+			#{tpNum}
+		</foreach>
+		AND TP_PAYMENT = 'F'
+	</delete>
+
+
+	<delete id="deleteticket" parameterType="map">
+		DELETE S
+		FROM SEATPAYMENT S
+		LEFT JOIN TICKETPAYMENT T
+		ON S.TP_NUM =
+		T.TP_NUM
+		WHERE S.TP_NUM IN
+		<foreach collection="tp_num" item="tpNum" open="("
+			separator="," close=")">
+			#{tpNum}
+		</foreach>
+		AND T.TP_PAYMENT = 'F'
+	</delete>
+
+
+	<select id="selectpaymentseat" resultType="map"
+		parameterType="map">
+		SELECT SP_SEAT FROM SEATPAYMENT
+		WHERE SC_NUM = (SELECT
+		SC_NUM FROM SCREEN
+		WHERE CI_NUM = (SELECT CI_NUM FROM CINEMA
+		WHERE
+		TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION =#{region} AND
+		TH_NAME = #{th_name} AND TH_NUMBER = #{th_number}) AND MOVIE_NUM =
+		(SELECT MOVIE_NUM
+		FROM MOVIE WHERE title =#{movietitle}))
+		AND SC_TIME =
+		CONCAT(#{fulldate}, ' ',#{sctime}) );
+	</select>
+
+	<select id="selectmember" resultType="map" parameterType="map">
+		SELECT
+		member_name , member_phone FROM MEMBERS
+		WHERE member_num =
+		#{member_num}
+	</select>
+
+	<select id="selectticketpayment" resultType="map"
+		parameterType="map">
+		SELECT TP_NUM
+		FROM TICKETPAYMENT
 		WHERE SC_NUM = (
 		SELECT SC_NUM
-		FROM SCREEN
-		WHERE
-		CI_NUM = (
+		FROM
+		SCREEN
+		WHERE CI_NUM = (
 		SELECT CI_NUM
 		FROM CINEMA
 		WHERE TH_NUM = (
-		SELECT TH_NUM
-		FROM
-		THEATER
+		SELECT
+		TH_NUM
+		FROM THEATER
 		WHERE TH_REGION = #{th_region}
-		AND TH_NAME = #{th_name}
-		AND
-		TH_NUMBER = #{th_number}
+		AND TH_NAME =
+		#{th_name}
+		AND TH_NUMBER = #{th_number}
 		)
 		AND MOVIE_NUM = (
-		SELECT MOVIE_NUM
+		SELECT
+		MOVIE_NUM
 		FROM MOVIE
 		WHERE TITLE = #{movietitle}
 		)
 		)
-		AND SC_TIME = CONCAT(#{fulldate}, ' ',
-		#{sctime})
+		AND SC_TIME =
+		CONCAT(#{fulldate}, ' ', #{sctime})
 		)
-		AND SP_SEAT IN
-		<foreach collection="seseat" item="seat" open="("
-			separator="," close=")">
+		AND member_num = #{member_num}
+		AND
+		TP_SEAT IN
+		<foreach collection="seseat" item="seat" open="(" close=")"
+			separator=",">
 			#{seat}
 		</foreach>
-		AND PAYMENT = 'F'
-	</delete>
 
-	<select id="selectpaymentseat" resultType="map" parameterType="map">
-		SELECT SP_SEAT FROM SEATPAYMENT
-		WHERE SC_NUM = (SELECT SC_NUM FROM SCREEN
-		WHERE CI_NUM = (SELECT CI_NUM FROM CINEMA
-		WHERE TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION =#{region} AND
-		TH_NAME = #{th_name} AND TH_NUMBER = #{th_number}) AND MOVIE_NUM = (SELECT MOVIE_NUM
-		FROM MOVIE WHERE title =#{movietitle}))
-		AND SC_TIME = CONCAT(#{fulldate}, ' ',#{sctime}) );
 	</select>
 
+	<update id="updatepayment" parameterType="map">
+		UPDATE TICKETPAYMENT
+		SET TP_PAYMENT = 'T'
+		WHERE TP_NUM = #{tpNum}
+	</update>
 
 
+	<select id="selectnowcount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) AS NOWCOUNT
+		FROM TICKETPAYMENT
+		WHERE SC_NUM = (
+		SELECT SC_NUM
+		FROM SCREEN
+		WHERE CI_NUM = (
+		SELECT CI_NUM
+		FROM CINEMA
+		WHERE TH_NUM = (
+		SELECT TH_NUM
+		FROM THEATER
+		WHERE TH_REGION = #{selectRegionName}
+		AND TH_NAME = #{theaterTitle}
+		AND TH_NUMBER = #{th_number}
+		)
+		AND MOVIE_NUM = (
+		SELECT MOVIE_NUM
+		FROM MOVIE
+		WHERE TITLE = #{movieTitle}
+		)
+		)
+		AND SC_TIME = CONCAT(#{fullDate}, ' ', #{starttime})
+		)
+	</select>
 
 </mapper>  
