@@ -311,12 +311,12 @@ function deleteRow(stNum) {
 															value="${AdminDTO.ST_NUM}">
 													</form> <a href="javascript:void(0);"
 													onclick="document.getElementById('storeForm${AdminDTO.ST_NUM}').submit();"
-													class="btn btn-detailinfo btn-user btn-block">
+													class="btn btn-detailinfo btn-user btn-block" style="font-size: 16px !important;">
 														상세정보확인/수정 </a>
 												</td>
 												<td id="delete-button-cell">
 													<button type="button"
-														onclick="deleteRow(${AdminDTO.ST_NUM})"
+														onclick="deleteRow('${AdminDTO.ST_NUM}')"
 														class="btn btn-secondary btn-user">삭제</button>
 												</td>
 										</c:forEach>
@@ -377,6 +377,61 @@ function deleteRow(stNum) {
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+    $(function() {
+        $('form').on('submit', function(event) {
+            var isValid = true; // 폼이 유효한지 여부를 저장
+
+            // 각 입력 필드 검사
+            var stNum = $('#ST_NUM').val().trim();
+            var stName = $('#ST_NAME').val().trim();
+            var stPrice = $('#ST_PRICE').val().trim();
+            var stType = $('#ST_TYPE').val().trim();
+            var stDetail = $('#ST_DETAIL').val().trim();
+
+            // 각 필드가 빈 값인지 확인
+            if (stNum === '') {
+                isValid = false;
+                $('#numCheckMessage').text('상품번호를 입력하세요.').css('color', 'red');
+                event.preventDefault(); // 폼 제출 중지
+                return false; // 첫 번째 오류가 발생하면 함수 종료
+            }
+
+            if (stName === '') {
+                isValid = false;
+                $('#nameCheckMessage').text('상품이름을 입력하세요.').css('color', 'red');
+                event.preventDefault(); // 폼 제출 중지
+                return false; // 첫 번째 오류가 발생하면 함수 종료
+            }
+
+            if (stPrice === '') {
+                isValid = false;
+                alert('상품가격을 입력하세요.');
+                event.preventDefault(); // 폼 제출 중지
+                return false; // 첫 번째 오류가 발생하면 함수 종료
+            }
+
+            if (stType === '') {
+                isValid = false;
+                alert('상품타입을 선택하세요.');
+                event.preventDefault(); // 폼 제출 중지
+                return false; // 첫 번째 오류가 발생하면 함수 종료
+            }
+
+            if (stDetail === '') {
+                isValid = false;
+                $('#detailCheckMessage').text('상품설명을 입력하세요.').css('color', 'red');
+                event.preventDefault(); // 폼 제출 중지
+                return false; // 첫 번째 오류가 발생하면 함수 종료
+            }
+
+            // 폼이 유효하지 않으면 제출을 막음
+            if (!isValid) {
+                event.preventDefault(); // 폼 제출 중지
+            }
+        });
+	});
+	</script>
 
 	<!-- Bootstrap core JavaScript-->
 	<script

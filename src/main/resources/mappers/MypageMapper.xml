@@ -65,15 +65,18 @@
 		FROM
 		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON TP.member_num = M.member_num
+		MEMBERS M ON TP.member_num
+		= M.member_num
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
-		CINEMA C ON S.CI_NUM = C.CI_NUM
+		CINEMA C ON
+		S.CI_NUM = C.CI_NUM
 		JOIN
 		THEATER T ON C.TH_NUM = T.TH_NUM
 		JOIN
-		MOVIE MV ON C.MOVIE_NUM =
+		MOVIE MV ON
+		C.MOVIE_NUM =
 		MV.MOVIE_NUM
 		WHERE
 		M.member_id =
@@ -116,7 +119,8 @@
 		FROM
 		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON TP.member_num = M.member_num
+		MEMBERS M ON
+		TP.member_num = M.member_num
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
@@ -139,22 +143,107 @@
 	<select id="getBoardCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM TICKETPAYMENT TP
-		JOIN MEMBERS M ON TP.member_num = M.member_num
+		JOIN MEMBERS M ON TP.member_num =
+		M.member_num
 		JOIN SCREEN S ON TP.SC_NUM = S.SC_NUM
-		JOIN CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN CINEMA C ON
+		S.CI_NUM = C.CI_NUM
 		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
-		JOIN MOVIE MV ON C.MOVIE_NUM = MV.MOVIE_NUM
+		JOIN MOVIE MV
+		ON C.MOVIE_NUM = MV.MOVIE_NUM
 		WHERE M.member_num = #{memberNum}
 		<if test="pageDTO.search != null and pageDTO.search != ''">
 			AND (
 			TP.TP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR S.SC_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR T.TH_REGION LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR T.TH_NAME LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR T.TH_NUMBER LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR MV.title LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR
+			S.SC_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_REGION LIKE
+			CONCAT('%', #{pageDTO.search}, '%')
+			OR T.TH_NAME LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			OR T.TH_NUMBER LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			OR MV.title LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
 			)
 		</if>
+	</select>
+
+	<select id="getMyStorePaymentList"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT
+		SP.sp_num,
+		SP.payment_total_price,
+		SP.payment_date,
+		S.ST_NAME,
+		S.ST_TYPE,
+		S.ST_CONST
+		FROM
+		STOREPAYMENT SP
+		JOIN
+		STORE S ON SP.st_num =
+		S.ST_NUM
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+		WHERE
+		M.member_id
+		= #{memberId}
+		<if test="pageDTO.search != null and pageDTO.search != ''">
+			AND (
+			SP.sp_num LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR
+			SP.payment_total_price LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR
+			SP.payment_date LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.ST_NAME
+			LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.ST_TYPE LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			OR S.ST_CONST LIKE CONCAT('%',
+			#{pageDTO.search}, '%')
+			)
+		</if>
+		ORDER BY
+		SP.sp_num DESC
+		LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
+	</select>
+
+	<select id="getStoreBoardCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM STOREPAYMENT SP
+		JOIN STORE S ON SP.st_num = S.ST_NUM
+		JOIN MEMBERS M ON SP.member_num = M.member_num
+		WHERE M.member_id = #{memberId}
+		<if test="pageDTO.search != null and pageDTO.search != ''">
+			AND (
+			SP.sp_num LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR SP.payment_total_price LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR SP.payment_date LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.ST_NAME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.ST_TYPE LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR S.ST_CONST LIKE CONCAT('%', #{pageDTO.search}, '%')
+			)
+		</if>
+	</select>
+	
+	<select id="getMyStorePaymentInfo"
+		resultType="com.itwillbs.domain.MypageDTO">
+		SELECT
+		SP.sp_num,
+		SP.payment_total_price,
+		SP.payment_date,
+		S.ST_NAME,
+		S.ST_TYPE,
+		S.ST_CONST
+		FROM
+		STOREPAYMENT SP
+		JOIN
+		STORE S ON SP.st_num =
+		S.ST_NUM
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+		WHERE
+		SP.sp_num = #{sp_num}
 	</select>
 
 

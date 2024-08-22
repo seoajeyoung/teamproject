@@ -57,4 +57,16 @@ public class MypageDAO {
 	    return sqlSession.selectOne(namespace + ".getBoardCount", paramMap);
 	}
 
+	public List<MypageDTO> getMyStorePaymentList(Map<String, Object> paramMap) {
+		return sqlSession.selectList(namespace + ".getMyStorePaymentList", paramMap);
+	}
+	
+	public int getStoreBoardCount(Map<String, Object> paramMap) {
+	    return sqlSession.selectOne(namespace + ".getStoreBoardCount", paramMap);
+	}
+
+	public MypageDTO getMyStorePaymentInfo(String sp_num) {
+		return sqlSession.selectOne(namespace + ".getMyStorePaymentInfo", sp_num);
+	}
+
 }

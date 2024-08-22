@@ -53,17 +53,20 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">예매상세정보</h1><hr>
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">예매 상세 정보</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
@@ -89,20 +92,38 @@
 											<th>상영관</th>
 											<td>${adminDTO.TH_REGION}/${adminDTO.TH_NAME}/${adminDTO.TH_NUMBER}</td>
 											<th>좌석</th>
-											<td>${adminDTO.SP_SEAT}</td>
+											<td>${adminDTO.TP_SEAT}</td>
 										</tr>
 										<tr>
 											<th colspan="2">결제가격</th>
-											<td colspan="4">${adminDTO.TOTAL_PRICE}원</td>
+											<td colspan="4">${adminDTO.TP_PRICE}원</td>
 											<th>상영시작시간</th>
 											<td>${adminDTO.SC_TIME}</td>
 											<th>상영종료시간</th>
 											<td>${adminDTO.SC_TIME_END}</td>
 										</tr>
+										<tr>
+											<th colspan="2">결제유형</th>
+											<td colspan="4">${adminDTO.TP_TYPE}</td>
+											<th>결제상태</th>
+											<td colspan="3">
+											<c:choose>
+												<c:when test="${adminDTO.TP_PAYMENT == 'T'}">
+                    								결제완료
+                								</c:when>
+												<c:otherwise>
+                    								${adminDTO.TP_PAYMENT}
+                									</c:otherwise>
+											</c:choose>
+											</td>
+										</tr>
+
+
 									</tbody>
-									
+
 								</table>
-								<button type="button" class="btn btn-danger btn-user" id="btn_cancel" style="float: right;">뒤로가기</button>
+								<button type="button" class="btn btn-danger btn-user"
+									id="btn_cancel" style="float: right;">뒤로가기</button>
 
 							</div>
 						</div>
@@ -151,11 +172,12 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script>
-	document.getElementById('btn_cancel').addEventListener('click', function() {
-        window.history.back();
-    });
+		document.getElementById('btn_cancel').addEventListener('click',
+				function() {
+					window.history.back();
+				});
 	</script>
 
 	<!-- Bootstrap core JavaScript-->

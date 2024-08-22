@@ -111,7 +111,7 @@
 							<!-- 				</select> -->
 							<label for="searchtext" class="hidden">검색어 입력</label>
 							<form
-								action="${pageContext.request.contextPath}/mypage/mypayment"
+								action="${pageContext.request.contextPath}/mypage/mystorepayment"
 								method="get" id="searchForm">
 								<input id="searchtext" type="text" name="search" class="c_input"
 									title="검색어 입력" placeholder="검색어를 입력해 주세요" style="width: 185px;"
@@ -144,27 +144,23 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th scope="col">예매번호</th>
-										<th scope="col">영화명</th>
-										<th scope="col">상영관</th>
-										<th scope="col">상영시간</th>
+										<th scope="col">구매번호</th>
+										<th scope="col">상품명</th>
+										<th scope="col">상품타입</th>
+										<th scope="col">구매시간</th>
 										<th scope="col">비고</th>
-										<!-- 					<th scope="col">조회수</th> -->
 									</tr>
 								</thead>
-								<!-- 				@@@@@@@@@@@@@@@ -->
 								<tbody id="newsTableBody">
-									<c:forEach var="list" items="${myBookingList}">
+									<c:forEach var="list" items="${myStorePaymentList}">
 										<tr class="first">
-											<!--순번 오름차순으로 변경-->
-											<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->
 
-											<td>${list.SP_NUM}</td>
-											<td>${list.title}</td>
-											<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
-											<td>${list.SC_TIME }</td>
+											<td>${list.sp_num}</td>
+											<td>${list.ST_NAME}</td>
+											<td>${list.ST_TYPE}</td>
+											<td>${list.payment_date}</td>
 											<td><a
-												href="${pageContext.request.contextPath}/mypage/mypaymentinfo?SP_NUM=${list.SP_NUM}"
+												href="${pageContext.request.contextPath}/mypage/mystorepaymentinfo?sp_num=${list.sp_num}"
 												class="round inblack" title="상세정보" id="btn_info"
 												style="background: #a59f9f; border: 2px solid #a59f9f; text-decoration: none; display: inline-block; color: white;">
 													<span>상세정보</span>
@@ -173,15 +169,14 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							<div class="paging">
-
+							<div class="paging" id="pagingList">
 								<a
-									href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=1&search=${pageDTO.search}"
-									class="firstpage  pbtn"><<</a>
+									href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=1&search=${pageDTO.search}"
+									class="firstpage  pbtn" style="font-size: 14px;">[처음 페이지]</a>
 								<c:if test="${pageDTO.currentPage > 1 }">
 									<a
-										href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${pageDTO.currentPage-1}&search=${pageDTO.search}"
-										class="prevpage  pbtn"><</a>
+										href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=${pageDTO.currentPage-1}&search=${pageDTO.search}"
+										class="prevpage pbtn" style="font-size: 14px;">[이전 페이지]</a>
 								</c:if>
 
 								<c:forEach var="i" begin="${pageDTO.startPage}"
@@ -189,44 +184,31 @@
 
 									<c:if test="${i eq pageDTO.currentPage}">
 										<a
-											href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${i}&search=${pageDTO.search}">
-											<span class="pagenum currentpage">${i}</span>
+											href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=${i}&search=${pageDTO.search}">
+											<span class="pagenum currentpage" style="font-size: 14px;">${i}</span>
 										</a>
 									</c:if>
 
 									<c:if test="${i ne pageDTO.currentPage}">
 										<a
-											href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${i}&search=${pageDTO.search}">
-											<span class="pagenum">${i}</span>
+											href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=${i}&search=${pageDTO.search}">
+											<span class="pagenum" style="font-size: 14px;">${i}</span>
 										</a>
 									</c:if>
+									
+									&nbsp;
 
 								</c:forEach>
 
 								<c:if test="${pageDTO.currentPage < pageDTO.pageCount }">
 									<a
-										href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${pageDTO.currentPage+1}&search=${pageDTO.search}"
-										class="nextpage  pbtn">></a>
+										href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=${pageDTO.currentPage+1}&search=${pageDTO.search}"
+										class="nextpage  pbtn" style="font-size: 14px;">[다음 페이지]</a>
 								</c:if>
 								<a
-									href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${pageDTO.pageCount}&search=${pageDTO.search}"
-									class="lastpage  pbtn">>></a>
-
+									href="${pageContext.request.contextPath}/mypage/mystorepayment?pageNum=${pageDTO.pageCount > 0 ? pageDTO.pageCount : 1}&search=${pageDTO.search}"
+									class="lastpage pbtn" style="font-size: 14px;">[마지막 페이지]</a>
 							</div>
-
-							<%-- 							<c:if test="${ pageDTO.startPage > pageDTO.pageBlock }"> --%>
-							<!-- 								<a -->
-							<%-- 									href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">[이전]</a> --%>
-							<%-- 							</c:if> --%>
-							<%-- 							<c:forEach var="i" begin="${pageDTO.startPage}" --%>
-							<%-- 								end="${pageDTO.endPage}" step="1"> --%>
-							<!-- 								<a -->
-							<%-- 									href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${i}">${i}</a> --%>
-							<%-- 							</c:forEach> --%>
-							<%-- 							<c:if test="${ pageDTO.endPage < pageDTO.pageCount }"> --%>
-							<!-- 								<a -->
-							<%-- 									href="${pageContext.request.contextPath}/mypage/mypayment?pageNum=${pageDTO.startPage + pageDTO.pageBlock}">[다음]</a> --%>
-							<%-- 							</c:if> --%>
 
 						</div>
 						<!--?xml version="1.0" encoding="utf-8"?-->

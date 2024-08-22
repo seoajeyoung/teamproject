@@ -207,61 +207,70 @@ public class MypageController {
 	@GetMapping("/mystorepayment")
 	public String mystorepayment(HttpServletRequest request, HttpSession session, Model model) {
 
-//		int pageSize = 10;
-//		String pageNum = (String) request.getParameter("pageNum");
-//		if (pageNum == null) {
-//			pageNum = "1";
-//		}
-//		int currentPage = Integer.parseInt(pageNum);
-//
-//		PageDTO pageDTO = new PageDTO();
-//		pageDTO.setPageSize(pageSize);
-//		pageDTO.setPageNum(pageNum);
-//		pageDTO.setCurrentPage(currentPage);
-//		
-//		String search = request.getParameter("search");
-//		pageDTO.setSearch(search);
-//
-//		String id = (String) session.getAttribute("member_id");
-//		
-//		Map<String, Object> paramMap = new HashMap<>();
-//	    paramMap.put("memberId", id);
-//	    paramMap.put("pageDTO", pageDTO);
-//
-//	    List<MypageDTO> myBookingList = mypageService.getMyBookingList(paramMap);
-//
-//		// member_id를 사용하여 member_num 조회
-//		int memberNum = mypageService.getMemberNumByMemberId(id);
-//		
-//		int count = mypageService.getBoardCount(memberNum);
-//
-//		// 한 화면에 보여줄 페이지 개수
-//		int pageBlock = 10;
-//		// 시작하는 페이지번호 구하기
-//		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
-//		// 끝나는 페이지번호 구하기
-//		int endPage = startPage + pageBlock - 1;
-//		// 전체페이지수 구하기
-//		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-//
-//		if (endPage > pageCount) {
-//			endPage = pageCount;
-//		}
-//
-//		pageDTO.setCount(count);
-//		pageDTO.setPageBlock(pageBlock);
-//		pageDTO.setStartPage(startPage);
-//		pageDTO.setEndPage(endPage);
-//		pageDTO.setPageCount(pageCount);
-//		
-//		System.out.println("Start Row: " + pageDTO.getStartRow());
-//		System.out.println("Page Size: " + pageDTO.getPageSize()); 
-//
-//		System.out.println("myBookingList: " + myBookingList);
-//		model.addAttribute("myBookingList", myBookingList);
-//		model.addAttribute("pageDTO", pageDTO);
+		int pageSize = 10;
+		String pageNum = (String) request.getParameter("pageNum");
+		if (pageNum == null) {
+			pageNum = "1";
+		}
+		int currentPage = Integer.parseInt(pageNum);
+		
+		String search = request.getParameter("search");
+		
+		String id = (String) session.getAttribute("member_id");
+		
+		int memberNum = mypageService.getMemberNumByMemberId(id);
+
+		PageDTO pageDTO = new PageDTO();
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		pageDTO.setSearch(search);
+
+		
+		Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberId", id);
+	    paramMap.put("memberNum", memberNum);
+	    paramMap.put("pageDTO", pageDTO);
+	    
+	    int count = mypageService.getStoreBoardCount(paramMap);
+
+		// 한 화면에 보여줄 페이지 개수
+		int pageBlock = 10;
+		// 시작하는 페이지번호 구하기
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		// 끝나는 페이지번호 구하기
+		int endPage = startPage + pageBlock - 1;
+		// 전체페이지수 구하기
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+
+		if (endPage > pageCount) {
+			endPage = pageCount;
+		}
+
+		pageDTO.setCount(count);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		List<MypageDTO> myStorePaymentList = mypageService.getMyStorePaymentList(paramMap);
+		
+		System.out.println("Start Row: " + pageDTO.getStartRow());
+
+		model.addAttribute("myStorePaymentList", myStorePaymentList);
+		model.addAttribute("pageDTO", pageDTO);
 
 		return "/mypage/mystorepayment";
+	}
+	
+	@GetMapping("/mystorepaymentinfo")
+	public String mystorepaymentinfo(MypageDTO mypageDTO, Model model) {
+
+		MypageDTO mypageDTO2 = mypageService.getMyStorePaymentInfo(mypageDTO.getSp_num());
+
+		model.addAttribute("mypageDTO", mypageDTO2);
+
+		return "/mypage/mystorepaymentinfo";
 	}
 
 }

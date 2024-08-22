@@ -77,4 +77,31 @@ public class MypageService {
 	    return mypageDAO.getBoardCount(paramMap);
 	}
 
+	public List<MypageDTO> getMyStorePaymentList(Map<String, Object> paramMap) {
+		PageDTO pageDTO = (PageDTO) paramMap.get("pageDTO");
+
+	    int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+	    int endRow = startRow + pageDTO.getPageSize() - 1;
+
+	    pageDTO.setStartRow(startRow-1); 
+	    pageDTO.setEndRow(endRow);
+	    
+	    System.out.println("Start Row: " + pageDTO.getStartRow());
+	    System.out.println("Page Size: " + pageDTO.getPageSize()); 
+
+	    paramMap.put("pageDTO", pageDTO);
+
+	    return mypageDAO.getMyStorePaymentList(paramMap);
+	}
+
+	public int getStoreBoardCount(Map<String, Object> paramMap) {
+		return mypageDAO.getStoreBoardCount(paramMap);
+	}
+
+	public MypageDTO getMyStorePaymentInfo(String sp_num) {
+		return mypageDAO.getMyStorePaymentInfo(sp_num);
+	}
+	
+	
+
 }

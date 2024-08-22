@@ -190,7 +190,6 @@ public class MypageDTO {
 	private String TH_NAME;
 	private String TH_REGION;
 	private String TH_NUMBER;
-	private String SP_NUM;
 	private String TP_SEAT;
 	private String SC_TIME;
 	private String SC_TIME_END;
@@ -223,12 +222,7 @@ public class MypageDTO {
 	public void setTH_NUMBER(String TH_NUMBER) {
 		this.TH_NUMBER = TH_NUMBER;
 	}
-	public String getSP_NUM() {
-		return SP_NUM;
-	}
-	public void setSP_NUM(String SP_NUM) {
-		this.SP_NUM = SP_NUM;
-	}
+	
 	public String getTP_SEAT() {
 		return TP_SEAT;
 	}
@@ -270,6 +264,52 @@ public class MypageDTO {
 	}
 	public void setTP_PAYMENT(String TP_PAYMENT) {
 		this.TP_PAYMENT = TP_PAYMENT;
+	}
+	
+	// ================================================================
+	
+	private String sp_num;
+	private String payment_total_price;
+	private String payment_date;
+	private String ST_NAME;
+	private String ST_TYPE;
+	private String ST_CONST;
+
+	public String getSp_num() {
+		return sp_num;
+	}
+	public void setSp_num(String sp_num) {
+		this.sp_num = sp_num;
+	}
+	public String getPayment_total_price() {
+		return payment_total_price;
+	}
+	public void setPayment_total_price(String payment_total_price) {
+		this.payment_total_price = payment_total_price;
+	}
+	public String getPayment_date() {
+		return payment_date;
+	}
+	public void setPayment_date(String payment_date) {
+		this.payment_date = payment_date;
+	}
+	public String getST_NAME() {
+		return ST_NAME;
+	}
+	public void setST_NAME(String ST_NAME) {
+		this.ST_NAME = ST_NAME;
+	}
+	public String getST_TYPE() {
+		return ST_TYPE;
+	}
+	public void setST_TYPE(String ST_TYPE) {
+		this.ST_TYPE = ST_TYPE;
+	}
+	public String getST_CONST() {
+		return ST_CONST;
+	}
+	public void setST_CONST(String ST_CONST) {
+		this.ST_CONST = ST_CONST;
 	}
 	
 	

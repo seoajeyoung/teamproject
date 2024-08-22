@@ -57,17 +57,20 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar Include -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">예매관리</h1><hr>
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">예매 관리</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -104,11 +107,12 @@
 												<td>${list.member_id }</td>
 												<td>${list.title }</td>
 												<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
-												<td>${list.SP_SEAT }</td>
+												<td>${list.TP_SEAT }</td>
 												<td>${list.SC_TIME }</td>
 												<td><a
 													href="${pageContext.request.contextPath}/admin/movie/bookinginfo?TP_NUM=${list.TP_NUM}"
-													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
+													class="btn btn-detailinfo btn-user btn-block"
+													style="font-size: 16px !important;">상세정보확인</a></td>
 											</tr>
 										</c:forEach>
 									</tbody>

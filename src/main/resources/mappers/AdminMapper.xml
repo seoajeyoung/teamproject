@@ -541,8 +541,10 @@
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
 		TP.TP_NUM,
-		TP.TOTAL_PRICE,
-		TP.SP_SEAT,
+		TP.TP_PRICE,
+		TP.TP_SEAT,
+		TP.TP_TYPE,
+		TP.TP_PAYMENT,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
@@ -569,8 +571,10 @@
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
 		TP.TP_NUM,
-		TP.TOTAL_PRICE,
-		TP.SP_SEAT,
+		TP.TP_PRICE,
+		TP.TP_SEAT,
+		TP.TP_TYPE,
+		TP.TP_PAYMENT,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
