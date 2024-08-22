@@ -92,6 +92,18 @@ public class InquiryDAO {
 		return sqlSession.selectOne(namespace + ".getAdminCountF", pageDTO);
 	}
 
+	public Map<String, Object> adminPrev(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".adminPrev", param);
+	}
+
+	public Map<String, Object> adminNext(Map<String, Object> param) {
+		return sqlSession.selectOne(namespace + ".adminNext", param);
+	}
+
+	public Map<String, Object> adminInquiry(String iNQUIRY_NUM) {
+		return sqlSession.selectOne(namespace + ".adminInquiry", iNQUIRY_NUM);
+	}
+
 	
 
 	

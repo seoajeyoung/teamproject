@@ -88,67 +88,10 @@
 						<div class="customer_top">
 							<h2 class="tit">나의문의내역</h2>
 							<p class="stit">
-								빠른시간안에 답변드리겠습니다. <br>@@@TODO@@뭔가 더 할말있음 적기@@.
+								빠른시간안에 답변드리겠습니다. <br>
 							</p>
 						</div>
-						<div class="search_area">
-							<legend>
-								<label for="searchtext">검색</label>
-							</legend>
-						<form action="${pageContext.request.contextPath}/inquiry/me" method="get" id="searchForm">
-							<input id="searchtext" type="text" name="search" class="c_input" title="검색어 입력"
-								placeholder="검색어를 입력해 주세요" value="" style="width: 275px;">
-							<button type="button" class="round inblack" title="검색하기"
-								id="btn_search">
-								<span>검색하기</span>
-							</button>
-						</form>
-							<div class="qu_txt">
-								<em>추천검색어 :</em> <span class="first"> <a href="#none">현금영수증</a></span>
 
-								<span class=""> <a href="#none">관람권</a></span> <span class="">
-									<a href="#none">예매</a>
-								</span> <span class=""> <a href="#none">환불</a></span> <span class="">
-									<a href="#none">취소</a>
-								</span> <span class=""> <a href="#none"></a></span>
-
-							</div>
-						</div>
-						<div class="c_tab_wrap">
-							<ul class="c_tab type_free">
-								<li class="on"><a
-									href="/support/faq/default.aspx?type=0&amp;searchtext="
-									style="font-size: 11px;" title="선택된 탭메뉴">전체</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=101,239&amp;searchtext="
-									style="font-size: 11px;">예매/매표</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=243&amp;searchtext="
-									style="font-size: 11px;">관람권/결제수단</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=102,240&amp;searchtext="
-									style="font-size: 11px;">멤버쉽/클럽서비스</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=1262&amp;searchtext="
-									style="font-size: 11px;">VIP관련</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=242&amp;searchtext="
-									style="font-size: 11px;">할인혜택</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=103,246&amp;searchtext="
-									style="font-size: 11px;">영화관이용</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=244&amp;searchtext="
-									style="font-size: 11px;">특별관</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=104,1259&amp;searchtext="
-									style="font-size: 11px;">기프트샵</a></li>
-								<li class=""><a
-									href="/support/faq/default.aspx?type=105,245&amp;searchtext="
-									style="font-size: 11px;">홈페이지/모바일</a></li>
-
-							</ul>
-						</div>
 						<div class="search_result">
 							총<span class="num">${pageDTO.count}건</span>이 검색되었습니다.
 						</div>
@@ -179,7 +122,7 @@
 											<td>${inquiryDTO.INQUIRY_DATE_FORMAT}</td>
 											<td id="title0" class="txt"><a
 												href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${inquiryDTO.inquiry_num}">${inquiryDTO.inquiry_name}</a></td>
-											<td class="num">${inquiryDTO.AS_R}</td>
+											<td class="num">${inquiryDTO.ISANSWERED}</td>
 										</tr>
 																								
 
@@ -255,111 +198,6 @@ $('#btn_search').on('click', function() {
 
 </script>
 
-
-
-<!-- <script type="text/javascript"> -->
-// 				//<![CDATA[
-
-//  (function($) {
-//  	$(function() {
-		
- 		
- 		
-		
-//  		$('#btn_search').on('click', function() {
-
-//  			//                if ($('#searchtext').val() == "") {
-//  			//                    alert("검색어를 입력해 주세요.");
-//  			//                    $('#searchtext').focus();
-//  			//                    return false;
-//  			//                } else {
-//  			//                    
-//  			//                }
-
-//  			Search();
-			
-			
-//  		});
-		
-		
-		
-   	 	
-
-
-// 		$('#searchtext').keypress(function(event) {
-// 			if (event.which == 13) {
-// 				if ($('#searchtext').val() == "") {
-// 					alert("검색어를 입력해 주세요.");
-// 					$('#searchtext').focus();
-// 					return false;
-// 				} else {
-
-// 					Search();
-// 				}
-// 			}
-
-//  		});
-
-// 		function Search() {
-// 			location.href = "/support/faq/default.aspx?searchtext="
-// 					+ escape($("#searchtext").val());
-// 			return false;
-// 		}
-
-// 		$('.c_tab_wrap').children('.c_tab').children('li').on(
-// 				'click',
-// 				function() {
-// 					//$('.c_tab_wrap').children('.c_tab').children('li').removeClass("on");
-// 					//$(this).addClass("on");
-
-// 					location.href = $(this).children('a').attr(
-// 							"href")
-// 							+ escape("");
-// 					return false;
-// 				});
-
-// 		$('.qu_txt')
-// 				.children('span')
-// 				.children('a')
-// 				.on(
-// 						"click",
-// 						function() {
-// 							location.href = "/support/faq/default.aspx?searchtext="
-// 									+ escape($(this).html());
-// 							return false;
-// 						});
-// 		//SR 4020337 검색어 검색 시 검색결과에서 해당 검색어 붉은색으로 변경
-// 		var idx = 0;
-
-// 		if ($('#searchtext').val()) {
-// 			for (idx = 0; idx < 20; idx++) {
-// 				var search = $('#searchtext').val();
-// 				search = search.toUpperCase();
-// 				$(
-// 						"#title" + idx + " > a:contains('"
-// 								+ search + "')")
-// 						.each(
-// 								function() {
-// 									var regex = new RegExp(
-// 											search, 'gi');
-// 									$(this)
-// 											.html(
-// 													$(this)
-// 															.TEXT()
-// 															.REPLACE(
-// 																	REGEX,
-// 																	"<SPAN STYLE='COLOR:RED'>"
-// 																			+ SEARCH
-// 																			+ "</SPAN>"));
-// 								});
-// 			}
-// 		}
-
-//  	});
-//  })(jQuery);
-
-// ]]>
-  </script> 
 
 
 			<!--/ Contents End -->
