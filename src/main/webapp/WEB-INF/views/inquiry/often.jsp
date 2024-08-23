@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <title>views/often.jsp</title>
@@ -11,7 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
+<script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script> 
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/ticket/top.jsp" />

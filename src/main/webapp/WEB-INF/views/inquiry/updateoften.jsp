@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <title>inquiry/updateoften.jsp</title>
@@ -12,7 +12,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
-</head>
+</head> 
 <body>
 <jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->

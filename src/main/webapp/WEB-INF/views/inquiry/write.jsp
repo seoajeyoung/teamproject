@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <title>inquiry/write.jsp</title>
@@ -9,7 +9,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet"> 
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
