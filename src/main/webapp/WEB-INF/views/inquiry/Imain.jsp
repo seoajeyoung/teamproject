@@ -117,17 +117,6 @@
 							${news.NEWS_SECTION} ${news.NEWS_NAME }</a>
 							<span class="day">${news.NEWS_DATE}</span></li>
 						</c:forEach>
-                    
-<!--                             <li><a href="/support/news/detail-view.aspx?idx=8001&amp;type=3"> [CGV] 무대인사 예매취소 정책 변경 안내</a><span class="day">2024.01.02</span></li> -->
-                        
-<!--                             <li><a href="/support/news/detail-view.aspx?idx=8030&amp;type=1">[시스템점검] 2024년 8월 시스템공지</a><span class="day">2024.07.17</span></li> -->
-                        
-<!--                             <li><a href="/support/news/detail-view.aspx?idx=8029&amp;type=4">[기타] CGV 사칭 계정 메시지 주의 안내</a><span class="day">2024.07.15</span></li> -->
-                        
-<!--                             <li><a href="/support/news/detail-view.aspx?idx=8028&amp;type=5"> [아시아나 마일리지] 제휴 종료 안내</a><span class="day">2024.07.05</span></li> -->
-                        
-<!--                             <li><a href="/support/news/detail-view.aspx?idx=8026&amp;type=1">[시스템점검] 2024년 7월 시스템공지</a><span class="day">2024.06.28</span></li> -->
-                        
 					</ul>
 					<a href="${pageContext.request.contextPath}/inquiry/news" class="more">공지/뉴스 더보기</a>
 				</div>
@@ -165,53 +154,12 @@
 				}
 			});
 
-            //$('#btn_search').on('click', Search);
 
             $('.c_qu').children('a').on("click", function () {
                 location.href = "/support/faq/default.aspx?searchtext=" + escape($(this).html());
                 //return false;
             });
 
-            $('.email_inquiry').on('click', function () {
-                location.href = "/support/qna/default.aspx";
-            });
-
-            /**  중복링크 제거
-            $('.my_advice').on('click', function () {
-                var openNewWindow = window.open("/user/mycgv/inquiry/qna/list.aspx?g=1#contaniner", "_blank");
-                if (openNewWindow)
-                    openNewWindow.submit();
-                else
-                    alert("팝업이 허용되어 있지 않습니다.");
-                //openNewWindow.focus();
-                return false;
-
-            });
-            **/
-            $('.talk_inquiry').on('click', function () {
-
-                var popupWidth = 600;
-                var popupHeight = 600;
-
-                // 듀얼 모니터 기준
-                var _left = (screen.availWidth - popupWidth) / 2;
-                if( window.screenLeft < 0){
-                    _left += window.screen.width*-1;
-                }
-                else if ( window.screenLeft > window.screen.width ){
-                    _left += window.screen.width;
-                }
-
-                var _top= (screen.availHeight - popupHeight) / 2 - 10;
-
-                var openNewWindow = window.open("https://cgv.enomix.co.kr/sharedfront/jsp/view/chatWindow.jsp?channelId=pcweb", "cgvTalk", "width="+popupWidth+",height="+popupHeight+",resizable=yes, toolbar=no, menubar=no, status=no, scrollbars=yes,left="+ _left + ", top="+ _top);
-                if (openNewWindow)
-                    openNewWindow.submit();
-                else
-                    alert("팝업이 허용되어 있지 않습니다.");
-                //openNewWindow.focus();
-                return false;
-            });
 
         });
     })(jQuery);

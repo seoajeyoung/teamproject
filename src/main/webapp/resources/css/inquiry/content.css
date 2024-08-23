@@ -2198,10 +2198,10 @@ div.scrollbox {overflow-y:auto;}
 @keyframes tt2 {
 	to{filter:blur(10px); opacity:0}
 }*/
-.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_detailView{display:block; padding:5px 30px 5px 18px; font-size:14px; color:#343434; line-height:1.429em; background:rgba(255, 255, 255, 0.8) url('./../images/common/ico/arrowR_8x13.png') calc(100% - 11px) center/8px 13px scroll no-repeat; border-radius:15px}
-.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('./../images/main/ico/play.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
+.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_detailView{display:block; padding:5px 30px 5px 18px; font-size:14px; color:#343434; line-height:1.429em; background:rgba(255, 255, 255, 0.8) url('https://img.cgv.co.kr/R2014/images/common/ico/arrowR_8x13.png') calc(100% - 11px) center/8px 13px scroll no-repeat; border-radius:15px}
+.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/play.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
 .movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop.active{background:transparent url('./../images/main/ico/pause.png') center/18px scroll no-repeat;}
-.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('./../images/main/ico/soundOff.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
+.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/soundOff.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
 .movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff.active{background:transparent url('./../images/main/ico/soundOn.png') center/18px scroll no-repeat;}
 
 /* S > 무비차트 | 상영예정작 */

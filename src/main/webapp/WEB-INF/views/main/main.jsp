@@ -25,6 +25,8 @@
 <script src="${pageContext.request.contextPath}/resources/script/ticket.js"></script>
 </head>
 <body>
+<!-- top include -->
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko"><head>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -96,25 +98,11 @@
     <script src="https://img.cgv.co.kr/R2014/js/icheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/R2014/js/icheck/iCheck.css">
 
-	<!-- 2020.05.07 감정지수/프리에그 프로젝트 추가 -->
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/preegg.css">
 
-    <!-- 2023.03.27 홈페이지 스토어 영역 內 배너 영역 미노출의 件 -->
-    <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/giftstore/giftstore.js"></script>
-    <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/giftstore/commonstore.js"></script>
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/giftstore/giftstore.css"> 
-
-    <!-- 홈페이지 CSS 일원화로 인한 반영 20220721 -->
-    <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/resource_pc/css/cgv.min.css">
-    <script type="text/javascript" src="https://img.cgv.co.kr/resource_pc/js/cgvUi.js"></script>
-
-    <!-- 각페이지 Header Start--> 
-    
-<!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">https, http  혼합사용시-->
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/swiper.min.js"></script>
 <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/swiper-bundle.min.css">
 <script type="text/javascript">
-        $(document).ready(function(){
+     $(document).ready(function(){
         	
         	$('.tabBtn_wrap a').on('click', function(e) {
                 e.preventDefault(); // 링크 클릭 시 페이지 이동 방지
@@ -367,8 +355,31 @@
             };
             
             $().on('click',function(){
-            	
-            	
+            });
+            
+            //통합검색 상단 검색 버튼
+            $('#btn_header_search').on('click', function () {
+               
+                if ($('#header_ad_keyword').val() != "")
+                    goSearch($('#header_ad_keyword'));      //광고
+                else
+                    goSearch($('#header_keyword'));
+
+                
+                return false;
+            });
+
+            //통합검색 검색어 입력창
+            $('#header_keyword').keyup(function (e) {
+                if (e.keyCode == 13) goSearch($('#header_keyword'));
+            });
+
+             //검색 입력창 클릭 시 광고값 reset
+            $('#header_keyword').on('click', function () {
+                // 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件
+                $(this).val('');
+               // $(this).attr('placeholder', '');
+                $('#header_ad_keyword').val('');
             });
 
         });
@@ -519,6 +530,21 @@ function setListFocus(swiper, selector) {
                 }
             }
         }
+       
+      //통합검색
+        function goSearch($objKeyword) {
+            if ($objKeyword.val() == "") {
+                alert("검색어를 입력해 주세요");
+                $objKeyword.focus();
+                return false;
+            }
+
+            //GA 검색로그
+            gaEventLog('PC_GNB', '검색', $objKeyword.val());
+            location = "${pageContext.request.contextPath}/movie/information" + escape($objKeyword.val());
+        }
+        
+        
         
 
 
