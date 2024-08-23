@@ -50,16 +50,17 @@ public class MovieService {
 	
 	
 //	 영화 정렬
-	public List<Map<String, Object>> getSortMovies(int val) {
+	public List<Map<String, Object>> getSortMovies(Map<String, String> rMap) {
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		switch (val) {
-			case 1: list = movieDAO.getSortMovies1();
-				break;
-			case 2: list = movieDAO.getSortMovies2();
-				break;
-			case 3: list = movieDAO.getSortMovies3();
-				break;
-		}
+		list = movieDAO.getSortMovies(rMap);
+//		switch (val) {
+//			case 1: list = movieDAO.getSortMovies();
+//				break;
+//			case 2: list = movieDAO.getSortMovies2();
+//				break;
+//			case 3: list = movieDAO.getSortMovies3();
+//				break;
+//		}
 		
 		return list;
 	}
@@ -78,8 +79,8 @@ public class MovieService {
 		movieDAO.insertBookmark(rMap);
 	}
 	
-	public void deleteBookmark(Map<String, Object> rMap) {
-		movieDAO.deleteBookmark(rMap);
+	public boolean deleteBookmark(Map<String, Object> rMap) {
+		return movieDAO.deleteBookmark(rMap) == 1 ? true : false;
 	}
 	
 	
@@ -144,10 +145,14 @@ public class MovieService {
 		movieDAO.updateRecommend(rMap);
 		return movieDAO.getRecommend(rMap);
 	}
-	// 리뷰 업데이트
+	// 리뷰 수정
 	public boolean updateReview(Map<String, Object> rMap) {
 		boolean result = movieDAO.updateReview(rMap) == 1 ? true : false;
 		return result;
+	}
+	// 리뷰 삭제
+	public boolean deleteReview(Map<String, Object> rMap) {
+		return movieDAO.deleteReview(rMap) == 1 ? true : false;
 	}
 	
 	
@@ -169,8 +174,12 @@ public class MovieService {
 	
 	// ================================== 북마크 페이지 ==============================
 	
-	public Map<String, Object> getBookmarkPage(String MEMBER_ID) {
-		return movieDAO.getBookmarkPage(MEMBER_ID);
+	public Map<String, Object> getMyMovieCount(String MEMBER_ID) {
+		return movieDAO.getMyMovieCount(MEMBER_ID);
+	}
+	
+	public List<Map<String, Object>> getMyMovieList(Map<String, String> rMap) {
+		return movieDAO.getMyMovieList(rMap);
 	}
 
 	

@@ -34,7 +34,7 @@ function startPage() {
 function fontbold() {
 	// 보여야할 모든 데이터가 출력중이면 더보기 버튼 비활성화
 	if($('#chk_nowshow').is(':checked')) {
-		if($('.showMovie:hidden').length != 0) {
+		if($('.SHOWMOVIE:hidden').length != 0) {
 			$(".btn-more-fontbold").show();
 		} else {
 			$(".btn-more-fontbold").hide();
@@ -68,7 +68,7 @@ $(function() {
 		// #chk_nowshow 현재 상영작만 보기 체크박스 체크 여부에 따라 DB에서 받아온 데이터를 class에 .notShow로 적용된
 		// 데이터를 숨길지 말지 판별
 		let showChange = 
-			$("#chk_nowshow").is(':checked') ? $('.notShow').hide() : $('.notShow').show();
+			$("#chk_nowshow").is(':checked') ? $('.NOTSHOW').hide() : $('.NOTSHOW').show();
 		startPage();
 		movieLimit();
 		fontbold();
@@ -88,7 +88,7 @@ $(function() {
 		$.ajax({
             type: 'get',
     		url: "${pageContext.request.contextPath}/movie/sortMovies", // select중 어느게 선택되어 있는지 value값을 숫자 1(예매율), 2(평점), 3(관람객)으로 받아옴
-    		data: {"val" : val},
+    		data: {"SORTSTR" : val},
             dataType: 'json',
             success: function(result) {
             	$('#ol-movie-chart').html('');
@@ -99,11 +99,9 @@ $(function() {
                 		subRating = subRating == '전체' 	? 	'All' 	:
 						subRating == '청소' 	? 	18 		: subRating;
                 	}
-                	var curr_d_day = movieDTO.D_DAY
-					var D_DAY = curr_d_day > 0 ? 'D-'+ curr_d_day : '';
                 	
                 	$('#ol-movie-chart').append(`
-						<li class="\${movieDTO.show} chart-box">
+						<li class="\${movieDTO.SHOW} chart-box">
                             <div class="box-image">
                                 <strong class="rank"></strong>
                                 <a href="${pageContext.request.contextPath}/movie/information?num=\${movieDTO.MOVIE_NUM}">
@@ -125,7 +123,7 @@ $(function() {
                                 </a>
 
                                 <div class="score">
-                                    <strong class="percent">예매율<span>26.2%</span></strong>
+                                    <strong class="percent">예매율<span>\${movieDTO.RATE}</span>%</strong>
                                     <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 (적용 범위1~ 3위)-->
         <!--                             <div class="egg-gage small"> -->
         <!--                                             <span class="sprite_preegg default"></span> -->
@@ -136,7 +134,7 @@ $(function() {
                                     <strong>
                                         \${movieDTO.RELEASEDATE}
                                         <span>개봉</span>
-                                        <em class="dday">\${D_DAY}</em>
+                                        <em class="dday">\${movieDTO.D_DAY > 0 ? 'D-' + movieDTO.D_DAY : ''}</em>
                                     </strong>
                                 </span>
                                 <span class="like"> 
@@ -272,11 +270,11 @@ $(document).on('click', '.btn-close', function() {
             </div>
             <label for="order_type" class="hidden">정렬</label>
             <select id="order_type" name="order-type">
-				<option title="현재 선택됨" selected="selected" value="1">예매율순</option>
-                <option value="2">평점순</option>
-                <option value="3">관람객순</option>
+				<option title="현재 선택됨" selected="selected" value="SORTRATE">예매율순</option>
+                <option value="SORTLIKED">평점순</option>
+                <option value="SORTRANK">관람객순</option>
             </select>
-            <button type="button" class="sort_btn round_gray"><span>GO</span></button>
+            <button type="button" class="sort_btn round gray"><span>GO</span></button>
         </div>
         <!-- //Sorting -->
 
@@ -392,6 +390,7 @@ $(function() {
 									</div>    
 								</li>
 						`;
+						debugger;
 								$('#ol-movie-chart').append(text);
 				}); // top3.forEach
 				
