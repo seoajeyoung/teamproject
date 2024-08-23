@@ -1,5 +1,7 @@
 package com.itwillbs.dao;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,24 +29,12 @@ public class AdminDAO {
 
 	private static final String namespace = "com.itwillbs.mappers.AdminMapper";
 
-// ===========================================================================
 
-	// 회원가입
-
-//		public void registerMember(MemberDTO memberDTO) {
-//			System.out.println("MemberDAO registerMember()");
-//			
-//			
-//			sqlSession.insert(namespace + ".registerMember", memberDTO);
-//		}
-
-	// 일단 안써서 주석
 // ===========================================================================	
 
 	// 회원목록
 
 	public List<MemberDTO> getMemberList() {
-		System.out.println("AdminDAO getMemberList");
 
 		return sqlSession.selectList(namespace + ".getMemberList");
 	}
@@ -121,16 +111,9 @@ public class AdminDAO {
 
 // ===========================================================================
 
-//		public void saveMovie(AdminDTO adminDTO) {
-//			
-//			System.out.println("AdminDAO: Saving movie - " + adminDTO.getTitle());
-//			
-//	        sqlSession.insert(namespace + ".saveMovie", adminDTO);
-//	    }
 
 	public void saveMovie(AdminDTO adminDTO) {
 
-		System.out.println("AdminDAO: Saving movie - " + adminDTO.getTitle());
 		sqlSession.insert(namespace + ".saveMovie", adminDTO);
 	}
 
@@ -143,8 +126,6 @@ public class AdminDAO {
 	}
 	
 	public void updateMovieRank(List<AdminDTO> adminDTOList) { 
-		System.out.println("sqlSession: " + sqlSession);
-		System.out.println("AdminDAO: update movie rank - " + adminDTOList);
 		sqlSession.update(namespace + ".updateMovieRank", adminDTOList); 
 	}
 
@@ -153,7 +134,6 @@ public class AdminDAO {
 	// 영화목록
 
 	public List<MovieDTO> getMovieList() {
-		System.out.println("AdminDAO getMovieList");
 
 		return sqlSession.selectList(namespace + ".getMovieList");
 	}
@@ -329,9 +309,6 @@ public class AdminDAO {
 	        }
 	    }
 
-	    // 변환된 최종 결과를 콘솔에 출력
-	    System.out.println("Final query result: " + finalResult);
-
 	    // 변환된 결과를 반환
 	    return finalResult;
 	}
@@ -377,6 +354,21 @@ public class AdminDAO {
 	public AdminDTO getPaymentinfo(String sp_num) {
 		return sqlSession.selectOne(namespace + ".getPaymentinfo", sp_num);
 	}
+
+	public int getSalesSumByDate(Map<String, Object> params) {
+		return sqlSession.selectOne(namespace + ".getSalesSumByDate", params);
+	}
+
+	public void insertDailyTotalSales(Map<String, Object> params) {
+		sqlSession.insert(namespace + ".insertDailyTotalSales", params);
+	}
+
+	public List<AdminDTO> getSalesDataForPeriod(LocalDate startDate, LocalDate endDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        return sqlSession.selectList(namespace + ".getSalesDataForPeriod", params);
+    }
 
 	
 

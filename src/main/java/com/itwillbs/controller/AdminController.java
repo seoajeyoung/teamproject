@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.domain.AdminDTO;
 import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.MovieDTO;
@@ -76,10 +77,8 @@ public class AdminController {
 
 	@GetMapping("/member/memberlist")
 	public String membertables(Model model) {
-		System.out.println("AdminController membertables()");
 
 		List<MemberDTO> memberList = adminService.getMemberList();
-		System.out.println(memberList);
 		model.addAttribute("memberList", memberList);
 
 		return "/admin/member/memberlist";
@@ -152,11 +151,7 @@ public class AdminController {
 	@PostMapping("/member/memberRespitePro")
 	public String respitePro(MemberDTO memberDTO) {
 
-//    	System.out.println(memberDTO);
-
 		adminService.respiteMember(memberDTO);
-
-//    	System.out.println(memberDTO);
 
 		return "redirect:/admin/member/info?member_num=" + memberDTO.getMember_num();
 	}
@@ -198,7 +193,6 @@ public class AdminController {
 			emailService.sendEmail(receiver, subject, content);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("전송실패");
 		}
 
 		return "redirect:/admin/member/index";
@@ -210,11 +204,9 @@ public class AdminController {
 
 	@GetMapping("/movie/movielist")
 	public String movietables(Model model) {
-		System.out.println("AdminController movietables()");
 
 		List<MovieDTO> movieList = adminService.getMovieList();
 		model.addAttribute("movieList", movieList);
-//		System.out.println(movieList);
 
 		return "/admin/movie/movielist";
 	}
@@ -274,14 +266,12 @@ public class AdminController {
 	// 지역 리스트
 	@GetMapping("/movie/movieschedule")
 	public String schdule(Model model) {
-		System.out.println("AdminController schdule()");
 
 		List<AdminDTO> regionList = adminService.getRegionList();
 		model.addAttribute("regionList", regionList);
 
 		// 저장된 상영일정 리스트
 		List<ScheduleDTO> scheduleList = adminService.getScheduleList();
-		System.out.println("등록된 상영 일정: " + scheduleList);
 		model.addAttribute("scheduleList", scheduleList);
 
 		return "/admin/movie/movieschedule";
@@ -325,7 +315,6 @@ public class AdminController {
 	@ResponseBody
 	public List<ScheduleDTO> getSchedule(@RequestParam String TH_REGION, @RequestParam String TH_NAME,
 			@RequestParam String TH_NUMBER) {
-		System.out.println("getSchedule");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", TH_REGION);
 		params.put("TH_NAME", TH_NAME);
@@ -387,7 +376,6 @@ public class AdminController {
 
 	@GetMapping("/movie/theaterinsert")
 	public String theaterlist(Model model) {
-		System.out.println("AdminController theaterinsert()");
 
 		// 지역 리스트
 		List<AdminDTO> regionList = adminService.getRegionList();
@@ -395,7 +383,6 @@ public class AdminController {
 
 		// 등록 지점 리스트
 		List<AdminDTO> branchList = adminService.getBranchList();
-		System.out.println("등록된 지점: " + branchList);
 		model.addAttribute("branchList", branchList);
 
 		return "/admin/movie/theaterinsert";
@@ -406,7 +393,6 @@ public class AdminController {
 	@RequestMapping(value = "/movie/findRegionEng", method = RequestMethod.POST)
 	@ResponseBody
 	public List<AdminDTO> getfindAll(@RequestParam("TH_REGION") String region) {
-		System.out.println("Received region: " + region);
 		return adminService.getfindAll(region);
 	}
 
@@ -427,7 +413,6 @@ public class AdminController {
 		params.put("TH_NUMBER", CI_NT);
 		params.put("TH_NUM", THNum);
 		params.put("TH_ORDER", THNum);
-		System.out.println("Params Map: " + params);
 
 		adminService.insertTheater(params);
 
@@ -482,7 +467,6 @@ public class AdminController {
 
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
-		System.out.println("파일이름 : " + file);
 
 		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
 		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
@@ -494,8 +478,9 @@ public class AdminController {
 		adminDTO.setST_PRICE(request.getParameter("ST_PRICE"));
 		adminDTO.setST_TYPE(request.getParameter("ST_TYPE"));
 		adminDTO.setST_DETAIL(request.getParameter("ST_DETAIL"));
+		adminDTO.setST_CONST(request.getParameter("ST_CONST"));
+		adminDTO.setST_PERIOD(request.getParameter("ST_PERIOD"));
 		adminDTO.setST_PICTURE(file);
-		System.out.println(adminDTO);
 		adminService.insertStore(adminDTO);
 
 		return "redirect:/admin/store/controlstore";
@@ -519,14 +504,12 @@ public class AdminController {
 
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
-		System.out.println("파일이름 : " + file);
 
 		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
 		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
 //		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 이미지 업로드 가능하면
 
 		adminDTO.setST_PICTURE(file);
-		System.out.println(adminDTO);
 		adminService.updateStore(adminDTO);
 
 		return "redirect:/admin/store/controlstore";
@@ -543,7 +526,6 @@ public class AdminController {
 	public String bookingmovie(Model model) {
 		
 		List<AdminDTO> bookingList = adminService.getBookinglist();
-		System.out.println("Booking List: " + bookingList);
 		model.addAttribute("bookingList", bookingList);
 		
 		return "/admin/movie/bookinglist";
@@ -580,13 +562,52 @@ public class AdminController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		System.out.println("AdminController logout()");
 		
 		// 로그아웃 처리
 		session.invalidate();
 		
 		return "redirect:/main/main";
 	}
+	
+	@GetMapping("/member/indextest")
+	public String indextest() {
+		
+		return "/admin/member/indextest";
+	}
+	
+	@GetMapping("/statistics/salestatistics")
+	public String salestatistics() {
+		
+		return "/admin/statistics/salestatistics";
+	}
+	
+	@GetMapping("/statistics/moviesales")
+	public String moviesales() {
+		
+		return "/admin/statistics/moviesales";
+	}
+	
+	@GetMapping("/statistics/storesales")
+    public String storesales(Model model) {
+		// 일주일 전 날짜 계산
+        LocalDate today = LocalDate.now();
+        LocalDate oneWeekAgo = today.minusDays(7);
+
+        // 지난 일주일간의 매출 데이터를 가져와 모델에 추가
+        List<AdminDTO> weekSalesData = adminService.getSalesDataForPeriod(oneWeekAgo, today);
+        model.addAttribute("weekSalesData", weekSalesData);
+        
+        try {
+            // Java 객체를 JSON 문자열로 변환
+            String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+            model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 예외 발생 시 처리 로직
+        }
+
+        return "/admin/statistics/storesales";
+    }
 	
 	
 	

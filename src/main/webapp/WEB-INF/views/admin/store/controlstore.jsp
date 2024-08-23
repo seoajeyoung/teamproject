@@ -227,10 +227,6 @@ function deleteRow(stNum) {
 												id="nameCheckMessage"></span></td>
 											<td rowspan="8" id="image-preview"></td>
 										<tr>
-											<th>상품가격</th>
-											<td><input type="text" id="ST_PRICE" name="ST_PRICE"></td>
-										</tr>
-										<tr>
 											<th>상품타입</th>
 											<td><input type="text" id="ST_TYPE" name="ST_TYPE">
 												<select id="typeList" name="ST_TYPE">
@@ -239,6 +235,18 @@ function deleteRow(stNum) {
 														<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
 													</c:forEach>
 											</select></td>
+										</tr>
+										<tr>
+											<th>상품구성</th>
+											<td><input type="text" id="ST_CONST" name="ST_CONST"></td>
+										</tr>
+										<tr>
+											<th>상품유효기간</th>
+											<td><input type="text" id="ST_PERIOD" name="ST_PERIOD"></td>
+										</tr>
+										<tr>
+											<th>상품가격</th>
+											<td><input type="text" id="ST_PRICE" name="ST_PRICE"> 원</td>
 										</tr>
 										<tr>
 											<th rowspan="6">상품설명</th>
@@ -301,7 +309,7 @@ function deleteRow(stNum) {
 											<tr id="row${AdminDTO.ST_NUM}">
 												<td id="ST_NUM${AdminDTO.ST_NUM}">${AdminDTO.ST_NUM}</td>
 												<td id="ST_NAME${AdminDTO.ST_NUM}">${AdminDTO.ST_NAME}</td>
-												<td id="ST_PRICE${AdminDTO.ST_NUM}">${AdminDTO.ST_PRICE}</td>
+												<td id="ST_PRICE${AdminDTO.ST_NUM}">${AdminDTO.ST_PRICE} 원</td>
 												<td id="ST_TYPE${AdminDTO.ST_NUM}">${AdminDTO.ST_TYPE}</td>
 												<td>
 													<form id="storeForm${AdminDTO.ST_NUM}"

@@ -43,50 +43,16 @@
 					홈페이지 바로가기
 			</span>
 		</a></li>
+		
+		<hr class="sidebar-divider">
 
-		<!-- Divider -->
-		<!--             <hr class="sidebar-divider"> -->
-
-		<!-- Heading -->
-		<!--             <div class="sidebar-heading"> -->
-		<!--                 Interface -->
-		<!--             </div> -->
-
-		<!-- Nav Item - Pages Collapse Menu -->
-		<!--             <li class="nav-item"> -->
-		<!--                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" -->
-		<!--                     aria-expanded="true" aria-controls="collapseTwo"> -->
-		<!--                     <i class="fas fa-fw fa-cog"></i> -->
-		<!--                     <span>Components</span> -->
-		<!--                 </a> -->
-		<!--                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar"> -->
-		<!--                     <div class="bg-white py-2 collapse-inner rounded"> -->
-		<!--                         <h6 class="collapse-header">Custom Components:</h6> -->
-		<!--                         <a class="collapse-item" href="buttons.html">Buttons</a> -->
-		<!--                         <a class="collapse-item" href="cards.html">Cards</a> -->
-		<!--                     </div> -->
-		<!--                 </div> -->
-		<!--             </li> -->
-
-		<!--             Nav Item - Utilities Collapse Menu -->
-		<!--             <li class="nav-item"> -->
-		<!--                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" -->
-		<!--                     aria-expanded="true" aria-controls="collapseUtilities"> -->
-		<!--                     <i class="fas fa-fw fa-wrench"></i> -->
-		<!--                     <span>Utilities</span> -->
-		<!--                 </a> -->
-		<!--                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" -->
-		<!--                     data-parent="#accordionSidebar"> -->
-		<!--                     <div class="bg-white py-2 collapse-inner rounded"> -->
-		<!--                         <h6 class="collapse-header">Custom Utilities:</h6> -->
-		<!--                         <a class="collapse-item" href="utilities-color.html">Colors</a> -->
-		<!--                         <a class="collapse-item" href="utilities-border.html">Borders</a> -->
-		<!--                         <a class="collapse-item" href="utilities-animation.html">Animations</a> -->
-		<!--                         <a class="collapse-item" href="utilities-other.html">Other</a> -->
-		<!--                     </div> -->
-		<!--                 </div> -->
-		<!--             </li> -->
-
+		<li class="nav-item active"><a class="nav-link"
+			href="${pageContext.request.contextPath}/admin/member/indextest"
+			style="text-align: center; padding-top: 15px; padding-bottom: 15px; font-size: 17px;">
+				<i class="fas fa-fw fa-home"></i> <span>테스트
+			</span>
+		</a></li>
+		
 		<!-- Divider -->
 		<hr class="sidebar-divider">
 
@@ -153,9 +119,8 @@
 						href="${pageContext.request.contextPath}/admin/movie/theaterinsert"
 						style="font-size: 15px;">상영 지점 관리</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/movie/bookinglist"
-						style="font-size: 15px;">영화 예매 목록</a>
-						<a class="collapse-item"
-						href="${pageContext.request.contextPath}/ticket/modal"
+						style="font-size: 15px;">영화 예매 목록</a> <a class="collapse-item"
+						href="${pageContext.request.contextPath}/modal"
 						style="font-size: 15px;">극장 좌석 관리</a>
 				</div>
 			</div></li>
@@ -198,19 +163,6 @@
 				</div>
 			</div></li>
 
-		<!-- Nav Item - Charts -->
-		<!--             <li class="nav-item"> -->
-		<!--                 <a class="nav-link" href="charts.html"> -->
-		<!--                     <i class="fas fa-fw fa-chart-area"></i> -->
-		<!--                     <span>Charts</span></a> -->
-		<!--             </li> -->
-
-		<!-- Nav Item - Tables -->
-		<!--             <li class="nav-item"> -->
-		<%--                 <a class="nav-link" href="${pageContext.request.contextPath}/admin/tables"> --%>
-		<!--                     <i class="fas fa-fw fa-table"></i> -->
-		<!--                     <span>Tables</span></a> -->
-		<!--             </li> -->
 
 		<!-- Divider -->
 		<hr class="sidebar-divider d-none d-md-block">

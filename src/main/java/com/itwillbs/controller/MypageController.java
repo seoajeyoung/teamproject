@@ -37,12 +37,10 @@ public class MypageController {
 
 	@GetMapping("/mymain") // 마이페이지 메인
 	public String mymain(HttpSession session, Model model) {
-		System.out.println("MypageController mymain()");
 
 		String id = (String) session.getAttribute("member_id");
 		
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
-		System.out.println(mypageDTO);
 		model.addAttribute("mypageDTO", mypageDTO);
 
 		// 멤버num을 참조하는 포인트 테이블의 포인트 가져오기
@@ -55,11 +53,9 @@ public class MypageController {
 
 	@GetMapping("/myinfo") // 나의 정보
 	public String myinfo(HttpSession session, Model model) throws ParseException {
-		System.out.println("MypageController myinfo()");
 
 		String id = (String) session.getAttribute("member_id");
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
-		System.out.println(mypageDTO);
 		model.addAttribute("mypageDTO", mypageDTO);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,11 +67,9 @@ public class MypageController {
 
 	@GetMapping("/myupdate")
 	public String update(HttpSession session, Model model) throws ParseException {
-		System.out.println("MypageController myupdate()");
 
 		String id = (String) session.getAttribute("member_id");
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
-		System.out.println(mypageDTO);
 		model.addAttribute("mypageDTO", mypageDTO);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,12 +84,7 @@ public class MypageController {
 	public Map<String, Boolean> checkPassword(@RequestParam("originalpwd") String originalPwd, HttpSession session) {
 		String memberId = (String) session.getAttribute("member_id");
 
-		System.out.println("User ID: " + memberId);
-		System.out.println("Entered password: " + originalPwd);
-
 		boolean isValid = mypageService.checkPassword(memberId, originalPwd);
-
-		System.out.println("Password validation result: " + isValid);
 
 		Map<String, Boolean> result = new HashMap<>();
 		result.put("valid", isValid);
@@ -121,11 +110,9 @@ public class MypageController {
 
 	@GetMapping("/mypoint")
 	public String mypoint(HttpSession session, Model model) {
-		System.out.println("MypageController mymain()");
 
 		String id = (String) session.getAttribute("member_id");
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
-		System.out.println(mypageDTO);
 		model.addAttribute("mypageDTO", mypageDTO);
 
 		// 멤버num을 참조하는 포인트 테이블의 포인트 가져오기
@@ -187,8 +174,6 @@ public class MypageController {
 		
 		List<MypageDTO> myBookingList = mypageService.getMyBookingList(paramMap);
 		
-		System.out.println("Start Row: " + pageDTO.getStartRow());
-
 		model.addAttribute("myBookingList", myBookingList);
 		model.addAttribute("pageDTO", pageDTO);
 
@@ -256,8 +241,6 @@ public class MypageController {
 		
 		List<MypageDTO> myStorePaymentList = mypageService.getMyStorePaymentList(paramMap);
 		
-		System.out.println("Start Row: " + pageDTO.getStartRow());
-
 		model.addAttribute("myStorePaymentList", myStorePaymentList);
 		model.addAttribute("pageDTO", pageDTO);
 

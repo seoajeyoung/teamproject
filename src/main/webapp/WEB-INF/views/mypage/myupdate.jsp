@@ -48,6 +48,7 @@
 
 		<!-- Contents Area -->
 		<div id="contents" class="">
+		<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 
 			<!-- Contents Start -->
 

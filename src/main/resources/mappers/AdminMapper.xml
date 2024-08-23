@@ -4,33 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.mappers.AdminMapper">
 
-	<!-- <insert id="insertMember"> -->
-	<!-- insert into MEMBERS(member_num, member_id, member_pass, member_name, -->
-	<!-- member_nickname, member_gender, member_phone, member_input, -->
-	<!-- member_out, member_status, member_address, member_admin, -->
-	<!-- member_grade, member_birth, member_email) -->
-	<!-- values(#{member_num}, #{member_id}, #{member_pass}, #{member_name}, -->
-	<!-- #{member_nickname}, #{member_gender}, #{member_phone}, #{member_input}, -->
-	<!-- #{member_out}, #{member_status}, #{member_address}, #{member_admin}, -->
-	<!-- #{member_grade}, #{member_birth}, #{member_email}) -->
-	<!-- </insert> -->
-
-	<!-- ====================================================================================== -->
-	<!-- 회원가입, 안쓰니까 일단 주석 -->
-
-	<!-- <insert id="registerMember"> -->
-	<!-- insert into EXMEMBERS(member_id, -->
-	<!-- member_pass, -->
-	<!-- member_name, -->
-	<!-- member_phone, -->
-	<!-- member_email) -->
-	<!-- values(#{member_id}, -->
-	<!-- #{member_pass}, -->
-	<!-- #{member_name}, -->
-	<!-- #{member_phone}, -->
-	<!-- #{member_email}) -->
-	<!-- </insert> -->
-
 	<!-- ====================================================================================== -->
 	<!-- 회원목록 -->
 
@@ -188,14 +161,18 @@
 	<update id="updateMovieRank"
 		parameterType="com.itwillbs.domain.AdminDTO">
 		UPDATE MOVIE as t1
-		  JOIN (
+		JOIN (
 		<foreach collection="list" item="item" separator="UNION ALL">
-			SELECT #{item.movieNm} as title, #{item.rank} as `rank`
+			SELECT
+			#{item.movieNm} as title, #{item.rank} as `rank`
 		</foreach>
-			 ) as t2 
-			ON TRIM(REGEXP_REPLACE(t1.title, '[^[:alnum:][:space:]]+', '')) = TRIM(REGEXP_REPLACE(t2.title, '[^[:alnum:][:space:]]+', ''))
-		   SET t1.rank = t2.rank;
-	</update> 
+		) as t2
+		ON TRIM(REGEXP_REPLACE(t1.title, '[^[:alnum:][:space:]]+', ''))
+		=
+		TRIM(REGEXP_REPLACE(t2.title, '[^[:alnum:][:space:]]+', ''))
+		SET
+		t1.rank = t2.rank;
+	</update>
 
 
 
@@ -274,7 +251,8 @@
 
 	<select id="getNameList" parameterType="String"
 		resultType="String">
-		SELECT DISTINCT TH_NAME FROM THEATER WHERE TH_REGION = #{TH_REGION}
+		SELECT DISTINCT TH_NAME FROM THEATER WHERE TH_REGION =
+		#{TH_REGION}
 	</select>
 
 	<select id="getCinemaList" parameterType="String"
@@ -499,10 +477,12 @@
 	<insert id="insertStore"
 		parameterType="com.itwillbs.domain.AdminDTO">
 		INSERT INTO STORE (ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE,
-		ST_PICTURE, ST_TYPE)
+		ST_PICTURE, ST_TYPE, ST_CONST, ST_PERIOD)
 		VALUES
-		(#{ST_NUM}, #{ST_NAME}, #{ST_DETAIL},
-		#{ST_PRICE}, #{ST_PICTURE}, #{ST_TYPE})
+		(#{ST_NUM}, #{ST_NAME},
+		#{ST_DETAIL},
+		#{ST_PRICE}, #{ST_PICTURE}, #{ST_TYPE}, #{ST_CONST},
+		#{ST_PERIOD})
 	</insert>
 
 	<select id="getStoreList"
@@ -514,7 +494,7 @@
 	<select id="getstoreInfo"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT ST_NUM, ST_NAME, ST_DETAIL, ST_PRICE, ST_PICTURE,
-		ST_TYPE
+		ST_TYPE, ST_PERIOD, ST_CONST
 		FROM STORE
 		WHERE ST_NUM = #{ST_NUM}
 	</select>
@@ -528,7 +508,9 @@
 		#{ST_DETAIL},
 		ST_PRICE = #{ST_PRICE},
 		ST_PICTURE = #{ST_PICTURE},
-		ST_TYPE = #{ST_TYPE}
+		ST_TYPE = #{ST_TYPE},
+		ST_PERIOD = #{ST_PERIOD},
+		ST_CONST = #{ST_CONST}
 		WHERE ST_NUM = #{ST_NUM}
 	</update>
 
@@ -555,7 +537,8 @@
 		FROM
 		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON TP.member_num = M.member_num
+		MEMBERS M ON
+		TP.member_num = M.member_num
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
@@ -585,7 +568,8 @@
 		FROM
 		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON TP.member_num = M.member_num
+		MEMBERS M ON
+		TP.member_num = M.member_num
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
@@ -598,7 +582,7 @@
 		WHERE
 		TP.TP_NUM = #{tp_NUM}
 	</select>
-	
+
 	<select id="getStorePaymentlist"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
@@ -615,9 +599,10 @@
 		STORE S ON SP.st_num =
 		S.ST_NUM
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON SP.member_num =
+		M.member_num
 	</select>
-	
+
 	<select id="getPaymentinfo"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT
@@ -634,12 +619,35 @@
 		STORE S ON SP.st_num =
 		S.ST_NUM
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON SP.member_num =
+		M.member_num
 		WHERE
 		SP.sp_num = #{sp_num}
 	</select>
 
+	<!-- ====================================================================================== -->
 
+	<select id="getSalesSumByDate" resultType="Integer">
+		SELECT SUM(payment_total_price)
+		FROM STOREPAYMENT
+		WHERE payment_date >=
+		#{startOfDay}
+		AND payment_date <![CDATA[<]]>
+		#{endOfDay}
+	</select>
+
+	<insert id="insertDailyTotalSales">
+		INSERT INTO STORE_ST (SSALES_DATE, STORE_TOTALSALES)
+		VALUES (#{yesterday}, #{totalSales})
+	</insert>
+
+	<select id="getSalesDataForPeriod"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT SSALES_DATE, STORE_TOTALSALES
+		FROM STORE_ST
+		WHERE SSALES_DATE >= #{startDate} AND SSALES_DATE <![CDATA[<]]> #{endDate}
+		ORDER BY SSALES_DATE ASC
+	</select>
 
 
 
