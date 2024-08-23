@@ -38,7 +38,7 @@ $(document).ready(function() {
      
     
     // 관 등록 버튼 클릭 시 모달 열기
-    $('.btn-open-modal').on('click', function() {
+    $('#btn-open-modal').on('click', function() {
         
         if (!regionvalue) {
         alert("지역 선택해주세요");
@@ -53,6 +53,7 @@ $(document).ready(function() {
         return; 
    		}
    		 $('.modal').css('display', 'flex');
+   		 debugger;
    		 getci_number();
     });
     
@@ -266,7 +267,7 @@ $(document).ready(function() {
    		    }),
             
             success: function(response) {
-        		alert("성공");
+        		alert("저장 되었습니다");
         		},
     		});
         
@@ -312,4 +313,12 @@ $(document).ready(function() {
             }
         }
     });
+    
+    
+    
+    
+    
+    
+
+    
 });

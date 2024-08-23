@@ -68,14 +68,14 @@ public class TicketController {
 		System.out.println("param: " + param);
 
 		Integer selectnowcount = ticketService.selectnowcount(param);
-		
+
 		int seCount = Integer.parseInt(param.get("se_count"));
-		
-		int nowCount =  seCount - selectnowcount;
+
+		int nowCount = seCount - selectnowcount;
 		System.out.println(nowCount);
-		
+
 		model.addAttribute("nowCount", nowCount);
-		
+
 		return "ticket/결제TEST";
 	}
 
@@ -252,10 +252,15 @@ public class TicketController {
 	}
 
 	@PostMapping("/INSERTSEAT") // 서재영 관리자 관에 좌석 저장하는 맵핑
-	public void INSERTSEAT(@RequestBody Map<String, Object> request) {
+	public  ResponseEntity<String> INSERTSEAT(@RequestBody Map<String, Object> request) {
+		int count = ticketService.checkmseat(request);
+
+		if (count > 0) {
+			ticketService.deletemseat(request);
+		}
 
 		ticketService.insertseat(request);
-
+		 return ResponseEntity.ok("Success");
 	}
 
 	@GetMapping("/SAVECI_NUMBER") // 서재영 저장된 관의 좌석 가져오기 (modal)

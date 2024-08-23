@@ -132,5 +132,13 @@ public class TicketService {
 		return ticketDAO.selectnowcount(param);
 	}
 
+	public int checkmseat(Map<String, Object> request) {
+		return ticketDAO.checkmseat(request);
+	}
+
+	public void deletemseat(Map<String, Object> request) {
+		ticketDAO.deletemseat(request);
+	}
+
 
 }

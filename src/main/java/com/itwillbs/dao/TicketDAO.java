@@ -171,6 +171,14 @@ public class TicketDAO {
 		return sqlSession.selectOne(namespace +".selectnowcount", param);
 	}
 
+	public int checkmseat(Map<String, Object> request) {
+		return sqlSession.selectOne(namespace +".checkmseat", request);
+	}
+
+	public void deletemseat(Map<String, Object> request) {
+		sqlSession.delete(namespace + ".deletemseat", request);
+	}
+
 	
 	
 }

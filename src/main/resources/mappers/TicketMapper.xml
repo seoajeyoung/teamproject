@@ -317,7 +317,8 @@
 		,SE_ROW
 		,SE_COL
 		FROM MSEAT
-		WHERE TH_NUM = (SELECT TH_NUM
+		WHERE TH_NUM = (SELECT
+		TH_NUM
 		FROM THEATER
 		WHERE TH_REGION = #{region}
 		AND TH_NAME = #{th_name}
@@ -554,10 +555,12 @@
 	</update>
 
 
-	<select id="selectnowcount" parameterType="map" resultType="Integer">
+	<select id="selectnowcount" parameterType="map"
+		resultType="Integer">
 		SELECT COUNT(*) AS NOWCOUNT
 		FROM TICKETPAYMENT
-		WHERE SC_NUM = (
+		WHERE SC_NUM =
+		(
 		SELECT SC_NUM
 		FROM SCREEN
 		WHERE CI_NUM = (
@@ -566,18 +569,55 @@
 		WHERE TH_NUM = (
 		SELECT TH_NUM
 		FROM THEATER
-		WHERE TH_REGION = #{selectRegionName}
+		WHERE TH_REGION =
+		#{selectRegionName}
 		AND TH_NAME = #{theaterTitle}
-		AND TH_NUMBER = #{th_number}
+		AND TH_NUMBER =
+		#{th_number}
 		)
 		AND MOVIE_NUM = (
 		SELECT MOVIE_NUM
 		FROM MOVIE
-		WHERE TITLE = #{movieTitle}
+		WHERE TITLE =
+		#{movieTitle}
 		)
 		)
 		AND SC_TIME = CONCAT(#{fullDate}, ' ', #{starttime})
 		)
 	</select>
+
+
+	<select id="checkmseat" parameterType="map" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM MSEAT
+		WHERE TH_NUM = (
+		SELECT TH_NUM
+		FROM THEATER
+		WHERE TH_REGION = #{region}
+		AND TH_NAME = #{th_name}
+		AND TH_NUMBER = #{th_number}
+		)
+	</select>
+
+	<delete id="deletemseat" parameterType="map">
+
+		DELETE
+		FROM MSEAT
+		WHERE TH_NUM =
+		(SELECT TH_NUM
+		FROM THEATER
+		WHERE TH_REGION =#{region}
+		AND TH_NAME = #{th_name}
+		AND TH_NUMBER = #{th_number})
+
+	</delete>
+
+
+
+
+
+
+
 
 </mapper>  
