@@ -38,7 +38,7 @@ $(document).ready(function() {
             pg: 'html5_inicis',   
             pay_method: "card",  
             name: seseat,  // 상품명
-            amount: 100, // 결제 금액 totalprice
+            amount: totalprice, 
         }, function (rsp) {
             if (rsp.success) {
                 alert("결제 성공");

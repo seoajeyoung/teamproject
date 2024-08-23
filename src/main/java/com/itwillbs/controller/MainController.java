@@ -64,12 +64,9 @@ public class MainController {
 		
 		List<Map<String, Object>> upcomingMovies = mainService.getMovie3();
 		model.addAttribute("upcomingMovies", upcomingMovies);
-		System.out.println(upcomingMovies);
 		
 		Map<String, Object> newNews = newsService.getNewNews();
 		model.addAttribute("newNews", newNews);
-
-		
 		
 		return "main/main";
 	}

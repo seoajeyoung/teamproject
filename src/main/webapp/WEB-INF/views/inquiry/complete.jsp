@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
         
 
@@ -88,10 +89,10 @@
     })(jQuery);
     
  $(document).ready(function(){
-	var datePart = "${inquiry_date}".split(" ")[0];
+	var datePart = "${IQ_DATE}".split(" ")[0];
 	 $('.day').text(datePart);
 	 
-	 var result = "${inquiry_type}";
+	 var result = "${IQ_TYPE}";
 	 if(result == "T"){
 		 $('.tf').text("전체공개");
 	 }else{

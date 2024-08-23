@@ -82,8 +82,8 @@ public class MovieController implements WebMvcConfigurer {
 	// 무비차트 정렬
 	@GetMapping("/sortMovies")
 	@ResponseBody
-	public List<Map<String, Object>> sortMovies(@RequestParam int val) {
-		List<Map<String, Object>> movieList = movieService.getSortMovies(val);
+	public List<Map<String, Object>> sortMovies(@RequestParam Map<String, String> rMap) {
+		List<Map<String, Object>> movieList = movieService.getSortMovies(rMap);
 		return movieList;
 	}
 	
@@ -170,9 +170,6 @@ public class MovieController implements WebMvcConfigurer {
 			model.addAttribute("BOOKMARK", bookmark);
 		}
 		
-		
-		
-		
 		return "/movie/information";
 	}
 	
@@ -180,7 +177,6 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	public ResponseEntity<String> bookmark(@RequestParam Map<String, Object> rMap) {
 		boolean check = movieService.getBookmark(rMap);
-		
 		if(!check) {
 			movieService.insertBookmark(rMap);
 			return ResponseEntity.status(HttpStatus.OK).body("save");
@@ -189,6 +185,9 @@ public class MovieController implements WebMvcConfigurer {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("delete");
 		}
 	}
+	
+	
+	
 	
 	
 	//ifream 광고 ?
@@ -227,7 +226,6 @@ public class MovieController implements WebMvcConfigurer {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 		}
 	}
-	
 //	List<List<String>>
 	@GetMapping("/review")
 	@ResponseBody
@@ -275,7 +273,7 @@ public class MovieController implements WebMvcConfigurer {
 		}
 	}
 	
-	// 리뷰 수정
+	// 리뷰(평점) 수정
 	@PostMapping("/updateReview")
 	@ResponseBody
 	public ResponseEntity<String> updateReview(@RequestParam Map<String, Object> rMap) {
@@ -285,7 +283,18 @@ public class MovieController implements WebMvcConfigurer {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("notOK"); 
 		}
-			
+	}
+	//
+	@PostMapping("/deleteReview")
+	public ResponseEntity<String> deleteReview(@RequestParam Map<String, Object> rMap) {
+		System.out.println("리뷰삭제");
+		rMap.get("REVIEW_NUM");
+		boolean result = movieService.deleteReview(rMap);
+		if(result) {
+			return ResponseEntity.status(HttpStatus.OK).body("success");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("failed");
+		}
 	}
 	
 	
@@ -321,14 +330,37 @@ public class MovieController implements WebMvcConfigurer {
 	}
 	
 	
-	// ============================= 찜한 페이지 =======================================
-	@GetMapping("/bookmarkMovie")
-	public String bookmarkMovie(HttpSession session, Model model) {
+	// ============================= myMovie =======================================
+	@GetMapping("/myMovie")
+	public String myMovie(HttpSession session, Model model) {
 		String id = (String)session.getAttribute("id");
 		if(id == null) return "/movie/back";
-		Map<String, Object> data = movieService.getBookmarkPage(id);
+		Map<String, Object> data = movieService.getMyMovieCount(id);
 		model.addAttribute("count", data);
 		return "/movie/bookmarkMovie";
+	}
+	
+	@GetMapping("/myMovieList")
+	@ResponseBody
+	public List<Map<String, Object>> myMovieData(@RequestParam Map<String, String> rMap, HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		rMap.put("MEMBER_ID", id);
+		List<Map<String, Object>> list = movieService.getMyMovieList(rMap);
+		return list;	
+	}
+	
+	
+	@PostMapping("/deleteBookmark")
+	@ResponseBody
+	public ResponseEntity<String> deleteBookmark(@RequestParam Map<String, Object> rMap, HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		rMap.put("MEMBER_ID", id);
+		boolean result = movieService.deleteBookmark(rMap);
+		if(result) {
+			return ResponseEntity.status(HttpStatus.OK).body("delete");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("failed");
+		}
 	}
 
 

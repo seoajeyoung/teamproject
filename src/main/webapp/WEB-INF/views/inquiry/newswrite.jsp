@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <title>inquiry/write.jsp</title>
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/content.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet"> 
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
         
 
@@ -143,24 +143,7 @@ function __doPostBack(eventTarget, eventArgument) {
 											</ul>
 										</td>
 									</tr>
-<!-- 									<tr> -->
-<!-- 										<th scope="row">극장 선택</th> -->
-<!-- 										<td colspan="3"> -->
-<!-- 											<ul class="type_list"> -->
-<!-- 												<li class="on"><input type="radio" id="no_sel" name="sel_theaterchoise" checked="checked" value="0"><label for="no_sel">선택하지 않음</label></li> -->
-<!-- 												<li><input type="radio" id="sel" name="sel_theaterchoise" value="1"><label for="sel">선택함</label></li> -->
-<!-- 											</ul> -->
-<!-- 											<label for="sel_t_group" class="hidden">국내,국외 선택</label> -->
-<!-- 											<select title="국내,국외 선택" class="sel01" id="sel_t_group" name="TH_NUM" disabled="disabled" style="width: 96px;"> -->
-<!-- 												<option value="dm">국내</option> -->
-<!--                                                 <option value="oc">국외</option> -->
-<!-- 											</select> -->
-<!-- 											<label for="sel_regioncode" class="hidden">지역 선택</label> -->
-<!-- 											<select title="지역 선택" class="sel01" id="sel_regioncode" name="sel_regioncode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">지역 선택</option><option value="12">강원</option><option value="02">경기</option><option value="204">경상</option><option value="206">광주</option><option value="11">대구</option><option value="03">대전</option><option value="05">부산</option><option value="01">서울</option><option value="207">울산</option><option value="202">인천</option><option value="04">전라</option><option value="06">제주</option><option value="205">충청</option></select> -->
-<!-- 											<label for="sel_theatercode" class="hidden">영화관 선택</label> -->
-<!-- 											<select title="영화관 선택" class="sel01" id="sel_theatercode" name="sel_theatercode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">영화관 선택</option></select> -->
-<!-- 										</td> -->
-<!-- 									</tr> -->
+
 									<tr>
 										<th scope="row"><label for="inp_title">제목 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">

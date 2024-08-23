@@ -49,17 +49,19 @@ public class MovieDAO {
 	
 	// 영화 정렬
 	//예매
-	public List<Map<String, Object>> getSortMovies1() {
-		return sqlsession.selectList("movieMapper.getSortMovies1");
+	public List<Map<String, Object>> getSortMovies(Map<String, String> rMap) {
+		return sqlsession.selectList("movieMapper.getSortMovies", rMap);
 	}
-	// 평점순 정렬
-	public List<Map<String, Object>> getSortMovies2() {
-		return sqlsession.selectList("movieMapper.getSortMovies2");
-	}
-	// 관람객순 정렬
-	public List<Map<String, Object>> getSortMovies3() {
-		return sqlsession.selectList("movieMapper.getSortMovies3");
-	}
+	
+	
+//	// 평점순 정렬
+//	public List<Map<String, Object>> getSortMovies2() {
+//		return sqlsession.selectList("movieMapper.getSortMovies2");
+//	}
+//	// 관람객순 정렬
+//	public List<Map<String, Object>> getSortMovies3() {
+//		return sqlsession.selectList("movieMapper.getSortMovies3");
+//	}
 	
 	
 	
@@ -79,8 +81,8 @@ public class MovieDAO {
 	public void insertBookmark(Map<String, Object> rMap) {
 		sqlsession.insert("movieMapper.insertBookmark", rMap);
 	}
-	public void deleteBookmark(Map<String, Object> rMap) {
-		sqlsession.delete("movieMapper.deleteBookmark", rMap);
+	public Integer deleteBookmark(Map<String, Object> rMap) {
+		return sqlsession.delete("movieMapper.deleteBookmark", rMap);
 	}
 	
 	// 리뷰의 차트탭 데이터
@@ -143,6 +145,10 @@ public class MovieDAO {
 	public Integer updateReview(Map<String, Object> rMap) {
 		return sqlsession.update("movieMapper.updateReview", rMap);
 	}
+	// 리뷰 삭제
+	public Integer deleteReview(Map<String, Object> rMap) {
+		return sqlsession.delete("movieMapper.deleteReview", rMap);
+	}
 	
 	
 	
@@ -160,8 +166,12 @@ public class MovieDAO {
 	
 	// ================= 북마크 페이지 ==============
 	
-	public Map<String, Object> getBookmarkPage(String MEMBER_ID) {
-		return sqlsession.selectOne("movieMapper.getBookmarkPage", MEMBER_ID);
+	public Map<String, Object> getMyMovieCount(String MEMBER_ID) {
+		return sqlsession.selectOne("movieMapper.getMyMovieCount", MEMBER_ID);
+	}
+	
+	public List<Map<String, Object>> getMyMovieList(Map<String, String> rMap) {
+		return sqlsession.selectList("movieMapper.getMyMovieList", rMap);
 	}
 	
 	

@@ -21,22 +21,18 @@ public class InquiryService {
 	private InquiryDAO inquiryDAO;
 	
 	public void insertInquiry(InquiryDTO inquiryDTO) {
-		System.out.println("InquiryService insertInquiry()");
 		
 		if(inquiryDAO.getMaxNum() == null) {
 			//글이 없으면 글번호가 1번부터 시작
-			inquiryDTO.setInquiry_num("1");
+			inquiryDTO.setIQ_NUM("1");
 		}else {
 			//글이 있으면 max(num) + 1
 			String num = Integer.toString(inquiryDAO.getMaxNum() + 1);
-			inquiryDTO.setInquiry_num(num);
+			inquiryDTO.setIQ_NUM(num);
 		}
 
-		inquiryDTO.setInquiry_date(new Timestamp(System.currentTimeMillis()));
+		inquiryDTO.setIQ_DATE(new Timestamp(System.currentTimeMillis()));
 		
-		System.out.println(inquiryDTO);
-		
-
 		inquiryDAO.insertInquiry(inquiryDTO);
 	}//insertBoard
 //	
@@ -99,14 +95,12 @@ public class InquiryService {
 	}
 
 	public void updateInquiry(InquiryDTO inquiryDTO) {
-		System.out.println("InquiryService updateInquiry()");
 		inquiryDAO.updateInquiry(inquiryDTO);
 	}
 
-	public void deleteInquiry(String INQUIRY_NUM) {
-		System.out.println("InquiryService deleteInquiry()");
+	public void deleteInquiry(String IQ_NUM) {
 		
-		inquiryDAO.deleteInquiry(INQUIRY_NUM);
+		inquiryDAO.deleteInquiry(IQ_NUM);
 	}
 	
 	public List<Map<String, Object>> getAdminList(PageDTO pageDTO) {
@@ -127,10 +121,6 @@ public class InquiryService {
 		int endRow = startRow + pageDTO.getPageSize() - 1;
 		pageDTO.setStartRow(startRow-1); //sql구문에서 하기 힘드니까 미리 -1 하기
 		pageDTO.setEndRow(endRow);
-		System.out.println("||||||||||||||||||");
-		System.out.println(pageDTO.getStartRow());
-		System.out.println(pageDTO.getPageSize());
-		System.out.println(pageDTO.getSearch());
 		
 		return inquiryDAO.getAdminListF(pageDTO);
 	}
@@ -143,8 +133,8 @@ public class InquiryService {
 	public Map<String, Object> adminNext(Map<String, Object> param) {
 		return inquiryDAO.adminNext(param);
 	}
-	public Map<String, Object> adminInquiry(String iNQUIRY_NUM) {
-		return inquiryDAO.adminInquiry(iNQUIRY_NUM);
+	public Map<String, Object> adminInquiry(String IQ_NUM) {
+		return inquiryDAO.adminInquiry(IQ_NUM);
 	}
 	
 	

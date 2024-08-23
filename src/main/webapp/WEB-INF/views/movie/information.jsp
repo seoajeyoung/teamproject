@@ -751,7 +751,7 @@ $(document).on('click', '.review_page>a', function() {
 					    <div class="box-contents">
 					        <ul class="writerinfo">
 					            <li class="writer-name">
-				<!-- <span class="egg-icon"></span>--> \${review.MEMBER_ID}
+								 \${review.MEMBER_ID}
 					            </li>
 					            <li class="writer-etc">
 					                <span class="day">\${review.REVIEW_DATE}</span>
@@ -1039,14 +1039,11 @@ $(document).on('click', '.btn-close', function() {
 
 // 평점 작성 버튼 클릭
 $(document).on('click', '.link-gradewrite', function() {
-	
-	
 	if(memberId == null || memberId == "") {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
 	var title = $('.movieTitle>strong').text();
-	
 	
 	var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
 					<div class="popup-general">
@@ -1260,7 +1257,7 @@ $(document).on('click', '#regUpBtn', function() {
 			$('.tab-menu>li.on').find('a').trigger('click');
 		},
 		error: function(str) {
-			if(str == "notOK"){
+			if(str.responseText == "notOK"){
 				alert('업데이트실패')
 			}
 		}
