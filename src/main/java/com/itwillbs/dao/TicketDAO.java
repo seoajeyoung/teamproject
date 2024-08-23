@@ -162,7 +162,6 @@ public class TicketDAO {
             
             sqlSession.update(namespace +".updatepayment", params);
             
-            System.out.println("updateparams :  " + params  );
             
         }
 	}
@@ -178,6 +177,7 @@ public class TicketDAO {
 	public void deletemseat(Map<String, Object> request) {
 		sqlSession.delete(namespace + ".deletemseat", request);
 	}
+
 
 	
 	

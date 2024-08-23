@@ -81,7 +81,6 @@ public class TicketService {
 	public void insertselectseat(Map<String, Object> request) {
 		ticketDAO.insertselectseat(request);
 		
-		System.out.println("@#@#@#@@" + request);
 		
 		new Thread(() -> {
 			try {
@@ -139,6 +138,7 @@ public class TicketService {
 	public void deletemseat(Map<String, Object> request) {
 		ticketDAO.deletemseat(request);
 	}
+
 
 
 }

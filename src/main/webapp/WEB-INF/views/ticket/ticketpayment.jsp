@@ -33,7 +33,7 @@ var tp_num = "${param.tp_num}";
 </script>
 
 <body>
-
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <section id="content">
 			<div class="store_progress">
 				<div id="prog_img"><img src="/iTicket/resources/img/pay2.png"></div><div id="progress_red"><span class="step">STEP 01</span><br>결제하기</div>
