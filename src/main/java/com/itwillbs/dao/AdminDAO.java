@@ -370,6 +370,14 @@ public class AdminDAO {
 		return sqlSession.selectOne(namespace + ".getBookinginfo", tp_NUM);
 	}
 
+	public List<AdminDTO> getStorePaymentlist() {
+		return sqlSession.selectList(namespace + ".getStorePaymentlist");
+	}
+
+	public AdminDTO getPaymentinfo(String sp_num) {
+		return sqlSession.selectOne(namespace + ".getPaymentinfo", sp_num);
+	}
+
 	
 
 }

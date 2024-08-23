@@ -559,6 +559,25 @@ public class AdminController {
 		return "/admin/movie/bookinginfo";
 	}
 	
+	@GetMapping("/store/paymentlist")
+	public String storepaymentlist(Model model) {
+		
+		List<AdminDTO> storePaymentList = adminService.getStorePaymentlist();
+		model.addAttribute("storePaymentList", storePaymentList);
+		
+		return "/admin/store/paymentlist";
+	}
+	
+	@GetMapping("/store/paymentinfo")
+	public String paymentinfo(AdminDTO adminDTO, Model model) {
+
+		AdminDTO adminDTO2 = adminService.getPaymentinfo(adminDTO.getSp_num());
+
+		model.addAttribute("adminDTO", adminDTO2);
+
+		return "/admin/store/paymentinfo";
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		System.out.println("AdminController logout()");
@@ -568,6 +587,8 @@ public class AdminController {
 		
 		return "redirect:/main/main";
 	}
+	
+	
 	
 	
 

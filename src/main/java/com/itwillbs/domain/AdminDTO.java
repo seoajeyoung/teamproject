@@ -395,7 +395,6 @@ public class AdminDTO {
 
 //===========================================================================================================================
 
-	private String SP_NUM;
 	private String TP_SEAT;
 	private String member_id;
 	private String SC_TIME;
@@ -462,13 +461,6 @@ public class AdminDTO {
 		this.member_id = member_id;
 	}
 
-	public String getSP_NUM() {
-		return SP_NUM;
-	}
-
-	public void setSP_NUM(String SP_NUM) {
-		this.SP_NUM = SP_NUM;
-	}
 
 	public String getTP_SEAT() {
 		return TP_SEAT;
@@ -481,6 +473,46 @@ public class AdminDTO {
 	@Override
 	public String toString() {
 		return "AdminDTO [movieNm=" + movieNm + ", rank=" + rank + "]";
+	}
+	
+//===========================================================================================================================	
+	
+	
+	private String sp_num;
+	private String payment_total_price;
+	private String payment_date;
+	private String ST_CONST;
+
+	public String getSp_num() {
+		return sp_num;
+	}
+
+	public void setSp_num(String sp_num) {
+		this.sp_num = sp_num;
+	}
+
+	public String getPayment_total_price() {
+		return payment_total_price;
+	}
+
+	public void setPayment_total_price(String payment_total_price) {
+		this.payment_total_price = payment_total_price;
+	}
+
+	public String getPayment_date() {
+		return payment_date;
+	}
+
+	public void setPayment_date(String payment_date) {
+		this.payment_date = payment_date;
+	}
+
+	public String getST_CONST() {
+		return ST_CONST;
+	}
+
+	public void setST_CONST(String ST_CONST) {
+		this.ST_CONST = ST_CONST;
 	}
 	
 	

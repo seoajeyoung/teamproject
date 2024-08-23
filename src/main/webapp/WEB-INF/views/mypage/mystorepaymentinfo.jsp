@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage/mymain.jsp</title>
+<title>OSTicket - MyStorePaymentInfo</title>
 <link
 	href="${pageContext.request.contextPath}/resources/css/mypage/base.css"
 	rel="stylesheet">

@@ -14,13 +14,11 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - MemberList</title>
-
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/admin/memberlist.css">
+<title>OSTicket - StorePaymentInfo</title>
 
 <!-- Custom fonts for this template -->
-
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/info.css">
 <link
 	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -29,9 +27,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
-<!--     <link -->
-<!--         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" -->
-<!--         rel="stylesheet"> -->
 
 <!-- Custom styles for this template -->
 <link
@@ -50,7 +45,7 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
-		<!-- Sidebar include -->
+		<!-- Sidebar -->
 		<jsp:include page="/WEB-INF/views/admin/inc/sidebar.jsp" />
 		<!-- End of Sidebar -->
 
@@ -62,73 +57,66 @@
 				<br>
 
 				<!-- Topbar -->
-				<%--             <jsp:include page = "/WEB-INF/views/admin/inc/top.jsp"/> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
-						회원목록</h1>
-					<hr style="margin-bottom: 20px;margin-top: 30px;">
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">결제 상세 정보</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="memberlist table table-bordered" id="dataTable"
-									width="100%" cellspacing="0">
-									<thead class="thc">
+								<table class="table table-infoboard" width="100%"
+									cellspacing="0">
+									<thead>
 										<tr>
-											<th class="column-member-number">회원번호</th>
-											<th class="column-member-id">회원ID</th>
-											<th class="column-member-name">이름</th>
-											<th class="column-phone">전화번호</th>
-											<th class="column-email">이메일</th>
-											<th class="column-grade">회원등급</th>
-											<th class="column-action">비고</th>
+											<th colspan="10">상세정보</th>
 										</tr>
 									</thead>
-									<tfoot class="thc">
-										<tr>
-											<th class="column-member-number">회원번호</th>
-											<th class="column-member-id">회원ID</th>
-											<th class="column-member-name">이름</th>
-											<th class="column-phone">전화번호</th>
-											<th class="column-email">이메일</th>
-											<th class="column-grade">회원등급</th>
-											<th class="column-action">비고</th>
-										</tr>
-									</tfoot>
 									<tbody>
-										<!-- 회원목록  -->
-
-										<c:forEach var="memberDTO" items="${memberList}">
-											<tr>
-												<td class="column-member-number">${memberDTO.member_num}</td>
-												<td class="column-member-id">${memberDTO.member_id}</td>
-												<td class="column-member-name">${memberDTO.member_name}</td>
-												<td class="column-phone">${memberDTO.member_phone}</td>
-												<td class="column-email">${memberDTO.member_email}</td>
-												<td class="column-grade">${memberDTO.member_grade}</td>
-												<td class="column-action"><a
-													href="${pageContext.request.contextPath}/admin/member/info?member_num=${memberDTO.member_num}"
-													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
-											</tr>
-										</c:forEach>
+										<tr>
+											<th colspan="2">결제번호</th>
+											<td colspan="4">${adminDTO.sp_num}</td>
+											<th>회원ID</th>
+											<td colspan="3">${adminDTO.member_id}</td>
+										</tr>
+										<tr>
+											<th colspan="2">상품명</th>
+											<td colspan="4">${adminDTO.ST_NAME}</td>
+											<th>상품타입</th>
+											<td>${adminDTO.ST_TYPE}</td>
+											<th>상품구성</th>
+											<td>${adminDTO.ST_CONST}</td>
+										</tr>
+										<tr>
+											<th colspan="2">결제가격</th>
+											<td colspan="4">${adminDTO.payment_total_price}원</td>
+											<th colspan="2">결제시간</th>
+											<td colspan="2">${adminDTO.payment_date}</td>
+										</tr>
 									</tbody>
+
 								</table>
+								<button type="button" class="btn btn-danger btn-user"
+									id="btn_cancel" style="float: right;">뒤로가기</button>
+
 							</div>
 						</div>
 					</div>
+
 				</div>
 				<!-- /.container-fluid -->
 
 			</div>
 			<!-- End of Main Content -->
 
-			<!-- Footer include-->
+			<!-- Footer -->
 			<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
 			<!-- End of Footer -->
 
@@ -143,6 +131,14 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
+	
+
+	<script>
+		document.getElementById('btn_cancel').addEventListener('click',
+				function() {
+					window.history.back();
+				});
+	</script>
 
 	<!-- Bootstrap core JavaScript-->
 	<script
@@ -160,13 +156,12 @@
 
 	<!-- Page level plugins -->
 	<script
-		src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.js"></script>
+		src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 	<!-- Page level custom scripts -->
-	<script
-		src="${pageContext.request.contextPath}/resources/script/demo/datatables-demo.js"></script>
+	<%--     <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script> --%>
 
 </body>
 

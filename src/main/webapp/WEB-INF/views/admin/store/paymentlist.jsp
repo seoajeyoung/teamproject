@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - MovieList</title>
+<title>OSTicket - StorePaymentList</title>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/movielist.css">
@@ -57,10 +57,11 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar Include -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -68,7 +69,7 @@
 
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800"
-						style="margin-left: 30px; padding-top: 12px;">영화 목록</h1>
+						style="margin-left: 30px; padding-top: 12px;">스토어 결제 목록</h1>
 					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales Example -->
@@ -79,44 +80,36 @@
 									width="100%" cellspacing="0">
 									<thead>
 										<tr>
-											<th>영화코드</th>
-											<th>영화제목</th>
-											<th>상영상태</th>
-											<th>상영시간</th>
-											<th>장르</th>
-											<th>등록시간</th>
-											<th>상영일</th>
-											<th>종영일</th>
-											<th>수정/삭제</th>
+											<th>결제번호</th>
+											<th>회원ID</th>
+											<th>상품명</th>
+											<th>상품타입</th>
+											<th>결제시간</th>
+											<th>비고</th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th>영화코드</th>
-											<th>영화제목</th>
-											<th>상영상태</th>
-											<th>상영시간</th>
-											<th>장르</th>
-											<th>등록시간</th>
-											<th>상영일</th>
-											<th>종영일</th>
-											<th>수정/삭제</th>
+											<th>결제번호</th>
+											<th>회원ID</th>
+											<th>상품명</th>
+											<th>상품타입</th>
+											<th>결제시간</th>
+											<th>비고</th>
 										</tr>
 									</tfoot>
 									<tbody>
-										<c:forEach var="list" items="${movieList}">
+										<c:forEach var="list" items="${storePaymentList}">
 											<tr>
-												<td>${list.MOVIE_NUM}</td>
-												<td>${list.title}</td>
-												<td>-</td>
-												<td>${list.runtime}</td>
-												<td>${list.genre}</td>
-												<td>${list.releaseDate}</td>
-												<td>${list.releaseDts}</td>
-												<td>${list.releaseDte}</td>
+												<td>${list.sp_num }</td>
+												<td>${list.member_id }</td>
+												<td>${list.ST_NAME }</td>
+												<td>${list.ST_TYPE}</td>
+												<td>${list.payment_date }</td>
 												<td><a
-													href="${pageContext.request.contextPath}/admin/movie/movieinfo?MOVIE_NUM=${list.MOVIE_NUM}"
-													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
+													href="${pageContext.request.contextPath}/admin/store/paymentinfo?sp_num=${list.sp_num}"
+													class="btn btn-detailinfo btn-user btn-block"
+													style="font-size: 16px !important;">상세정보확인</a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -142,7 +135,6 @@
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fas fa-angle-up"></i>
 		</a>
-
 
 		<!-- Bootstrap core JavaScript-->
 		<script

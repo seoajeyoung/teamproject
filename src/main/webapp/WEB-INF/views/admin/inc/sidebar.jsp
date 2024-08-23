@@ -29,7 +29,7 @@
 				<i class="fas fa-fw fa-tachometer-alt"></i>
 			</div>
 			<div class="sidebar-brand-text mx-3"
-				style="font-size: 30px; margin-left: 5px !important; font-family: 'Montserrat', sans-serif !important;">OSTicket</div>
+				style="font-size: 30px; margin-left: 5px !important; font-family: 'Montserrat', sans-serif !important; margin-right: 7px !important;">OSTicket</div>
 		</a>
 
 		<!-- Divider -->
@@ -40,7 +40,7 @@
 			href="${pageContext.request.contextPath}/main/main"
 			style="text-align: center; padding-top: 15px; padding-bottom: 15px; font-size: 17px;">
 				<i class="fas fa-fw fa-home"></i> <span>OSTicket<br>공식
-					홈페이지
+					홈페이지 바로가기
 			</span>
 		</a></li>
 
@@ -92,7 +92,7 @@
 
 		<!-- Heading -->
 		<div class="sidebar-heading"
-			style="font-size: 15px; padding-left: 25px;">목차</div>
+			style="font-size: 15px; padding-left: 30px;">목차</div>
 
 		<!-- Nav Item - Pages Collapse Menu -->
 		<!--             <li class="nav-item"> -->
@@ -120,7 +120,7 @@
 			data-toggle="collapse" data-target="#collapsePages2"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">회원관리</span>
+				style="font-size: 17px; padding-left: 8px;">회원 관리</span>
 		</a>
 			<div id="collapsePages2" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -128,7 +128,7 @@
 					<h6 class="collapse-header" style="font-size: 12px;">member:</h6>
 					<a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/member/memberlist"
-						style="font-size: 15px;">회원목록</a>
+						style="font-size: 15px;">회원 목록</a>
 					<%--                         <a class="collapse-item" href="${pageContext.request.contextPath}/admin/member/setm">메일보내기</a> --%>
 					<div class="collapse-divider"></div>
 				</div>
@@ -139,7 +139,7 @@
 			data-toggle="collapse" data-target="#collapsePages3"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">영화관리</span>
+				style="font-size: 17px; padding-left: 8px;">영화 관리</span>
 		</a>
 			<div id="collapsePages3" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -147,13 +147,13 @@
 					<h6 class="collapse-header" style="font-size: 12px;">movie:</h6>
 					<a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/movie/movielist"
-						style="font-size: 15px;">영화목록</a> <a class="collapse-item"
+						style="font-size: 15px;">영화 목록</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/movie/movieschedule"
-						style="font-size: 15px;">상영일정관리</a> <a class="collapse-item"
+						style="font-size: 15px;">상영 일정 관리</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/movie/theaterinsert"
-						style="font-size: 15px;">상영지점관리</a> <a class="collapse-item"
+						style="font-size: 15px;">상영 지점 관리</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/movie/bookinglist"
-						style="font-size: 15px;">영화예매관리</a>
+						style="font-size: 15px;">영화 예매 목록</a>
 				</div>
 			</div></li>
 
@@ -162,7 +162,7 @@
 			data-toggle="collapse" data-target="#collapsePages4"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">스토어관리</span>
+				style="font-size: 17px; padding-left: 8px;">스토어 관리</span>
 		</a>
 			<div id="collapsePages4" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -170,9 +170,11 @@
 					<h6 class="collapse-header" style="font-size: 12px;">store:</h6>
 					<a class="collapse-item"
 						href="${pageContext.request.contextPath}/admin/store/controlstore"
-						style="font-size: 15px;">스토어상품관리</a> <a class="collapse-item"
+						style="font-size: 15px;">스토어 상품 관리</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/store/controlmenu"
-						style="font-size: 15px;">스토어메뉴관리</a>
+						style="font-size: 15px;">스토어 메뉴 관리</a> <a class="collapse-item"
+						href="${pageContext.request.contextPath}/admin/store/paymentlist"
+						style="font-size: 15px;">스토어 결제 목록</a>
 				</div>
 			</div></li>
 
@@ -189,7 +191,7 @@
 					<h6 class="collapse-header" style="font-size: 12px;">inquiry:</h6>
 					<a class="collapse-item"
 						href="${pageContext.request.contextPath}/inquiry/Imain"
-						style="font-size: 15px;">공식홈페이지 고객센터</a>
+						style="font-size: 15px;">공식 홈페이지 고객센터</a>
 				</div>
 			</div></li>
 

@@ -361,6 +361,14 @@ public class AdminService {
 	public AdminDTO getBookinginfo(String tp_NUM) {
 		return adminDAO.getBookinginfo(tp_NUM);
 	}
+
+	public List<AdminDTO> getStorePaymentlist() {
+		return adminDAO.getStorePaymentlist();
+	}
+
+	public AdminDTO getPaymentinfo(String sp_num) {
+		return adminDAO.getPaymentinfo(sp_num);
+	}
 	
 	
 

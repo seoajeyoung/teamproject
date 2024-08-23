@@ -274,7 +274,7 @@
 
 	<select id="getNameList" parameterType="String"
 		resultType="String">
-		SELECT TH_NAME FROM THEATER WHERE TH_REGION = #{TH_REGION}
+		SELECT DISTINCT TH_NAME FROM THEATER WHERE TH_REGION = #{TH_REGION}
 	</select>
 
 	<select id="getCinemaList" parameterType="String"
@@ -597,6 +597,46 @@
 		MV.MOVIE_NUM
 		WHERE
 		TP.TP_NUM = #{tp_NUM}
+	</select>
+	
+	<select id="getStorePaymentlist"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT
+		SP.sp_num,
+		SP.payment_total_price,
+		SP.payment_date,
+		S.ST_NAME,
+		S.ST_TYPE,
+		S.ST_CONST,
+		M.member_id
+		FROM
+		STOREPAYMENT SP
+		JOIN
+		STORE S ON SP.st_num =
+		S.ST_NUM
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+	</select>
+	
+	<select id="getPaymentinfo"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT
+		SP.sp_num,
+		SP.payment_total_price,
+		SP.payment_date,
+		S.ST_NAME,
+		S.ST_TYPE,
+		S.ST_CONST,
+		M.member_id
+		FROM
+		STOREPAYMENT SP
+		JOIN
+		STORE S ON SP.st_num =
+		S.ST_NUM
+		JOIN
+		MEMBERS M ON SP.member_num = M.member_num
+		WHERE
+		SP.sp_num = #{sp_num}
 	</select>
 
 

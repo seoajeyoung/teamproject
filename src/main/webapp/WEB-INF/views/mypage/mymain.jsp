@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mypage/mytest.jsp</title>
+<title>OSTicket - MyPage</title>
 <link
 	href="${pageContext.request.contextPath}/resources/css/mypage/customer.css"
 	rel="stylesheet">
