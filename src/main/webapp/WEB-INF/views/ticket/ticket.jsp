@@ -18,6 +18,7 @@
 </head>
 
 <body>
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <!-- 채현메인 모델값 --> 
 <div id="movie-data" data-movie-num="${movieNum}"></div>
  <div id="member_num" data-member-num="${member_num}"></div>
