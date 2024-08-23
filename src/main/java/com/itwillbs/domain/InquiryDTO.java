@@ -3,78 +3,71 @@ package com.itwillbs.domain;
 import java.sql.Timestamp;
 
 public class InquiryDTO {
-	private String inquiry_num;
-	private String member_num;//회원넘버
-	private String inquiry_name;//문의 제목
-	private String inquiry_detail;//파일,사진 추가
-	private String inquiry_picture;
-	private Timestamp inquiry_date;
-	private String inquiry_type;//비밀글/공개글
-	private String theater_num;//영화번호
-	private String inquiry_date_format;
+	private String IQ_NUM;
+	private String MEM_NUM;//회원넘버
+	private String IQ_NAME;//문의 제목
+	private String IQ_DETAIL;//파일,사진 추가
+	private String IQ_PICTURE;
+	private Timestamp IQ_DATE;
+	private String IQ_TYPE;//비밀글/공개글
+	private String IQ_DATE_format;
 	private String rn;
 	//private String member_nickname;
 	
 	@Override
 	public String toString() {
-		return "InquiryDTO [inquiry_num=" + inquiry_num + ", member_num=" + member_num + ", inquiry_name="
-				+ inquiry_name + ", inquiry_detail=" + inquiry_detail + ", inquiry_picture=" + inquiry_picture
-				+ ", inquiry_date=" + inquiry_date + ", inquiry_type=" + inquiry_type + ", theater_num=" + theater_num
-				+ ", inquiry_date_format=" + inquiry_date_format + ", rn=" + rn + "]";
+		return "InquiryDTO [IQ_NUM=" + IQ_NUM + ", MEM_NUM=" + MEM_NUM + ", IQ_NAME="
+				+ IQ_NAME + ", IQ_DETAIL=" + IQ_DETAIL + ", IQ_PICTURE=" + IQ_PICTURE
+				+ ", IQ_DATE=" + IQ_DATE + ", IQ_TYPE=" + IQ_TYPE 
+				+ ", IQ_DATE_format=" + IQ_DATE_format + ", rn=" + rn + "]";
 	}
-	public String getInquiry_num() {
-		return inquiry_num;
+	public String getIQ_NUM() {
+		return IQ_NUM;
 	}
-	public void setInquiry_num(String inquiry_num) {
-		this.inquiry_num = inquiry_num;
+	public void setIQ_NUM(String IQ_NUM) {
+		this.IQ_NUM = IQ_NUM;
 	}
-	public String getMember_num() {
-		return member_num;
+	public String getMEM_NUM() {
+		return MEM_NUM;
 	}
-	public void setMember_num(String member_num) {
-		this.member_num = member_num;
+	public void setMEM_NUM(String MEM_NUM) {
+		this.MEM_NUM = MEM_NUM;
 	}
-	public String getInquiry_name() {
-		return inquiry_name;
+	public String getIQ_NAME() {
+		return IQ_NAME;
 	}
-	public void setInquiry_name(String inquiry_name) {
-		this.inquiry_name = inquiry_name;
+	public void setIQ_NAME(String IQ_NAME) {
+		this.IQ_NAME = IQ_NAME;
 	}
-	public String getInquiry_detail() {
-		return inquiry_detail;
+	public String getIQ_DETAIL() {
+		return IQ_DETAIL;
 	}
-	public void setInquiry_detail(String inquiry_detail) {
-		this.inquiry_detail = inquiry_detail;
+	public void setIQ_DETAIL(String IQ_DETAIL) {
+		this.IQ_DETAIL = IQ_DETAIL;
 	}
-	public String getInquiry_picture() {
-		return inquiry_picture;
+	public String getIQ_PICTURE() {
+		return IQ_PICTURE;
 	}
-	public void setInquiry_picture(String inquiry_picture) {
-		this.inquiry_picture = inquiry_picture;
+	public void setIQ_PICTURE(String IQ_PICTURE) {
+		this.IQ_PICTURE = IQ_PICTURE;
 	}
-	public String getInquiry_type() {
-		return inquiry_type;
+	public String getIQ_TYPE() {
+		return IQ_TYPE;
 	}
-	public void setInquiry_type(String inquiry_type) {
-		this.inquiry_type = inquiry_type;
+	public void setIQ_TYPE(String IQ_TYPE) {
+		this.IQ_TYPE = IQ_TYPE;
 	}
-	public Timestamp getInquiry_date() {
-		return inquiry_date;
+	public Timestamp getIQ_DATE() {
+		return IQ_DATE;
 	}
-	public void setInquiry_date(Timestamp inquiry_date) {
-		this.inquiry_date = inquiry_date;
+	public void setIQ_DATE(Timestamp IQ_DATE) {
+		this.IQ_DATE = IQ_DATE;
 	}
-	public String getTheater_num() {
-		return theater_num;
+	public String getIQ_DATE_format() {
+		return IQ_DATE_format;
 	}
-	public void setTheater_num(String theater_num) {
-		this.theater_num = theater_num;
-	}
-	public String getInquiry_date_format() {
-		return inquiry_date_format;
-	}
-	public void setInquiry_date_format(String inquiry_date_format) {
-		this.inquiry_date_format = inquiry_date_format;
+	public void setIQ_DATE_format(String IQ_DATE_format) {
+		this.IQ_DATE_format = IQ_DATE_format;
 	}
 	public String getRn() {
 		return rn;

@@ -142,8 +142,8 @@
 			<div class="search_order">
 				<ol>
 				<li><span class="ico_oder find_q">01 자주찾는 질문 검색</span></li>
-				<li><span class="ico_oder email_i">02 이메일 문의</span><a href="/support/qna/default.aspx"><img src="http://img.cgv.co.kr/support/faq/btn_inquiry.png" alt="문의"></a></li>	
-                <li style="text-align: left;"><span class="ico_oder tel_i">03 고객센터 전화문의</span><span class="num">1544-1122<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(상담가능 시간, 월~금 09:00~18:00)</span></li>
+				<li><span class="ico_oder email_i">02 1:1 문의하기</span><a href="${pageContext.request.contextPath}/inquiry/write"><img src="http://img.cgv.co.kr/support/faq/btn_inquiry.png" alt="문의"></a></li>	
+                <li style="text-align: left;"><span class="ico_oder tel_i">03 고객센터 전화문의</span><span class="num">051-803-0909<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(상담가능 시간, 월~금 09:00~18:00)</span></li>
 				</ol>
 			</div>
 		</div>
@@ -174,78 +174,6 @@ $('#btn_search').on('click', function() {
 });
 
 </script>
-<script type="text/javascript">
-//<![CDATA[
-
-//     (function ($) {
-//         $(function () {
-
-//             $('#btn_search').on('click', function () {
-                
-// //                if ($('#searchtext').val() == "") {
-// //                    alert("검색어를 입력해 주세요.");
-// //                    $('#searchtext').focus();
-// //                    return false;
-// //                } else {
-// //                    
-//                 //                }
-              
-//                 Search();
-//             });
-			
-// 			$('#searchtext').keypress(function(event){
-//                 if (event.which == 13) {
-//                     if ($('#searchtext').val() == "") {
-//                         alert("검색어를 입력해 주세요.");
-//                         $('#searchtext').focus();
-//                         return false;
-//                     } else {
-                        
-//                         Search();
-//                     }
-//                 }
-                
-                  
-                
-// 			});
-
-//             function Search() {
-//                 location.href = "/support/faq/default.aspx?searchtext=" + escape($("#searchtext").val());
-//                 return false;
-//             }
-
-//             $('.c_tab_wrap').children('.c_tab').children('li').on('click', function () {
-//                 //$('.c_tab_wrap').children('.c_tab').children('li').removeClass("on");
-//                 //$(this).addClass("on");
-
-//                 location.href = $(this).children('a').attr("href") + escape("");
-//                 return false;
-//             });
-
-//             $('.qu_txt').children('span').children('a').on("click", function () {
-//                 location.href = "/support/faq/default.aspx?searchtext=" + escape($(this).html());
-//                 return false;
-//             });
-//             //SR 4020337 검색어 검색 시 검색결과에서 해당 검색어 붉은색으로 변경
-//             var idx = 0;
-           
-//             if ($('#searchtext').val()) {
-//                 for (idx = 0; idx < 20; idx++) {
-//                     var search = $('#searchtext').val();
-//                     search = search.toUpperCase();
-//                     $("#title" + idx + " > a:contains('" + search + "')").each(function () {
-//                         var regex = new RegExp(search, 'gi');
-//                         $(this).html($(this).text().replace(regex, "<span style='color:red'>" + search + "</span>"));
-//                     });
-//                 }
-//             }     
-
-//         });
-//     })(jQuery);
-
-//]]>
-<!-- </script> -->
-
             
             <!--/ Contents End -->
 		 </div>

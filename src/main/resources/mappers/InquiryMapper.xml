@@ -5,160 +5,160 @@
 <mapper namespace="com.itwillbs.mappers.inquiryMapper">
 
 	<insert id="insertInquiry">
-		INSERT INTO INQUIRY(inquiry_num, member_num, inquiry_name, inquiry_detail, inquiry_picture, inquiry_date, inquiry_type)
-		VALUES(#{inquiry_num},#{member_num},#{inquiry_name},#{inquiry_detail}, #{inquiry_picture}, #{inquiry_date},#{inquiry_type})
+		INSERT INTO INQUIRY(IQ_NUM, MEM_NUM, IQ_NAME, IQ_DETAIL, IQ_PICTURE, IQ_DATE, IQ_TYPE)
+		VALUES(#{IQ_NUM},#{MEM_NUM},#{IQ_NAME},#{IQ_DETAIL}, #{IQ_PICTURE}, #{IQ_DATE},#{IQ_TYPE})
 	</insert>
 	
 	<select id="getMaxNum" resultType="java.lang.Integer">
-		select MAX(CAST(inquiry_num AS UNSIGNED)) AS inquiry_num from INQUIRY 
+		select MAX(CAST(IQ_NUM AS UNSIGNED)) AS IQ_NUM from INQUIRY 
 	</select>
 
 <!-- 	전체공개만 보이게 -->
 	<select id="getInquiryList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
 		SELECT M.MEMBER_NICKNAME
-			 , I.INQUIRY_NUM
-			 , I.MEMBER_NUM
-			 , I.INQUIRY_NAME
-			 , I.INQUIRY_DETAIL
-			 , I.INQUIRY_PICTURE
-			 , I.INQUIRY_DATE
-			 , I.INQUIRY_TYPE
-			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-			 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+			 , I.IQ_NUM
+			 , I.MEM_NUM
+			 , I.IQ_NAME
+			 , I.IQ_DETAIL
+			 , I.IQ_PICTURE
+			 , I.IQ_DATE
+			 , I.IQ_TYPE
+			 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+			 , ROW_NUMBER() OVER(ORDER BY CAST(I.IQ_NUM AS UNSIGNED)) AS RN
 			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED 
 			 , A.AS_NUM
 		  FROM INQUIRY I 
 		  LEFT JOIN MEMBERS M
-			ON I.MEMBER_NUM = M.MEMBER_NUM
+			ON I.MEM_NUM = M.member_num
 		  LEFT JOIN ANSWER A
-		    ON I.INQUIRY_NUM = A.IQ_NUM
-		 WHERE I.INQUIRY_TYPE LIKE "%T%"
+		    ON I.IQ_NUM = A.IQ_NUM
+		 WHERE I.IQ_TYPE LIKE "%T%"
 		 <if test="search != null and !search.equals('')">
-		   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		   AND I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 		 </if>
-		  ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+		  ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		  LIMIT #{startRow}, #{pageSize}
 	</select>
 <!-- 	전체공개글(T) 갯수 -->
 	<select id="getInquiryCount" resultType="java.lang.Integer">
 		select count(*) from INQUIRY
-		WHERE INQUIRY_TYPE LIKE "%T%"
+		WHERE IQ_TYPE LIKE "%T%"
 		<if test="search != null and !search.equals('')">
-		AND INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		AND IQ_NAME LIKE CONCAT('%',#{search},'%') 
 		</if>			
 	</select>
 <!-- 	나의문의글 갯수 -->
 	<select id="getMyInquiryCount" resultType="java.lang.Integer" parameterType="Map">
 		select count(*) from INQUIRY
-		WHERE MEMBER_NUM = #{member_num}			
+		WHERE MEM_NUM = #{MEM_NUM}			
 	</select>
 	
 	<!-- 관리자 전체,비공개 모두 보이게 -->
 	<select id="adminInquiry" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
 		SELECT M.MEMBER_NICKNAME
-			 , I.INQUIRY_NUM
-			 , I.MEMBER_NUM
-			 , I.INQUIRY_NAME
-			 , I.INQUIRY_DETAIL
-			 , I.INQUIRY_PICTURE
-			 , I.INQUIRY_DATE
-			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-			 , I.INQUIRY_TYPE
+			 , I.IQ_NUM
+			 , I.MEM_NUM
+			 , I.IQ_NAME
+			 , I.IQ_DETAIL
+			 , I.IQ_PICTURE
+			 , I.IQ_DATE
+			 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+			 , I.IQ_TYPE
 			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED
 			 , A.AS_NUM 
              , A.AS_DETAIL
              , A.AS_DATE
 	 	  FROM INQUIRY I
 	 	  LEFT JOIN MEMBERS M
-		  ON I.MEMBER_NUM = M.MEMBER_NUM
+		  ON I.MEM_NUM = M.member_num
 		  LEFT JOIN ANSWER A
-		  ON I.INQUIRY_NUM = A.IQ_NUM
-		  WHERE I.INQUIRY_NUM = #{INQUIRY_NUM}
+		  ON I.IQ_NUM = A.IQ_NUM
+		  WHERE I.IQ_NUM = #{IQ_NUM}
 	</select>
 	
 <!-- 	전체공개만 보이게 -->
 	<select id="getInquiry" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
 		SELECT M.MEMBER_NICKNAME
-			 , I.INQUIRY_NUM
-			 , I.MEMBER_NUM
-			 , I.INQUIRY_NAME
-			 , I.INQUIRY_DETAIL
-			 , I.INQUIRY_PICTURE
-			 , I.INQUIRY_DATE
-			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-			 , I.INQUIRY_TYPE
+			 , I.IQ_NUM
+			 , I.MEM_NUM
+			 , I.IQ_NAME
+			 , I.IQ_DETAIL
+			 , I.IQ_PICTURE
+			 , I.IQ_DATE
+			 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+			 , I.IQ_TYPE
 			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED
 			 , A.AS_NUM 
              , A.AS_DETAIL
              , A.AS_DATE
 	 	  FROM INQUIRY I
 	 	  LEFT JOIN MEMBERS M
-		  ON I.MEMBER_NUM = M.MEMBER_NUM
+		  ON I.MEM_NUM = M.member_num
 		  LEFT JOIN ANSWER A
-		  ON I.INQUIRY_NUM = A.IQ_NUM
-		  WHERE I.INQUIRY_NUM = #{INQUIRY_NUM}
-<!-- 		  AND I.INQUIRY_TYPE LIKE "%T%" -->
+		  ON I.IQ_NUM = A.IQ_NUM
+		  WHERE I.IQ_NUM = #{IQ_NUM}
+<!-- 		  AND I.IQ_TYPE LIKE "%T%" -->
 	</select>
 	
 <!-- 	전체공개만 -->	
 	<select id="getInquiryPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 		 , A.AS_NUM
          , A.AS_DETAIL
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
+		ON I.MEM_NUM = M.member_num
 		LEFT JOIN ANSWER A
-	    ON I.INQUIRY_NUM = A.IQ_NUM
+	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
 	<if test="search != null and !search.equals('')">
-	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	   AND I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 	</if>
 	<![CDATA[
-	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) < #{inquiryNum}
-	 AND I.INQUIRY_TYPE LIKE "%T%"
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{inquiryNum})
+	 AND CAST(I.IQ_NUM AS UNSIGNED) < #{inquiryNum}
+	 AND I.IQ_TYPE LIKE "%T%"
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{inquiryNum})
 	 LIMIT 1
 	]]>
 	</select>
 <!-- 	전체공개글(T) 다음글 -->
 	<select id="getInquiryNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 		 , A.AS_NUM
          , A.AS_DETAIL
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
+		ON I.MEM_NUM = M.member_num
       LEFT JOIN ANSWER A
-	    ON I.INQUIRY_NUM = A.IQ_NUM
+	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
 	<if test="search != null and !search.equals('')">
-	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	   AND I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 	</if>
 	<![CDATA[
-	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) > #{inquiryNum}
-	 AND I.INQUIRY_TYPE LIKE "%T%"
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{inquiryNum})
+	 AND CAST(I.IQ_NUM AS UNSIGNED) > #{inquiryNum}
+	 AND I.IQ_TYPE LIKE "%T%"
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{inquiryNum})
 	 LIMIT 1
 	]]>
 	</select>
 <!-- 	나의문의내역 -->	
 	<select id="getMyInquiryList" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT *
-		 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-		 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+		 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+		 , ROW_NUMBER() OVER(ORDER BY CAST(I.IQ_NUM AS UNSIGNED)) AS RN
 		 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED
  	  FROM INQUIRY I
  LEFT JOIN ANSWER A
-		ON I.INQUIRY_NUM = A.IQ_NUM
- 	 WHERE I.MEMBER_NUM = #{member_num}
- 	 ORDER BY CAST(INQUIRY_NUM AS UNSIGNED) DESC
+		ON I.IQ_NUM = A.IQ_NUM
+ 	 WHERE I.MEM_NUM = #{MEM_NUM}
+ 	 ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
 	</select>
 	
@@ -167,14 +167,14 @@
 	<select id="getMyPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
 	SELECT M.MEMBER_ID
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
-	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM}
-     and I.MEMBER_NUM = #{MEMBER_NUM}
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{INQUIRY_NUM})
+		ON I.MEM_NUM = M.member_num
+	 WHERE CAST(I.IQ_NUM AS UNSIGNED) < #{IQ_NUM}
+     and I.MEM_NUM = #{MEM_NUM}
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
 	</select>
@@ -182,102 +182,102 @@
 	<select id="getMyNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
 	SELECT M.MEMBER_ID 
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
-	 WHERE CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM}
-     and I.MEMBER_NUM = #{MEMBER_NUM}
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{INQUIRY_NUM})
+		ON I.MEM_NUM = M.member_num
+	 WHERE CAST(I.IQ_NUM AS UNSIGNED) > #{IQ_NUM}
+     and I.MEM_NUM = #{MEM_NUM}
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
 	</select>
 	
 	<update id="updateInquiry">
 		update INQUIRY
-		   set inquiry_name = #{inquiry_name}
-		     , inquiry_detail = #{inquiry_detail}
-		     , inquiry_picture = #{inquiry_picture}
-		 where inquiry_num = #{inquiry_num}
+		   set IQ_NAME = #{IQ_NAME}
+		     , IQ_DETAIL = #{IQ_DETAIL}
+		     , IQ_PICTURE = #{IQ_PICTURE}
+		 where IQ_NUM = #{IQ_NUM}
 	</update>
 	
 	<delete id="deleteInquiry" parameterType="java.lang.String">
 		DELETE I
 		  FROM INQUIRY I
-	 LEFT JOIN ANSWER A ON I.INQUIRY_NUM = A.IQ_NUM
-		 WHERE I.INQUIRY_NUM = #{inquiry_num};
+	 LEFT JOIN ANSWER A ON I.IQ_NUM = A.IQ_NUM
+		 WHERE I.IQ_NUM = #{IQ_NUM};
 	</delete>
 
 <!-- 	관리자 리스트 -->
 	<select id="getAdminList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
 	SELECT M.MEMBER_NICKNAME
-			 , I.INQUIRY_NUM
-			 , I.MEMBER_NUM
-			 , I.INQUIRY_NAME
-			 , I.INQUIRY_DETAIL
-			 , I.INQUIRY_PICTURE
-			 , I.INQUIRY_DATE
-			 , I.INQUIRY_TYPE
-			 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-			 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+			 , I.IQ_NUM
+			 , I.MEM_NUM
+			 , I.IQ_NAME
+			 , I.IQ_DETAIL
+			 , I.IQ_PICTURE
+			 , I.IQ_DATE
+			 , I.IQ_TYPE
+			 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+			 , ROW_NUMBER() OVER(ORDER BY CAST(I.IQ_NUM AS UNSIGNED)) AS RN
 			 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED 
 			 , A.AS_NUM
 		  FROM INQUIRY I 
 		  LEFT JOIN MEMBERS M
-			ON I.MEMBER_NUM = M.MEMBER_NUM
+			ON I.MEM_NUM = M.member_num
 		  LEFT JOIN ANSWER A
-		    ON I.INQUIRY_NUM = A.IQ_NUM
+		    ON I.IQ_NUM = A.IQ_NUM
 		 <if test="search != null">
-		 WHERE I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		 WHERE I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 		 </if>
-		 ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED) DESC
+		 ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{startRow}, #{pageSize}
 	</select>
 	
 <!-- 	관리자 이전글 -->	
 	<select id="adminPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 		 , A.AS_NUM
          , A.AS_DETAIL
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
+		ON I.MEM_NUM = M.member_num
 		LEFT JOIN ANSWER A
-	    ON I.INQUIRY_NUM = A.IQ_NUM
+	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
 	<if test="search != null and !search.equals('')">
-	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	   AND I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 	</if>
 	<![CDATA[
-	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) < #{INQUIRY_NUM}
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{INQUIRY_NUM})
+	 AND CAST(I.IQ_NUM AS UNSIGNED) < #{IQ_NUM}
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1
 	]]>
 	</select>
 <!-- 	관리자 이후글 -->		
 	<select id="adminNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	SELECT M.MEMBER_NICKNAME
-		 , I.INQUIRY_NUM
-		 , I.INQUIRY_NAME
+		 , I.IQ_NUM
+		 , I.IQ_NAME
 		 , A.AS_NUM
          , A.AS_DETAIL
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEMBER_NUM = M.MEMBER_NUM
+		ON I.MEM_NUM = M.member_num
       LEFT JOIN ANSWER A
-	    ON I.INQUIRY_NUM = A.IQ_NUM
+	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
 	<if test="search != null and !search.equals('')">
-	   AND I.INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+	   AND I.IQ_NAME LIKE CONCAT('%',#{search},'%') 
 	</if>
 	<![CDATA[
-	 AND CAST(I.INQUIRY_NUM AS UNSIGNED) > #{INQUIRY_NUM}
-	 ORDER BY ABS(CAST(I.INQUIRY_NUM AS UNSIGNED) - #{INQUIRY_NUM})
+	 AND CAST(I.IQ_NUM AS UNSIGNED) > #{IQ_NUM}
+	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1
 	]]>
 	</select>
@@ -286,28 +286,28 @@
 		SELECT COUNT(*)
 		FROM INQUIRY
 		<if test="search != null">
-		WHERE INQUIRY_NAME LIKE CONCAT('%',#{search},'%') 
+		WHERE IQ_NAME LIKE CONCAT('%',#{search},'%') 
 		</if>			
 	</select>
 	
 <!-- 	나의문의내역 관리자 (비밀글만) -->
 	<select id="getAdminListF" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
 	SELECT *
-		 , DATE_FORMAT(I.INQUIRY_DATE, '%Y-%m-%d') AS INQUIRY_DATE_FORMAT
-		 , ROW_NUMBER() OVER(ORDER BY CAST(I.INQUIRY_NUM AS UNSIGNED)) AS RN
+		 , DATE_FORMAT(I.IQ_DATE, '%Y-%m-%d') AS IQ_DATE_FORMAT
+		 , ROW_NUMBER() OVER(ORDER BY CAST(I.IQ_NUM AS UNSIGNED)) AS RN
 		 , IF(A.AS_NUM IS NOT NULL, '답변완료', NULL) AS ISANSWERED
  	  FROM INQUIRY I
  LEFT JOIN ANSWER A
-		ON I.INQUIRY_NUM = A.IQ_NUM
-	 WHERE I.INQUIRY_TYPE LIKE '%F%'
- 	 ORDER BY CAST(INQUIRY_NUM AS UNSIGNED) DESC
+		ON I.IQ_NUM = A.IQ_NUM
+	 WHERE I.IQ_TYPE LIKE '%F%'
+ 	 ORDER BY CAST(IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{startRow}, #{pageSize}
 	</select>
 <!-- 	나의문의내역 관리자 카운트 (비밀글만) -->
 	<select id="getAdminCountF" resultType="java.lang.Integer" parameterType="com.itwillbs.domain.PageDTO">
 		SELECT COUNT(*)
 		  FROM INQUIRY
-		 WHERE INQUIRY_TYPE LIKE '%F%' 
+		 WHERE IQ_TYPE LIKE '%F%' 
 	</select>
 
 </mapper>  

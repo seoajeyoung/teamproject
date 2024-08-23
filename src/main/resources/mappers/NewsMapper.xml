@@ -251,7 +251,7 @@
     		   END AS NEWS_SECTION
 		  FROM NEWS
 		  ORDER BY CAST(NEWS_NUM AS UNSIGNED) DESC
-		  LIMIT 10
+		  LIMIT 9
 	</select>
 	
 

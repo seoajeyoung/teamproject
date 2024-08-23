@@ -89,10 +89,10 @@
     })(jQuery);
     
  $(document).ready(function(){
-	var datePart = "${inquiry_date}".split(" ")[0];
+	var datePart = "${IQ_DATE}".split(" ")[0];
 	 $('.day').text(datePart);
 	 
-	 var result = "${inquiry_type}";
+	 var result = "${IQ_TYPE}";
 	 if(result == "T"){
 		 $('.tf').text("전체공개");
 	 }else{

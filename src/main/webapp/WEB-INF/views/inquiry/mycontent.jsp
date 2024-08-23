@@ -59,19 +59,19 @@
 			</div>
 			<div class="board_view_area">
 				<ul class="top_title_faq">
-					<li class="title">${content.INQUIRY_NAME}</li>
+					<li class="title">${content.IQ_NAME}</li>
 					<li class="stit_area">
-						<span>등록일<em class="regist_day">${content.INQUIRY_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
+						<span>등록일<em class="regist_day">${content.IQ_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
 						<span class="check_tit_area">닉네임<em class="check_num">${content.MEMBER_NICKNAME}</em></span>
 					</li>
 				</ul>
 				<div class="view_area">
-					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.INQUIRY_DETAIL}</b></span></p><br>
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${content.INQUIRY_PICTURE}" width="200">
+					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.IQ_DETAIL}</b></span></p><br>
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${content.IQ_PICTURE}" width="200">
 				</div>
-				<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/update?num=${content.INQUIRY_NUM}')" class="round inblack" >
+				<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/update?num=${content.IQ_NUM}')" class="round inblack" >
 				<span>글수정</span></button>
-				<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/delete?num=${content.INQUIRY_NUM}')" class="round inblack" ><span>
+				<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/delete?num=${content.IQ_NUM}')" class="round inblack" ><span>
 				 글삭제
 				</span></button></div>
 		
@@ -86,7 +86,7 @@
 								<li class="name">이전글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?IQ_NUM=${next.IQ_NUM}" class="txt" >${next.IQ_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 						  
@@ -98,7 +98,7 @@
 								<li class="name">다음글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/mycontent?IQ_NUM=${prev.IQ_NUM}" class="txt" >${prev.IQ_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
                         

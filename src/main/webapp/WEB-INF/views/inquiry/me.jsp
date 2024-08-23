@@ -120,9 +120,9 @@
 											<!--순번 오름차순으로 변경-->
 											<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->
 											<td >${inquiryDTO.RN}</td>
-											<td>${inquiryDTO.INQUIRY_DATE_FORMAT}</td>
+											<td>${inquiryDTO.IQ_DATE_FORMAT}</td>
 											<td id="title0" class="txt"><a
-												href="${pageContext.request.contextPath}/inquiry/mycontent?inquiry_num=${inquiryDTO.inquiry_num}">${inquiryDTO.inquiry_name}</a></td>
+												href="${pageContext.request.contextPath}/inquiry/mycontent?IQ_NUM=${inquiryDTO.IQ_NUM}">${inquiryDTO.IQ_NAME}</a></td>
 											<td class="num">${inquiryDTO.ISANSWERED}</td>
 										</tr>
 																								
@@ -165,12 +165,12 @@
 						<div class="search_order">
 							<ol>
 								<li><span class="ico_oder find_q">01 자주찾는 질문 검색</span></li>
-								<li><span class="ico_oder email_i">02 이메일 문의</span><a
-									href="/support/qna/default.aspx"><img
+								<li><span class="ico_oder email_i">02 1:1 문의하기</span><a
+									href="${pageContext.request.contextPath}/inquiry/write"><img
 										src="http://img.cgv.co.kr/support/faq/btn_inquiry.png"
 										alt="문의"></a></li>
 								<li style="text-align: left;"><span class="ico_oder tel_i">03
-										고객센터 전화문의</span><span class="num">1544-1122<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(상담가능
+										고객센터 전화문의</span><span class="num">051-803-0909<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(상담가능
 										시간, 월~금 09:00~18:00)
 								</span></li>
 							</ol>

@@ -60,20 +60,20 @@
 			</div>
 			<div class="board_view_area">
 				<ul class="top_title_faq">
-					<li class="title">${inquiryDTO.INQUIRY_NAME}</li>
+					<li class="title">${inquiryDTO.IQ_NAME}</li>
 					<li class="stit_area">
-						<span>등록일<em class="regist_day">${inquiryDTO.INQUIRY_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
+						<span>등록일<em class="regist_day">${inquiryDTO.IQ_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
 						<span class="check_tit_area">닉네임<em class="check_num">${inquiryDTO.MEMBER_NICKNAME}</em></span>
 					</li>
 				</ul>
 				<div class="view_area">
-					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${inquiryDTO.INQUIRY_DETAIL}</b><br>
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.INQUIRY_PICTURE}" width="200">
+					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${inquiryDTO.IQ_DETAIL}</b><br>
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.IQ_PICTURE}" width="200">
 					</span></p>
 				</div>
 				
 				<form id="form1" name="form1"  method="post" novalidate="novalidate" enctype="multipart/form-data">
-				<% String num = request.getParameter("inquiry_num");%>
+				<% String num = request.getParameter("IQ_NUM");%>
 				<input type="hidden" name="IQ_NUM" value="<%= num %>"/>
 				<input type="hidden" name="AS_NUM" value="${AS_NUM}" />
 				 <input type="hidden" id="hIsTemp" name="hIsTemp" value="N"> 
@@ -92,7 +92,7 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/deletelist?num=${inquiryDTO.INQUIRY_NUM}')" class="round inblack" >
+										<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/deletelist?num=${inquiryDTO.IQ_NUM}')" class="round inblack" >
 										<span>글삭제</span></button>
 										<th scope="row"><label for="inp_textbox">답글 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
@@ -127,7 +127,6 @@
 				<div class="customer_btn"><button type="button" class="round inblack" id="btn_list"><span>목록으로</span></button></div>
 				<!-- 이전글,다음글 (s) -->
 				<div class="btm_sup_list">
-				<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 					<ul class="line_sup_next">
                         <li class="stit">이전글</li>
                         <c:choose>  
@@ -135,11 +134,10 @@
 								<li class="name">이전글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&IQ_NUM=${next.IQ_NUM}" class="txt" >${next.IQ_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 					</ul>
-<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 				
 					<ul class="line_sup_prev">
 						<li class="stit">다음글</li>
@@ -149,24 +147,12 @@
 								<li class="name">다음글이 없습니다.</li>
 							</c:when> 
 							<c:otherwise>
-								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&inquiry_num=${prev.INQUIRY_NUM}" class="txt" >${prev.INQUIRY_NAME}</a></li> 
+								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/answer?search=${param.search}&IQ_NUM=${prev.IQ_NUM}" class="txt" >${prev.IQ_NAME}</a></li> 
 							</c:otherwise> 
 						</c:choose>
 						  
 					</ul>
-<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-<!-- 					<ul class="line_sup_next"> -->
-<!--                         <li class="stit">다음글</li> -->
-<%--                         <c:choose>   --%>
-<%-- 							<c:when test="${empty next}">  --%>
-<!-- 								<li class="name">다음글이 없습니다.</li> -->
-<%-- 							</c:when>  --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<li class="name"><a href="${pageContext.request.contextPath}/inquiry/content?inquiry_num=${next.INQUIRY_NUM}" class="txt" >${next.INQUIRY_NAME}</a></li>  --%>
-<%-- 							</c:otherwise>  --%>
-<%-- 						</c:choose> --%>
-<!-- 					</ul> -->
-<!-- 					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
 				</div>
 				<!-- 이전글,다음글 (e) -->
 			</div>

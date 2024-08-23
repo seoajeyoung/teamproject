@@ -157,8 +157,8 @@ function __doPostBack(eventTarget, eventArgument) {
 										<th scope="row">문의유형 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></th>
 										<td colspan="3">
 											<ul class="type_list">
-												<li id="li_ra_1" class="on"><input type="radio" checked="checked" id="inp_type01" name="inquiry_type" value="T"><label for="inp_type01">전체 공개</label></li>
-												<li id="li_ra_2"><input type="radio" id="inp_type02" name="inquiry_type" value="F"><label for="inp_type02">비공개</label></li>
+												<li id="li_ra_1" class="on"><input type="radio" checked="checked" id="inp_type01" name="IQ_TYPE" value="T"><label for="inp_type01">전체 공개</label></li>
+												<li id="li_ra_2"><input type="radio" id="inp_type02" name="IQ_TYPE" value="F"><label for="inp_type02">비공개</label></li>
 											</ul>
 										</td>
 									</tr>
@@ -166,23 +166,23 @@ function __doPostBack(eventTarget, eventArgument) {
 									<tr>
 										<th scope="row"><label for="inp_title">제목 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
-											<input type="text" id="inp_title" name="inquiry_name" class="inp01" style="width: 672px;" value="${inquiryDTO.INQUIRY_NAME}">
+											<input type="text" id="inp_title" name="IQ_NAME" class="inp01" style="width: 672px;" value="${inquiryDTO.IQ_NAME}">
 										</td>
 									</tr>
 									<tr>
 										<th scope="row"><label for="inp_textbox">내용 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
-											<textarea cols="60" rows="5" id="inp_textbox" name="inquiry_detail" class="inp_txtbox01" 
-													  style=" height:94px !important; " >${inquiryDTO.INQUIRY_DETAIL}</textarea>
+											<textarea cols="60" rows="5" id="inp_textbox" name="IQ_DETAIL" class="inp_txtbox01" 
+													  style=" height:94px !important; " >${inquiryDTO.IQ_DETAIL}</textarea>
 											<p class="byte_info"><span id="sp_ad_content_size_1">0</span>/5000BYTE <span>(<span id="sp_ad_content_size_2">0</span>/2500자)</span></p>
 										</td>
 									</tr>
 									<tr>
 										<th scope="row"><label for="voc_upload_file">첨부파일</label></th> 
 										<td colspan="3">
-                                             <input style="width:300px" type="file" id="voc_upload_file" name="inquiry_picture" title="voc파일 업로드" size="51" onclick="javascript:alert('주민번호 등 개인정보가 포함된 파일이 첨부되지 않도록 유의하시기 바랍니다.');"> 
+                                             <input style="width:300px" type="file" id="voc_upload_file" name="IQ_PICTURE" title="voc파일 업로드" size="51" onclick="javascript:alert('주민번호 등 개인정보가 포함된 파일이 첨부되지 않도록 유의하시기 바랍니다.');"> 
                                              <br>*<b>첨부가능 확장자</b>: 이미지(jpg, gif, bmp, png, jpeg) ,워드문서(hwp, ppt, pptx, xls, xlsx, doc, docx, zip, pdf, txt)
-                                             <input type="hidden" name="oldfile" value="${inquiryDTO.INQUIRY_PICTURE}">
+                                             <input type="hidden" name="oldfile" value="${inquiryDTO.IQ_PICTURE}">
 										</td>
 									</tr>
 								</tbody>
@@ -204,7 +204,7 @@ function __doPostBack(eventTarget, eventArgument) {
 $(function () {     
 	$('#inp_textbox').on('keyup', checkByte);
 	
-	const type = '${inquiryDTO.INQUIRY_TYPE}';
+	const type = '${inquiryDTO.IQ_TYPE}';
 	// 모든 <li> 요소를 선택
 	const listItems = document.querySelectorAll('.type_list li');
 	

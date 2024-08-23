@@ -65,7 +65,7 @@ public class InquiryController {
 	public String Imain(HttpServletRequest request, HttpSession session, Model model) {
 		
         // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
-		session.setAttribute("member_num", "10");
+		session.setAttribute("MEM_NUM", "10");
         session.setAttribute("member_name", "admi");
         session.setAttribute("member_phone", "010-1234-5678");
         session.setAttribute("member_email", "aaa1234@gmail.com");
@@ -89,16 +89,16 @@ public class InquiryController {
 	}
 
 	@GetMapping("/complete")//문의글 쓴 뒤에 다 썼다고 알려주는 페이지
-	public String complete(@RequestParam String inquiry_type, @RequestParam String inquiry_date, Model model) {
-		model.addAttribute("inquiry_type", inquiry_type);
-		model.addAttribute("inquiry_date", inquiry_date);
+	public String complete(@RequestParam String IQ_TYPE, @RequestParam String IQ_DATE, Model model) {
+		model.addAttribute("IQ_TYPE", IQ_TYPE);
+		model.addAttribute("IQ_DATE", IQ_DATE);
 		return "inquiry/complete";
 	}
 
 	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
 
-		String member_num = (String)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("MEM_NUM");
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
 
@@ -119,7 +119,7 @@ public class InquiryController {
 		//넘버값으로 들어가서 본인이 쓴 글 DB에서 찾아서 뿌리기
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("member_num", member_num);
+		params.put("MEM_NUM", MEM_NUM);
 		params.put("pageDTO", pageDTO);
 		
 		String memberName = (String) session.getAttribute("member_name");
@@ -184,14 +184,14 @@ public class InquiryController {
 	@GetMapping("/mycontent")//내가 쓴 글 하나씩 뿌려줌
 	public String myconcent(@RequestParam(value = "search", required = false) String search, InquiryDTO inquiryDTO, HttpSession session, Model model) {
 		
-		String inquiry_num = inquiryDTO.getInquiry_num();
-		String member_num = (String)session.getAttribute("member_num");
+		String IQ_NUM = inquiryDTO.getIQ_NUM();
+		String MEM_NUM = (String)session.getAttribute("MEM_NUM");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-	    params.put("INQUIRY_NUM", inquiry_num);
-	    params.put("MEMBER_NUM", member_num);
+	    params.put("IQ_NUM", IQ_NUM);
+	    params.put("MEM_NUM", MEM_NUM);
 		
-		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(inquiry_num);
+		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(IQ_NUM);
 		Map<String, Object> inquiryDTO3 = inquiryService.getMyPrev(params);
 		Map<String, Object> inquiryDTO4 = inquiryService.getMyNext(params);
 		
@@ -199,7 +199,7 @@ public class InquiryController {
 		model.addAttribute("prev", inquiryDTO3);
 		model.addAttribute("next", inquiryDTO4);
 		
-		session.setAttribute("inquiry_num", inquiryDTO2);
+		session.setAttribute("IQ_NUM", inquiryDTO2);
 		
 		return "inquiry/mycontent";
 		
@@ -222,32 +222,32 @@ public class InquiryController {
 	}
 	
 	@PostMapping("/writePro") //문의 작성
-	public String writePro(HttpServletRequest request, MultipartFile inquiry_picture, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
-		String member_num = (String)session.getAttribute("member_num");
+	public String writePro(HttpServletRequest request, MultipartFile IQ_PICTURE, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
+		String MEM_NUM = (String)session.getAttribute("MEM_NUM");
 		
 		UUID uuid = UUID.randomUUID();
-		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
+		String file = uuid.toString() + "_" + IQ_PICTURE.getOriginalFilename();
 
 		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
-		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
+		FileCopyUtils.copy(IQ_PICTURE.getBytes(), new File(uploadPath, file));
 
 		InquiryDTO inquiryDTO = new InquiryDTO();
 
-		inquiryDTO.setMember_num(member_num);
-		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
-		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
-		inquiryDTO.setInquiry_type(request.getParameter("inquiry_type"));
-		inquiryDTO.setInquiry_picture(file);
+		inquiryDTO.setMEM_NUM(MEM_NUM);
+		inquiryDTO.setIQ_NAME(request.getParameter("IQ_NAME"));
+		inquiryDTO.setIQ_DETAIL(request.getParameter("IQ_DETAIL"));
+		inquiryDTO.setIQ_TYPE(request.getParameter("IQ_TYPE"));
+		inquiryDTO.setIQ_PICTURE(file);
 		
 		inquiryService.insertInquiry(inquiryDTO);
-		String inquiry_type = inquiryDTO.getInquiry_type();
-        Timestamp inquiry_date = inquiryDTO.getInquiry_date();
+		String IQ_TYPE = inquiryDTO.getIQ_TYPE();
+        Timestamp IQ_DATE = inquiryDTO.getIQ_DATE();
         
-        String formattedInquiryDate = inquiry_date.toString();
+        String formattedInquiryDate = IQ_DATE.toString();
 
         // RedirectAttributes를 사용하여 값 전달
-        redirectAttributes.addAttribute("inquiry_type", inquiry_type);
-        redirectAttributes.addAttribute("inquiry_date", inquiry_date);
+        redirectAttributes.addAttribute("IQ_TYPE", IQ_TYPE);
+        redirectAttributes.addAttribute("IQ_DATE", IQ_DATE);
 
 		return "redirect:/inquiry/complete";
 	}
@@ -337,7 +337,7 @@ public class InquiryController {
 	@GetMapping("/content")//글 목록에서 제목 눌러서 해당글 + 이전/이후글 이동가능
 	public String content(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
 
-		String inquiryNum = inquiryDTO.getInquiry_num();
+		String inquiryNum = inquiryDTO.getIQ_NUM();
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("inquiryNum", inquiryNum);
 		param.put("search", search);
@@ -354,7 +354,7 @@ public class InquiryController {
 	}
 
 	@GetMapping("/update") // 문의글 업데이트 전에 쓴 글 뿌려줌
-	public String update(@RequestParam(name = "num")String inquiry_num, HttpSession session, Model model) {
+	public String update(@RequestParam(name = "num")String IQ_NUM, HttpSession session, Model model) {
 		
 		String member_name = (String)session.getAttribute("member_name");
 		String member_phone = (String)session.getAttribute("member_phone");
@@ -364,35 +364,35 @@ public class InquiryController {
 		model.addAttribute("member_phone", member_phone);
 		model.addAttribute("member_email", member_email);
 		
-		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(inquiry_num);
+		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(IQ_NUM);
 		model.addAttribute("inquiryDTO", inquiryDTO2);
 		
 		return "/inquiry/update";
 	}
 
 	@PostMapping("/updatePro") // 문의 글 업데이트
-	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, MultipartFile inquiry_picture, Model model)  throws Exception{
+	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, MultipartFile IQ_PICTURE, Model model)  throws Exception{
 		
 		
 		String file = "";
 		
-		if(inquiry_picture.isEmpty()) {
+		if(IQ_PICTURE.isEmpty()) {
 			//첨부파일 없는 경우
 			file = request.getParameter("oldfile");
 		}else {
 			//첨부파일 있는 경우
 			//랜덤문자 만들기 => 파일이름 준비
 			UUID uuid = UUID.randomUUID();
-			file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
+			file = uuid.toString() + "_" + IQ_PICTURE.getOriginalFilename();
 			
 			//업로드 원본파일 => upload 폴더에 복사(파일 업로드)	
-			FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath,file));
+			FileCopyUtils.copy(IQ_PICTURE.getBytes(), new File(uploadPath,file));
 		}
 		InquiryDTO inquiryDTO = new InquiryDTO();
-		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
-		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
-		inquiryDTO.setInquiry_num(num);
-		inquiryDTO.setInquiry_picture(file);
+		inquiryDTO.setIQ_NAME(request.getParameter("IQ_NAME"));
+		inquiryDTO.setIQ_DETAIL(request.getParameter("IQ_DETAIL"));
+		inquiryDTO.setIQ_NUM(num);
+		inquiryDTO.setIQ_PICTURE(file);
 		
 		
 		inquiryService.updateInquiry(inquiryDTO);
@@ -411,11 +411,11 @@ public class InquiryController {
 	
 	@GetMapping("/answer")//해당문의글 답변 @@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
 	public String answer(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
-		String INQUIRY_NUM = inquiryDTO.getInquiry_num();
+		String IQ_NUM = inquiryDTO.getIQ_NUM();
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("search", search);
-		param.put("INQUIRY_NUM", INQUIRY_NUM);
-		Map<String, Object> inquiryDTO2 = inquiryService.adminInquiry(INQUIRY_NUM);
+		param.put("IQ_NUM", IQ_NUM);
+		Map<String, Object> inquiryDTO2 = inquiryService.adminInquiry(IQ_NUM);
 		Map<String, Object> inquiryDTO3 = inquiryService.adminPrev(param);
 		Map<String, Object> inquiryDTO4 = inquiryService.adminNext(param);
 
@@ -433,9 +433,9 @@ public class InquiryController {
 		//session.getAttribute("inquiryDTO2");
 		Map<String, Object> dataMap = (Map<String, Object>)session.getAttribute("inquiryDTO2");
 		InquiryDTO inquiryDTO = new InquiryDTO();
-		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
-		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
-		inquiryDTO.setInquiry_num(num);
+		inquiryDTO.setIQ_NAME(request.getParameter("IQ_NAME"));
+		inquiryDTO.setIQ_DETAIL(request.getParameter("IQ_DETAIL"));
+		inquiryDTO.setIQ_NUM(num);
 		
 		
 		//model.addAttribute("InquiryDTO", inquiryDTO);

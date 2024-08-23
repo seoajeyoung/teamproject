@@ -89,17 +89,17 @@
 						</div>
 						<div class="board_view_area">
 							<ul class="top_title_faq">
-								<li class="title">${inquiryDTO.INQUIRY_NAME}</li>
+								<li class="title">${inquiryDTO.IQ_NAME}</li>
 								<li class="stit_area"><span>등록일<em
-										class="regist_day">${inquiryDTO.INQUIRY_DATE_FORMAT}<span><em
+										class="regist_day">${inquiryDTO.IQ_DATE_FORMAT}<span><em
 												class="regist_day"></em></span></em></span> <span class="check_tit_area">닉네임<em
 										class="check_num">${inquiryDTO.MEMBER_NICKNAME}</em></span></li>
 							</ul>
 							<div class="view_area">
 								<p></p>
 								<p style="line-height: 1.8;">
-									<span style="font-family: arial;"><b>${inquiryDTO.INQUIRY_DETAIL}</b><br>
-									<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.INQUIRY_PICTURE}" width="200">
+									<span style="font-family: arial;"><b>${inquiryDTO.IQ_DETAIL}</b><br>
+									<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.IQ_PICTURE}" width="200">
 									</span>
 								</p>
 							</div>
@@ -133,8 +133,8 @@
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&inquiry_num=${next.INQUIRY_NUM}"
-												class="txt">${next.INQUIRY_NAME}</a></li>
+												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&IQ_NUM=${next.IQ_NUM}"
+												class="txt">${next.IQ_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>
 
@@ -147,8 +147,8 @@
 										</c:when>
 										<c:otherwise>
 											<li class="name"><a
-												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&inquiry_num=${prev.INQUIRY_NUM}"
-												class="txt">${prev.INQUIRY_NAME}</a></li>
+												href="${pageContext.request.contextPath}/inquiry/content?search=${param.search}&IQ_NUM=${prev.IQ_NUM}"
+												class="txt">${prev.IQ_NAME}</a></li>
 										</c:otherwise>
 									</c:choose>
 
@@ -182,10 +182,10 @@
 				})(jQuery);
 
 				//     $(document).ready(function(){
-				//     	var datePart = "${inquiryDTO.inquiry_date}".split(" ")[0];
+				//     	var datePart = "${inquiryDTO.IQ_DATE}".split(" ")[0];
 				//     	 $('.regist_day').text(datePart);
 
-				//     	 var result = "${inquiryDTO.inquiry_type}";
+				//     	 var result = "${inquiryDTO.IQ_TYPE}";
 				//     	 if(result == 'T'){
 				//     		 $('.check_num').text("전체공개");
 				//     	 }else{

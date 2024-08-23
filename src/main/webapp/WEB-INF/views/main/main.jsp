@@ -190,8 +190,6 @@
                 }
             });
 
-
-            
             if (eventSwiper.autoplay.running) {
                 $('.btn_eventControl').addClass('active');
             }           
@@ -319,32 +317,7 @@
             };
             
             $().on('click',function(){
-            });
-            
-            //통합검색 상단 검색 버튼
-            $('#btn_header_search').on('click', function () {
-               
-                if ($('#header_ad_keyword').val() != "")
-                    goSearch($('#header_ad_keyword'));      //광고
-                else
-                    goSearch($('#header_keyword'));
-
-                
-                return false;
-            });
-
-            //통합검색 검색어 입력창
-            $('#header_keyword').keyup(function (e) {
-                if (e.keyCode == 13) goSearch($('#header_keyword'));
-            });
-
-             //검색 입력창 클릭 시 광고값 reset
-            $('#header_keyword').on('click', function () {
-                // 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件
-                $(this).val('');
-               // $(this).attr('placeholder', '');
-                $('#header_ad_keyword').val('');
-            });
+            });          
 
         });
 
@@ -466,51 +439,35 @@ function setListFocus(swiper, selector) {
             setCookieAD(CurCookieName, CookieUrl, '1');
             $(document).find('#ad_float1').hide();
         }
-        function OpenAD() {
-            var AdUrl = window.location.href;
-            var ArrAdUrl = AdUrl.split("/");
-            var CookieUrl = ArrAdUrl[3];
-            var CurCookieName = 'CgvPopAd-' + ArrAdUrl[3];
-            var CurCookieUrl = GetCookieAd(CurCookieName);
+//         function OpenAD() {
+//             var AdUrl = window.location.href;
+//             var ArrAdUrl = AdUrl.split("/");
+//             var CookieUrl = ArrAdUrl[3];
+//             var CurCookieName = 'CgvPopAd-' + ArrAdUrl[3];
+//             var CurCookieUrl = GetCookieAd(CurCookieName);
 
-            if (CurCookieUrl == null) {
-                CurCookieUrl = "";
-            }
-            else {
-                CurCookieUrl = DecryptAD(CurCookieUrl, "15442280");
-            }
+//             if (CurCookieUrl == null) {
+//                 CurCookieUrl = "";
+//             }
+//             else {
+//                 CurCookieUrl = DecryptAD(CurCookieUrl, "15442280");
+//             }
 
-            if (CurCookieUrl.indexOf(CookieUrl) != -1) {
-                $(document).find('#ad_float1').hide();
-            }
+//             if (CurCookieUrl.indexOf(CookieUrl) != -1) {
+//                 $(document).find('#ad_float1').hide();
+//             }
 
             //section.cgv.co.kr 매거진 체크
-            var magazineckurl = GetCookieAd("CgvPopAd-magazine");
-            if (magazineckurl != null) {
-                var magazineck = DecryptAD(magazineckurl, "15442280");
-                if (magazineck != null && magazineck == "magazine") {
-                    //값이있는경우 표시하지않음
-                    $(document).find('#ad_float1').hide();
-                }
-            }
-        }
+//             var magazineckurl = GetCookieAd("CgvPopAd-magazine");
+//             if (magazineckurl != null) {
+//                 var magazineck = DecryptAD(magazineckurl, "15442280");
+//                 if (magazineck != null && magazineck == "magazine") {
+//                     //값이있는경우 표시하지않음
+//                     $(document).find('#ad_float1').hide();
+//                 }
+//             }
+//         }
        
-      //통합검색
-        function goSearch($objKeyword) {
-            if ($objKeyword.val() == "") {
-                alert("검색어를 입력해 주세요");
-                $objKeyword.focus();
-                return false;
-            }
-
-            //GA 검색로그
-            gaEventLog('PC_GNB', '검색', $objKeyword.val());
-            location = "${pageContext.request.contextPath}/movie/information" + escape($objKeyword.val());
-        }
-        
-        
-        
-
 
         //]]>
     </script>
@@ -544,7 +501,6 @@ function setListFocus(swiper, selector) {
         - class 'nav' 에 class 'active' 추가시 서브메뉴노출
         - class 'nav' 에 class 'fixed' 추가시 상단고정되며 스타일 변경됨
      -->
-<!--      TODO    인클루드하면 지워야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 	<!-- E Header -->
 
 	<!-- Contaniner -->
@@ -577,7 +533,7 @@ function setListFocus(swiper, selector) {
                         <strong id="ctl00_PlaceHolderContent_AD_MOVIE_NM" class="movieSelection_title">행복의 나라</strong>
                         <span id="ctl00_PlaceHolderContent_AD_DESCRIPTION_NM" class="movieSelection_txt">조정석의 눈물, 관객 심장 정조준!<br>8월 14일 극장 대개봉</span>
                         <div class="movieSelection_video_controller_wrap">
-                            <a href="http://ad.cgv.co.kr/click/CGV/CGV_201401/main@MovieSelection2021?ads_id%3d51848%26creative_id%3d78732%26click_id%3d99646%26content_series%3d%26event%3d" id="ctl00_PlaceHolderContent_AD_CLIP_DETAIL_URL" class="btn_movieSelection_detailView">상세보기</a>
+<!--                             <a href="http://ad.cgv.co.kr/click/CGV/CGV_201401/main@MovieSelection2021?ads_id%3d51848%26creative_id%3d78732%26click_id%3d99646%26content_series%3d%26event%3d" id="ctl00_PlaceHolderContent_AD_CLIP_DETAIL_URL" class="btn_movieSelection_detailView">상세보기</a> -->
                             
                             <a href="#none" id="ctl00_PlaceHolderContent_playStop" class="btn_movieSelection_playStop">Stop</a>
                             <a href="#none" id="ctl00_PlaceHolderContent_soundOnOff" class="btn_movieSelection_soundOnOff">Sound On</a>
@@ -836,12 +792,6 @@ function setListFocus(swiper, selector) {
                             </div>
                         </div>
 
-<!--                         <div class="qr_wrap"> -->
-<!--                             <strong>앱 다운로드</strong> -->
-<!--                             <span>CGV앱에서 더 편리하게 이용하세요</span> -->
-<!--                             <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/R2014/images/common/img_qrcode.gif" alt="QR CODE"></div> -->
-<!--                             <p>QR코드를 스캔하고<br>앱설치 페이지로 바로 이동하세요</p> -->
-<!--                         </div> -->
                     </div>
                     <div class="noticeClient_banner_wrap">
 
@@ -1033,21 +983,6 @@ function setListFocus(swiper, selector) {
                      gaEventLog('PC_메인', "특별관 더보기", '');
                 }
             });
-
-            //특별관 이미지 선택
-            $(".specialHall_link").on({
-                click: function () {
-                    var label = $(this).find("img")[0].alt;
-                    gaEventLog('PC_메인', "특별관", label);
-                }
-            });
-            //특별관 택스트 선택
-            $(".specialHall_list > li > a").on({
-                click: function () {
-                    gaEventLog('PC_메인', "특별관", this.children[0].innerText);
-                }
-            });
-            
 
             //기프트 카드 더보기
 //             $(".giftcon_list > dt > a").on({

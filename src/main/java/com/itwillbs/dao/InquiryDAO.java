@@ -72,8 +72,8 @@ public class InquiryDAO {
 		sqlSession.update(namespace + ".updateInquiry", inquiryDTO);
 	}
 
-	public void deleteInquiry(String INQUIRY_NUM) {
-		sqlSession.delete(namespace + ".deleteInquiry", INQUIRY_NUM);
+	public void deleteInquiry(String IQ_NUM) {
+		sqlSession.delete(namespace + ".deleteInquiry", IQ_NUM);
 	}
 
 	public List<Map<String, Object>> getAdminList(PageDTO pageDTO) {
@@ -100,8 +100,8 @@ public class InquiryDAO {
 		return sqlSession.selectOne(namespace + ".adminNext", param);
 	}
 
-	public Map<String, Object> adminInquiry(String iNQUIRY_NUM) {
-		return sqlSession.selectOne(namespace + ".adminInquiry", iNQUIRY_NUM);
+	public Map<String, Object> adminInquiry(String IQ_NUM) {
+		return sqlSession.selectOne(namespace + ".adminInquiry", IQ_NUM);
 	}
 
 	
