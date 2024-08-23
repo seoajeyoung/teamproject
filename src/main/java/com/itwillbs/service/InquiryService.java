@@ -21,7 +21,6 @@ public class InquiryService {
 	private InquiryDAO inquiryDAO;
 	
 	public void insertInquiry(InquiryDTO inquiryDTO) {
-		System.out.println("InquiryService insertInquiry()");
 		
 		if(inquiryDAO.getMaxNum() == null) {
 			//글이 없으면 글번호가 1번부터 시작
@@ -34,9 +33,6 @@ public class InquiryService {
 
 		inquiryDTO.setInquiry_date(new Timestamp(System.currentTimeMillis()));
 		
-		System.out.println(inquiryDTO);
-		
-
 		inquiryDAO.insertInquiry(inquiryDTO);
 	}//insertBoard
 //	
@@ -99,12 +95,10 @@ public class InquiryService {
 	}
 
 	public void updateInquiry(InquiryDTO inquiryDTO) {
-		System.out.println("InquiryService updateInquiry()");
 		inquiryDAO.updateInquiry(inquiryDTO);
 	}
 
 	public void deleteInquiry(String INQUIRY_NUM) {
-		System.out.println("InquiryService deleteInquiry()");
 		
 		inquiryDAO.deleteInquiry(INQUIRY_NUM);
 	}
@@ -127,10 +121,6 @@ public class InquiryService {
 		int endRow = startRow + pageDTO.getPageSize() - 1;
 		pageDTO.setStartRow(startRow-1); //sql구문에서 하기 힘드니까 미리 -1 하기
 		pageDTO.setEndRow(endRow);
-		System.out.println("||||||||||||||||||");
-		System.out.println(pageDTO.getStartRow());
-		System.out.println(pageDTO.getPageSize());
-		System.out.println(pageDTO.getSearch());
 		
 		return inquiryDAO.getAdminListF(pageDTO);
 	}

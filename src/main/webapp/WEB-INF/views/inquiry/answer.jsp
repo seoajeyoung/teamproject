@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
 
 		<!-- Contents Area -->
@@ -66,7 +67,9 @@
 					</li>
 				</ul>
 				<div class="view_area">
-					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${inquiryDTO.INQUIRY_DETAIL}</b></span></p>
+					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${inquiryDTO.INQUIRY_DETAIL}</b><br>
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.INQUIRY_PICTURE}" width="200">
+					</span></p>
 				</div>
 				
 				<form id="form1" name="form1"  method="post" novalidate="novalidate" enctype="multipart/form-data">

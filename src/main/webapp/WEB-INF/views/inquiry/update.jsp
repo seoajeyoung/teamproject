@@ -14,7 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
         
 
@@ -147,13 +147,9 @@ function __doPostBack(eventTarget, eventArgument) {
 									</tr>
                                     <tr class="check_info">
                                         <td colspan="4">
-                                            <div>
-                                                <strong>※&nbsp;&nbsp;문의에 대한 빠른 답변을 위해&nbsp;회원 가입 시 입력하신 연락처를 확인해주세요.</strong>
-                                                <a href="https://www.cjone.com/cjmweb/member/passwd.do?coopco_cd=7010&amp;brnd_cd=1000" id="A1" class="round gray on" title="수정" target="_blank"><span>수정</span></a>
-                                            </div>
                                             <div class="desc_miso">
                                                 <p class="desc_txt1">고객님의 문의에 답변하는 직원은 <em>고객 여러분의 가족 중 한 사람</em>일 수 있습니다.</p>
-                                                <p class="desc_txt2">CJ는 고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 고객상담직원을 보호하기 위해<br>관련 법에 따라 수사기관에 필요한 조치를요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.</p>
+                                                <p class="desc_txt2">OSTiket은 고객의 언어폭력(비하, 욕설, 반말, 성희롱 등)으로부터 고객상담직원을 보호하기 위해<br>관련 법에 따라 수사기관에 필요한 조치를요구할 수 있으며, 형법에 의해 처벌 대상이 될 수 있습니다.</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -166,24 +162,7 @@ function __doPostBack(eventTarget, eventArgument) {
 											</ul>
 										</td>
 									</tr>
-									<tr>
-										<th scope="row">영화관 선택</th>
-										<td colspan="3">
-											<ul class="type_list">
-												<li class="on"><input type="radio" id="no_sel" name="sel_theaterchoise" checked="checked" value="0"><label for="no_sel">선택하지 않음</label></li>
-												<li><input type="radio" id="sel" name="sel_theaterchoise" value="1"><label for="sel">선택함</label></li>
-											</ul>
-											<label for="sel_t_group" class="hidden">국내,국외 선택</label>
-											<select title="국내,국외 선택" class="sel01" id="sel_t_group" name="sel_t_group" disabled="disabled" style="width: 96px;">
-												<option value="dm">국내</option>
-                                                <option value="oc">국외</option>
-											</select>
-											<label for="sel_regioncode" class="hidden">지역 선택</label>
-											<select title="지역 선택" class="sel01" id="sel_regioncode" name="sel_regioncode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">지역 선택</option><option value="12">강원</option><option value="02">경기</option><option value="204">경상</option><option value="206">광주</option><option value="11">대구</option><option value="03">대전</option><option value="05">부산</option><option value="01">서울</option><option value="207">울산</option><option value="202">인천</option><option value="04">전라</option><option value="06">제주</option><option value="205">충청</option></select>
-											<label for="sel_theatercode" class="hidden">영화관 선택</label>
-											<select title="영화관 선택" class="sel01" id="sel_theatercode" name="sel_theatercode" disabled="disabled" style="width: 114px;"><option value="" selected="selected">영화관 선택</option></select>
-										</td>
-									</tr>
+
 									<tr>
 										<th scope="row"><label for="inp_title">제목 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
@@ -203,6 +182,7 @@ function __doPostBack(eventTarget, eventArgument) {
 										<td colspan="3">
                                              <input style="width:300px" type="file" id="voc_upload_file" name="inquiry_picture" title="voc파일 업로드" size="51" onclick="javascript:alert('주민번호 등 개인정보가 포함된 파일이 첨부되지 않도록 유의하시기 바랍니다.');"> 
                                              <br>*<b>첨부가능 확장자</b>: 이미지(jpg, gif, bmp, png, jpeg) ,워드문서(hwp, ppt, pptx, xls, xlsx, doc, docx, zip, pdf, txt)
+                                             <input type="hidden" name="oldfile" value="${inquiryDTO.INQUIRY_PICTURE}">
 										</td>
 									</tr>
 								</tbody>
@@ -223,6 +203,26 @@ function __doPostBack(eventTarget, eventArgument) {
 
 $(function () {     
 	$('#inp_textbox').on('keyup', checkByte);
+	
+	const type = '${inquiryDTO.INQUIRY_TYPE}';
+	// 모든 <li> 요소를 선택
+	const listItems = document.querySelectorAll('.type_list li');
+	
+	// 모든 <li> 요소에서 'on' 클래스를 제거
+	listItems.forEach(item => item.classList.remove('on'));
+	
+	// 모든 <input> 요소에서 'checked' 속성을 제거합니다.
+	const inputs = document.querySelectorAll('.type_list input');
+	inputs.forEach(input => input.checked = false);
+	  
+	// 가져온 값에 해당하는 <li> 요소를 찾아 'on' 클래스를 추가하고 <input> 요소를 체크합니다.
+    listItems.forEach(item => {
+      const input = item.querySelector('input');
+      if (input && input.value === type) {
+        item.classList.add('on');
+        input.checked = true; // 해당 <input> 요소를 체크합니다.
+      }
+    });
 });
 
 function checkByte() {

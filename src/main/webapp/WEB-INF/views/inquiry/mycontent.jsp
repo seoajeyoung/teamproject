@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
 
 		<!-- Contents Area -->
@@ -65,7 +66,8 @@
 					</li>
 				</ul>
 				<div class="view_area">
-					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.INQUIRY_DETAIL}</b></span></p>
+					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.INQUIRY_DETAIL}</b></span></p><br>
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${content.INQUIRY_PICTURE}" width="200">
 				</div>
 				<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/update?num=${content.INQUIRY_NUM}')" class="round inblack" >
 				<span>글수정</span></button>

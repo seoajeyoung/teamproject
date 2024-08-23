@@ -227,10 +227,8 @@ public class InquiryController {
 		
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
-		System.out.println("파일이름 : " + file);
 
 		// 업로드 원본파일 => upload 폴더에 복사(파일 업로드)
-		System.out.println("파일경로 :" + uploadPath);
 		FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath, file));
 
 		InquiryDTO inquiryDTO = new InquiryDTO();
@@ -373,11 +371,29 @@ public class InquiryController {
 	}
 
 	@PostMapping("/updatePro") // 문의 글 업데이트
-	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, Model model) {
+	public String updatePro(@RequestParam(value = "num", required = false) String num, HttpServletRequest request, MultipartFile inquiry_picture, Model model)  throws Exception{
+		
+		
+		String file = "";
+		
+		if(inquiry_picture.isEmpty()) {
+			//첨부파일 없는 경우
+			file = request.getParameter("oldfile");
+		}else {
+			//첨부파일 있는 경우
+			//랜덤문자 만들기 => 파일이름 준비
+			UUID uuid = UUID.randomUUID();
+			file = uuid.toString() + "_" + inquiry_picture.getOriginalFilename();
+			
+			//업로드 원본파일 => upload 폴더에 복사(파일 업로드)	
+			FileCopyUtils.copy(inquiry_picture.getBytes(), new File(uploadPath,file));
+		}
 		InquiryDTO inquiryDTO = new InquiryDTO();
 		inquiryDTO.setInquiry_name(request.getParameter("inquiry_name"));
 		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
 		inquiryDTO.setInquiry_num(num);
+		inquiryDTO.setInquiry_picture(file);
+		
 		
 		inquiryService.updateInquiry(inquiryDTO);
 		model.addAttribute("InquiryDTO", inquiryDTO);
@@ -399,7 +415,6 @@ public class InquiryController {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("search", search);
 		param.put("INQUIRY_NUM", INQUIRY_NUM);
-		//System.out.println(session.getAttribute("member_name"));
 		Map<String, Object> inquiryDTO2 = inquiryService.adminInquiry(INQUIRY_NUM);
 		Map<String, Object> inquiryDTO3 = inquiryService.adminPrev(param);
 		Map<String, Object> inquiryDTO4 = inquiryService.adminNext(param);
@@ -422,7 +437,6 @@ public class InquiryController {
 		inquiryDTO.setInquiry_detail(request.getParameter("inquiry_detail"));
 		inquiryDTO.setInquiry_num(num);
 		
-		//System.out.println(inquiryDTO);
 		
 		//model.addAttribute("InquiryDTO", inquiryDTO);
 		answerDTO.setIQ_NUM(num);
@@ -441,7 +455,6 @@ public class InquiryController {
 	
 	@PostMapping("/deleteAs")//답변만 삭제! 문의글은 그대로
 	public String deleteAs(AnswerDTO answerDTO) {
-		System.out.println(answerDTO.getAS_NUM());
 		answerService.deleteAs(answerDTO.getAS_NUM());
 		return "redirect:/inquiry/list";
 	}
