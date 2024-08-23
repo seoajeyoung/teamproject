@@ -19,6 +19,7 @@
 	
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 	 <script type="text/javascript">
         var selectRegionName = "${param.selectRegionName}";
         var theaterTitle = "${param.theaterTitle}";
@@ -28,7 +29,7 @@
         var sc_time = "${param.starttime}" ; 
     </script>
 
-	<h1 style="font-size: 35px; text-align: center;">좌석 선택</h1>
+<!-- 	<h1 style="font-size: 35px; text-align: center; padding-top: 20px">좌석 선택</h1> -->
 	<article id="seat_select">
 		<div id="header_box">
 			 <table class="header_box">

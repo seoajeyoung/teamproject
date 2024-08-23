@@ -42,7 +42,9 @@ $(document).ready(function() {
         }, function (rsp) {
             if (rsp.success) {
                 alert("결제 성공");
-                savePaymentDetails(rsp);
+                 var now = new Date();
+                var paymentTime = formatDate(now);
+                savePaymentDetails(rsp,paymentTime);
             } else {
                 alert("결제 실패: " + rsp.error_msg);
             }
@@ -50,25 +52,36 @@ $(document).ready(function() {
     }
     
     // api 결제후 db insert 하는 함수 
-    function savePaymentDetails(rsp) {
+    function savePaymentDetails(rsp,paymentTime) {
         $.ajax({
             url: "/myweb/UPDATEPAYMENT",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
             	tp_num: tp_num.split(','),
+            	payment_time: paymentTime
                 
             }),
             success: function(response) {
-            window.location.href = `/myweb/main`;
             },
             error: function() {
             }
         });
+        alert("결제 완료 되었습니다");
+        window.location.href = `/myweb/main/main`;
     }
     
     
-    
+    // 시간 설정
+       function formatDate(date) {
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = ('0' + date.getDate()).slice(-2);
+        var hours = ('0' + date.getHours()).slice(-2);
+        var minutes = ('0' + date.getMinutes()).slice(-2);
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:00`;  
+    }
     
     
     

@@ -189,7 +189,6 @@ loadSeats();
         '우대': 3000
     };
 
-
     var summary = [];
 	payment = [];
     for (var category in selectedPerCategory) {
@@ -212,6 +211,7 @@ loadSeats();
     var confirmMessage = `선택된 좌석:\n${selectsenum.join(', ')}\n\n`;
     confirmMessage += `인원 및 가격:\n${summary.join('\n')}\n\n`;
     confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
+    debugger;
         if (confirm(confirmMessage)) {
         // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
         $.ajax({
@@ -252,7 +252,7 @@ loadSeats();
             },
         });
     } else {
-        
+    	totalPrice = 0;
         return;
     }
     });

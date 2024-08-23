@@ -23,51 +23,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/script/top.js"></script>
 <script src="${pageContext.request.contextPath}/resources/script/ticket.js"></script>
-</head>
-<body>
-<!-- top include -->
-<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko"><head>
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Expires" content="-1">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="No-Cache">
-    <meta http-equiv="imagetoolbar" content="no">
-    <meta name="viewport" content="width=1024">
-    <meta name="keywords" content="CGV, 시지브이, 영화관, 극장, 영화, 티켓, 박스오피스, 극장, Movie, Theater, Cinema, Cgv, cgv, 예매, 상영작">
-    <meta name="description" content="영화 그 이상의 다양한 몰입의 경험을 만듭니다. DEEP DIVE SPACE, CGV">
-    <meta property="og:site_name" content="깊이 빠져 보다, CGV">
-    <meta id="ctl00_og_title" property="og:title" content="깊이 빠져 보다, CGV">
-
-    <!-- 24.02 네이버 웹 검색 연관 채널 방식 수정 -->
-     <script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-SSGE1ZCJKG&amp;cx=c&amp;_slc=1"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-559DE9WSKZ&amp;l=dataLayer&amp;cx=c"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-NNNFR3"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script type="application/ld+json">
-    {
-         "@context": "http://schema.org",
-         "@type": "Organization",
-         "name": "CGV",
-         "url": "https://www.cgv.co.kr",
-         "sameAs": [
-           "https://www.instagram.com/cgv_korea/",
-           "https://www.youtube.com/channel/UCmjUMtUw6wXLrsULdxuXWdg",
-           "https://www.facebook.com/CJCGV",
-           "https://play.google.com/store/apps/details?id=com.cgv.android.movieapp&pli=1" ]
-    }
-    </script>
-    
-    
-    <meta id="ctl00_og_image" property="og:image" content="https://img.cgv.co.kr/WebApp/images/common/logo_new_kakao_prevw.png">
-    <link rel="alternate" href="http://m.cgv.co.kr">
-    <link rel="shortcut icon" href="https://img.cgv.co.kr/theater_img/favicon.ico" type="image/x-icon">
-    <title id="ctl00_headerTitle">깊이 빠져 보다, CGV</title>
-    <link rel="shortcut icon" type="image/x-icon" href="https://img.cgv.co.kr/R2014/images/favicon.ico">
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/webfont.css">
-<!-- 	<link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/reset.css"> -->
-<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/layout.css"> -->
-<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/module.css?20211209">     -->
-<!--     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/content.css"> -->
-    <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css">
+  <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css">
     
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/eggupdate.css">
     <link rel="stylesheet" media="print" type="text/css" href="https://img.cgv.co.kr/R2014/css/print.css">    
@@ -101,6 +57,14 @@
 
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/swiper.min.js"></script>
 <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/swiper-bundle.min.css">
+</head>
+<body>
+<!-- top include -->
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
+
+    
+    
+  
 <script type="text/javascript">
      $(document).ready(function(){
         	
@@ -553,8 +517,7 @@ function setListFocus(swiper, selector) {
     
 
     
-<script type="text/javascript" src="https://img.cgv.co.kr/R2014//js/system/system.packed.js"></script></head>
-<body class="" style="">
+<script type="text/javascript" src="https://img.cgv.co.kr/R2014//js/system/system.packed.js"></script>
 
 <!-- S Skip Navigation -->
 <div class="skipnaiv">
@@ -582,119 +545,6 @@ function setListFocus(swiper, selector) {
         - class 'nav' 에 class 'fixed' 추가시 상단고정되며 스타일 변경됨
      -->
 <!--      TODO    인클루드하면 지워야함 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-	<div class="header">			
-            <!-- 서비스 메뉴 --> 
-            
-<div class="header_content">
-    <div class="contents">
-        <h1 onclick=""><a href="/"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png" alt="CGV"></a><span>DEEP DIVE SPACE</span></h1>
-        <ul class="memberInfo_wrap">
-            
-            
-            <li><a href="${pageContext.request.contextPath}/member/login"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그인"><span>로그인</span></a></li>
-			<li><a href="${pageContext.request.contextPath}/member/register"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginJoin.png" alt="회원가입"><span>회원가입</span></a></li>
-
-<!-- 		$$$$$$$$$$$$$$$$$$$$$$$$$  TODO 마이페이지 만들면 마이페이지 주소로 변경하기$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
-			<li><a href="${pageContext.request.contextPath}/admin/member/index"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY CGV"><span>임시 관리자</span></a></li>
-			<li><a href="${pageContext.request.contextPath}/inquiry/Imain"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png" alt="고객센터"><span>고객센터</span></a></li>
-        </ul>
-    </div>
-</div>
-
-           
-			
-<div class="nav" style="left: 0px;">
-    <div class="contents">
-        <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV"></a></h1>
-        <ul class="nav_menu">
-            <li>
-                <h2><a href="${pageContext.request.contextPath}/movie/movie">영화</a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/movies/?lt=1&amp;ft=0" tabindex="-1">영화</a></h2></dt>
-                    <dd><h3><a href="/movies/?lt=1&amp;ft=0">무비차트</a></h3></dd>
-                    <dd><h3><a href="/arthouse/">아트하우스</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/detailViewUnited.aspx?seq=30717">ICECON</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="${pageContext.request.contextPath}/theater/theater">극장</a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/theaters/" tabindex="-1">극장</a></h2></dt>
-                    <dd><h3><a href="/theaters/">CGV 극장</a></h3></dd>
-                    <dd><h3><a href="/theaters/special/defaultNew.aspx">특별관</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="${pageContext.request.contextPath}/ticket"><strong>예매</strong></a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/ticket/" tabindex="-1">예매</a></h2></dt>
-                    <dd><h3><a href="/ticket/">빠른예매</a></h3></dd>
-                    <dd><h3><a href="/reserve/show-times/">상영스케줄</a></h3></dd>
-                    <dd><h3><a href="/ticket/eng/newdefault.aspx">English Ticketing</a></h3></dd>
-                    <dd><h3><a href="/reserve/show-times/eng/">English Schedule</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="${pageContext.request.contextPath}/store/storeMain">스토어</a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/culture-event/popcorn-store/" tabindex="-1">스토어</a></h2></dt>
-                    
-                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=패키지">패키지</a></h3></dd>
-                        
-                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=영화관람권">영화관람권</a></h3></dd>
-                        
-                            <dd><h3><a href="${pageContext.request.contextPath}/store/productCategory?category=기프트카드">기프트카드</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=4">콤보</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=5">팝콘</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=6">음료</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=7">스낵</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=10">플레이존</a></h3></dd>
-                        
-                    <!-- 2024.06.27 씨네샵 URL 변경 요청 -->
-                    <dd><h3><a href="https://brand.naver.com/cgv" class="arrowR" target="_blank">씨네샵</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2 onclick="gaEventLog('PC_GNB','주메뉴_이벤트','')"><a href="/culture-event/event/defaultNew.aspx">이벤트</a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/culture-event/event/defaultNew.aspx?mCode=001" tabindex="-1">이벤트</a></h2></dt>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=001">SPECIAL</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=004">영화/예매</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=008">멤버십/CLUB</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=005">CGV 극장별</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=006">제휴할인</a></h3></dd>
-                    <dd><h3><a href="/user/mycgv/event/result_list.aspx">당첨자 발표</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/end-list.aspx">종료된 이벤트</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2 onclick="gaEventLog('PC_GNB','주메뉴_해택','')"><a href="/discount/discountlist.aspx">혜택</a></h2>
-                <dl class="nav_overMenu" style="display: none;">
-                    <dt><h2><a href="/discount/discountlist.aspx" tabindex="-1">혜택</a></h2></dt>
-                    <dd><h3><a href="/discount/discountlist.aspx">CGV 할인정보</a></h3></dd>
-                    <dd><h3><a href="https://www.cgv.co.kr/user/memberShip/ClubService.aspx">CLUB 서비스</a></h3></dd>
-                    <dd><h3><a href="/user/vip-lounge/">VIP 라운지</a></h3></dd>
-                </dl>
-            </li>
-        </ul>
-        <div class="totalSearch_wrap">
-            <!-- 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件 -->
-            <label for="totalSearch">
-                
-                <input name="ctl00$subMenu$header_keyword" type="text" id="header_keyword" value="봇치 더 록! 전편">
-                <input name="ctl00$subMenu$header_ad_keyword" type="hidden" id="header_ad_keyword" value="봇치 더 록! 전편">
-            </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-        </div>
-    </div>
-</div>
-            <!-- 서브 메뉴 -->			
-	</div>
 	<!-- E Header -->
 
 	<!-- Contaniner -->
@@ -1619,7 +1469,7 @@ function setListFocus(swiper, selector) {
 <!-- End Google Tag Manager -->
 
 
-</body></html>
+
 
 </body>
 </html>

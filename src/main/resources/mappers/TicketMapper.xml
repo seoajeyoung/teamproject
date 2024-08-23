@@ -550,7 +550,8 @@
 
 	<update id="updatepayment" parameterType="map">
 		UPDATE TICKETPAYMENT
-		SET TP_PAYMENT = 'T'
+		SET TP_PAYMENT = 'T',
+		TP_TIME = #{payment_time}
 		WHERE TP_NUM = #{tpNum}
 	</update>
 
@@ -594,9 +595,11 @@
 		WHERE TH_NUM = (
 		SELECT TH_NUM
 		FROM THEATER
-		WHERE TH_REGION = #{region}
+		WHERE
+		TH_REGION = #{region}
 		AND TH_NAME = #{th_name}
-		AND TH_NUMBER = #{th_number}
+		AND TH_NUMBER =
+		#{th_number}
 		)
 	</select>
 
@@ -604,15 +607,16 @@
 
 		DELETE
 		FROM MSEAT
-		WHERE TH_NUM =
+		WHERE
+		TH_NUM =
 		(SELECT TH_NUM
 		FROM THEATER
 		WHERE TH_REGION =#{region}
-		AND TH_NAME = #{th_name}
+		AND
+		TH_NAME = #{th_name}
 		AND TH_NUMBER = #{th_number})
 
 	</delete>
-
 
 
 
