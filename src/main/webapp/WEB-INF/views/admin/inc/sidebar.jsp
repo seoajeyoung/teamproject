@@ -43,22 +43,13 @@
 					홈페이지 바로가기
 			</span>
 		</a></li>
-		
-		<hr class="sidebar-divider">
 
-		<li class="nav-item active"><a class="nav-link"
-			href="${pageContext.request.contextPath}/admin/member/indextest"
-			style="text-align: center; padding-top: 15px; padding-bottom: 15px; font-size: 17px;">
-				<i class="fas fa-fw fa-home"></i> <span>테스트
-			</span>
-		</a></li>
-		
 		<!-- Divider -->
 		<hr class="sidebar-divider">
 
 		<!-- Heading -->
 		<div class="sidebar-heading"
-			style="font-size: 15px; padding-left: 30px;">목차</div>
+			style="font-size: 15px; padding-left: 40px;">목차</div>
 
 		<!-- Nav Item - Pages Collapse Menu -->
 		<!--             <li class="nav-item"> -->
@@ -86,7 +77,7 @@
 			data-toggle="collapse" data-target="#collapsePages2"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">회원 관리</span>
+				style="font-size: 17px; padding-left: 8px; font-weight: bold;" >회원 관리</span>
 		</a>
 			<div id="collapsePages2" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -105,7 +96,7 @@
 			data-toggle="collapse" data-target="#collapsePages3"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">영화 관리</span>
+				style="font-size: 17px; padding-left: 8px; font-weight: bold;">영화 관리</span>
 		</a>
 			<div id="collapsePages3" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -130,7 +121,7 @@
 			data-toggle="collapse" data-target="#collapsePages4"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">스토어 관리</span>
+				style="font-size: 17px; padding-left: 8px; font-weight: bold;">스토어 관리</span>
 		</a>
 			<div id="collapsePages4" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -151,7 +142,7 @@
 			data-toggle="collapse" data-target="#collapsePages5"
 			aria-expanded="true" aria-controls="collapsePages"> <i
 				class="fas fa-fw fa-folder"></i> <span
-				style="font-size: 17px; padding-left: 8px;">고객센터</span>
+				style="font-size: 17px; padding-left: 8px; font-weight: bold;">고객센터</span>
 		</a>
 			<div id="collapsePages5" class="collapse"
 				aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -169,12 +160,12 @@
 
 		<li class="nav-item active"><a class="nav-link"
 			href="${pageContext.request.contextPath}/admin/logout"
-			style="text-align: center; padding-top: 3px; padding-bottom: 70px; font-size: 17px; padding-left: 27px;">
+			style="text-align: center; padding-top: 3px; padding-bottom: 3px; font-size: 17px; padding-left: 27px;">
 				<i class="fas fa-fw fa-plug"></i> <span>로그아웃 </span>
 		</a></li>
 
 		<!-- Sidebar Toggler (Sidebar) -->
-		<div class="text-center d-none d-md-inline">
+		<div class="text-center d-none d-md-inline" style="margin-top: 50px;">
 			<button class="rounded-circle border-0" id="sidebarToggle"></button>
 		</div>
 

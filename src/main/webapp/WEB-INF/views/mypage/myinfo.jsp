@@ -165,7 +165,7 @@ function confirmRespite() {
 														for="mob_no_1">휴대전화번호</label></th>
 													<td style="padding-top: 27px;">
 														<div>
-															<span class="input_txt w100 phon_write" id="mobileNoInfo">${mypageDTO.member_phone}</span>
+															<span class="input w100 phon_write" id="mobileNoInfo">${mypageDTO.member_phone}</span>
 														</div>
 													</td>
 												</tr>

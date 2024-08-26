@@ -16,11 +16,10 @@
 
 <title>OSTicket - TheaterInsert</title>
 
-<!--     <link rel="stylesheet" -->
-<%-- 	href="${pageContext.request.contextPath}/resources/css/admin/common.css"> --%>
-
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/theaterinsert.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 
 <!--     Custom fonts for this template -->
 <link
@@ -333,27 +332,30 @@
 											</tr>
 											<tr>
 												<td><input type="text" id="RegionT" name="RegionT"
-													value="" style = "margin-right: 3px"><select id="regionList" name="TH_REGION">
+													value="" style="margin-right: 3px; text-align: center !important;"><select
+													id="regionList" name="TH_REGION" style="padding-top: 1px;">
 														<option value="">지역 선택</option>
 														<c:forEach var="list" items="${regionList}">
 															<option value="${list.TH_REGION}">${list.TH_REGION}</option>
 														</c:forEach>
 												</select></td>
 												<td id="TD_REGIONEng"><input type="text"
-													id="TH_REGIONEngT" name="TH_REGIONEngT" value=""></td>
-												<td><input type="text" id="NameT" name="NameT" value="">
-													<select id="theaterList" name="TH_NAME">
+													id="TH_REGIONEngT" name="TH_REGIONEngT" value="" style="text-align: center !important;"></td>
+												<td><input type="text" id="NameT" name="NameT" value="" style="text-align: center !important;">
+													<select id="theaterList" name="TH_NAME"
+													style="padding-top: 1px; ">
 														<option value="">지점 선택</option>
 												</select></td>
 												<td id="TD_NAMEEng"><input type="text" id="TH_NAMEEngT"
-													name="TH_NAMEEngT" value=""></td>
+													name="TH_NAMEEngT" value="" style="text-align: center !important;"></td>
 
 												<td><textarea id="TH_ADDRT" name="TH_ADDRT" value=""
-														rows="1" cols="30"></textarea> <!-- 												<input type="text" id="TH_ADDRT" name="TH_ADDRT" value=""> -->
+														rows="1" cols="30" style="text-align: center !important;"></textarea> <!-- 												<input type="text" id="TH_ADDRT" name="TH_ADDRT" value=""> -->
 												</td>
 
-												<td><input type="text" id="CI_NT" name="CI_NT" value="">
-													<select id="cinemaList" name="CI_NUMBER">
+												<td><input type="text" id="CI_NT" name="CI_NT" value="" style="text-align: center !important;">
+													<select id="cinemaList" name="CI_NUMBER"
+													style="padding-top: 1px;">
 														<option value="">상영관 선택</option>
 												</select></td>
 											</tr>
@@ -392,7 +394,7 @@
 							<h6 class="m-0 font-weight-bold text-danger">상영 지점 목록</h6>
 						</div>
 						<div class="card-body">
-							<div class="table-responsive">
+							<div class="table-responsive" style="overflow-x: initial;">
 								<form
 									action="${pageContext.request.contextPath}/admin/movie/branchupdatePro"
 									method="post">
@@ -460,7 +462,7 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-	
+
 	<script>
     $(document).ready(function() {
         $('form').on('submit', function(event) {

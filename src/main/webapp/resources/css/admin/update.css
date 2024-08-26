@@ -8,3 +8,10 @@ td {
     vertical-align: middle !important; /* 수직 중앙 정렬 */
     padding: 10px !important; /* 여백을 추가하여 좀 더 시각적으로 균형 잡힌 모습 */
 }
+
+pre {
+    font-family: inherit !important; /* 상위 요소의 글꼴을 상속받도록 설정 */
+    font-size: inherit !important; /* 상위 요소의 글꼴 크기를 상속받도록 설정 */
+    white-space: pre-wrap; /* 줄바꿈을 유지하면서 자동으로 텍스트 줄바꿈 */
+    color: #888 !important;
+}

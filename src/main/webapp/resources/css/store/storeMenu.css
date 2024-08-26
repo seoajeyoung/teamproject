@@ -35,7 +35,7 @@ header {
     position: relative;
     background-color: #fff;
     border-bottom: 1px solid #cacaca;
-    z-index: 101;
+    /* z-index: 101; */
 }   
 
 ol, ul {

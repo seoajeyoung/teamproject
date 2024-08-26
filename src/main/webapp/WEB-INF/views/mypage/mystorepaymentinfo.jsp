@@ -113,7 +113,7 @@
 								<div class="member_info">
 									<!-- 기본정보 -->
 									<div class="table_header">
-										<h3 class="h3_tit">구매정보</h3>
+										<h3 class="h3_tit">결제정보</h3>
 										
 									</div>
 									<div class="table_col">
@@ -126,7 +126,7 @@
 
 
 												<tr class="input">
-													<th scope="row">구매번호</th>
+													<th scope="row">결제번호</th>
 													<td style="padding-top: 20px;">
 														<div class="input_group"
 															style="display: flex; justify-content: center; align-items: center;">
@@ -151,16 +151,16 @@
 													<td style="padding-top: 20px;"><span id="">${mypageDTO.ST_TYPE}/${mypageDTO.ST_CONST}</span></td>
 												</tr>
 												<tr class="input">
-													<th scope="row" style="padding-top: 27px;"><label
+													<th scope="row"><label
 														for="mob_no_1">상품가격</label></th>
-													<td style="padding-top: 27px;">
+													<td style="padding-top: 20px;">
 														<div>
-															<span class="input_txt w100 phon_write" id="">${mypageDTO.payment_total_price}원</span>
+															<span class="input w100 phon_write" id="">${mypageDTO.payment_total_price}원</span>
 														</div>
 													</td>
 												</tr>
 												<tr class="input">
-													<th scope="row">구매시간</th>
+													<th scope="row">결제시간</th>
 													<td style="padding-top: 20px;">
 														<div class="" style="width: 560px;">
 															${mypageDTO.payment_date}</div>

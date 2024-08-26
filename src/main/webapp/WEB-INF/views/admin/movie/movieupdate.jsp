@@ -59,30 +59,32 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar include -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
-						영화 정보 수정</h1>
-					<hr style="margin-bottom: 20px;margin-top: 30px;">
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">영화 정보 수정</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
-						
+
 						<div class="card-body">
 							<div class="table-responsive">
 
 								<form
 									action="${pageContext.request.contextPath}/admin/movie/movieupdatePro"
 									method="post">
-									<input type="hidden" name="MOVIE_NUM" value="${movieDTO.MOVIE_NUM}">
+									<input type="hidden" name="MOVIE_NUM"
+										value="${movieDTO.MOVIE_NUM}">
 
 									<table class="table table-infoboard" width="100%"
 										cellspacing="0">
@@ -93,32 +95,25 @@
 										</thead>
 										<tbody>
 											<tr>
-												<th>영화코드</th>
+												<th style="width: 265px;">영화코드</th>
 												<td colspan="7">${movieDTO.MOVIE_NUM}</td>
-												<th>영화포스터<br>[첨부하기]버튼생성
-												</th>
+												<!-- 												<th>영화포스터<br>[첨부하기]버튼생성 -->
+												<!-- 												</th> -->
 											</tr>
 											<tr>
 												<th>영화제목</th>
-												<td colspan="2"><input type="text" name="title"
-													value="${movieDTO.title}"></td>
-												<th>영문제목</th>
+												<td colspan="2" style="width: 265px;"><input
+													type="text" name="title" value="${movieDTO.title}"></td>
+												<th style="width: 265px;">영문제목</th>
 												<td colspan="4"><input type="text" name="titleEng"
 													value="${movieDTO.titleEng}"></td>
-												<td rowspan="7"
-													style="text-align: center; width: 250px; height: 400px;">
-													<img
-													src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg"
-													onerror="errorImage(this)"
-													style="width: 100%; height: 100%; object-fit: contain;">
-												</td>
 											</tr>
 											<tr>
 												<th>감독</th>
 												<td colspan="2"><input type="text" name="direcotrNm"
 													value="${movieDTO.direcotrNm}"></td>
 												<th>배우</th>
-												<td colspan="2"><input type="text" name="actorNm"
+												<td colspan="3"><input type="text" name="actorNm"
 													value="${movieDTO.actorNm}"></td>
 											</tr>
 											<tr>
@@ -126,7 +121,7 @@
 												<td colspan="2"><input type="text" name="genre"
 													value="${movieDTO.genre}"></td>
 												<th>상영등급</th>
-												<td colspan="2"><input type="text" name="rating"
+												<td colspan="3"><input type="text" name="rating"
 													value="${movieDTO.rating}"></td>
 											</tr>
 											<tr>
@@ -134,29 +129,27 @@
 												<td colspan="2"><input type="text" name="runtime"
 													value="${movieDTO.runtime}"></td>
 												<th>누적관객수</th>
-												<td colspan="2"><input type="text" name="audiAcc"
+												<td colspan="3"><input type="text" name="audiAcc"
 													value="${movieDTO.audiAcc}"></td>
 											</tr>
 											<tr>
 												<th>등록일자</th>
-												<td><input type="date" name="releaseDate"
+												<td colspan="2"><input type="date" name="releaseDate"
 													value="${movieDTO.releaseDate}"></td>
 												<th>상영일자</th>
-												<td><input type="date" name="releaseDts"
-													value="${movieDTO.releaseDts}"></td>
-												<th>종영일자</th>
-												<td><input type="date" name="releaseDte"
-													value="${movieDTO.releaseDte}"></td>
+												<td style="width: 222px;"><input type="date"
+													name="releaseDts" value="${movieDTO.releaseDts}"></td>
+												<th style="width: 265px;">종영일자</th>
+												<td style="width: 222px;"><input type="date"
+													name="releaseDte" value="${movieDTO.releaseDte}"></td>
 											</tr>
 											<tr>
 												<th>주제곡</th>
-												<td colspan="5"><input type="text" name="themsSong"
-													value="${movieDTO.themsSong}"></td>
+												<td colspan="6"><textarea name="themsSong" style="width: 100%;">${movieDTO.themsSong}</textarea></td>
 											</tr>
 											<tr>
 												<th>삽입곡</th>
-												<td colspan="5"><input type="text" name="soundtrack"
-													value="${movieDTO.soundtrack}"></td>
+												<td colspan="6"><textarea name="soundtrack" style="width: 100%;">${movieDTO.soundtrack}</textarea></td>
 											</tr>
 											<tr>
 												<th>줄거리</th>
@@ -165,7 +158,8 @@
 											</tr>
 										</tbody>
 									</table>
-									<button type="submit" class="btn btn-success btn-user" style="float: right;">수정완료</button>
+									<button type="submit" class="btn btn-success btn-user"
+										style="float: right;">수정완료</button>
 								</form>
 							</div>
 						</div>

@@ -16,6 +16,8 @@
 
 <title>OSTicket - MovieSchdule</title>
 
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/movieschedule.css">
@@ -415,7 +417,8 @@ function deleteRow(ciNum) {
 										width="100%" cellspacing="0">
 										<tr>
 											<th>개봉날짜(최근3개월)</th>
-											<td><input type="date" id="dateInput" name="date"></td>
+											<td style="width: 331px;"><input type="date"
+												id="dateInput" name="date"></td>
 											<th>상영시작시간</th>
 											<td><input type="datetime-local" id="runningDts"
 												name="runningDts"></td>
@@ -433,7 +436,8 @@ function deleteRow(ciNum) {
 											<td><input type="datetime-local" id="runningDte"
 												name="runningDte"></td>
 											<td rowspan="10"><textarea id="possibleTimes"
-													name="possibleTimes" rows="10" cols="50"></textarea></td>
+													name="possibleTimes" rows="10" cols="50"
+													style="height: 280px;"></textarea></td>
 										<tr>
 											<th>지점명</th>
 											<td colspan="3"><select id="theaterList" name="TH_NAME">
@@ -509,7 +513,7 @@ function deleteRow(ciNum) {
 											<th>영화제목</th>
 											<th>상영시작시간</th>
 											<th>상영종료시간</th>
-											<th>비고</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -518,7 +522,7 @@ function deleteRow(ciNum) {
 												<td id="region${scheduleDTO.CI_NUM}">${scheduleDTO.TH_REGION}</td>
 												<td id="name${scheduleDTO.CI_NUM}">${scheduleDTO.TH_NAME}</td>
 												<td id="cinema${scheduleDTO.CI_NUM}">${scheduleDTO.TH_NUMBER}</td>
-												<td id="title${scheduleDTO.CI_NUM}">${scheduleDTO.title}</td>
+												<td id="title${scheduleDTO.CI_NUM}" style="width: 900px !important;">${scheduleDTO.title}</td>
 												<td id="scTime${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME}</td>
 												<td id="scTimeEnd${scheduleDTO.CI_NUM}">${scheduleDTO.SC_TIME_END}</td>
 												<td id="delete-button-cell"><button type="button"
@@ -561,7 +565,7 @@ function deleteRow(ciNum) {
 		class="fas fa-angle-up"></i>
 	</a>
 
-	
+
 	<script>	
 	$(document).ready(function() {
     $('form').on('submit', function(event) {

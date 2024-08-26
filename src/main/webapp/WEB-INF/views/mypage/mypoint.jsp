@@ -165,7 +165,13 @@
 										<!-- 											<button type="button" class="btn btn_em" id="btn_submit">수정</button> -->
 										<!-- 	
 																			</div> -->
-									
+										<br>
+										<div style="float: right;">
+												<button type="button" class="btn btn_sm"
+													id="btn_cancel">
+													<span class="arr">뒤로가기</span>
+												</button>
+										</div>
 									</div>
 									<!-- //기본정보 -->
 
@@ -180,5 +186,10 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	document.getElementById('btn_cancel').addEventListener('click', function() {
+        window.history.back();
+    });
+	</script>
 </body>
 </html>

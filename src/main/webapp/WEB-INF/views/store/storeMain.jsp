@@ -10,7 +10,10 @@
 </head>
 <body>
 
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <jsp:include page="../store/storeMenu.jsp" />
+
+<%-- <jsp:include page="../store/storeMenu.jsp" /> --%>
 
     
 <div id="product">

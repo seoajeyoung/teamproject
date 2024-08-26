@@ -1,0 +1,480 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>OSTicket - MemberStatistics</title>
+<!-- 페이지 title -->
+
+<!-- Custom fonts for this template-->
+<link
+	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+	rel="stylesheet">
+
+<link
+	href="${pageContext.request.contextPath}/resources/css/osticketAdmin.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/css/mypage/customer.css"
+	rel="stylesheet">
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<style>
+.custom-button {
+	background-color: #b0b0b0; /* 내부 색 */
+	border: 1px solid #dfdfdf; /* 테두리 색 */
+	border-radius: 10px; /* 모서리를 둥글게 */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+	color: #ffffff; /* 글자 색 */
+	padding: 3px 10px; /* 버튼 크기 조절 */
+	cursor: pointer; /* 마우스를 올렸을 때 커서 모양 변경 */
+}
+
+.custom-button:hover {
+	background-color: #a0a0a0; /* 호버 시 내부 색 */
+}
+
+/* 테두리와 내부 텍스트 스타일 변경 */
+input[type="date"], [type="month"] {
+	border: 1px solid #e0e0e0;
+	background-color: #f9f9f9;
+	color: #a0a0a0;
+	padding: 3px;
+	border-radius: 8px;
+	font-weight: bold;
+	width: 130px;
+	text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 선택된 날짜 텍스트 색상 */
+input[type="date"]::after, input[type="month"]::after {
+	color: #333; /* 날짜 선택 후 텍스트 색상 */
+}
+</style>
+</head>
+
+
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!--  sidebar include -->
+		<jsp:include page="/WEB-INF/views/admin/inc/sidebar.jsp" />
+
+
+		<!--  ======================================================================================== -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<br>
+
+				<!--  ======================================================================================== -->
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+
+				<!--  ======================================================================================== -->
+					<hr
+						style="margin-bottom: 50px; margin-top: 10px; width: 1445px; margin-left: 40px;">
+
+					<!-- Content Row -->
+
+					<div class="row" style="margin-right: 90px;">
+
+						<!-- Area Chart -->
+						<div class="col-lg-6" style="padding-left: 50px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 align-items-center justify-content-between">
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
+										<span>월간 회원 가입 통계</span>
+										<div class="d-flex align-items-center">
+											<input type="month" id="start_month" name="start_month"
+												readonly>
+											<!-- start_date를 readonly로 설정 -->
+											&nbsp;&nbsp; <input type="month" id="end_month"
+												name="end_month">
+											<!-- end_date를 입력 가능 -->
+											&nbsp;
+											<button id="searchMonthButton" class="custom-button">검색</button>
+										</div>
+									</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<div class="chart-area">
+										<canvas id="monthlyMemberJoinChart"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Area Chart -->
+						<div class="col-lg-6" style="padding-left: 25px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 align-items-center justify-content-between"
+									style="margin-bottom: 10px; height: 62.19px;">
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center"
+										style="padding-top: 5px;">연령별 회원 통계</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body"
+									style="padding-bottom: 15px; padding-top: 15px;">
+									<div class="chart-area">
+										<canvas id="membersByAgeChart"
+											style="display: block; box-sizing: border-box; height: 400px; width: 400px;"
+											width="400" height="400"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- Content Row -->
+
+
+
+
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+
+			<!--  ======================================================================================== -->
+
+			<!-- Footer include -->
+			<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
+
+			<!-- Footer 시작 (원본 Footer 참고용으로 index page에 하나만 주석으로 유지)-->
+
+			<!--             <footer class="sticky-footer bg-white"> -->
+			<!--                 <div class="container my-auto"> -->
+			<!--                     <div class="copyright text-center my-auto"> -->
+			<!--                         <span>Copyright &copy; Your Website 2021</span> -->
+			<!--                     </div> -->
+			<!--                 </div> -->
+			<!--             </footer> -->
+			<!-- End of Footer -->
+
+			<!--  ======================================================================================== -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!--  ======================================================================================== -->
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 월별 회원 가입 통계 데이터 설정
+        const monthMemberJoinData = JSON.parse('${monthMemberJoinDataJson}');
+        updateMonthChart(monthMemberJoinData);
+
+        // 연령대별 회원 통계 데이터 설정
+        const membersByAgeGroupData = JSON.parse('${getMembersByAgeGroupDataJson}');
+        updateAgeGroupChart(membersByAgeGroupData);
+
+        const startMonthInput = document.getElementById('start_month');
+        const endMonthInput = document.getElementById('end_month');
+
+        endMonthInput.addEventListener('change', function () {
+            const selectedMonth = new Date(endMonthInput.value + '-01');
+            const today = new Date();
+
+            if (selectedMonth.getFullYear() > today.getFullYear() || 
+                (selectedMonth.getFullYear() === today.getFullYear() && selectedMonth.getMonth() > today.getMonth())) {
+                alert("종료 월은 미래일 수 없습니다.");
+                endMonthInput.value = '';
+                startMonthInput.value = '';
+                return;
+            }
+
+            const startMonth = new Date(selectedMonth);
+            startMonth.setMonth(selectedMonth.getMonth() - 5);
+
+            startMonthInput.valueAsDate = startMonth;
+        });
+
+        document.getElementById('searchMonthButton').addEventListener('click', function () {
+            const startMonth = startMonthInput.value;
+            const endMonth = endMonthInput.value;
+
+            if (!endMonth) {
+                alert("종료 월을 선택하세요.");
+            } else if (new Date(startMonth) > new Date(endMonth)) {
+                alert("시작 월은 종료 월보다 앞서야 합니다.");
+            } else {
+                fetchMonthMemberJoinData(startMonth, endMonth);
+            }
+        });
+    });
+
+    function fetchMonthMemberJoinData(startMonth, endMonth) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/admin/statistics/joinMemberMonthSearch',
+            type: 'GET',
+            data: {
+                start_date: startMonth,
+                end_date: endMonth
+            },
+            dataType: 'json',
+            success: function(data) {
+                updateMonthChart(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching member join data: ", status, error);
+            }
+        });
+    }
+
+    function updateMonthChart(monthMemberJoinData) {
+        const labels = monthMemberJoinData.map(data => data.joinmonth);
+        const memberCounts = monthMemberJoinData.map(data => parseInt(data.joinmember_COUNT));
+
+        // 회원 수 증감 계산
+        const memberChange = memberCounts.map((current, index) => {
+            if (index === 0) return 0; // 첫 번째 달은 기준 데이터가 없으므로 0으로 설정
+            return current - memberCounts[index - 1];
+        });
+
+        const ctx = document.getElementById('monthlyMemberJoinChart').getContext('2d');
+        const chartData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: '월별 회원 가입 수 (명)',
+                    data: memberCounts,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '회원 수 증감 (+/-)',
+                    data: memberChange,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    	            borderColor: 'rgba(54, 162, 235, 0.5)',
+                    borderWidth: 2,
+                    type: 'line',
+                    yAxisID: 'y1'
+                }
+            ]
+        };
+
+        const chartOptions = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString() + '명';
+                        }
+                    },
+                    position: 'left',
+                },
+                y1: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return (value > 0 ? '+' : '') + value + '명';
+                        }
+                    },
+                    position: 'right',
+                    grid: {
+                        drawOnChartArea: false, // Grid는 메인 Y축에만 표시
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.raw.toLocaleString() + '명';
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        // 기존 차트가 존재하고, destroy 메서드가 있는 경우에만 파괴
+        if (window.monthlyMemberJoinChart instanceof Chart) {
+            window.monthlyMemberJoinChart.destroy();
+        }
+
+        // 차트를 새로 생성
+        window.monthlyMemberJoinChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: chartOptions
+        });
+    }
+
+    function updateAgeGroupChart(membersByAgeGroupData) {
+        const labels = membersByAgeGroupData.map(data => data.age_GROUP);
+        const memberCounts = membersByAgeGroupData.map(data => parseInt(data.age_GROUP_COUNT));
+
+        const totalMembers = memberCounts.reduce((a, b) => a + b, 0); // 총 회원 수 계산
+
+        const ctx = document.getElementById('membersByAgeChart').getContext('2d');
+        const chartData = {
+            labels: labels,
+            datasets: [{
+                label: '연령대별 회원 수',
+                data: memberCounts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const chartOptions = {
+        	    maintainAspectRatio: false,
+        	    layout: {
+                    padding: {
+                        left: 80,   // 왼쪽 여백
+                        right: 80  // 오른쪽 여백
+                    }
+                },
+        	    plugins: {
+        	        legend: {
+        	            position: 'right',
+        	            labels: {
+        	                boxWidth: 45,
+        	                padding: 30,
+        	            }
+        	        },
+        	        tooltip: {
+        	            callbacks: {
+        	                label: function(context) {
+        	                    let label = context.label || '';
+        	                    if (label) {
+        	                        label += ': ';
+        	                    }
+        	                    const percentage = ((context.raw / totalMembers) * 100).toFixed(2);
+        	                    label += context.raw.toLocaleString() + '명 (' + percentage + '%)';
+        	                    return label;
+        	                }
+        	            }
+        	        },
+        	        datalabels: {
+        	            color: '#000',
+        	            formatter: function(value, context) {
+        	                const percentage = ((value / totalMembers) * 100).toFixed(2);
+        	                return percentage + '%';
+        	            },
+        	            anchor: 'end',
+        	            align: 'start',
+        	            offset: 10,
+        	            borderWidth: 2,
+        	            borderColor: '#fff',
+        	            borderRadius: 25,
+        	            backgroundColor: (context) => context.dataset.backgroundColor,
+        	            textAlign: 'center',
+        	            padding: 5,
+        	            clamp: true
+        	        }
+        	    },
+        	    
+        	};
+
+        // 기존 차트가 존재하고, destroy 메서드가 있는 경우에만 파괴
+        if (window.membersByAgeChart instanceof Chart) {
+            window.membersByAgeChart.destroy();
+        }
+
+        // 차트를 새로 생성
+        window.membersByAgeChart = new Chart(ctx, {
+            type: 'pie',
+            data: chartData,
+            options: chartOptions,
+            plugins: [ChartDataLabels] // 외부 라벨을 추가하기 위한 플러그인 활성화
+        });
+    }
+</script>
+
+
+
+
+
+	<!-- Bootstrap core JavaScript-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script
+		src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script
+		src="${pageContext.request.contextPath}/resources/script/sb-admin-2.js"></script>
+
+	<!-- Page level plugins -->
+	<%-- 	<script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script> --%>
+
+	<!-- Page level custom scripts -->
+	<%-- 	<script src="${pageContext.request.contextPath}/resources/script/demo/chart-area-demo.js"></script> --%>
+	<%-- 	<script src="${pageContext.request.contextPath}/resources/script/demo/chart-pie-demo.js"></script> --%>
+
+</body>
+
+</html>

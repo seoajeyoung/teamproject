@@ -49,10 +49,10 @@
 		WHEN (select
 		point_cumulativeP from POINT where member_num =
 		#{member_num}) >= 50000
-		THEN '골드'
+		THEN 'Red Carpet(SVIP)'
 		WHEN (select point_cumulativeP from POINT where member_num =
-		#{member_num}) >= 30000 THEN '실버'
-		ELSE '브론즈'
+		#{member_num}) >= 30000 THEN 'Gold Seat(VVIP)'
+		ELSE 'Silver Ticket(VIP)'
 		END
 		where member_num =
 		#{member_num}
@@ -196,7 +196,7 @@
 		soundtrack, Awards1, releaseDts, releaseDte, targetDt,
 		m.rank as 'rank', movieNm
 		FROM MOVIE m
-		Where MOVIE_NUM = #{num}
+		Where MOVIE_NUM = #{movienum}
 	</select>
 
 	<!-- 영화정보 업데이트 -->
@@ -214,9 +214,11 @@
 		audiAcc = #{audiAcc},
 		posterUrl = #{posterUrl},
 		releaseDate = #{releaseDate},
-		releaseDts =
-		#{releaseDts},
-		releaseDte = #{releaseDte}
+		releaseDts = #{releaseDts},
+		releaseDte = #{releaseDte},
+		themsSong = #{themsSong},
+		soundtrack = #{soundtrack},
+		plot = #{plot}
 		where MOVIE_NUM = #{MOVIE_NUM}
 	</update>
 
@@ -310,6 +312,7 @@
 		WHERE TITLE = #{title})
 		);
 	</insert>
+	
 	<insert id="insertScreenTime" parameterType="map">
 		<!-- SCREEN 테이블에 데이터 삽입 -->
 		INSERT INTO SCREEN (CI_NUM, SC_TIME, SC_TIME_END)
@@ -527,6 +530,7 @@
 		TP.TP_SEAT,
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
+		TP.TP_TIME,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
@@ -558,6 +562,7 @@
 		TP.TP_SEAT,
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
+		TP.TP_TIME,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
@@ -627,7 +632,7 @@
 
 	<!-- ====================================================================================== -->
 
-	<select id="getSalesSumByDate" resultType="Integer">
+	<select id="getStoreSalesSumByDate" resultType="Integer">
 		SELECT SUM(payment_total_price)
 		FROM STOREPAYMENT
 		WHERE payment_date >=
@@ -636,17 +641,160 @@
 		#{endOfDay}
 	</select>
 
+	<select id="getMovieSalesSumByDate" resultType="Integer">
+		SELECT SUM(TP_PRICE)
+		FROM TICKETPAYMENT
+		WHERE TP_TIME >=
+		#{startOfDay}
+		AND TP_TIME <![CDATA[<]]>
+		#{endOfDay}
+	</select>
+
 	<insert id="insertDailyTotalSales">
-		INSERT INTO STORE_ST (SSALES_DATE, STORE_TOTALSALES)
-		VALUES (#{yesterday}, #{totalSales})
+		INSERT INTO REVENUE (SALES_DATE, STORE_TOTALSALES,
+		MOVIE_TOTALSALES, ALL_TOTALSALES)
+		VALUES (#{yesterday},
+		#{storeTotalSales}, #{movieTotalSales}, #{storeTotalSales} +
+		#{movieTotalSales})
 	</insert>
 
-	<select id="getSalesDataForPeriod"
+
+	<!-- =========================================================================================================== -->
+
+	<select id="getSalesDataForWeek"
 		resultType="com.itwillbs.domain.AdminDTO">
-		SELECT SSALES_DATE, STORE_TOTALSALES
-		FROM STORE_ST
-		WHERE SSALES_DATE >= #{startDate} AND SSALES_DATE <![CDATA[<]]> #{endDate}
-		ORDER BY SSALES_DATE ASC
+		SELECT SALES_DATE, STORE_TOTALSALES
+		FROM REVENUE
+		WHERE SALES_DATE >=
+		#{startDate} AND SALES_DATE <![CDATA[<=]]>
+		#{endDate}
+		ORDER BY SALES_DATE ASC
+	</select>
+
+	<select id="getSalesDataForMonth"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DATE_FORMAT(SALES_DATE, '%Y-%m') as SALES_DATE,
+		SUM(STORE_TOTALSALES) as STORE_TOTALSALES
+		FROM REVENUE
+		WHERE
+		SALES_DATE
+		>= #{startMonth} AND SALES_DATE <![CDATA[<=]]>
+		#{endMonth}
+		GROUP BY
+		DATE_FORMAT(SALES_DATE, '%Y-%m')
+		ORDER BY SALES_DATE
+		ASC
+	</select>
+
+	<!-- =========================================================================================================== -->
+
+	<select id="getMovieSalesDataForWeek"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT SALES_DATE, MOVIE_TOTALSALES
+		FROM REVENUE
+		WHERE SALES_DATE >=
+		#{startDate} AND SALES_DATE <![CDATA[<=]]>
+		#{endDate}
+		ORDER BY SALES_DATE ASC
+	</select>
+
+	<select id="getMovieSalesDataForMonth"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DATE_FORMAT(SALES_DATE, '%Y-%m') as SALES_DATE,
+		SUM(MOVIE_TOTALSALES) as MOVIE_TOTALSALES
+		FROM REVENUE
+		WHERE
+		SALES_DATE
+		>= #{startMonth} AND SALES_DATE <![CDATA[<=]]>
+		#{endMonth}
+		GROUP BY
+		DATE_FORMAT(SALES_DATE, '%Y-%m')
+		ORDER BY SALES_DATE
+		ASC
+	</select>
+
+	<!-- =========================================================================================================== -->
+
+	<select id="getAllSalesDataForWeek"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT SALES_DATE, ALL_TOTALSALES
+		FROM REVENUE
+		WHERE SALES_DATE >=
+		#{startDate} AND SALES_DATE <![CDATA[<=]]>
+		#{endDate}
+		ORDER BY SALES_DATE ASC
+	</select>
+
+	<select id="getAllSalesDataForMonth"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DATE_FORMAT(SALES_DATE, '%Y-%m') as SALES_DATE,
+		SUM(ALL_TOTALSALES) as ALL_TOTALSALES
+		FROM REVENUE
+		WHERE
+		SALES_DATE >=
+		#{startMonth} AND SALES_DATE <![CDATA[<=]]>
+		#{endMonth}
+		GROUP BY
+		DATE_FORMAT(SALES_DATE, '%Y-%m')
+		ORDER BY SALES_DATE
+		ASC
+	</select>
+	
+	<select id="getAllSalesDataForYesterday"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT SALES_DATE, ALL_TOTALSALES
+		FROM REVENUE
+		WHERE SALES_DATE >=
+		#{startOfDay} AND SALES_DATE <![CDATA[<=]]>
+		#{endOfDay}
+		ORDER BY SALES_DATE ASC
+	</select>
+	
+	<select id="getAllSalesDataForOneMonth"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DATE_FORMAT(SALES_DATE, '%Y-%m') as SALES_DATE,
+		SUM(ALL_TOTALSALES) as ALL_TOTALSALES
+		FROM REVENUE
+		WHERE
+		SALES_DATE >=
+		#{startOfMonth} AND SALES_DATE <![CDATA[<=]]>
+		#{endOfMonth}
+		GROUP BY
+		DATE_FORMAT(SALES_DATE, '%Y-%m')
+		ORDER BY SALES_DATE
+		ASC
+	</select>
+	
+	<!-- =========================================================================================================== -->
+
+	<select id="getMemberJoinDataForMonth"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT DATE_FORMAT(member_input, '%Y-%m') as JOINMONTH,
+		COUNT(*) as JOINMEMBER_COUNT
+		FROM MEMBERS
+		WHERE member_input >= #{startMonth} AND
+		member_input <![CDATA[<=]]>
+		#{endMonth}
+		GROUP BY DATE_FORMAT(member_input, '%Y-%m')
+		ORDER BY
+		DATE_FORMAT(member_input, '%Y-%m') ASC
+	</select>
+	
+	<select id="getMembersByAgeGroup"
+		resultType="com.itwillbs.domain.AdminDTO">
+		SELECT 
+		    CASE 
+		        WHEN TIMESTAMPDIFF(YEAR, member_birth, CURDATE()) BETWEEN 10 AND 19 THEN '10대'
+		        WHEN TIMESTAMPDIFF(YEAR, member_birth, CURDATE()) BETWEEN 20 AND 29 THEN '20대'
+		        WHEN TIMESTAMPDIFF(YEAR, member_birth, CURDATE()) BETWEEN 30 AND 39 THEN '30대'
+		        WHEN TIMESTAMPDIFF(YEAR, member_birth, CURDATE()) BETWEEN 40 AND 49 THEN '40대'
+		        WHEN TIMESTAMPDIFF(YEAR, member_birth, CURDATE()) BETWEEN 50 AND 59 THEN '50대'
+		        ELSE '60대 이상'
+		    END AS AGE_GROUP,
+		    COUNT(*) as AGE_GROUP_COUNT
+		FROM MEMBERS
+		GROUP BY AGE_GROUP
+		ORDER BY AGE_GROUP ASC
 	</select>
 
 

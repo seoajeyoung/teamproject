@@ -85,7 +85,7 @@
 											<th>상품명</th>
 											<th>상품타입</th>
 											<th>결제시간</th>
-											<th>비고</th>
+											<th>상세정보</th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -95,7 +95,7 @@
 											<th>상품명</th>
 											<th>상품타입</th>
 											<th>결제시간</th>
-											<th>비고</th>
+											<th>상세정보</th>
 										</tr>
 									</tfoot>
 									<tbody>

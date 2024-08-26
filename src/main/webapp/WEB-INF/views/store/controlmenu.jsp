@@ -48,75 +48,98 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    function checkStoreDetails() {
-        var storeDetails = {
-            ST_NUM: $('#ST_NUM').val(),
-            ST_NAME: $('#ST_NAME').val(),
-            ST_DETAIL: $('#ST_DETAIL').val()
-        };
-        
-        console.log("Sending data to server:", storeDetails);
+    // 대분류 코드 등록 폼의 유효성 검사
+    $('#codeForm').on('submit', function(event) {
+        var isValid = true;
+        var codeId = $('#code_id_top').val().trim();
+        var codeValue = $('#code_value_top').val().trim();
 
-        $.ajax({
-            url: '${pageContext.request.contextPath}/admin/store/check-store-details',
-            type: 'POST',
-            data: storeDetails,
-            success: function(response) {
-                console.log("Response:", response);
-                if (response.numExists) {
-                    $('#numCheckMessage').text('이미 사용중인 상품코드입니다.');
-                } else {
-                    $('#numCheckMessage').text('');
+        // 필수 입력 필드 확인
+        if (codeId === "" || codeValue === "") {
+            alert('대분류 코드 ID와 값은 필수 입력 항목입니다.');
+            isValid = false;
+            event.preventDefault();
+        }
+
+        // 유효성 검사 통과 시 서버에 중복 검사를 요청
+        if (isValid) {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/store/checkCode',
+                type: 'POST',
+                data: {
+                    code_id: codeId,
+                    code_value: codeValue,
+                },
+                success: function(response) {
+                    if (response.idExists) {
+                        alert('이미 사용중인 대분류 코드 ID입니다.');
+                        isValid = false;
+                    }
+
+                    if (response.valueExists) {
+                        alert('이미 사용중인 대분류 코드 값입니다.');
+                        isValid = false;
+                    }
+
+                    if (isValid) {
+                        $('#codeForm').off('submit').submit(); // 유효성 검사 통과 시 폼 제출
+                    }
                 }
+            });
 
-                if (response.nameExists) {
-                    $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.');
-                } else {
-                    $('#nameCheckMessage').text('');
-                }
-
-                if (response.detailExists) {
-                    $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.');
-                } else {
-                    $('#detailCheckMessage').text('');
-                }
-            }
-        });
-    }
-
-    $('#ST_NUM, #ST_NAME, #ST_DETAIL').on('blur', checkStoreDetails);
-    
-     
-//     $('#typeList').change(function() {
-//         var selectedType = $(this).val();
-//         if (selectedType) {
-//             // 선택된 값이 있을 때: 값을 설정하고 읽기 전용으로 설정
-//             $('#ST_TYPE').val(selectedType).prop('readonly', true);
-//         } else {
-//             // 선택된 값이 기본값(빈 문자열)일 때: 읽기 전용 해제 및 입력 필드를 비움
-//             $('#ST_TYPE').val('').prop('readonly', false);
-//         }
-//     });
-    
-    
-    document.getElementById('reset-button').addEventListener('click', function() {
-        // 이미지 미리보기 영역 비우기
-        document.getElementById('image-preview').innerHTML = '';
-
-        // 파일 입력 필드 초기화
-        var fileInput = document.getElementById('file-upload');
-        fileInput.value = ''; // 파일 입력 필드의 값을 초기화
-
-        // 다른 필요한 필드 초기화 작업도 여기서 수행 가능
+            event.preventDefault(); // 기본 폼 제출 방지
+        }
     });
- 
-    
-    
-    
-    
+
+ // 상세코드 등록 폼의 유효성 검사
+    $('#detailCodeForm').on('submit', function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        var isValid = true;
+        var codeId = $('#code_id_bottom').val().trim();
+        var detailCode = $('#detail_code').val().trim();
+        var detailValue = $('#detail_value').val().trim();
+
+        // 필수 입력 필드 확인
+        if (codeId === "" || detailCode === "" || detailValue === "") {
+            alert('상세 메뉴 코드 ID, 코드, 값은 필수 입력 항목입니다.');
+            isValid = false;
+        }
+
+        // 유효성 검사 통과 시 서버에 중복 검사를 요청
+        if (isValid) {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/store/checkDetailCode',
+                type: 'POST',
+                data: {
+                    code_id: codeId,
+                    detail_code: detailCode,
+                    detail_value: detailValue
+                },
+                success: function(response) {
+                    if (response.detailCodeExists) {
+                        alert('이미 사용중인 상세 메뉴 코드입니다.');
+                        isValid = false;
+                    }
+
+                    if (response.detailValueExists) {
+                        alert('이미 사용중인 상세 메뉴 값입니다.');
+                        isValid = false;
+                    }
+
+                    if (isValid) {
+                        $('#detailCodeForm').off('submit').submit(); // 유효성 검사 통과 시 폼 제출
+                    }
+                },
+                error: function() {
+                    alert('서버와의 통신 중 오류가 발생했습니다.');
+                }
+            });
+        }
+    });
 });
 
-function updateReadonlyFields(formIdentifier) {
+function updateReadonlyFields(formIdentifier) { // 대분류코드값 가져오기 위함
     var select, code_id_field;
 
     if (formIdentifier === 'bottom') {
@@ -145,6 +168,20 @@ function updateReadonlyFields(formIdentifier) {
     }
     
     // 수정 예정
+}
+
+function deleteCategory(code_num) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/store/deleteCategory', // 서버의 삭제 엔드포인트
+            type: 'POST',
+            data: { code_num: code_num }, // 전달할 데이터
+            success: function(response) {
+                alert('삭제 완료!');
+                location.reload(); // 페이지를 새로고침하여 변경 내용을 반영
+            }
+        });
+    }
 }
 
 function deleteCode(detail_code_num) {
@@ -181,10 +218,10 @@ function deleteCode(detail_code_num) {
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content">
+			<div id="content"><br>
 
 				<!-- Topbar Include -->
-				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -204,7 +241,7 @@ function deleteCode(detail_code_num) {
 						<div class="card-body">
 							<div class="table-responsive">
 								<form action = 
-									"${pageContext.request.contextPath}/store/addCode" method="post" enctype="multipart/form-data">
+									"${pageContext.request.contextPath}/store/addCode" method="post" enctype="multipart/form-data" id="codeForm">
 										<c:if test="${not empty errorMessage}">
     										<div class="alert alert-danger">
         										<c:out value="${errorMessage}" />
@@ -237,9 +274,48 @@ function deleteCode(detail_code_num) {
 											class="btn btn-secondary btn-user same-size" id="reset-button">초기화</button>
 									</div>
 								</form>
+								
+								
+								<!-- DataTales Example -->
+								<div class="card shadow mb-4">
+									<div class="card-header py-3">
+										<h6 class="m-0 font-weight-bold text-danger">대분류 코드 목록</h6>
+									</div>
+									<div class="card-body">
+										<div class="table-responsive">
+											<table class="table schedule-bordered2" id="dataTableCategory" width="100%" cellspacing="0">
+												<thead>
+													<tr>
+														<th>메뉴코드ID</th>
+														<th>메뉴코드ID설명</th>
+														<th>관리</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="category" items="${codeList}">
+														<tr id="categoryRow${category.code_num}">
+															<td>${category.code_id}</td>
+															<td>${category.code_value}</td>
+															<td>
+																<button type="button" onclick="deleteCategory('${category.code_num}')" class="btn btn-danger btn-user">삭제</button>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+										<!-- table-responsive -->
+									</div>
+									<!-- card-body -->
+								</div>
+								<!-- card shadow mb-4 -->
+
+
+
+
 								<form action = 
-									"${pageContext.request.contextPath}/store/addDetailCode" method="post" enctype="multipart/form-data">
-									<table class="table schedule-bordered" id="dataTable1" name="codeForm"
+									"${pageContext.request.contextPath}/store/addDetailCode" method="post" enctype="multipart/form-data" id="detailCodeForm">
+									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0"><hr>
 										<tr>
 								            <th>메뉴코드값</th>
@@ -309,7 +385,7 @@ function deleteCode(detail_code_num) {
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-danger">코드목록</h6>
+							<h6 class="m-0 font-weight-bold text-danger">상세코드목록</h6>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -332,7 +408,6 @@ function deleteCode(detail_code_num) {
 								            	<td>${codeDetail.code_value}</td>
 								            	<td>${codeDetail.detail_code}</td>
 								            	<td>${codeDetail.detail_value}</td>
-<%-- 								            	<td>${codeDetail.code_yn}</td> --%>
 												<td id="delete-button-cell"><button type="button"
 														onclick="deleteCode('${codeDetail.detail_code_num}')"
 														class="btn btn-danger btn-user">삭제</button></td>
