@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('#backbtn').on('click', function() {
     
         $.ajax({
-            url: '/myweb/DELETESEAT', 
+            url: '/teamproject/DELETESEAT', 
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -54,7 +54,7 @@ $(document).ready(function() {
     // api 결제후 db insert 하는 함수 
     function savePaymentDetails(rsp,paymentTime) {
         $.ajax({
-            url: "/myweb/UPDATEPAYMENT",
+            url: "/teamproject/UPDATEPAYMENT",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
@@ -68,7 +68,7 @@ $(document).ready(function() {
             }
         });
         alert("결제 완료 되었습니다");
-        window.location.href = `/myweb/main/main`;
+        window.location.href = `/teamproject/main/main`;
     }
     
     
