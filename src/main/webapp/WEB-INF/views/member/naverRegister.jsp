@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입완료</title>
+<title>네이버 로그인</title>
 <link href="${pageContext.request.contextPath}/resources/css/member/naverRegister.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/script/register.js"></script>

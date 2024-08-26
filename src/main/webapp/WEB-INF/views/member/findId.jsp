@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>아이디 찾기</title>
 <link href="${pageContext.request.contextPath}/resources/css/member/findIdPass.css" rel="stylesheet">
 
 </head>
