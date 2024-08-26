@@ -1,6 +1,9 @@
 package com.itwillbs.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,23 +32,12 @@ public class AdminService {
 	@Autowired
 	private KobisApiService kobisApiService;
 
-// =========================================================== 	
-	// 회원가입
 
-//	public void registerMember(MemberDTO memberDTO) {
-//		
-//		memberDTO.setMember_input(new Timestamp(System.currentTimeMillis()));
-//		
-//		adminDAO.registerMember(memberDTO);
-//	}
-
-	// 일단 안써서 주석
 // =========================================================== 
 
 	// 회원목록
 
 	public List<MemberDTO> getMemberList() {
-		System.out.println("AdminService getMemberList()");
 
 		return adminDAO.getMemberList();
 	}
@@ -168,9 +160,6 @@ public class AdminService {
             adminDTOList.add(adminDTO);  
         }
         
-        System.out.println(adminDTOList);
-		
-        
 		adminDAO.updateMovieRank(adminDTOList);
 		
 	}
@@ -192,7 +181,6 @@ public class AdminService {
 	// 영화목록
 
 	public List<MovieDTO> getMovieList() {
-		System.out.println("AdminService getMovieList()");
 
 		return adminDAO.getMovieList();
 	}
@@ -346,12 +334,10 @@ public class AdminService {
 
 	public void updateStore(AdminDTO adminDTO) {
 		adminDAO.updateStore(adminDTO);
-		
 	}
 
 	public void deleteStore(String stNum) {
 		adminDAO.deleteStore(stNum);
-		
 	}
 
 	public List<AdminDTO> getBookinglist() {
@@ -369,6 +355,34 @@ public class AdminService {
 	public AdminDTO getPaymentinfo(String sp_num) {
 		return adminDAO.getPaymentinfo(sp_num);
 	}
+	
+	public int getSalesSumByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        // Map에 파라미터를 담기
+        Map<String, Object> params = new HashMap();
+        params.put("startOfDay", startOfDay);
+        params.put("endOfDay", endOfDay);
+
+        // DAO로 Map 전달
+        return adminDAO.getSalesSumByDate(params);
+    }
+
+	public void insertDailyTotalSales(LocalDate yesterday, int totalSales) {
+		
+		Map<String, Object> params = new HashMap();
+        params.put("yesterday", yesterday);
+        params.put("totalSales", totalSales);
+		adminDAO.insertDailyTotalSales(params);
+	}
+	
+	public List<AdminDTO> getSalesDataForPeriod(LocalDate startDate, LocalDate endDate) {
+        return adminDAO.getSalesDataForPeriod(startDate, endDate);
+    }
+
+
+
+	
+
+	
 	
 	
 

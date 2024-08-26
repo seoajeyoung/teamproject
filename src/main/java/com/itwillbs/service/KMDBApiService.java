@@ -22,10 +22,7 @@ public class KMDBApiService {
     public List<MovieResponse> fetchMovies(String releaseDts, String releaseDte) {
         List<MovieResponse> movieResponses = new ArrayList<MovieResponse>();
         String url = String.format("%s&releaseDts=%s&releaseDte=%s", KMDB_API_URL, releaseDts, releaseDte);
-        
-        //올바른 API url인지 확인
-        System.out.println("URL : " + url);
-        
+       
         try {
         	// RestTemplate을 사용하여 지정된 URL로 GET 요청
             String response = restTemplate.getForObject(url, String.class);
@@ -94,8 +91,6 @@ public class KMDBApiService {
                         actorNames.append(actorNm);
                     }
                     
-                    // 배우이름 전부 잘 나오는지 확인
-                    // System.out.println("Actor Names: " + actorNames.toString());
                     movieResponse.setActorNm(actorNames.toString());
                     
                     // 파싱된 movieResponse 객체를 리스트에 추가

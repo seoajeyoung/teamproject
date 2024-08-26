@@ -470,11 +470,6 @@ public class AdminDTO {
 		this.TP_SEAT = TP_SEAT;
 	}
 
-	@Override
-	public String toString() {
-		return "AdminDTO [movieNm=" + movieNm + ", rank=" + rank + "]";
-	}
-	
 //===========================================================================================================================	
 	
 	
@@ -482,6 +477,17 @@ public class AdminDTO {
 	private String payment_total_price;
 	private String payment_date;
 	private String ST_CONST;
+	private String ST_PERIOD;
+	
+	
+
+	public String getST_PERIOD() {
+		return ST_PERIOD;
+	}
+
+	public void setST_PERIOD(String ST_PERIOD) {
+		this.ST_PERIOD = ST_PERIOD;
+	}
 
 	public String getSp_num() {
 		return sp_num;
@@ -514,6 +520,35 @@ public class AdminDTO {
 	public void setST_CONST(String ST_CONST) {
 		this.ST_CONST = ST_CONST;
 	}
+	
+	//===========================================================================================================================
+	
+	private String SSALES_DATE;
+	private String STORE_TOTALSALES;
+
+	public String getSSALES_DATE() {
+		return SSALES_DATE;
+	}
+
+	public void setSSALES_DATE(String SSALES_DATE) {
+		this.SSALES_DATE = SSALES_DATE;
+	}
+
+	public String getSTORE_TOTALSALES() {
+		return STORE_TOTALSALES;
+	}
+
+	public void setSTORE_TOTALSALES(String STORE_TOTALSALES) {
+		this.STORE_TOTALSALES = STORE_TOTALSALES;
+	}
+
+	@Override
+	public String toString() {
+		return "AdminDTO [SSALES_DATE=" + SSALES_DATE + ", STORE_TOTALSALES=" + STORE_TOTALSALES + "]";
+	}
+	
+	
+	
 	
 	
 	

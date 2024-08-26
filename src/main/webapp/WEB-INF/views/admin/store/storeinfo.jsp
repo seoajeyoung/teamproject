@@ -131,6 +131,10 @@ $(document).ready(function() {
         }
     });
     
+    document.getElementById("NEW_DATE").addEventListener("change", function() {
+        var selectedDate = this.value;
+        document.getElementById("ST_PERIOD").value = selectedDate;
+    });
     
 });
 </script>
@@ -182,8 +186,8 @@ $(document).ready(function() {
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
-											<th>상품코드</th>
-											<td><input type="text" id="ST_NUM" name="ST_NUM" value="${adminDTO.ST_NUM}" readonly></td>
+											<th>상품번호</th>
+											<td>${adminDTO.ST_NUM}</td>
 											<th>상품이미지
 											<label for="file-upload" class="custom-file-upload">
     										첨부하기
@@ -199,18 +203,27 @@ $(document).ready(function() {
 <%-- 											<img src="${pageContext.request.contextPath}/resources/upload/${adminDTO.ST_PICTURE}"> --%>
 											</td>
 										<tr>
-											<th>상품가격</th>
-											<td><input type="text" id="ST_PRICE" name="ST_PRICE" value="${adminDTO.ST_PRICE}"></td>
-										</tr>
-										<tr>
 											<th>상품타입</th>
 											<td><input type="text" id="ST_TYPE" name="ST_TYPE" value="${adminDTO.ST_TYPE}">
-												<select id="typeList" name="ST_TYPE">
+												<select id="typeList" name="ST_TYPE1">
 														<option value="">상품타입</option>
 														<c:forEach var="list" items="${typeList}">
 															<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
 														</c:forEach>
 												</select></td>
+										</tr>
+										<tr>
+											<th>상품구성</th>
+											<td><input type="text" id="ST_CONST" name="ST_CONST" value="${adminDTO.ST_CONST}"></td>
+										</tr>
+										<tr>
+											<th>상품유효기간</th>
+											<td><input type="text" id="ST_PERIOD" name="ST_PERIOD" value="${adminDTO.ST_PERIOD}">
+												<input type="date" id="NEW_DATE" name="NEW_DATE"></td>
+										</tr>
+										<tr>
+											<th>상품가격</th>
+											<td><input type="text" id="ST_PRICE" name="ST_PRICE" value="${adminDTO.ST_PRICE}"> 원</td>
 										</tr>
 										<tr>
 											<th rowspan="6">상품설명</th>

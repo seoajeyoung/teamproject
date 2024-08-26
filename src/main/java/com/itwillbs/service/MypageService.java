@@ -33,9 +33,6 @@ public class MypageService {
 	public boolean checkPassword(String memberId, String originalPwd) {
 		String storedPassword = mypageDAO.getPasswordByMemberId(memberId);
 
-		System.out.println("Stored password from DB: " + storedPassword);
-		System.out.println("Entered password: " + originalPwd);
-
 		return storedPassword != null && storedPassword.equals(originalPwd);
 	}
 
@@ -56,9 +53,6 @@ public class MypageService {
 	    pageDTO.setStartRow(startRow-1); 
 	    pageDTO.setEndRow(endRow);
 	    
-	    System.out.println("Start Row: " + pageDTO.getStartRow());
-	    System.out.println("Page Size: " + pageDTO.getPageSize()); 
-
 	    paramMap.put("pageDTO", pageDTO);
 
 	    return mypageDAO.getMyBookingList(paramMap);
@@ -86,9 +80,6 @@ public class MypageService {
 	    pageDTO.setStartRow(startRow-1); 
 	    pageDTO.setEndRow(endRow);
 	    
-	    System.out.println("Start Row: " + pageDTO.getStartRow());
-	    System.out.println("Page Size: " + pageDTO.getPageSize()); 
-
 	    paramMap.put("pageDTO", pageDTO);
 
 	    return mypageDAO.getMyStorePaymentList(paramMap);

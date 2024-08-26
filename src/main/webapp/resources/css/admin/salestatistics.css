@@ -1,0 +1,29 @@
+.c_tab {
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+ul {
+    font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum, sans-serif;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    word-break: break-all;
+}
+
+body{
+    line-height: 1.2;
+    color: #666;
+    font-weight: 400;
+}
+
+ul:after {
+    content: '';
+    clear: both;
+    display: block;
+}

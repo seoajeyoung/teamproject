@@ -1,7 +1,9 @@
 package com.itwillbs.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -10,6 +12,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.itwillbs.domain.AdminDTO;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Component
@@ -38,11 +43,6 @@ public class ScheduledTasks {
 //        String deleteMembersSql = "DELETE FROM MEMBERS WHERE member_status = '탈퇴유예' AND member_out <= NOW()";
 //        int membersDeleted = jdbcTemplate.update(deleteMembersSql);
 
-		// 3. 로그 출력 (콘솔 또는 로깅 프레임워크 사용)
-//        System.out.println("Deleted " + pointsDeleted + " rows from POINT table");
-//        System.out.println("Deleted " + membersDeleted + " rows from MEMBERS table");
-//        System.out.println("스케줄링 작업 수행: " + System.currentTimeMillis());
-
 		System.out.println("스케줄 실행");
 	}
 
@@ -68,7 +68,7 @@ public class ScheduledTasks {
 		String releaseDteStr = releaseDte.format(formatter);
 
 //          adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr);
-		
+
 //      adminService.selectAndSaveMovies("20240814", "20240816");
 
 	}
@@ -77,10 +77,10 @@ public class ScheduledTasks {
 	public void updateMoviesRank() {
 
 		System.out.println("랭킹저장");
-		
+
 		// 일주일마다 랭킹 초기화
 //		adminService.resetMovieRank();
-		
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		LocalDate today = LocalDate.now();
 
@@ -99,6 +99,38 @@ public class ScheduledTasks {
 //    	int deleteMoiveSchedule = jdbcTemplate.update(deleteMoiveScheduleSql);
 
 		System.out.println("일정지난 스케쥴 삭제");
+	}
+
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
+	public void insertSales() {
+
+		// 어제 날짜 계산 (오늘 날짜에서 하루를 뺌)
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+
+		// 어제의 시작 시간과 끝 시간을 계산
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 어제의 매출 합계를 계산
+//        int totalSales = adminService.getSalesSumByDate(startOfDay, endOfDay);
+
+//        System.out.println("totalSales: " + totalSales);  
+
+		// 어제의 매출 합계와 날짜를 STORE_ST 테이블에 삽입
+//        adminService.insertDailyTotalSales(yesterday, totalSales);
+	}
+
+	@Scheduled(cron = "0 1 0 * * ?") // 매일 자정 1분에 실행
+	public void getWeeksSales() {
+		 // 오늘 날짜 계산
+        LocalDate today = LocalDate.now();
+        
+        // 일주일 전 날짜 계산
+        LocalDate oneWeekAgo = today.minusDays(7);
+
+        // 지난 일주일간의 매출 데이터 가져오기
+        List<AdminDTO> weekSalesData = adminService.getSalesDataForPeriod(oneWeekAgo, today);
+
 	}
 
 }
