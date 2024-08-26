@@ -136,7 +136,7 @@
 											<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->
 											
 											<td >${inquiryDTO.RN}</td>
-											<td>${inquiryDTO.MEM_NICKNAME}</td>
+											<td>${inquiryDTO.MEM_NICKNAME}</td> 
 											<c:if test="${sessionScope.member_name eq 'admin'}">
 											<td id="title0" class="txt"><a
 												href="${pageContext.request.contextPath}/inquiry/answer?search=${pageDTO.search}&IQ_NUM=${inquiryDTO.IQ_NUM}">${inquiryDTO.IQ_NAME}</a></td>
