@@ -74,7 +74,7 @@ public class MemberController {
 			return "error";
 		}
 		return "member/login";
-	}
+	} 
 
 	@PostMapping("/loginPro") // post방식, 실제 로그인 진행
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {

@@ -6,7 +6,7 @@
 
 	<insert id="insertInquiry">
 		INSERT INTO INQUIRY(IQ_NUM, MEM_NUM, IQ_NAME, IQ_DETAIL, IQ_PICTURE, IQ_DATE, IQ_TYPE)
-		VALUES(#{IQ_NUM},#{member_num},#{IQ_NAME},#{IQ_DETAIL}, #{IQ_PICTURE}, #{IQ_DATE},#{IQ_TYPE})
+		VALUES(#{IQ_NUM},#{MEM_NUM},#{IQ_NAME},#{IQ_DETAIL}, #{IQ_PICTURE}, #{IQ_DATE},#{IQ_TYPE})
 	</insert>
 	
 	<select id="getMaxNum" resultType="java.lang.Integer">
@@ -15,7 +15,7 @@
 
 <!-- 	전체공개만 보이게 -->
 	<select id="getInquiryList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
-		SELECT M.MEMBER_NICKNAME
+		SELECT M.MEM_NICKNAME
 			 , I.IQ_NUM
 			 , I.MEM_NUM
 			 , I.IQ_NAME
@@ -29,7 +29,7 @@
 			 , A.AS_NUM
 		  FROM INQUIRY I 
 		  LEFT JOIN MEMBERS M
-			ON I.MEM_NUM = M.member_num
+			ON I.MEM_NUM = M.MEM_NUM
 		  LEFT JOIN ANSWER A
 		    ON I.IQ_NUM = A.IQ_NUM
 		 WHERE I.IQ_TYPE LIKE "%T%"
@@ -50,12 +50,12 @@
 <!-- 	나의문의글 갯수 -->
 	<select id="getMyInquiryCount" resultType="java.lang.Integer" parameterType="Map">
 		select count(*) from INQUIRY
-		WHERE MEM_NUM = #{member_num}			
+		WHERE MEM_NUM = #{MEM_NUM}			
 	</select>
 	
 	<!-- 관리자 전체,비공개 모두 보이게 -->
 	<select id="adminInquiry" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-		SELECT M.MEMBER_NICKNAME
+		SELECT M.MEM_NICKNAME
 			 , I.IQ_NUM
 			 , I.MEM_NUM
 			 , I.IQ_NAME
@@ -70,7 +70,7 @@
              , A.AS_DATE
 	 	  FROM INQUIRY I
 	 	  LEFT JOIN MEMBERS M
-		  ON I.MEM_NUM = M.member_num
+		  ON I.MEM_NUM = M.MEM_NUM
 		  LEFT JOIN ANSWER A
 		  ON I.IQ_NUM = A.IQ_NUM
 		  WHERE I.IQ_NUM = #{IQ_NUM}
@@ -78,7 +78,7 @@
 	
 <!-- 	전체공개만 보이게 -->
 	<select id="getInquiry" resultType="java.util.LinkedHashMap" parameterType="java.lang.String">
-		SELECT M.MEMBER_NICKNAME
+		SELECT M.MEM_NICKNAME
 			 , I.IQ_NUM
 			 , I.MEM_NUM
 			 , I.IQ_NAME
@@ -93,7 +93,7 @@
              , A.AS_DATE
 	 	  FROM INQUIRY I
 	 	  LEFT JOIN MEMBERS M
-		  ON I.MEM_NUM = M.member_num
+		  ON I.MEM_NUM = M.MEM_NUM
 		  LEFT JOIN ANSWER A
 		  ON I.IQ_NUM = A.IQ_NUM
 		  WHERE I.IQ_NUM = #{IQ_NUM}
@@ -102,7 +102,7 @@
 	
 <!-- 	전체공개만 -->	
 	<select id="getInquiryPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
-	SELECT M.MEMBER_NICKNAME
+	SELECT M.MEM_NICKNAME
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 		 , A.AS_NUM
@@ -110,7 +110,7 @@
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
 		LEFT JOIN ANSWER A
 	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
@@ -126,7 +126,7 @@
 	</select>
 <!-- 	전체공개글(T) 다음글 -->
 	<select id="getInquiryNext" resultType="java.util.LinkedHashMap" parameterType="Map">
-	SELECT M.MEMBER_NICKNAME
+	SELECT M.MEM_NICKNAME
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 		 , A.AS_NUM
@@ -134,7 +134,7 @@
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
       LEFT JOIN ANSWER A
 	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
@@ -157,7 +157,7 @@
  	  FROM INQUIRY I
  LEFT JOIN ANSWER A
 		ON I.IQ_NUM = A.IQ_NUM
- 	 WHERE I.MEM_NUM = #{member_num}
+ 	 WHERE I.MEM_NUM = #{MEM_NUM}
  	 ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
 	</select>
@@ -171,9 +171,9 @@
 		 , I.IQ_NAME
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
 	 WHERE CAST(I.IQ_NUM AS UNSIGNED) < #{IQ_NUM}
-     and I.MEM_NUM = #{member_num}
+     and I.MEM_NUM = #{MEM_NUM}
 	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
@@ -186,9 +186,9 @@
 		 , I.IQ_NAME
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
 	 WHERE CAST(I.IQ_NUM AS UNSIGNED) > #{IQ_NUM}
-     and I.MEM_NUM = #{member_num}
+     and I.MEM_NUM = #{MEM_NUM}
 	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
@@ -211,7 +211,7 @@
 
 <!-- 	관리자 리스트 -->
 	<select id="getAdminList" resultType="java.util.LinkedHashMap" parameterType="com.itwillbs.domain.PageDTO">
-	SELECT M.MEMBER_NICKNAME
+	SELECT M.MEM_NICKNAME
 			 , I.IQ_NUM
 			 , I.MEM_NUM
 			 , I.IQ_NAME
@@ -225,7 +225,7 @@
 			 , A.AS_NUM
 		  FROM INQUIRY I 
 		  LEFT JOIN MEMBERS M
-			ON I.MEM_NUM = M.member_num
+			ON I.MEM_NUM = M.MEM_NUM
 		  LEFT JOIN ANSWER A
 		    ON I.IQ_NUM = A.IQ_NUM
 		 <if test="search != null">
@@ -237,7 +237,7 @@
 	
 <!-- 	관리자 이전글 -->	
 	<select id="adminPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
-	SELECT M.MEMBER_NICKNAME
+	SELECT M.MEM_NICKNAME
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 		 , A.AS_NUM
@@ -245,7 +245,7 @@
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
 		LEFT JOIN ANSWER A
 	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1
@@ -260,7 +260,7 @@
 	</select>
 <!-- 	관리자 이후글 -->		
 	<select id="adminNext" resultType="java.util.LinkedHashMap" parameterType="Map">
-	SELECT M.MEMBER_NICKNAME
+	SELECT M.MEM_NICKNAME
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 		 , A.AS_NUM
@@ -268,7 +268,7 @@
          , A.AS_DATE
 	  FROM INQUIRY I
 	  LEFT JOIN MEMBERS M
-		ON I.MEM_NUM = M.member_num
+		ON I.MEM_NUM = M.MEM_NUM
       LEFT JOIN ANSWER A
 	    ON I.IQ_NUM = A.IQ_NUM
 	    WHERE 1 = 1

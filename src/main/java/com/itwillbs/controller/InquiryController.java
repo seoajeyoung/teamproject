@@ -65,7 +65,7 @@ public class InquiryController {
 	public String Imain(HttpServletRequest request, HttpSession session, Model model) {
 		
         // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
-//		session.setAttribute("member_num", "10");
+//		session.setAttribute("MEM_NUM", "10");
 //        session.setAttribute("member_name", "admi");
 //        session.setAttribute("member_phone", "010-1234-5678");
 //        session.setAttribute("member_email", "aaa1234@gmail.com");
@@ -98,7 +98,7 @@ public class InquiryController {
 	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
 
-		String member_num = (String)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
 
@@ -119,7 +119,7 @@ public class InquiryController {
 		//넘버값으로 들어가서 본인이 쓴 글 DB에서 찾아서 뿌리기
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("member_num", member_num);
+		params.put("MEM_NUM", MEM_NUM);
 		params.put("pageDTO", pageDTO);
 		
 		String memberName = (String) session.getAttribute("member_name");
@@ -185,11 +185,11 @@ public class InquiryController {
 	public String myconcent(@RequestParam(value = "search", required = false) String search, InquiryDTO inquiryDTO, HttpSession session, Model model) {
 		
 		String IQ_NUM = inquiryDTO.getIQ_NUM();
-		String member_num = (String)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("IQ_NUM", IQ_NUM);
-	    params.put("member_num", member_num);
+	    params.put("MEM_NUM", MEM_NUM);
 		
 		Map<String, Object> inquiryDTO2 = inquiryService.getInquiry(IQ_NUM);
 		Map<String, Object> inquiryDTO3 = inquiryService.getMyPrev(params);
@@ -223,7 +223,7 @@ public class InquiryController {
 	
 	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile IQ_PICTURE, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
-		String member_num = (String)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + IQ_PICTURE.getOriginalFilename();
@@ -233,7 +233,7 @@ public class InquiryController {
 
 		InquiryDTO inquiryDTO = new InquiryDTO();
 
-		inquiryDTO.setMEM_NUM(member_num);
+		inquiryDTO.setMEM_NUM(MEM_NUM);
 		inquiryDTO.setIQ_NAME(request.getParameter("IQ_NAME"));
 		inquiryDTO.setIQ_DETAIL(request.getParameter("IQ_DETAIL"));
 		inquiryDTO.setIQ_TYPE(request.getParameter("IQ_TYPE"));
