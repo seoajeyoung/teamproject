@@ -18,166 +18,11 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 </head>
 <body>
-
-<!-- S Skip Navigation -->
-<div class="skipnaiv">
-    <a href="#contents" id="skipHeader">메인 컨텐츠 바로가기</a>
-    <!--<a href="#goto_ticket" id="">예매하기 바로가기</a>//-->
-    <a href="/reserve/show-times/" id="">예매하기 바로가기</a>
-</div>
-<div id="cgvwrap">
-    
-    
-    <div class="cgv-ad-wrap" id="cgv_main_ad">
-        <div id="TopBarWrapper" class="sect-head-ad">
-            <div class="top_extend_ad_wrap">
-                <div class="adreduce" id="adReduce">                    
-                    <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@TopBar_EX" width="100%" height="80" title="" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" name="TopBanner" id="TopBanner"></iframe>
-                </div> 
-                <div class="adextend" id="adExtend"></div>
-            </div><!-- //.top_extend_ad_wrap -->
-        </div>    
-    </div>    
-      <!-- S Header
-        Description
-        - class 'nav' 에 class 'active' 추가시 서브메뉴노출
-        - class 'nav' 에 class 'fixed' 추가시 상단고정되며 스타일 변경됨
-     -->
-	<div class="header">			
-            <!-- 서비스 메뉴 --> 
-            
-<div class="header_content">
-    <div class="contents">
-        <h1 onclick=""><a href="/"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png" alt="CGV"></a><span>DEEP DIVE SPACE</span></h1>
-        <ul class="memberInfo_wrap">
-            <!-- Advertisement -->
-            
-			<div class="ad-partner">
-                <a href="http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=31426&amp;menu=006">
-                    <img src="https://img.cgv.co.kr/WingBanner/2023/0208/16758461047540.png" alt="현대M포인트" onerror="this.onerror=null;javascript:;$('.ad-partner').hide();">
-                </a>					
-			</div>
-            
-            <!-- /Advertisement -->
-
-            
-            <li><a href="/user/login/?returnURL=http%3a%2f%2fwww.cgv.co.kr%2ftheaters%2fdefault.aspx"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그인"><span>로그인</span></a></li>
-            <li><a href="/user/join/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginJoin.png" alt="회원가입"><span>회원가입</span></a></li>
-            
-            
-            <li><a href="/user/mycgv/"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png" alt="MY CGV"><span>MY CGV</span></a></li>
-            <li><a href="/support/default.aspx"><img src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png" alt="고객센터"><span>고객센터</span></a></li>
-        </ul>
-    </div>
-</div>
-
-            <!-- 서비스 메뉴 -->
-           
-			<!-- 서브 메뉴 -->
-			
-<div class="nav">
-    <div class="contents">
-        <h1><a href="/" tabindex="-1"><img src="https://img.cgv.co.kr/R2014/images/common/logo/logoWhite.png" alt="CGV"></a></h1>
-        <ul class="nav_menu">
-            <li>
-                <h2><a href="/movies/?lt=1&amp;ft=0">영화</a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/movies/?lt=1&amp;ft=0" tabindex="-1">영화</a></h2></dt>
-                    <dd><h3><a href="/movies/?lt=1&amp;ft=0">무비차트</a></h3></dd>
-                    <dd><h3><a href="/arthouse/">아트하우스</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/detailViewUnited.aspx?seq=30717">ICECON</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="/theaters/">극장</a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/theaters/" tabindex="-1">극장</a></h2></dt>
-                    <dd><h3><a href="/theaters/">CGV 극장</a></h3></dd>
-                    <dd><h3><a href="/theaters/special/defaultNew.aspx">특별관</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="/ticket/"><strong>예매</strong></a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/ticket/" tabindex="-1">예매</a></h2></dt>
-                    <dd><h3><a href="/ticket/">빠른예매</a></h3></dd>
-                    <dd><h3><a href="/reserve/show-times/">상영스케줄</a></h3></dd>
-                    <dd><h3><a href="/ticket/eng/newdefault.aspx">English Ticketing</a></h3></dd>
-                    <dd><h3><a href="/reserve/show-times/eng/">English Schedule</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2><a href="/culture-event/popcorn-store/">스토어</a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/culture-event/popcorn-store/" tabindex="-1">스토어</a></h2></dt>
-                    
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=1">패키지</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=2">영화관람권</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=3">기프트카드</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=4">콤보</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=5">팝콘</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=6">음료</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=7">스낵</a></h3></dd>
-                        
-                            <dd><h3><a href="/culture-event/popcorn-store/store-category.aspx?CategoryIdx=10">플레이존</a></h3></dd>
-                        
-                    <!-- 2024.06.27 씨네샵 URL 변경 요청 -->
-                    <dd><h3><a href="https://brand.naver.com/cgv" class="arrowR" target="_blank">씨네샵</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2 onclick="gaEventLog('PC_GNB','주메뉴_이벤트','')"><a href="/culture-event/event/defaultNew.aspx">이벤트</a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/culture-event/event/defaultNew.aspx?mCode=001" tabindex="-1">이벤트</a></h2></dt>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=001">SPECIAL</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=004">영화/예매</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=008">멤버십/CLUB</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=005">CGV 극장별</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/defaultNew.aspx?mCode=006">제휴할인</a></h3></dd>
-                    <dd><h3><a href="/user/mycgv/event/result_list.aspx">당첨자 발표</a></h3></dd>
-                    <dd><h3><a href="/culture-event/event/end-list.aspx">종료된 이벤트</a></h3></dd>
-                </dl>
-            </li>
-            <li>
-                <h2 onclick="gaEventLog('PC_GNB','주메뉴_해택','')"><a href="/discount/discountlist.aspx">혜택</a></h2>
-                <dl class="nav_overMenu" style="">
-                    <dt><h2><a href="/discount/discountlist.aspx" tabindex="-1">혜택</a></h2></dt>
-                    <dd><h3><a href="/discount/discountlist.aspx">CGV 할인정보</a></h3></dd>
-                    <dd><h3><a href="https://www.cgv.co.kr/user/memberShip/ClubService.aspx">CLUB 서비스</a></h3></dd>
-                    <dd><h3><a href="/user/vip-lounge/">VIP 라운지</a></h3></dd>
-                </dl>
-            </li>
-        </ul>
-        <div class="totalSearch_wrap">
-            <!-- 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件 -->
-            <label for="totalSearch">
-                
-                <input name="ctl00$subMenu$header_keyword" type="text" id="header_keyword" value="10라이브즈">
-                <input name="ctl00$subMenu$header_ad_keyword" type="hidden" id="header_ad_keyword" value="10라이브즈">
-            </label>
-            <button type="button" class="btn_totalSearch" id="btn_header_search">검색</button>
-            <!-- 24.03 홈페이지 內 검색 영역 광고 텍스트 미노출의 件 (iframe 주석 -->
-        </div>
-    </div>
-</div>
-            <!-- 서브 메뉴 -->			
-	</div>
-	<!-- E Header -->
-
+<jsp:include page="../ticket/top.jsp" />
 	<!-- Contaniner -->
 	<div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
-        
-
 		<!-- Contents Area -->
 		 <div id="contents" class="">
-        
-            
             <!-- Contents Start -->
 			
 <div class="sect-common">
@@ -373,8 +218,6 @@ $(document).on('click', '.day>a', function() {
 		    datatype: 'JSON',
 		    success: function(result) {
 // 		    	$('.sect-showtimes>ul').html('')
-		    	var rNum = 0;
-		    	var tNum = 0;
 		    	var pre;
 		    	result.forEach(function(scList, index) {
 		    		if(index == 0 || pre.MOVIE_NUM != scList.MOVIE_NUM) {
@@ -433,7 +276,7 @@ $(document).on('click', '.day>a', function() {
 	  		    				
 	  		    	if(index != 0 && scList.MOVIE_NUM != pre.MOVIE_NUM) rNum += 1;
 		  		    if(index == 0 || scList.MOVIE_NUM != pre.MOVIE_NUM || scList.TH_NUMBER != pre.TH_NUMBER) {
-		  		    	$('.col-times').eq(rNum).append(text);
+		  		    	$('.col-times:last').append(text);
 		  		    }
 		            
 		    		
@@ -450,12 +293,8 @@ $(document).on('click', '.day>a', function() {
 							    	        </span>
 							    	    </a>
 							    	</li>`
-		    		if(index != 0) {
-		    			if(scList.TH_NUMBER != pre.TH_NUMBER || scList.MOVIE_NUM != pre.MOVIE_NUM) tNum += 1;
-		    		}
 							    	
-		    		$('.info-timetable').eq(tNum).find('ul').append(timeTable);
-		    		
+		    		$('.info-timetable:last').find('ul').append(timeTable);
 	     		
 		    		// 값 저장해서 다음 루프에서 값을 비교할때 사용
 		    		pre = scList;	
@@ -473,6 +312,7 @@ function pageCount(num) {
 	$('.day').hide();
 		$('.day').filter(index => index >= (pageSize * num) && index < pageSize * (num + 1)).show();
 }
+
 // 보이는 첫 페이지 클릭
 
 $(function() {

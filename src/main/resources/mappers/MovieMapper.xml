@@ -57,7 +57,7 @@
 		               WHEN 7 THEN '(토)'
 		           END
 		      ) AS RELEASEDATE
-			, DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
+			, CAST(DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS CHAR) AS D_DAY
 			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, AUDIACC
 			, PLOT
@@ -67,11 +67,11 @@
 			, SOUNDTRACK
 			, AWARDS1
 			, TARGETDT
-			, m.RANK AS 'RANK'
+			, M.RANK AS 'RANK'
 			, MOVIENM
-		FROM MOVIE m
+		FROM MOVIE M
 		WHERE RELEASEDATE BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)
-		ORDER BY RELEASEDATE, m.RANK
+		ORDER BY RELEASEDATE, M.RANK
 	</select>
 	
 	<!-- 상영전 영화 날짜 분류 -->
@@ -503,40 +503,67 @@
 		FROM DUAL;
 	</select>
 	
+	<select id="getMyMovieList" resultType="java.util.LinkedHashMap">
+    <choose>
+	    <when test="LABEL.equals('bookmark')">
+	        SELECT M.MOVIE_NUM
+	            , M.TITLE
+	            , M.TITLEENG
+	            , M.GENRE
+	            , DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+	            , SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
+	            , M.RATING
+	            , B.BOOKMARK_DATE AS SAVEDDATE
+	        FROM MOVIE M
+	        RIGHT OUTER JOIN BOOKMARK B ON M.MOVIE_NUM = B.MOVIE_NUM
+	        WHERE B.MEMBER_ID = #{MEMBER_ID}
+	    </when>
+	    <when test="LABEL.equals('review')">
+	        SELECT M.MOVIE_NUM
+	            , M.TITLE
+	            , M.TITLEENG
+	            , M.GENRE
+	            , DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+	            , SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
+	            , M.RATING
+	            , R.REVIEW_NUM
+	            , R.REVIEW_DATE AS SAVEDDATE
+	            , R.REVIEW_CONTENT
+	        FROM MOVIE M
+	        RIGHT OUTER JOIN REVIEW R ON M.MOVIE_NUM = R.MOVIE_NUM
+	        WHERE R.MEMBER_ID = #{MEMBER_ID}
+	    </when>
+	    <when test="LABEL.equals('watched')">
+	        SELECT DISTINCT
+	        	M.MOVIE_NUM
+	            , M.TITLE
+	            , M.TITLEENG
+	            , M.GENRE
+	            , DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
+	            , SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
+	            , M.RATING
+	            , T.TP_TIME AS SAVEDDATE
+	            , COUNT(*)
+	        FROM MOVIE M
+	        JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
+	        JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+	        JOIN TICKETPAYMENT T ON S.SC_NUM = T.SC_NUM
+	        JOIN MEMBERS M2 ON T.MEMBER_NUM = M2.MEMBER_NUM
+	        WHERE T.MEMBER_NUM = (SELECT MEMBER_NUM
+	                              FROM MEMBERS
+	                              WHERE MEMBER_ID = #{MEMBER_ID})
+	    </when>
+	</choose>
 	
-	
-	<select id="getMyMovieList" resultType="map">
 	<choose>
-		<when test="LABEL == 'bookmark'">
-		SELECT M.MOVIE_NUM
-			, M.TITLE
-		    , M.TITLEENG
-		    , M.GENRE
-			, DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
-			, SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
-			, M.RATING
-		FROM MOVIE M RIGHT OUTER JOIN BOOKMARK B
-		ON M.MOVIE_NUM = B.MOVIE_NUM
-		WHERE B.MEMBER_ID = #{MEMBER_ID}
-		</when>
-		<when test="LABEL == 'review'">
-		SELECT M.MOVIE_NUM
-			, M.TITLE
-			, M.TITLEENG
-			, M.GENRE
-			, DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE
-			, SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
-			, M.RATING
-		    , R.REVIEW_NUM
-		    , R.REVIEW_DATE AS SAVEDDATE
-		    , R.REVIEW_CONTENT
-		FROM MOVIE M RIGHT OUTER JOIN REVIEW R
-		ON M.MOVIE_NUM = R.MOVIE_NUM
-		WHERE R.MEMBER_ID = #{MEMBER_ID}
-		</when>
-	</choose>						  	  
+	    <when test="SORTTYPE.equals('savedDate')">
+	        ORDER BY SAVEDDATE
+	    </when>
+	    <when test="SORTTYPE.equals('releaseDate')">
+	        ORDER BY RELEASEDATE
+	    </when>
+	</choose>
 	</select>
-	<!-- ORDER BY SAVEDDATE -->
 	
 	
 	<!--  ================================ 상영시간표 ================================ -->
