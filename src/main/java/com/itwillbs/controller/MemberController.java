@@ -78,9 +78,9 @@ public class MemberController {
 
 	@PostMapping("/loginPro") // post방식, 실제 로그인 진행
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {
-		System.out.println("memberDTO:" + memberDTO);
+		
 		MemberDTO memberDTO2 = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
-		System.out.println(memberDTO2);
+		
 
 		if (memberDTO2 != null) {
 			// 아이디 비밀번호 일치 -> 로그인표시값을 session 저장 -> /member/main 이동
