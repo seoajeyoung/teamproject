@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품상세</title>
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/productDetail.css">
 <script>

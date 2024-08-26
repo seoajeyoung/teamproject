@@ -16,8 +16,8 @@
 
 <title>OSTicket - schedule list</title>
 
-<!--     <link rel="stylesheet" -->
-<%-- 	href="${pageContext.request.contextPath}/resources/css/admin/common.css"> --%>
+    <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/theaterinsert.css">

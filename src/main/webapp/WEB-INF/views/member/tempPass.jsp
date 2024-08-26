@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>비밀번호 찾기</title>
 <link href="${pageContext.request.contextPath}/resources/css/member/findResult.css" rel="stylesheet">
 </head>
 <body>
