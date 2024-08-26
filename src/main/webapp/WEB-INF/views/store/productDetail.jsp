@@ -8,57 +8,81 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/store/productDetail.css">
 <script>
-function adjustQuantity(delta) {
-    const quantitySpan = document.querySelector('.com_form_count0');
-    const totalPriceSpan = document.querySelector('.com_total_price');
-    const unitPrice = parseInt(document.getElementById('spnSalePrice').textContent.replace(/,/g, ''), 10); // 단가
-    let currentQuantity = parseInt(quantitySpan.textContent);
-    
-    // 수량 조정
-    let newQuantity = currentQuantity + delta;
-    if (newQuantity < 1) newQuantity = 1; // 최소 수량 1로 제한
-    
-    // 수량 업데이트
-    quantitySpan.textContent = newQuantity;
-    
-    // 폼의 수량 필드 업데이트
-    document.querySelector('input[name="cart_quantity"]').value = newQuantity;
-    
-    // 총 가격 계산
-    let totalPrice = unitPrice * newQuantity;
-    let formattedTotalPrice = totalPrice.toLocaleString('en'); // 천 단위 구분 기호 추가
-    
-    // 총 가격 업데이트
-    totalPriceSpan.textContent = formattedTotalPrice;
-    document.querySelector('.com_product_total_price').textContent = formattedTotalPrice;
-}
-function addToCart(event, member_num, st_num) {
-    let contextPath = "/" + window.location.pathname.split("/")[1];
-    
-    let confirmMessage = '로그인이 필요한 서비스입니다. 로그인 하시겠습니까?';
-    let path = '/member/login';
 
-    if (member_num) { // 로그인 유무
-        confirmMessage = '상품이 장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?';
-        path = '/store/storeCart';
-    }
+	function adjustQuantity(delta) {
+		const quantitySpan = document.querySelector('.com_form_count0');
+		const totalPriceSpan = document.querySelector('.com_total_price');
+		const unitPrice = parseInt(
+				document.getElementById('spnSalePrice').textContent.replace(
+						/,/g, ''), 10); // 단가
+		let currentQuantity = parseInt(quantitySpan.textContent);
 
-    if (confirm(confirmMessage)) { // 사용자가 '예'를 클릭한 경우
-        if (member_num == null || member_num.trim() === '') {
-            window.location.href = contextPath + path;
-        } else {
-            // 폼을 실제로 제출하여 장바구니에 추가
-            document.getElementById('addCartForm').submit();
-        }
-    } else {
-        event.preventDefault(); // 폼 제출을 막고, 현재 페이지 유지
-    }
-}
+		// 수량 조정
+		let newQuantity = currentQuantity + delta;
+		if (newQuantity < 1)
+			newQuantity = 1; // 최소 수량 1로 제한
+
+		// 수량 업데이트
+		quantitySpan.textContent = newQuantity;
+
+		// 폼의 수량 필드 업데이트
+		document.querySelector('input[name="cart_quantity"]').value = newQuantity;
+
+		// 총 가격 계산
+		let totalPrice = unitPrice * newQuantity;
+		let formattedTotalPrice = totalPrice.toLocaleString('en'); // 천 단위 구분 기호 추가
+
+		// 총 가격 업데이트
+		totalPriceSpan.textContent = formattedTotalPrice;
+		document.querySelector('.com_product_total_price').textContent = formattedTotalPrice;
+	}
+
+	function addToCart(event, member_num, st_num) {
+		let contextPath = "/" + window.location.pathname.split("/")[1];
+
+		if (!member_num || member_num.trim() === '') {
+			if (confirm('로그인이 필요한 서비스입니다. 로그인 하시겠습니까?')) {
+				window.location.href = contextPath + '/member/login';
+			}
+			return; // 로그인 페이지로 이동 후 함수 종료
+		}
+
+		// 회원이 로그인되어 있는 경우
+		if (confirm('상품이 장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?')) {
+			$.ajax({
+				type : 'POST',
+				url : contextPath + '/store/addCart',
+				data : $('#addCartForm').serialize(), // 폼 데이터를 시리얼라이즈
+				success : function(response) {
+					window.location.href = contextPath + '/store/storeCart';
+				},
+				error : function() {
+					alert('장바구니에 추가하는 중 오류가 발생했습니다.');
+				}
+			});
+		} else {
+			// '아니요'를 선택했을 때도 장바구니에 추가는 되도록 한다.
+			$.ajax({
+				type : 'POST',
+				url : contextPath + '/store/addCart',
+				data : $('#addCartForm').serialize(), // 폼 데이터를 시리얼라이즈
+				success : function(response) {
+					alert('상품이 장바구니에 추가되었습니다.');
+				},
+				error : function() {
+					alert('장바구니에 추가하는 중 오류가 발생했습니다.');
+				}
+			});
+		}
+
+		event.preventDefault(); // 폼의 기본 제출 동작을 막음
+	}
 </script>
 </head>
 <body>
 
 
+<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 
 	<jsp:include page="../store/storeMenu.jsp" />
 
@@ -69,15 +93,12 @@ function addToCart(event, member_num, st_num) {
 		<div class='category_product_detail_contents'>
 			<div class='category_product_detail_contents_img_wrap'>
 				<ul class='bxslider'>
-					<li><img
-						src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}"
-						alt="${storeDTO.st_name }"></li>
+					<li><img src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name }"></li>
 				</ul>
 			</div>
 			<div class='category_product_detail_contents_wrap'>
 				<p class='category_product_detail_sale_price_wrap'>
 					<span class="store_deatail_sale_price" id="spnSalePrice">${storeDTO.st_price }원</span>
-<!-- 					<span class="store_deatail_source_price">66,000</span> -->
 				</p>
 				<dl class='category_product_detail_add_info'>
 					<dt>상품구성</dt>

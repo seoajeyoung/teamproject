@@ -10,6 +10,7 @@
 
 </head>
 <body>
+
 <header>
 <div class="tit-heading-wrap tit-evt">
     <h3>스토어</h3>
@@ -24,8 +25,12 @@
 		</c:forEach>
      
      </ul>
-<!--      <ul class='cart_content'> -->
-<!--          <li><a href='#' onclick='javascript:app.goLogin();return false;'>내 기프트콘</a><span id='giftconcnt'>0</span></li>         <li><a href='#' onclick='javascript:app.goLogin();return false;'>장바구니</a><span id='cartviewcnt'>0</span></li>     </ul> -->
+     <ul class='cart_content'>
+     	<li>
+			<a href="${pageContext.request.contextPath}/store/storeCart">내 장바구니</a>     	
+     	</li>
+     </ul>
+
  </div>
 </div>
 </header>

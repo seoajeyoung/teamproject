@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,7 @@ import com.itwillbs.service.MemberService;
 @RequestMapping("/member/*")
 public class MemberController {
 
+	// 네이버 api를 위한 KEY 값들
 	private static final String clientId = "kI5Lk9LlaxIv_GO0bt57";
 
 	private static final String clientSecret = "rJlw4TMlJH";
@@ -42,59 +44,18 @@ public class MemberController {
 
 	@GetMapping("/register") // 회원가입페이지로 이동
 	public String register() {
-		System.out.println("MemberController register()");
-
 		return "/member/register";
 	}
 
 	@PostMapping("/registerPro") // 회원가입페이지에 입력한 정보를 memberDTO에 저장
 	public String registerPro(MemberDTO memberDTO, HttpSession session) {
-		System.out.println("MemberController registerPro()");
-		System.out.println(memberDTO); // 정보 들어왔나 확인
-		memberService.registerMember(memberDTO);
+		memberService.registerMember(memberDTO); // 회원가입 진행
 
-//		session.setAttribute("member_id", memberDTO.getMember_id()); // 세션에 아이디값 저장
-		return "redirect:/member/login";
+		return "redirect:/member/login"; // 로그인페이지로
 	}
-						
-								     // 네이버회원가입 시 닉네임 정하기 
-	@GetMapping("/naverRegister")
-    public String naverRegister(HttpSession session, Model model) {
-        String member_id = (String) session.getAttribute("member_id");
-        MemberDTO memberDTO = memberService.getMemberId(member_id);
-
-        if (memberDTO == null) {
-            return "redirect:/error"; // 회원 정보가 없으면 에러 페이지로 이동 (버그 방지)
-        }
-
-        if (memberDTO.getMember_nickname() != null) {
-            return "redirect:/main/main"; // 이미 닉네임이 설정된 경우 -> 메인 페이지로 이동
-        }
-
-        model.addAttribute("memberDTO", memberDTO);
-        return "member/naverRegister"; // 새 사용자 -> 추가 정보 입력 페이지로 이동
-    }
-
-    @PostMapping("/naverRegisterPro")
-    public String naverRegisterPro(MemberDTO memberDTO, HttpSession session) {
-        String member_id = (String) session.getAttribute("member_id");
-        MemberDTO existingMember = memberService.getMemberId(member_id);
-
-        if (existingMember != null && existingMember.getMember_nickname() == null) {
-            // 닉네임을 업데이트하고 데이터베이스에 저장
-            existingMember.setMember_nickname(memberDTO.getMember_nickname()); // naverRegister에서 입력한 닉네임 네이버 정보에 저장
-            memberService.saveNaverNickname(existingMember); // 업데이트된 회원 정보 DB에 저장
-
-            session.setAttribute("member_nickname", existingMember.getMember_nickname()); // 메인 문구에 사용하기 위해 세션에 저장
-            return "redirect:/main/main"; // 메인 페이지로 이동
-        }
-
-        return "redirect:/error"; // 만약 문제가 발생한다면 에러 페이지로 이동
-    }
-	
+														     
 	@GetMapping("/login") // 로그인 페이지로 이동, 네이버 로그인 URL을 생성하여 뷰에 전달
 	public String login(Model model, HttpSession session) {
-		System.out.println("MemberController login");
 
 		try {
 			String redirectURIEncoded = URLEncoder.encode(redirectURI, "UTF-8"); //리다이렉트 uri 생성
@@ -116,7 +77,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/loginPro") // post방식, 실제 로그인 진행
-	public String loginPro(MemberDTO memberDTO, HttpSession session, Model model) {
+	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {
 		System.out.println("MemberController loginPro()");
 
 		MemberDTO memberDTO2 = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
@@ -125,15 +86,19 @@ public class MemberController {
 			// 아이디 비밀번호 일치 -> 로그인표시값을 session 저장 -> /member/main 이동
 			session.setAttribute("member_num", memberDTO2.getMember_num());
 			session.setAttribute("member_id", memberDTO2.getMember_id());
+			session.setAttribute("member_email", memberDTO2.getMember_email());
+			session.setAttribute("member_phone", memberDTO2.getMember_phone());
+			session.setAttribute("member_birth", memberDTO2.getMember_birth());
+			// 세션에 정보 저장
 
 			// /member/main 주소변경하면서 이동
 			return "redirect:/main/main";
 		} else {
 			// 아이디 비밀번호 틀림 => 주소변경하면서 /member/login 이동
 			// /member/login 주소변경하면서 이동
-			model.addAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-			System.out.println(memberDTO.getMember_num());
-			return "member/login";
+//			model.addAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			redirectAttributes.addFlashAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			return "redirect:/member/login";
 		}
 	}
 	// 네이버 api에 get요청을 보내고, 응답을 받아오는 메서드
@@ -168,8 +133,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/naverLogin") // 네이버 로그인 후 사용자 정보를 가져옴
-	public String naverLogin(HttpSession session, Model model) {
-		System.out.println("MemberController naverLogin()");
+	public String naverLogin(HttpSession session, Model model, HttpServletRequest request) {
 		// 세션에서 토큰을 가져옴(네이버 api와 통신하는데 사용)
 		String accessToken = (String) session.getAttribute("accessToken"); 
 		if (accessToken == null) {
@@ -186,12 +150,22 @@ public class MemberController {
 			// JSON 응답을 파싱하여 사용자 정보를 Map으로 변환
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, Object> userInfoMap = objectMapper.readValue(response, Map.class); // JSON -> java map
-			System.out.println(userInfoMap);
 			Map<String, Object> responseMap = (Map<String, Object>) userInfoMap.get("response"); // response에 해당하는 값만 
-			System.out.println(responseMap); // responseMap은 네이버에서 제공하는 사용자 정보
 			
 			MemberDTO memberDTO = new MemberDTO(responseMap);
 			session.setAttribute("member_id", memberDTO.getMember_id());
+			session.setAttribute("member_email", memberDTO.getMember_email());
+			session.setAttribute("member_phone", memberDTO.getMember_phone());
+			session.setAttribute("member_birth", memberDTO.getMember_birth());
+			// 세션에 정보 저장
+			
+			MemberDTO memberNum = memberService.getMemberNum(memberDTO.getMember_id()); // 네이버에서 받아온 정보로 member_num 얻기 위함
+			
+			
+			if (memberNum != null) {
+	            String member_num = memberNum.getMember_num();
+	            session.setAttribute("member_num", member_num);
+	        } // MemberDTO타입 -> String으로 세션에 저장
 			
 			
 			MemberDTO existingMember = memberService.getMemberId(memberDTO.getMember_id());
@@ -201,19 +175,23 @@ public class MemberController {
 	                // 이미 네이버로 가입된 회원인 경우
 	                session.setAttribute("userInfo", userInfoMap);
 	                model.addAttribute("memberDTO", existingMember);
-	                return "redirect:/member/main"; // 메인 페이지로 이동
+	                return "redirect:/main/main"; // 메인 페이지로 이동
 	            } else {
 	                // 이메일이 이미 사용 중이지만 다른 방법으로 가입된 경우
-	                return "redirect:/member/dupError"; // 에러 페이지로 리디렉션
+	            	model.addAttribute("msg","이미 가입된 이메일이 있습니다. 로그인 화면으로 이동하시겠습니까?");
+	    			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
+	    			model.addAttribute("targetURL", "login");
+	                return "member/dupError"; // 에러 페이지로 리디렉션
 	            }
 	        }
 			
 			memberDTO.setMember_sns("T"); // 첫 네이버 로그인 시에만 설정
 	        memberService.registerMember(memberDTO);
+	        MemberDTO memberDTO2 = memberService.memberCheck(memberDTO);
+	        session.setAttribute("member_num", memberDTO2.getMember_num());
 		        
 		    // session에 사용자 정보 저장
 			session.setAttribute("userInfo", userInfoMap);
-			System.out.println("naverLogin" + memberDTO.getMember_id());
 			model.addAttribute("memberDTO", memberDTO);
 
 			return "redirect:/member/naverRegister"; // 회원가입 완료 페이지로 이동
@@ -227,7 +205,6 @@ public class MemberController {
 	// code, state를 이용하여 토큰 요청
 	@GetMapping("/callback")
 	public String callback(@RequestParam String code, @RequestParam String state, HttpSession session) {
-		System.out.println("MemberController callback()");
 		// 엑세스 토큰을 요청하는 URL 생성
 		String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=" + clientId
 				+ "&client_secret=" + clientSecret + "&redirect_uri=" + redirectURI + "&code=" + code + "&state="
@@ -252,55 +229,81 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("/dupError")
+	@GetMapping("/naverRegister") // 네이버회원가입 시 닉네임 정하기
+    public String naverRegister(HttpSession session, Model model) {
+        String member_id = (String) session.getAttribute("member_id");
+        String member_num = (String) session.getAttribute("member_num");
+        MemberDTO memberDTO = memberService.getMemberId(member_id); // 세션에 정보들 저장
+
+        if (memberDTO == null) {
+            return "redirect:/error"; // 회원 정보가 없으면 에러 페이지로 이동 (버그 방지)
+        }
+
+        if (memberDTO.getMember_nickname() != null) {
+        	
+            return "redirect:/main/main"; // 이미 닉네임이 설정된 경우 -> 메인 페이지로 이동
+        }
+
+        model.addAttribute("memberDTO", memberDTO);
+        return "member/naverRegister"; // 새 사용자 -> 추가 정보 입력 페이지로 이동
+    }
+
+    @PostMapping("/naverRegisterPro") // 네이버 로그인 처음할 시 닉네임 설정 실제로 진행
+    public String naverRegisterPro(MemberDTO memberDTO, HttpSession session) {
+        String member_id = (String) session.getAttribute("member_id");
+        MemberDTO existingMember = memberService.getMemberId(member_id);
+
+        if (existingMember != null && existingMember.getMember_nickname() == null) {
+            // 닉네임을 업데이트하고 데이터베이스에 저장
+            existingMember.setMember_nickname(memberDTO.getMember_nickname()); // naverRegister에서 입력한 닉네임 네이버 정보에 저장
+            memberService.saveNaverNickname(existingMember); // 업데이트된 회원 정보 DB에 저장
+
+            session.setAttribute("member_nickname", existingMember.getMember_nickname()); // 메인 문구에 사용하기 위해 세션에 저장
+            return "redirect:/main/main"; // 메인 페이지로 이동
+        }
+
+        return "redirect:/error"; // 만약 문제가 발생한다면 에러 페이지로 이동
+    }
+	
+	@GetMapping("/dupError") // 중복일 경우 메시지 출력하기 위함
 	public String dupError() {
-		System.out.println("MemberController dupError()");
 		
 		return "member/dupError";
 	}
 	
-	@GetMapping("/findId")
-	public String findId() {
-		System.out.println("MemberController findId()");
-		
+	@GetMapping("/findId") // 아이디 찾기 페이지
+	public String findId() {		
 		
 		return "member/findId";
 	}
 	
-	@PostMapping("/informId")
+	@PostMapping("/informId") // 아이디를 알려주는 페이지
 	public String informId(MemberDTO memberDTO, Model model, RedirectAttributes redirectAttributes) {
-		System.out.println("MemberController informId()");
-		System.out.println(memberDTO);
-		MemberDTO memberDTO2 = memberService.findId(memberDTO);
-		System.out.println(memberDTO2);
+		MemberDTO memberDTO2 = memberService.findId(memberDTO); // 아이디 찾기
 		
 		if (memberDTO2 != null && memberDTO2.getMember_id() != null && memberDTO2.getMember_sns() == null) {
-			model.addAttribute("memberDTO2", memberDTO2);
+			model.addAttribute("memberDTO2", memberDTO2); // 모델에 추가해서 화면에서 볼 수 있게 함
 			return "member/informId";
 	    } else {
 	    	redirectAttributes.addFlashAttribute("error", "입력하신 정보에 해당하는 계정이 없습니다. 네이버 계정의 경우에는 네이버 사이트의 아이디/비밀번호 찾기를 이용해 주세요.");
-	        return "redirect:/member/findId";
+	        return "redirect:/member/findId"; // 아이디가 없거나, 네이버 아이디를 찾으려는 경우 메시지 출력
 	    }
 		
 		
 	}
 	
-	@GetMapping("/findPass")
-	public String findPass() {
-		System.out.println("MemberController findPass()");
-		
+	@GetMapping("/findPass") // 비밀번호 찾기 페이지
+	public String findPass() {		
 		
 		return "member/findPass";
 	}
 	
-	@PostMapping("/tempPass")
+	@PostMapping("/tempPass") // 임시비밀번호를 알려주는 페이지
 	public String tempPass(MemberDTO memberDTO, Model model, RedirectAttributes redirectAttributes) {
-		System.out.println("MembmerController tempPass()");
 		
-		MemberDTO memberDTO2 = memberService.findPass(memberDTO);
-		System.out.println(memberDTO2);
+		MemberDTO memberDTO2 = memberService.findPass(memberDTO); // 아이디 찾기
 		
-		if(memberDTO2 != null && memberDTO2.getMember_pass() != null) {
+		if(memberDTO2 != null && memberDTO2.getMember_pass() != null) { // 비밀번호 랜덤으로 생성
 			String pattern = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
 			SecureRandom srandom = new SecureRandom();
 			int length = srandom.nextInt(9) + 12; // 12에서 20 사이의 난수 생성
@@ -314,15 +317,14 @@ public class MemberController {
 			}
         
 			String tempPassword = stringBuilder.toString();
-			System.out.println("임시 비밀번호: " + tempPassword);
         
-			memberService.getTempPass(memberDTO.getMember_id(), tempPassword);
+			memberService.getTempPass(memberDTO.getMember_id(), tempPassword); // 임시비밀번호로 비밀번호 변경
 			model.addAttribute("tempPassword", tempPassword);
 			
 			return "member/tempPass";
 			
 		}else {
-			redirectAttributes.addFlashAttribute("error", "입력하신 정보에 해당하는 계정이 없습니다.");
+			redirectAttributes.addFlashAttribute("error", "입력하신 정보에 해당하는 계정이 없습니다. 네이버 계정의 경우에는 네이버 사이트의 아이디/비밀번호 찾기를 이용해 주세요.");
 		    return "redirect:/member/findPass"; // URL을 변경하면서 사용자 정보를 다시 입력하도록 유도
 		}
 		
@@ -330,10 +332,9 @@ public class MemberController {
 
 	@GetMapping("/logout") // 로그아웃 진행
 	public String logout(HttpSession session) {
-		System.out.println("MemberController logout()");
 
 		session.invalidate(); // 로그아웃처리
 
-		return "redirect:/member/main";
+		return "redirect:/main/main";
 	}
 }

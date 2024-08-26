@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -33,33 +34,29 @@ public class StoreController {
 	private StoreService storeService;
 
 	
-	 @GetMapping("/storeMain")
-	    public String main(HttpSession session, Model model) {
-	        System.out.println("StoreController main()");
+	@GetMapping("/storeMain") // 스토어 메인화면
+    public String main(HttpSession session, Model model) {
 	        
-	        String member_num = (String) session.getAttribute("member_num");
-		    System.out.println("storemain: " + member_num);
+        String member_num = (String) session.getAttribute("member_num"); // 세션에서 정보 가져옴
 	        			
-			List<StoreDTO> productList = storeService.getProduct();
+		List<StoreDTO> productList = storeService.getProduct(); // 상품목록 확인하기 위해 생성
 			
-			System.out.println("ProductList: " + productList);
 			
-			model.addAttribute("productList", productList);
+		model.addAttribute("productList", productList); // 모델에 추가, 페이지에서 확인
 			
-			model.addAttribute("categories", storeService.getGlobalCategories());
+		model.addAttribute("categories", storeService.getGlobalCategories()); // 메뉴값 보기 위함
 
-	        return "store/storeMain";
-	    }
+        return "store/storeMain";
+    }
 	
 	@GetMapping("/productDetail") // 상품상세페이지
 	public String productDetail(@RequestParam("st_num") String st_num, Model model) {
-		System.out.println("StoreController productDetail()");
 		
-		StoreDTO storeDTO = storeService.getProductByNum(st_num);
+		StoreDTO storeDTO = storeService.getProductByNum(st_num); // 상품번호에 해당하는 상품 확인
 		
 		
-		model.addAttribute("storeDTO", storeDTO);
-		model.addAttribute("categories", storeService.getGlobalCategories());
+		model.addAttribute("storeDTO", storeDTO); // 페이지에서 보기 위함
+		model.addAttribute("categories", storeService.getGlobalCategories()); // 메뉴값 보기 위함
 		
 		return "store/productDetail";
 		
@@ -67,66 +64,56 @@ public class StoreController {
 	
 	@GetMapping("/productCategory") // 상단 메뉴 누를시 해당하는 상품 모음 페이지로 이동
 	public String categoryDetail(@RequestParam("category") String category, Model model) {
-	    System.out.println("StoreController categoryDetail()");
 	    
 	    
 	    // 선택된 카테고리에 속하는 모든 상품을 가져옴
 	    List<StoreDTO> productList = storeService.productCategory(category);
 	    
 	    model.addAttribute("productList", productList);
-	    model.addAttribute("category", category);
-	    model.addAttribute("categories", storeService.getGlobalCategories());
+	    model.addAttribute("category", category); // 모델에 추가, 페이지에서 확인
+	    model.addAttribute("categories", storeService.getGlobalCategories()); // 메뉴값 보기 위함
 	    
 	    return "store/productCategory"; 
 	}
 	
-	@PostMapping("/addCart")
+	@PostMapping("/addCart") // 장바구니에 추가하는 메서드
 	public String addCart(CartDTO cartDTO, HttpSession session) {
-		
-		System.out.println("StoreContorller addCart()");
-		
-//		String member_num = (String)session.getAttribute("member_num");
-		
-//		CartDTO cartDTO = new CartDTO();
-//	    cartDTO.setMember_num(member_num);
-//	    cartDTO.setSt_num(st_num);
-//	    cartDTO.setCart_quantity(cart_quantity);
 
 	    storeService.addCart(cartDTO);
-	    System.out.println(cartDTO);
 	    
-	    return "redirect:/store/storeCart";
+	    return "redirect:/store/storeCart"; // 장바구니 화면으로 이동
 	}
  	
-	@GetMapping("/storeCart")
-	public String storeCart(HttpSession session, Model model) {
-	    System.out.println("StoreController StoreCart()");
+	@GetMapping("/storeCart") // 장바구니 페이지
+	public String storeCart(HttpSession session, Model model, HttpServletRequest request) {
 	    
-	    String member_num = (String) session.getAttribute("member_num");
+	    String member_num = (String) session.getAttribute("member_num"); // 회원번호에 해당하는 장바구니 조회하기 위함
 
-	    if (member_num != null) {
-	        MemberDTO memberDTO = new MemberDTO();
-	        memberDTO.setMember_num(member_num);
+	    if (member_num != null) { // 회원번호가 조회가능한 경우
+	        MemberDTO memberDTO = storeService.getMemberInfo(member_num);
 	        
-	        List<CartDTO> cartItemList = storeService.getCartItem(member_num);
+	        List<CartDTO> cartItemList = storeService.getCartItem(member_num); // 장바구니의 상품 목록
 	        
 	        model.addAttribute("memberDTO", memberDTO);
 	        model.addAttribute("cartItemList", cartItemList);
+	        model.addAttribute("categories", storeService.getGlobalCategories());
 	    } else {
 	        // 로그인을 하지 않은 경우 또는 세션이 만료된 경우에 대한 처리
-	        // 예를 들어, 로그인 페이지로 리디렉션할 수 있습니다.
-	        return "redirect:/member/login";
+	    	model.addAttribute("msg","로그인이 필요합니다. 로그인 하시겠습니까?");
+			// targetURL 속성명으로 로그인 폼 페이지 서블릿 주소 저장
+			model.addAttribute("targetURL", request.getContextPath()+"/member/login");
+	        return "store/storeCartMsg"; // 메시지 출력하기 위함
 	    }
 	    
 	    return "store/storeCart";
 	}
+	// ------------------------ 메뉴코드 관리하는 코드들 ---------------------------------
 	
-	@GetMapping("/controlmenu")
+	@GetMapping("/controlmenu") // 메뉴관리화면
 	public String controlmenu(Model model) {
-
-		List<CodeDTO> codeList = storeService.getCodeList();
-		List<CodeDetailDTO> codeDetailList = storeService.getCodeDetail();
-        System.out.println("Code List: " + codeList); // 디버깅 로그
+		
+		List<CodeDTO> codeList = storeService.getCodeList(); // 대분류 코드 조회
+		List<CodeDetailDTO> codeDetailList = storeService.getCodeDetail(); // 상세분류 코드 조회
         // Model에 데이터 추가
         model.addAttribute("codeList", codeList);
         model.addAttribute("codeDetailList", codeDetailList);
@@ -135,19 +122,8 @@ public class StoreController {
 		return "store/controlmenu";
 	}
 	
-	@PostMapping("/addCode")
+	@PostMapping("/addCode") // 대분류 코드 추가 
 	public String addCode(CodeDTO codeDTO, RedirectAttributes redirectAttributes) {
-		System.out.println("StoreController addCode()");
-		
-		if(storeService.codeIdCheck(codeDTO.getCode_id()) != null) {
-			redirectAttributes.addFlashAttribute("errorMessage", "Code ID가 이미 존재합니다.");
-	        return "redirect:/store/controlmenu";
-		}
-		
-		if(storeService.codeValCheck(codeDTO.getCode_value()) != null) {
-			redirectAttributes.addFlashAttribute("errorMessage", "Code Value가 이미 존재합니다.");
-	        return "redirect:/store/controlmenu";
-		}
 		
 		storeService.addCode(codeDTO);
 		redirectAttributes.addFlashAttribute("message", "코드가 성공적으로 등록되었습니다.");
@@ -155,14 +131,8 @@ public class StoreController {
 		return "redirect:/store/controlmenu";
 	}
 	
-	@PostMapping("/addDetailCode")
+	@PostMapping("/addDetailCode") // 상세분류 코드 추가
 	public String addDetailCode(CodeDetailDTO codeDetailDTO, RedirectAttributes redirectAttributes) {
-		System.out.println("StoreController addDetailCode()");
-		
-		if(storeService.codeDetailCheck(codeDetailDTO) != null) {
-			redirectAttributes.addFlashAttribute("errorMessage", "이 상세 메뉴 코드는 이미 존재합니다.");
-	        return "redirect:/store/controlmenu";
-		}
 		
 		storeService.addDetailCode(codeDetailDTO);
 		redirectAttributes.addFlashAttribute("message", "코드가 성공적으로 등록되었습니다.");
@@ -174,55 +144,21 @@ public class StoreController {
 		return "redirect:/store/controlmenu";
 	}
  	
-	 @GetMapping("/storeMenu")
-	    public String showStoreMenu(Model model) {
-	        System.out.println("StoreController showStoreMenu()");
-
-	        // 카테고리 리스트를 가져와서 모델에 추가
-	        List<CodeDetailDTO> categories = storeService.getCategories("ST");
-	        System.out.println(categories);
-	        model.addAttribute("categories", categories);
-
-//	        // 장바구니와 기프트콘 카운트 등의 데이터를 가져와서 모델에 추가할 수 있음
-//	        // 예를 들어, 장바구니와 기프트콘의 수를 하드코딩하거나 실제 서비스를 통해 가져올 수 있음
-//	        int giftConCount = 0; // 예시, 실제 데이터로 대체
-//	        int cartViewCount = 0; // 예시, 실제 데이터로 대체
-//	        model.addAttribute("giftConCount", giftConCount);
-//	        model.addAttribute("cartViewCount", cartViewCount);
-
-	        return "store/storeMenu"; // storeMenu.jsp를 반환
-	    }
-	 
-	 @PostMapping("/processPayment")
-	    @ResponseBody
-	    public String processPayment(@RequestBody StorePaymentDTO paymentDTO) {
-	        try {
-	            storeService.processPayment(paymentDTO);
-	            System.out.println("paymentDTO: " + paymentDTO);
-	            return "success";
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return "fail";
-	        }
-	    }
-	 
-	 @PostMapping("/store/removeFromCart")
-	 	@ResponseBody
-	    public String removeFromCart(@RequestBody CartDTO cartDTO) {
-	        try {
-	        	System.out.println("Received CartDTO: " + cartDTO);
-	            // storeService의 deleteCartItem 메서드를 호출하여 장바구니에서 삭제
-	            storeService.deleteCartItem(cartDTO.getCart_num(), cartDTO.getMember_num());
-	            return "success";
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return "fail";
-	        }
-	    }
+	// ---------------------------------------------------------------------------------
 	
-//	 @GetMapping("/NewFile1")
-//	 	public String NewFile1() {
-//		 
-//		 return "store/NewFile1";
-//	 }
+	
+	@GetMapping("/storeMenu") // 스토어 메뉴 보여주는 화면 (include)
+    public String showStoreMenu(Model model) {
+
+        // 카테고리 리스트를 가져와서 모델에 추가
+        List<CodeDetailDTO> categories = storeService.getCategories("ST");
+        
+        model.addAttribute("categories", categories);
+
+        return "store/storeMenu"; // storeMenu.jsp를 반환
+    }
+	 
+
+	
+
 }

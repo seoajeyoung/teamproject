@@ -155,7 +155,7 @@ p {
     height: 28px;
     font-size: 0;
     border: 1px solid #bdc1c8;
-    background: transparent url(./../../images/giftstore/common/bg_minusBtn.png) center center scroll no-repeat;
+    background: transparent url(https://img.cgv.co.kr/R2014/images/giftstore/common/bg_minusBtn.png) center center scroll no-repeat;
 }
 
 .com_form_number .com_form_count {
@@ -178,7 +178,7 @@ p {
     height: 28px;
     font-size: 0;
     border: 1px solid #bdc1c8;
-    background: transparent url(./../../images/giftstore/common/bg_plusBtn.png) center center scroll no-repeat;
+    background: transparent url(https://img.cgv.co.kr/R2014/images/giftstore/common/bg_plusBtn.png) center center scroll no-repeat;
 }
 
 .com_form_number .com_total_price {

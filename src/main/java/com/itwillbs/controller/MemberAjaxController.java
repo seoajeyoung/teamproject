@@ -20,10 +20,8 @@ public class MemberAjaxController {
 	
 	@GetMapping("/member/idCheck") // 아이디 중복확인 버튼 눌렀을 때
 	public ResponseEntity<String> idCheck(@RequestParam("member_id") String id) {
-		System.out.println("AjaxController idCheck() @@@@@@@@@@@@@@@@@@");
 		
 		MemberDTO memberDTO = memberService.getMemberId(id); // 아이디값 memberDTO에 저장
-		System.out.println("체크: " + memberDTO); // 테스트
 		
 		String result = "";
 		if(memberDTO != null) { // 아이디값 중복될 시
@@ -38,10 +36,8 @@ public class MemberAjaxController {
 	
 	@GetMapping("/member/nickCheck") // 닉네임 중복확인 버튼 눌렀을 때(이하 내용 idCheck와 같음)
 	public ResponseEntity<String> nickCheck(@RequestParam("member_nickname") String nickname) {
-		System.out.println("AjaxController nickCheck() @@@@@@@@@@@@@@@@@@");
 		
 		MemberDTO memberDTO = memberService.getMemberNickname(nickname);
-		System.out.println("체크: " + memberDTO);
 		
 		String result = "";
 		if(memberDTO != null) {
@@ -54,12 +50,10 @@ public class MemberAjaxController {
 		return entity;
 	}
 	
-	@GetMapping("/member/phoneCheck") // 닉네임 중복확인 버튼 눌렀을 때(이하 내용 idCheck와 같음)
+	@GetMapping("/member/phoneCheck") // 핸드폰 번호 중복확인 버튼 눌렀을 때(이하 내용 idCheck와 같음)
 	public ResponseEntity<String> phoneCheck(@RequestParam("member_phone") String phone) {
-		System.out.println("AjaxController phoneCheck() @@@@@@@@@@@@@@@@@@");
 		
 		MemberDTO memberDTO = memberService.getMemberPhone(phone);
-		System.out.println("체크: " + memberDTO);
 		
 		String result = "";
 		if(memberDTO != null) {
