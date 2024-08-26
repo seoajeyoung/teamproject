@@ -78,9 +78,9 @@ public class MemberController {
 
 	@PostMapping("/loginPro") // post방식, 실제 로그인 진행
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {
-		System.out.println("MemberController loginPro()");
-
+		System.out.println("memberDTO:" + memberDTO);
 		MemberDTO memberDTO2 = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
+		System.out.println(memberDTO2);
 
 		if (memberDTO2 != null) {
 			// 아이디 비밀번호 일치 -> 로그인표시값을 session 저장 -> /member/main 이동
@@ -96,7 +96,6 @@ public class MemberController {
 		} else {
 			// 아이디 비밀번호 틀림 => 주소변경하면서 /member/login 이동
 			// /member/login 주소변경하면서 이동
-//			model.addAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			redirectAttributes.addFlashAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/member/login";
 		}
