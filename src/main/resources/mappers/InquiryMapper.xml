@@ -6,7 +6,7 @@
 
 	<insert id="insertInquiry">
 		INSERT INTO INQUIRY(IQ_NUM, MEM_NUM, IQ_NAME, IQ_DETAIL, IQ_PICTURE, IQ_DATE, IQ_TYPE)
-		VALUES(#{IQ_NUM},#{MEM_NUM},#{IQ_NAME},#{IQ_DETAIL}, #{IQ_PICTURE}, #{IQ_DATE},#{IQ_TYPE})
+		VALUES(#{IQ_NUM},#{member_num},#{IQ_NAME},#{IQ_DETAIL}, #{IQ_PICTURE}, #{IQ_DATE},#{IQ_TYPE})
 	</insert>
 	
 	<select id="getMaxNum" resultType="java.lang.Integer">
@@ -50,7 +50,7 @@
 <!-- 	나의문의글 갯수 -->
 	<select id="getMyInquiryCount" resultType="java.lang.Integer" parameterType="Map">
 		select count(*) from INQUIRY
-		WHERE MEM_NUM = #{MEM_NUM}			
+		WHERE MEM_NUM = #{member_num}			
 	</select>
 	
 	<!-- 관리자 전체,비공개 모두 보이게 -->
@@ -157,7 +157,7 @@
  	  FROM INQUIRY I
  LEFT JOIN ANSWER A
 		ON I.IQ_NUM = A.IQ_NUM
- 	 WHERE I.MEM_NUM = #{MEM_NUM}
+ 	 WHERE I.MEM_NUM = #{member_num}
  	 ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
 	</select>
@@ -173,7 +173,7 @@
 	  LEFT JOIN MEMBERS M
 		ON I.MEM_NUM = M.member_num
 	 WHERE CAST(I.IQ_NUM AS UNSIGNED) < #{IQ_NUM}
-     and I.MEM_NUM = #{MEM_NUM}
+     and I.MEM_NUM = #{member_num}
 	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
@@ -188,7 +188,7 @@
 	  LEFT JOIN MEMBERS M
 		ON I.MEM_NUM = M.member_num
 	 WHERE CAST(I.IQ_NUM AS UNSIGNED) > #{IQ_NUM}
-     and I.MEM_NUM = #{MEM_NUM}
+     and I.MEM_NUM = #{member_num}
 	 ORDER BY ABS(CAST(I.IQ_NUM AS UNSIGNED) - #{IQ_NUM})
 	 LIMIT 1;
 	 ]]>
