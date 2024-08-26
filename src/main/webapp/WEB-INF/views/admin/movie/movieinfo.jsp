@@ -77,10 +77,11 @@ function deleteMovie(movieNum) {
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -100,21 +101,21 @@ function deleteMovie(movieNum) {
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="4">${movieDTO.title} 상세정보</th>
-											<th colspan="2">영화 포스터</th>
+											<th colspan="4">${movieDTO.title}상세정보</th>
+											<!-- 											<th colspan="2">영화 포스터</th> -->
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<th>영화코드</th>
-											<td>${movieDTO.MOVIE_NUM}</td>
+											<td style="width: 536px;">${movieDTO.MOVIE_NUM}</td>
 											<th>영화제목</th>
 											<td>${movieDTO.title}</td>
-											<td colspan="2" rowspan="6">
-												<!-- 포스터 --> <img
-												src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg"
-												onerror="errorImage(this)" width="300">
-											</td>
+											<!-- 											<td colspan="2" rowspan="6"> -->
+											<!-- 												포스터 <img -->
+											<%-- 												src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg" --%>
+											<!-- 												onerror="errorImage(this)" width="300"> -->
+											<!-- 											</td> -->
 										</tr>
 										<tr>
 											<th>영문제목</th>
@@ -132,12 +133,12 @@ function deleteMovie(movieNum) {
 											<th>상영등급</th>
 											<td>${movieDTO.rating}</td>
 											<th>런닝타임</th>
-											<td>${movieDTO.runtime}</td>
+											<td>${movieDTO.runtime}분</td>
 										</tr>
 										<tr>
 											<th>누적관객수</th>
 											<td>${movieDTO.audiAcc}</td>
-											<th>등록일자</th>
+											<th>개봉일자</th>
 											<td>${movieDTO.releaseDate}</td>
 										</tr>
 										<tr>
@@ -164,9 +165,9 @@ function deleteMovie(movieNum) {
 								<div class="button-container" style="text-align: right;">
 									<a
 										href="${pageContext.request.contextPath}/admin/movie/movieupdate?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
-										class="btn btn-success btn-user">영화정보수정</a>
+										class="btn btn-success btn-user" style="font-weight:bold;">영화정보수정</a>
 									<button type="button" class="btn btn-danger btn-user"
-										onclick="deleteMovie(${movieDTO.MOVIE_NUM})">영화정보삭제</button>
+										onclick="deleteMovie(${movieDTO.MOVIE_NUM})" style="font-weight:bold;">영화정보삭제</button>
 								</div>
 
 							</div>

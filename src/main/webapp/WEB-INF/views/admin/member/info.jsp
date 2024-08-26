@@ -53,19 +53,20 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
-						회원 상세정보</h1>
-					<hr style="margin-bottom: 20px;margin-top: 30px;">
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">회원 상세정보</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
@@ -81,7 +82,7 @@
 									<tbody>
 										<tr>
 											<th>회원번호</th>
-											<td>${memberDTO.member_num}</td>
+											<td style="width: 291px;">${memberDTO.member_num}</td>
 											<th>아이디</th>
 											<td>${memberDTO.member_id}</td>
 											<th>회원등급</th>
@@ -139,10 +140,10 @@
 								<div class="button-container" style="text-align: right;">
 									<a
 										href="${pageContext.request.contextPath}/admin/member/update?member_num=${memberDTO.member_num}"
-										class="btn btn-success btn-user">회원정보수정</a> 
+										class="btn btn-success btn-user" style="font-weight: bold;">회원정보수정</a>
 									<a
 										href="${pageContext.request.contextPath}/admin/member/memberdelete?member_num=${memberDTO.member_num}"
-										class="btn btn-danger btn-user">회원정보삭제</a>
+										class="btn btn-danger btn-user" style="font-weight: bold;">회원정보삭제</a>
 								</div>
 
 							</div>

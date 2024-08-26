@@ -1,5 +1,6 @@
 package com.itwillbs.domain;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +36,6 @@ public class AdminDTO {
 		this.email_content = email_content;
 	}
 
-
 // ===========================================================================================================================
 
 	private String MOVIE_NUM;
@@ -58,7 +58,6 @@ public class AdminDTO {
 	private Date releaseDte;
 	private String movieNm;
 	private String rank;
-	
 
 	public String getMovieNm() {
 		return movieNm;
@@ -403,7 +402,16 @@ public class AdminDTO {
 	private String TP_PRICE;
 	private String TP_TYPE;
 	private String TP_PAYMENT;
+	private String TP_TIME;
 	
+
+	public String getTP_TIME() {
+		return TP_TIME;
+	}
+
+	public void setTP_TIME(String TP_TIME) {
+		this.TP_TIME = TP_TIME;
+	}
 
 	public String getTP_TYPE() {
 		return TP_TYPE;
@@ -461,7 +469,6 @@ public class AdminDTO {
 		this.member_id = member_id;
 	}
 
-
 	public String getTP_SEAT() {
 		return TP_SEAT;
 	}
@@ -471,15 +478,12 @@ public class AdminDTO {
 	}
 
 //===========================================================================================================================	
-	
-	
+
 	private String sp_num;
 	private String payment_total_price;
 	private String payment_date;
 	private String ST_CONST;
 	private String ST_PERIOD;
-	
-	
 
 	public String getST_PERIOD() {
 		return ST_PERIOD;
@@ -520,37 +524,113 @@ public class AdminDTO {
 	public void setST_CONST(String ST_CONST) {
 		this.ST_CONST = ST_CONST;
 	}
-	
-	//===========================================================================================================================
-	
-	private String SSALES_DATE;
-	private String STORE_TOTALSALES;
 
-	public String getSSALES_DATE() {
-		return SSALES_DATE;
+	// ===========================================================================================================================
+
+	private String SALES_DATE;
+	private BigDecimal STORE_TOTALSALES;
+	private BigDecimal MOVIE_TOTALSALES;
+	private BigDecimal ALL_TOTALSALES;
+	
+	public BigDecimal getALL_TOTALSALES() {
+		return ALL_TOTALSALES;
 	}
 
-	public void setSSALES_DATE(String SSALES_DATE) {
-		this.SSALES_DATE = SSALES_DATE;
+	public void setALL_TOTALSALES(BigDecimal ALL_TOTALSALES) {
+		this.ALL_TOTALSALES = ALL_TOTALSALES;
 	}
 
-	public String getSTORE_TOTALSALES() {
+	public BigDecimal getMOVIE_TOTALSALES() {
+		return MOVIE_TOTALSALES;
+	}
+
+	public void setMOVIE_TOTALSALES(BigDecimal mOVIE_TOTALSALES) {
+		MOVIE_TOTALSALES = mOVIE_TOTALSALES;
+	}
+
+	public String getSALES_DATE() {
+		return SALES_DATE;
+	}
+
+	public void setSALES_DATE(String SALES_DATE) {
+		this.SALES_DATE = SALES_DATE;
+	}
+
+	public BigDecimal getSTORE_TOTALSALES() {
 		return STORE_TOTALSALES;
 	}
 
-	public void setSTORE_TOTALSALES(String STORE_TOTALSALES) {
+	public void setSTORE_TOTALSALES(BigDecimal STORE_TOTALSALES) {
 		this.STORE_TOTALSALES = STORE_TOTALSALES;
+	}
+
+	// ===========================================================================================================================
+	
+	private String JOINMONTH;
+	private int JOINMEMBER_COUNT;
+	private String AGE_GROUP;
+	private int AGE_GROUP_COUNT;
+	private String member_input;
+	private String member_birth;
+	
+	
+
+	public String getMember_input() {
+		return member_input;
+	}
+
+	public void setMember_input(String member_input) {
+		this.member_input = member_input;
+	}
+
+	public String getMember_birth() {
+		return member_birth;
+	}
+
+	public void setMember_birth(String member_birth) {
+		this.member_birth = member_birth;
+	}
+
+	public String getJOINMONTH() {
+		return JOINMONTH;
+	}
+
+	public void setJOINMONTH(String JOINMONTH) {
+		this.JOINMONTH = JOINMONTH;
+	}
+
+	public int getJOINMEMBER_COUNT() {
+		return JOINMEMBER_COUNT;
+	}
+
+	public void setJOINMEMBER_COUNT(int JOINMEMBER_COUNT) {
+		this.JOINMEMBER_COUNT = JOINMEMBER_COUNT;
+	}
+
+	public String getAGE_GROUP() {
+		return AGE_GROUP;
+	}
+
+	public void setAGE_GROUP(String AGE_GROUP) {
+		this.AGE_GROUP = AGE_GROUP;
+	}
+
+	public int getAGE_GROUP_COUNT() {
+		return AGE_GROUP_COUNT;
+	}
+
+	public void setAGE_GROUP_COUNT(int AGE_GROUP_COUNT) {
+		this.AGE_GROUP_COUNT = AGE_GROUP_COUNT;
 	}
 
 	@Override
 	public String toString() {
-		return "AdminDTO [SSALES_DATE=" + SSALES_DATE + ", STORE_TOTALSALES=" + STORE_TOTALSALES + "]";
+		return "AdminDTO [movieNm=" + movieNm + ", rank=" + rank + "]";
 	}
-	
-	
-	
-	
-	
-	
 
+	
+	
+	
 }
+	
+	

@@ -145,10 +145,10 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th scope="col">구매번호</th>
+										<th scope="col">결제번호</th>
 										<th scope="col">상품명</th>
 										<th scope="col">상품타입</th>
-										<th scope="col">구매시간</th>
+										<th scope="col">결제시간</th>
 										<th scope="col">비고</th>
 									</tr>
 								</thead>

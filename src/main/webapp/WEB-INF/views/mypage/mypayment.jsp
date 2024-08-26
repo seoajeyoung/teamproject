@@ -149,7 +149,7 @@
 										<th scope="col">예매번호</th>
 										<th scope="col">영화명</th>
 										<th scope="col">상영관</th>
-										<th scope="col">상영시간</th>
+										<th scope="col">결제날짜</th>
 										<th scope="col">비고</th>
 									</tr>
 								</thead>
@@ -160,7 +160,7 @@
 											<td>${list.TP_NUM}</td>
 											<td>${list.title}</td>
 											<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
-											<td>${list.SC_TIME }</td>
+											<td>${list.TP_TIME }</td>
 											<td><a
 												href="${pageContext.request.contextPath}/mypage/mypaymentinfo?TP_NUM=${list.TP_NUM}"
 												class="round inblack" title="상세정보" id="btn_info"

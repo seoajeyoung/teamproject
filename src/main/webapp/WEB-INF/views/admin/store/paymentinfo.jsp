@@ -76,29 +76,31 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="10">상세정보</th>
+											<th colspan="4">상세정보</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<th colspan="2">결제번호</th>
-											<td colspan="4">${adminDTO.sp_num}</td>
+											<th>결제번호</th>
+											<td style="width: 556px;">${adminDTO.sp_num}</td>
 											<th>회원ID</th>
-											<td colspan="3">${adminDTO.member_id}</td>
+											<td>${adminDTO.member_id}</td>
 										</tr>
 										<tr>
-											<th colspan="2">상품명</th>
-											<td colspan="4">${adminDTO.ST_NAME}</td>
+											<th>결제가격</th>
+											<td>${adminDTO.payment_total_price}원</td>
+											<th>결제시간</th>
+											<td>${adminDTO.payment_date}</td>
+										</tr>
+										<tr>
+											<th>상품명</th>
+											<td>${adminDTO.ST_NAME}</td>
 											<th>상품타입</th>
 											<td>${adminDTO.ST_TYPE}</td>
-											<th>상품구성</th>
-											<td>${adminDTO.ST_CONST}</td>
 										</tr>
 										<tr>
-											<th colspan="2">결제가격</th>
-											<td colspan="4">${adminDTO.payment_total_price}원</td>
-											<th colspan="2">결제시간</th>
-											<td colspan="2">${adminDTO.payment_date}</td>
+											<th>상품구성</th>
+											<td colspan="3">${adminDTO.ST_CONST}</td>
 										</tr>
 									</tbody>
 
@@ -131,7 +133,7 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-	
+
 
 	<script>
 		document.getElementById('btn_cancel').addEventListener('click',

@@ -237,6 +237,9 @@ $(document).on('click', '.btn-close', function() {
 </style>
 </head>
 <body>
+<jsp:include page="../ticket/top.jsp" />
+
+
 		<!-- Contents Area -->
 	<div id="contents"> 
 	
@@ -272,7 +275,7 @@ $(document).on('click', '.btn-close', function() {
             <select id="order_type" name="order-type">
 				<option title="현재 선택됨" selected="selected" value="SORTRATE">예매율순</option>
                 <option value="SORTLIKED">평점순</option>
-                <option value="SORTRANK">관람객순</option>
+                <option value="SORTRANK">랭킹순</option>
             </select>
             <button type="button" class="sort_btn round gray"><span>GO</span></button>
         </div>

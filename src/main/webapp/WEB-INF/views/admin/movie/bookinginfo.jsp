@@ -95,18 +95,20 @@
 											<td>${adminDTO.TP_SEAT}</td>
 										</tr>
 										<tr>
-											<th colspan="2">결제가격</th>
-											<td colspan="4">${adminDTO.TP_PRICE}원</td>
+											<th colspan="2">예매날짜</th>
+											<td colspan="4">${adminDTO.TP_TIME}</td>
 											<th>상영시작시간</th>
 											<td>${adminDTO.SC_TIME}</td>
 											<th>상영종료시간</th>
 											<td>${adminDTO.SC_TIME_END}</td>
 										</tr>
 										<tr>
-											<th colspan="2">결제유형</th>
-											<td colspan="4">${adminDTO.TP_TYPE}</td>
+											<th colspan="2">결제가격</th>
+											<td colspan="4">${adminDTO.TP_PRICE}원</td>
+											<th>결제유형</th>
+											<td>${adminDTO.TP_TYPE}</td>
 											<th>결제상태</th>
-											<td colspan="3">
+											<td>
 											<c:choose>
 												<c:when test="${adminDTO.TP_PAYMENT == 'T'}">
                     								결제완료

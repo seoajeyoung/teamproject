@@ -334,19 +334,21 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/myMovie")
 	public String myMovie(HttpSession session, Model model) {
 		String id = (String)session.getAttribute("id");
-		if(id == null) return "/movie/back";
+		if(id == null) return "/movie/idBack";
 		Map<String, Object> data = movieService.getMyMovieCount(id);
 		model.addAttribute("count", data);
-		return "/movie/bookmarkMovie";
+		return "/movie/myMovie";
 	}
 	
 	@GetMapping("/myMovieList")
 	@ResponseBody
-	public List<Map<String, Object>> myMovieData(@RequestParam Map<String, String> rMap, HttpSession session) {
+	public List<Map<String, Object>> myMovieList(@RequestParam Map<String, String> rMap, HttpSession session) {
 		String id = (String)session.getAttribute("id");
 		rMap.put("MEMBER_ID", id);
 		List<Map<String, Object>> list = movieService.getMyMovieList(rMap);
-		return list;	
+		System.out.println(rMap);
+		System.out.println(list);
+		return list;
 	}
 	
 	

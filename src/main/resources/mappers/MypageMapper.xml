@@ -55,6 +55,7 @@
 		TP.TP_SEAT,
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
+		TP.TP_TIME,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,
@@ -85,7 +86,7 @@
 			AND (
 			TP.TP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR
-			S.SC_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
+			TP.TP_TIME LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR T.TH_REGION LIKE
 			CONCAT('%', #{pageDTO.search}, '%')
 			OR T.TH_NAME LIKE CONCAT('%',
@@ -109,6 +110,7 @@
 		TP.TP_SEAT,
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
+		TP.TP_TIME,
 		M.member_id,
 		S.SC_TIME,
 		S.SC_TIME_END,

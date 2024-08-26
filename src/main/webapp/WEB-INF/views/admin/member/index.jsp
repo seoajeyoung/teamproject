@@ -25,12 +25,56 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
-
 <link
 	href="${pageContext.request.contextPath}/resources/css/osticketAdmin.css"
 	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/css/mypage/customer.css"
+	rel="stylesheet">
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.custom-button {
+	background-color: #b0b0b0; /* 내부 색 */
+	border: 1px solid #dfdfdf; /* 테두리 색 */
+	border-radius: 10px; /* 모서리를 둥글게 */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+	color: #ffffff; /* 글자 색 */
+	padding: 3px 10px; /* 버튼 크기 조절 */
+	cursor: pointer; /* 마우스를 올렸을 때 커서 모양 변경 */
+}
+
+.custom-button:hover {
+	background-color: #a0a0a0; /* 호버 시 내부 색 */
+}
+
+/* 테두리와 내부 텍스트 스타일 변경 */
+input[type="date"], [type="month"] {
+	border: 1px solid #e0e0e0;
+	background-color: #f9f9f9;
+	color: #a0a0a0;
+	padding: 3px;
+	border-radius: 8px;
+	font-weight: bold;
+	width: 130px;
+	text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 선택된 날짜 텍스트 색상 */
+input[type="date"]::after, input[type="month"]::after {
+	color: #333; /* 날짜 선택 후 텍스트 색상 */
+}
+
+a {
+	text-decoration: none;
+	background-color: transparent;
+}
+</style>
 </head>
+
+
 
 <body id="page-top">
 
@@ -39,7 +83,6 @@
 
 		<!--  sidebar include -->
 		<jsp:include page="/WEB-INF/views/admin/inc/sidebar.jsp" />
-
 
 
 		<!--  ======================================================================================== -->
@@ -56,451 +99,91 @@
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
-					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800"
-						style="margin-left: 30px; padding-top: 12px;">화면이름뭘로할래</h1>
-					<hr style="margin-bottom: 20px; margin-top: 30px;">
-					<!--                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i -->
-					<!--                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+					<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
 
-					<!-- Content Row -->
-					<div class="row">
+				<!--  ======================================================================================== -->
 
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-primary shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												일별매출 (Daily)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-success shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-success text-uppercase mb-1">
-												월별매출 (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-info shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-											</div>
-											<div class="row no-gutters align-items-center">
-												<div class="col-auto">
-													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-												</div>
-												<div class="col">
-													<div class="progress progress-sm mr-2">
-														<div class="progress-bar bg-info" role="progressbar"
-															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Pending Requests Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-warning shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-												Pending Requests</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-comments fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="c_tab_wrap"
+						style="width: 1445px; margin-left: 40px !important;">
+						<ul class="c_tab" id="list"
+							style="margin-left: 15.5px !important;">
+							<li><a
+								href="${pageContext.request.contextPath}/admin/member/index"
+								style="color: #ffffff; font-size: 15px;">전체 매출</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/admin/statistics/moviesales"
+								style="color: #ffffff; font-size: 15px;">영화 매출</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/admin/statistics/storesales"
+								style="color: #ffffff; font-size: 15px;">스토어 매출</a></li>
+						</ul>
 					</div>
-
-					<!-- Content Row -->
-					<div class="row">
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-primary shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												매출 통계</div>
-											<div>
-												<a class="h5 mb-0 font-weight-bold text-gray-800"
-													href="${pageContext.request.contextPath}/admin/statistics/salestatistics"
-													style="font-size: 15px;">매출 통계</a>
-											</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-success shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-success text-uppercase mb-1">
-												월별매출 (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-info shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-											</div>
-											<div class="row no-gutters align-items-center">
-												<div class="col-auto">
-													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-												</div>
-												<div class="col">
-													<div class="progress progress-sm mr-2">
-														<div class="progress-bar bg-info" role="progressbar"
-															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Pending Requests Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-warning shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-												Pending Requests</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-comments fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
+					<br>
 
 					<!-- Content Row -->
 
-					<div class="row">
+					<div class="row" style="margin-right: 0px;">
 
 						<!-- Area Chart -->
-						<div class="col-xl-8 col-lg-7">
-							<div class="card shadow mb-4">
+						<div class="col-lg-6" style="padding-left: 50px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
 								<!-- Card Header - Dropdown -->
 								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">Earnings
-										Overview</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Dropdown Header:</div>
-											<a class="dropdown-item" href="#">Action</a> <a
-												class="dropdown-item" href="#">Another action</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Something else here</a>
+									class="card-header py-3 align-items-center justify-content-between">
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
+										<span>일간 매출</span>
+										<div class="d-flex align-items-center">
+											<input type="date" id="start_date" name="start_date" readonly>
+											<!-- start_date를 readonly로 설정 -->
+											&nbsp;&nbsp; <input type="date" id="end_date" name="end_date">
+											<!-- end_date를 입력 가능 -->
+											&nbsp;
+											<button id="searchWeekButton" class="custom-button">검색</button>
 										</div>
-									</div>
+									</h6>
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas id="myAreaChart"></canvas>
+										<canvas id="weeklyAllChart"></canvas>
 									</div>
 								</div>
 							</div>
 						</div>
-
-						<!-- Pie Chart -->
-						<div class="col-xl-4 col-lg-5">
-							<div class="card shadow mb-4">
+						<!-- Area Chart -->
+						<div class="col-lg-6" style="padding-left: 25px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
 								<!-- Card Header - Dropdown -->
 								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">Revenue
-										Sources</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Dropdown Header:</div>
-											<a class="dropdown-item" href="#">Action</a> <a
-												class="dropdown-item" href="#">Another action</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Something else here</a>
+									class="card-header py-3 align-items-center justify-content-between">
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
+										<span>월간 매출</span>
+										<div class="d-flex align-items-center">
+											<input type="month" id="start_month" name="start_month"
+												readonly>
+											<!-- start_date를 readonly로 설정 -->
+											&nbsp;&nbsp; <input type="month" id="end_month"
+												name="end_month">
+											<!-- end_date를 입력 가능 -->
+											&nbsp;
+											<button id="searchMonthButton" class="custom-button">검색</button>
 										</div>
-									</div>
+									</h6>
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
-									<div class="chart-pie pt-4 pb-2">
-										<canvas id="myPieChart"></canvas>
-									</div>
-									<div class="mt-4 text-center small">
-										<span class="mr-2"> <i
-											class="fas fa-circle text-primary"></i> Direct
-										</span> <span class="mr-2"> <i
-											class="fas fa-circle text-success"></i> Social
-										</span> <span class="mr-2"> <i class="fas fa-circle text-info"></i>
-											Referral
-										</span>
+									<div class="chart-area">
+										<canvas id="monthlyAllChart"></canvas>
 									</div>
 								</div>
 							</div>
 						</div>
+
 					</div>
 
 					<!-- Content Row -->
-					<div class="row">
-
-						<!-- Content Column -->
-						<div class="col-lg-6 mb-4">
-
-							<!-- Project Card Example -->
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-								</div>
-								<div class="card-body">
-									<h4 class="small font-weight-bold">
-										Server Migration <span class="float-right">20%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-danger" role="progressbar"
-											style="width: 20%" aria-valuenow="20" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Sales Tracking <span class="float-right">40%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-warning" role="progressbar"
-											style="width: 40%" aria-valuenow="40" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Customer Database <span class="float-right">60%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar" role="progressbar"
-											style="width: 60%" aria-valuenow="60" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Payout Details <span class="float-right">80%</span>
-									</h4>
-									<div class="progress mb-4">
-										<div class="progress-bar bg-info" role="progressbar"
-											style="width: 80%" aria-valuenow="80" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-									<h4 class="small font-weight-bold">
-										Account Setup <span class="float-right">Complete!</span>
-									</h4>
-									<div class="progress">
-										<div class="progress-bar bg-success" role="progressbar"
-											style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-											aria-valuemax="100"></div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Color System -->
-							<div class="row">
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-primary text-white shadow">
-										<div class="card-body">
-											Primary
-											<div class="text-white-50 small">#4e73df</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-success text-white shadow">
-										<div class="card-body">
-											Success
-											<div class="text-white-50 small">#1cc88a</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-info text-white shadow">
-										<div class="card-body">
-											Info
-											<div class="text-white-50 small">#36b9cc</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-warning text-white shadow">
-										<div class="card-body">
-											Warning
-											<div class="text-white-50 small">#f6c23e</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-danger text-white shadow">
-										<div class="card-body">
-											Danger
-											<div class="text-white-50 small">#e74a3b</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-secondary text-white shadow">
-										<div class="card-body">
-											Secondary
-											<div class="text-white-50 small">#858796</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-light text-black shadow">
-										<div class="card-body">
-											Light
-											<div class="text-black-50 small">#f8f9fc</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6 mb-4">
-									<div class="card bg-dark text-white shadow">
-										<div class="card-body">
-											Dark
-											<div class="text-white-50 small">#5a5c69</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-
-						<div class="col-lg-6 mb-4">
-
-							<!-- Illustrations -->
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-								</div>
-								<div class="card-body">
-									<div class="text-center">
-										<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
-											style="width: 25rem;"
-											src="${pageContext.request.contextPath}/resources/img/undraw_posting_photo.svg"
-											alt="...">
-									</div>
-									<p>
-										Add some quality, svg illustrations to your project courtesy
-										of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>,
-										a constantly updated collection of beautiful svg images that
-										you can use completely free and without attribution!
-									</p>
-									<a target="_blank" rel="nofollow" href="https://undraw.co/">Browse
-										Illustrations on unDraw &rarr;</a>
-								</div>
-							</div>
-
-							<!-- Approach -->
-							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">Development
-										Approach</h6>
-								</div>
-								<div class="card-body">
-									<p>SB Admin 2 makes extensive use of Bootstrap 4 utility
-										classes in order to reduce CSS bloat and poor page
-										performance. Custom CSS classes are used to create custom
-										components and custom utility classes.</p>
-									<p class="mb-0">Before working with this theme, you should
-										become familiar with the Bootstrap framework, especially the
-										utility classes.</p>
-								</div>
-							</div>
-
-						</div>
-					</div>
 
 				</div>
 				<!-- /.container-fluid -->
@@ -513,17 +196,6 @@
 
 			<!-- Footer include -->
 			<jsp:include page="/WEB-INF/views/admin/inc/bottom.jsp" />
-
-			<!-- Footer 시작 (원본 Footer 참고용으로 index page에 하나만 주석으로 유지)-->
-
-			<!--             <footer class="sticky-footer bg-white"> -->
-			<!--                 <div class="container my-auto"> -->
-			<!--                     <div class="copyright text-center my-auto"> -->
-			<!--                         <span>Copyright &copy; Your Website 2021</span> -->
-			<!--                     </div> -->
-			<!--                 </div> -->
-			<!--             </footer> -->
-			<!-- End of Footer -->
 
 			<!--  ======================================================================================== -->
 
@@ -540,6 +212,345 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
+	<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	    // 일별 매출 데이터를 설정합니다.
+	    const weekSalesData = JSON.parse('${weekSalesDataJson}');
+	    updateWeekChart(weekSalesData); // 페이지가 로드될 때 기본 차트 설정
+
+	    const startDateInput = document.getElementById('start_date');
+	    const endDateInput = document.getElementById('end_date');
+
+	    endDateInput.addEventListener('change', function () {
+	        const selectedDate = new Date(endDateInput.value);
+	        const today = new Date();
+	        today.setHours(0, 0, 0, 0);
+
+	        if (selectedDate > today) {
+	            alert("종료 날짜는 오늘을 포함, 미래일 수 없습니다.");
+	            endDateInput.value = '';
+	            startDateInput.value = '';
+	            return;
+	        }
+
+	        const startDate = new Date(selectedDate);
+	        startDate.setDate(selectedDate.getDate() - 6);
+
+	        startDateInput.valueAsDate = startDate;
+	    });
+
+	    document.getElementById('searchWeekButton').addEventListener('click', function () {
+	        const startDate = startDateInput.value;
+	        const endDate = endDateInput.value;
+
+	        if (!endDate) {
+	            alert("종료 날짜를 선택하세요.");
+	        } else if (new Date(startDate) > new Date(endDate)) {
+	            alert("시작 날짜는 종료 날짜보다 앞서야 합니다.");
+	        } else {
+	            fetchWeekSalesData(startDate, endDate);
+	        }
+	    });
+
+	    // 월별 매출 데이터를 설정합니다.
+	    const monthSalesData = JSON.parse('${monthSalesDataJson}');
+	    updateMonthChart(monthSalesData); // 페이지가 로드될 때 기본 차트 설정
+
+	    const startMonthInput = document.getElementById('start_month');
+	    const endMonthInput = document.getElementById('end_month');
+
+	    endMonthInput.addEventListener('change', function () {
+	        const selectedMonth = new Date(endMonthInput.value + '-01');
+	        const today = new Date();
+
+	        if (selectedMonth.getFullYear() > today.getFullYear() || 
+	            (selectedMonth.getFullYear() === today.getFullYear() && selectedMonth.getMonth() > today.getMonth())) {
+	            alert("종료 월은 미래일 수 없습니다.");
+	            endMonthInput.value = '';
+	            startMonthInput.value = '';
+	            return;
+	        }
+
+	        const startMonth = new Date(selectedMonth);
+	        startMonth.setMonth(selectedMonth.getMonth() - 5);
+
+	        startMonthInput.valueAsDate = startMonth;
+	    });
+
+	    document.getElementById('searchMonthButton').addEventListener('click', function () {
+	        const startMonth = startMonthInput.value;
+	        const endMonth = endMonthInput.value;
+
+	        if (!endMonth) {
+	            alert("종료 월을 선택하세요.");
+	        } else if (new Date(startMonth) > new Date(endMonth)) {
+	            alert("시작 월은 종료 월보다 앞서야 합니다.");
+	        } else {
+	            fetchMonthSalesData(startMonth, endMonth);
+	        }
+	    });
+	});
+
+	// 일별 매출 데이터를 가져오는 함수
+	function fetchWeekSalesData(startDate, endDate) {
+	    $.ajax({
+	        url: '${pageContext.request.contextPath}/admin/statistics/allWeekSalesSearch',
+	        type: 'GET',
+	        data: {
+	            start_date: startDate,
+	            end_date: endDate
+	        },
+	        dataType: 'json',
+	        success: function(data) {
+	            updateWeekChart(data);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error fetching sales data: ", status, error);
+	        }
+	    });
+	}
+
+	// 월별 매출 데이터를 가져오는 함수
+	function fetchMonthSalesData(startMonth, endMonth) {
+	    $.ajax({
+	        url: '${pageContext.request.contextPath}/admin/statistics/allMonthSalesSearch',
+	        type: 'GET',
+	        data: {
+	            start_date: startMonth,
+	            end_date: endMonth
+	        },
+	        dataType: 'json',
+	        success: function(data) {
+	            updateMonthChart(data);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error fetching sales data: ", status, error);
+	        }
+	    });
+	}
+
+	// 일별 차트를 업데이트하는 함수
+	function updateWeekChart(weekSalesData) {
+	    const labels = weekSalesData.map(data => data.sales_DATE);
+	    const salesData = weekSalesData.map(data => parseInt(data.all_TOTALSALES));
+
+	    const percentChange = salesData.map((current, index, array) => {
+	        if (index === 0) return 100; // 첫 번째 날은 100%로 시작
+	        const previous = array[index - 1];
+	        const change = (current / previous) * 100;
+	        return change.toFixed(2);
+	    });
+
+	    const ctx = document.getElementById('weeklyAllChart').getContext('2d');
+	    const chartData = {
+	        labels: labels,
+	        datasets: [{
+	            label: '총 매출 (원)',
+	            data: salesData,
+	            borderColor: 'rgba(255, 99, 132, 1)',
+	            backgroundColor: 'rgba(255, 99, 132, 0.05)',
+	            borderWidth: 1,
+	            yAxisID: 'y'
+	        },
+	        {
+	            label: '전일 대비 매출 증감률 (%)',
+	            data: percentChange,
+	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            borderColor: 'rgba(54, 162, 235, 0.5)',
+	            type: 'line',
+	            yAxisID: 'y1',
+	            fill: false,
+	        }]
+	    };
+
+	    const chartOptions = {
+	        scales: {
+	            y: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value.toLocaleString() + '원';
+	                    }
+	                },
+	                position: 'left',
+	            },
+	            y1: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value + '%';
+	                    }
+	                },
+	                position: 'right',
+	                grid: {
+	                    drawOnChartArea: false,
+	                }
+	            }
+	        },
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        let label = context.dataset.label || '';
+	                        if (label) {
+	                            label += ': ';
+	                        }
+	                        if (context.dataset.type === 'line') {
+	                            label += context.raw + '%';
+	                        } else {
+	                            label += context.raw.toLocaleString() + '원';
+	                        }
+	                        return label;
+	                    }
+	                }
+	            }
+	        }
+	    };
+
+	    if (window.weeklyChart) {
+	        window.weeklyChart.destroy();
+	    }
+
+	    window.weeklyChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: chartData,
+	        options: chartOptions
+	    });
+	}
+
+	// 월별 차트를 업데이트하는 함수
+	function updateMonthChart(monthSalesData) {
+	    const labels = monthSalesData.map(data => data.sales_DATE);
+
+	    const salesData = monthSalesData.map(data => parseInt(data.all_TOTALSALES));
+
+	    const percentChange = salesData.map((current, index, array) => {
+	        if (index === 0) return 100; // 첫 번째 달은 100%로 시작
+	        const previous = array[index - 1];
+	        const change = (current / previous) * 100;
+	        return change.toFixed(2);
+	    });
+
+	    const ctx = document.getElementById('monthlyAllChart').getContext('2d');
+	    const chartData = {
+	        labels: labels,
+	        datasets: [{
+	            label: '총 매출 (원)',
+	            data: salesData,
+	            borderColor: 'rgba(255, 99, 132, 1)',
+	            backgroundColor: 'rgba(255, 99, 132, 0.05)',
+	            borderWidth: 1,
+	            yAxisID: 'y'
+	        },
+	        {
+	            label: '전월 대비 매출 증감률 (%)',
+	            data: percentChange,
+	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            borderColor: 'rgba(54, 162, 235, 0.5)',
+	            type: 'line',
+	            yAxisID: 'y1',
+	            fill: false,
+	        }]
+	    };
+
+	    const chartOptions = {
+	        scales: {
+	            y: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        if (value >= 100000000) {
+	                            return (value / 100000000).toFixed(1) + '억 원';
+	                        } else if (value >= 10000) {
+	                            return (value / 10000).toLocaleString() + '만원';
+	                        }
+	                        return value.toLocaleString() + '원';
+	                    }
+	                },
+	                position: 'left',
+	            },
+	            y1: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value + '%';
+	                    }
+	                },
+	                position: 'right',
+	                grid: {
+	                    drawOnChartArea: false,
+	                }
+	            }
+	        },
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        let label = context.dataset.label || '';
+	                        if (label) {
+	                            label += ': ';
+	                        }
+	                        if (context.dataset.type === 'line') {
+	                            label += context.raw + '%';
+	                        } else {
+	                            let value = context.raw;
+	                            if (value >= 100000000) {
+	                                label += (value / 100000000).toFixed(1) + '억 원';
+	                            } else if (value >= 10000) {
+	                                label += (value / 10000).toLocaleString() + '만원';
+	                            } else {
+	                                label += value.toLocaleString() + '원';
+	                            }
+	                        }
+	                        return label;
+	                    }
+	                }
+	            }
+	        }
+	    };
+
+	    if (window.monthlyChart) {
+	        window.monthlyChart.destroy();
+	    }
+
+	    window.monthlyChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: chartData,
+	        options: chartOptions
+	    });
+	}
+</script>
+	<script type="text/javascript">
+				$(document).ready(function() {
+					// 현재 URL 경로를 가져오기
+					var currentPath = window.location.pathname;
+
+					// 모든 탭에서 'on' 클래스 제거
+					$('#list li').removeClass('on');
+
+					// 현재 URL에 해당하는 링크를 찾아 해당 li 요소에 'on' 클래스 추가
+					$('#list a').each(function() {
+						var href = $(this).attr('href');
+						if (href === currentPath) {
+							$(this).parent('li').addClass('on');
+						}
+					});
+
+					// 처음 페이지 로드 시 영화 탭에 'on' 클래스 추가 (기본 설정)
+					if ($('#list li.on').length === 0) {
+						$('#list li:first').addClass('on');
+					}
+
+					// 섹션 클릭 이벤트
+					$('#list').on('click', 'a', function(event) {
+						// 모든 탭에서 'on' 클래스 제거
+						$('#list li').removeClass('on');
+
+						// 클릭한 a 요소의 부모 li에 'on' 클래스 추가
+						$(this).parent('li').addClass('on');
+					});
+				});
+			</script>
 
 	<!-- Bootstrap core JavaScript-->
 	<script
@@ -554,17 +565,6 @@
 	<!-- Custom scripts for all pages-->
 	<script
 		src="${pageContext.request.contextPath}/resources/script/sb-admin-2.js"></script>
-
-	<!-- Page level plugins -->
-	<script
-		src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
-
-	<!-- Page level custom scripts -->
-	<script
-		src="${pageContext.request.contextPath}/resources/script/demo/chart-area-demo.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/script/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>

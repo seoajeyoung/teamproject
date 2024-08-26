@@ -28,38 +28,6 @@ pre {
     color: #888; /* 텍스트 색상 */
 }
 
-.table-infoboard td {
-	width: 20%; /* 각 td 요소에 적절한 너비 지정 */
-}
-
-.table-infoboard th:nth-child(1), .table-infoboard td:nth-child(1) {
-	width: 10%; /* 회원번호 */
-}
-
-.table-infoboard th:nth-child(2), .table-infoboard td:nth-child(2) {
-	width: 10%; /* 관리자유무 */
-}
-
-.table-infoboard th:nth-child(3), .table-infoboard td:nth-child(3) {
-	width: 10%; /* 회원등급 */
-}
-
-.table-infoboard th:nth-child(4), .table-infoboard td:nth-child(4) {
-	width: 15%; /* 아이디 */
-}
-
-.table-infoboard th:nth-child(5), .table-infoboard td:nth-child(5) {
-	width: 15%; /* 비밀번호 */
-}
-
-.table-infoboard th:nth-child(6), .table-infoboard td:nth-child(6) {
-	width: 20%; /* 닉네임 */
-}
-
-.table-infoboard th:nth-child(7), .table-infoboard td:nth-child(7) {
-	width: 10%; /* 성별 */
-}
-
 .button-container {
 	margin-top: 10px; /* 버튼 위에 여백 추가 */
 }

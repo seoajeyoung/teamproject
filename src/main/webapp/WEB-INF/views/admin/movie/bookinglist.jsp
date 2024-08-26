@@ -80,24 +80,24 @@
 									width="100%" cellspacing="0">
 									<thead>
 										<tr>
-											<th>결제번호</th>
+											<th>예매번호</th>
 											<th>회원ID</th>
 											<th>영화명</th>
 											<th>상영관</th>
 											<th>좌석</th>
-											<th>상영시간</th>
-											<th>비고</th>
+											<th>예매날짜</th>
+											<th>상세정보</th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
-											<th>결제번호</th>
+											<th>예메번호</th>
 											<th>회원ID</th>
 											<th>영화명</th>
 											<th>상영관</th>
 											<th>좌석</th>
-											<th>상영시간</th>
-											<th>비고</th>
+											<th>예매날짜</th>
+											<th>상세정보</th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -108,7 +108,7 @@
 												<td>${list.title }</td>
 												<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
 												<td>${list.TP_SEAT }</td>
-												<td>${list.SC_TIME }</td>
+												<td>${list.TP_TIME }</td>
 												<td><a
 													href="${pageContext.request.contextPath}/admin/movie/bookinginfo?TP_NUM=${list.TP_NUM}"
 													class="btn btn-detailinfo btn-user btn-block"

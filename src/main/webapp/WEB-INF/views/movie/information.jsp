@@ -242,6 +242,7 @@ function pointChart() {
 
 </head>
 <body>
+<jsp:include page="../ticket/top.jsp" />
 <!-- 세션 아이디 임시 저장 -->
 <input type="hidden" class="sessionId" value="${sessionScope.id}">
 
