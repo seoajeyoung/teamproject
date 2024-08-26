@@ -22,19 +22,24 @@
 
 	<select id="getMemberId"
 		resultType="com.itwillbs.domain.MemberDTO">  <!-- 아이디값 가져오기 위함 -->
-		SELECT * FROM MEMBERS
+		SELECT MEM_NUM AS member_num, MEM_SNS AS member_sns FROM MEMBERS
+		WHERE MEM_ID = #{member_id}
+	</select>
+	
+	<select id="getNaverMemberNum" resultType="Map">
+		SELECT MEM_NUM AS member_num FROM MEMBERS
 		WHERE MEM_ID = #{member_id}
 	</select>
 
 	<select id="getMemberNickname"
 		resultType="com.itwillbs.domain.MemberDTO">  <!-- 닉네임값 가져오기 위함 -->
-		SELECT * FROM MEMBERS
+		SELECT MEM_NUM AS member_num FROM MEMBERS
 		WHERE MEM_NICKNAME = #{member_nickname}
 	</select>
 
 	<select id="getMemberPhone"
 		resultType="com.itwillbs.domain.MemberDTO"> <!-- 폰번호값 가져오기 위함 -->
-		SELECT * FROM MEMBERS
+		SELECT MEM_NUM AS member_num FROM MEMBERS
 		WHERE MEM_PHONE = #{member_phone}
 	</select>
 
@@ -45,12 +50,12 @@
 	</update>
 
 	<select id="findId" resultType="com.itwillbs.domain.MemberDTO"> <!-- 이름과 생년월일 맞는 아이디 조회 -->
-		SELECT MEM_ID,MEM_SNS FROM MEMBERS
+		SELECT MEM_ID as member_id,MEM_SNS as member_sns FROM MEMBERS
 		WHERE MEM_NAME = #{member_name} AND MEM_BIRTH = #{member_birth}
 	</select>
 
 	<select id="findPass" resultType="com.itwillbs.domain.MemberDTO"> <!-- 아이디, 생년월일 핸드폰번호로 비밀번호 조회 -->
-		SELECT MEM_PASS FROM MEMBERS
+		SELECT MEM_PASS as member_pass FROM MEMBERS
 		WHERE MEM_ID = #{member_id} AND MEM_BIRTH = #{member_birth} AND MEM_PHONE =
 		#{member_phone}
 	</select>
@@ -63,7 +68,7 @@
 
 	<select id="getMemberNum"
 		resultType="com.itwillbs.domain.MemberDTO"> <!-- 아이디에 해당하는 회원번호 조회 -->
-		SELECT MEM_NUM
+		SELECT MEM_NUM as member_num
 		FROM MEMBERS
 		WHERE MEM_ID = #{member_id}
 	</select>

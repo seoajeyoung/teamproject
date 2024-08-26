@@ -7,15 +7,16 @@
 
 	<select id="getMemberInfo"
 		resultType="com.itwillbs.domain.MemberDTO"> <!-- 회원정보 조회 -->
-		SELECT * FROM MEMBERS
+		SELECT MEM_ID AS member_id, MEM_NAME AS member_name, MEM_NICKNAME AS member_nickname, MEM_PHONE AS member_phone 
+		FROM MEMBERS
 		WHERE MEM_NUM = #{member_num}
 	</select>
 
 	<select id="getProduct"
 		resultType="com.itwillbs.domain.StoreDTO"> <!-- 스토어 메인에서 상품 4개씩만 나오게 함 -->
 	<![CDATA[
-		SELECT *
-		  FROM ( SELECT *
+		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PRICE AS st_price, ST_TYPE AS st_type, ST_PICTURE AS st_picture
+		  FROM ( SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PRICE AS st_price, ST_TYPE AS st_type, ST_PICTURE AS st_picture
 		  			  , ROW_NUMBER() OVER (PARTITION BY ST_TYPE ORDER BY ST_NUM DESC) AS ROW_NUM
 		  		   FROM STORE ) AS sub
 		 WHERE ROW_NUM <= 4
@@ -23,17 +24,10 @@
 	]]>
 	</select>
 
-	<select id="getAllProduct"
-		resultType="com.itwillbs.domain.StoreDTO">
-		SELECT *
-		FROM STORE
-		ORDER BY ST_TYPE, ST_NUM DESC
-
-	</select>
 
 	<select id="productCategory"
 		resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
-		SELECT *
+		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture, ST_PRICE AS st_price
 		FROM STORE
 		WHERE ST_TYPE = #{category}
 		ORDER BY ST_NUM DESC
@@ -41,7 +35,8 @@
 
 	<select id="getProductByNum"
 		resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
-		SELECT *
+		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture, 
+			ST_PRICE AS st_price, ST_CONST AS st_const, ST_PERIOD AS st_period
 		FROM STORE
 		WHERE ST_NUM = #{st_num}
 	</select>
@@ -57,7 +52,8 @@
 	<!-- 특정 사용자(member_num으로 식별)의 특정 상품(st_num) 장바구니 항목 조회 (중복 체크용) -->
 	<select id="getUserCart"
 		resultType="com.itwillbs.domain.CartDTO">
-		SELECT *
+		SELECT CART_NUM AS cart_num, ST_NUM AS st_num, ST_PRICE AS st_price,
+		 MEM_NUM AS member_num, CART_QUANTITY AS cart_quantity, CART_DATE AS cart_date
 		FROM CART
 		WHERE MEM_NUM = #{member_num} AND ST_NUM =
 		#{st_num}
@@ -75,9 +71,9 @@
 	<!-- 장바구니 조회 -->
 	<select id="getCartItem"
 		resultType="com.itwillbs.domain.CartDTO">
-		SELECT c.CART_NUM, c.MEM_NUM, c.ST_NUM, c.CART_QUANTITY,
-		c.CART_DATE,
-		s.ST_NAME, s.ST_PRICE
+		SELECT c.CART_NUM AS cart_num, c.MEM_NUM AS member_num, c.ST_NUM AS st_num, c.CART_QUANTITY AS cart_quantity,
+		c.CART_DATE AS cart_date,
+		s.ST_NAME AS st_name, s.ST_PRICE AS st_price
 		FROM CART c
 		JOIN STORE s ON c.ST_NUM =
 		s.ST_NUM
@@ -117,7 +113,7 @@
 	<!-- 대분류코드 조회 -->
 	<select id="getCodeList"
 		resultType="com.itwillbs.domain.CodeDTO">
-		SELECT *
+		SELECT CODE_NUM AS code_num, CODE_ID AS code_id, CODE_VALUE AS code_value 
 		FROM CODES
 
 	</select>
@@ -125,8 +121,8 @@
 	<!-- 상세분류코드 조회 -->
 	<select id="getCodeDetail"
 		resultType="com.itwillbs.domain.CodeDetailDTO">
-		SELECT cd.DETAIL_CODE_NUM, ct.CODE_ID, ct.CODE_VALUE,
-		cd.DETAIL_CODE, cd.DETAIL_VALUE
+		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS code_id, ct.CODE_VALUE AS code_value,
+		cd.DETAIL_CODE AS detail_code, cd.DETAIL_VALUE AS detail_value
 		FROM CODEDETAIL cd
 		JOIN CODES ct ON
 		cd.CODE_NUM = ct.CODE_NUM
@@ -178,8 +174,8 @@
 	<!-- 메뉴값 가져오기 위함 -->
 	<select id="getCategories" parameterType="string"
 		resultType="com.itwillbs.domain.CodeDetailDTO">
-		SELECT cd.DETAIL_CODE_NUM, ct.CODE_ID, ct.CODE_VALUE,
-		cd.DETAIL_CODE, cd.DETAIL_VALUE
+		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS code_id, ct.CODE_VALUE AS code_value,
+		cd.DETAIL_CODE AS detail_code, cd.DETAIL_VALUE AS detail_value
 		FROM CODEDETAIL cd
 		JOIN CODES ct ON
 		cd.CODE_NUM = ct.CODE_NUM

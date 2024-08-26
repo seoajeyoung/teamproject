@@ -5,10 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/ticket/payment.css">
-<script
-	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ticket/payment.css">
+<script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <script>

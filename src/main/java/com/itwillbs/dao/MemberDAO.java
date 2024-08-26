@@ -71,6 +71,11 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace + ".getMemberNum", member_id);
 	}
 
+	public Map<String, String> getNaverMemberNum(String member_id) {
+		
+		return sqlSession.selectOne(namespace + ".getNaverMemberNum", member_id);
+	}
+
 	
 	
 	

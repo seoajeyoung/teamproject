@@ -89,6 +89,7 @@ public class MemberController {
 			session.setAttribute("member_email", params.get("MEM_EMAIL"));
 			session.setAttribute("member_phone", params.get("MEM_PHONE"));
 			session.setAttribute("member_birth", params.get("MEM_BIRTH"));
+			session.setAttribute("member_name", params.get("MEM_NAME"));
 			System.out.println(params);
 			// 세션에 정보 저장
 
@@ -157,6 +158,7 @@ public class MemberController {
 			session.setAttribute("member_email", memberDTO.getMember_email());
 			session.setAttribute("member_phone", memberDTO.getMember_phone());
 			session.setAttribute("member_birth", memberDTO.getMember_birth());
+			session.setAttribute("member_name", memberDTO.getMember_name());
 			// 세션에 정보 저장
 			
 			MemberDTO memberNum = memberService.getMemberNum(memberDTO.getMember_id()); // 네이버에서 받아온 정보로 member_num 얻기 위함
@@ -187,7 +189,7 @@ public class MemberController {
 			
 			memberDTO.setMember_sns("T"); // 첫 네이버 로그인 시에만 설정
 	        memberService.registerMember(memberDTO);
-	        Map<String, String> params = memberService.memberCheck(memberDTO);
+	        Map<String, String> params = memberService.getNaverMemberNum(memberDTO.getMember_id());
 	        session.setAttribute("member_num", params.get("MEM_NUM"));
 		        
 		    // session에 사용자 정보 저장

@@ -36,8 +36,11 @@ public class StoreController {
 	
 	@GetMapping("/storeMain") // 스토어 메인화면
     public String main(HttpSession session, Model model) {
-	        
-        String member_num = (String) session.getAttribute("member_num"); // 세션에서 정보 가져옴
+    	
+		Integer member_num_int = (Integer) session.getAttribute("member_num");
+		String member_num = String.valueOf(member_num_int);  // Integer를 String으로 변환
+		
+//        String member_num = (String) session.getAttribute("member_num"); // 세션에서 정보 가져옴
 	        			
 		List<StoreDTO> productList = storeService.getProduct(); // 상품목록 확인하기 위해 생성
 			
@@ -86,8 +89,11 @@ public class StoreController {
  	
 	@GetMapping("/storeCart") // 장바구니 페이지
 	public String storeCart(HttpSession session, Model model, HttpServletRequest request) {
+		
+		Integer member_num_int = (Integer) session.getAttribute("member_num");
+		String member_num = String.valueOf(member_num_int);  // Integer를 String으로 변환
 	    
-	    String member_num = (String) session.getAttribute("member_num"); // 회원번호에 해당하는 장바구니 조회하기 위함
+//	    String member_num = (String) session.getAttribute("member_num"); // 회원번호에 해당하는 장바구니 조회하기 위함
 
 	    if (member_num != null) { // 회원번호가 조회가능한 경우
 	        MemberDTO memberDTO = storeService.getMemberInfo(member_num);

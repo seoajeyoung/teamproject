@@ -8,8 +8,12 @@
 	font-family: 'Noto Sans KR', 'CJONLYONENEW', '맑은 고딕', '돋움', Dotum, sans-serif;
 }
 
+form {
+	margin-bottom: 34px;
+}
+
 body {
-	display: flex;
+/* 	display: flex; */
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -30,6 +34,7 @@ body {
 	font-size: 14px;
 	color: #666666;
 	margin-bottom: 15px;
+	text-align: center;
 }
 
 .naverNickTf {
@@ -38,7 +43,7 @@ body {
 }
 
 #nickname {
-	width: 50%; /* 너비를 조정하여 버튼과의 간격을 맞춤 */
+	width: 25%; /* 너비를 조정하여 버튼과의 간격을 맞춤 */
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	outline: none;
@@ -60,7 +65,7 @@ body {
 }
 
 #naverNickBtn {
-	width: 50%; /* 버튼 너비를 50%로 설정 */
+	width: 25%; /* 버튼 너비를 50%로 설정 */
 	height: 45px;
 	background-color: #fb4357;
 	font-size: 16px;

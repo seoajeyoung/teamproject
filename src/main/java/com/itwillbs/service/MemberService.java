@@ -65,6 +65,11 @@ public class MemberService {
 		
 		return memberDAO.getMemberNum(member_id);
 	}
+
+	public Map<String, String> getNaverMemberNum(String member_id) {
+		
+		return memberDAO.getNaverMemberNum(member_id);
+	}
 	
 	
 	
