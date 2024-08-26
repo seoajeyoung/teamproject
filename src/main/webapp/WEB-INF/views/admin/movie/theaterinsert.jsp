@@ -75,11 +75,6 @@
                         var thRegionEng = response.find(function(item) {
                             return item.th_REGION === selectedRegion && item.th_REGIONEng !== null;
                         });
-                        if (thRegionEng) {
-                            $('#TH_REGIONEngT').val(thRegionEng.th_REGIONEng).prop('readonly', true);
-                        } else {
-                            $('#TH_REGIONEngT').val('영문명을 입력하세요').prop('readonly', false);
-                        }
 
                         // 중복 제거를 위한 Set 사용
                         var theaterNames = new Set();
@@ -108,12 +103,7 @@
                                     return item.th_NAME === selectedTheater;
                                 });
                                 if (selectedTheaterData) {
-                                    if (selectedTheaterData.th_NAMEEng) {
-                                        $('#TH_NAMEEngT').val(selectedTheaterData.th_NAMEEng).prop('readonly', true);
-                                    } else {
-                                        $('#TH_NAMEEngT').val('영문명을 입력하세요').prop('readonly', false);
-                                    }
-
+                                    
                                     if (selectedTheaterData.th_ADDR) {
                                         $('#TH_ADDRT').val(selectedTheaterData.th_ADDR).prop('readonly', true);
                                     } else {
@@ -161,8 +151,6 @@
                     },
                     error: function(xhr, status, error) {
                         console.log("AJAX Error: ", status, error);
-                        alert("영문명을 가져오는데 실패했습니다.");
-                        $('#TH_REGIONEngT').val('영문명을 입력하세요').prop('readonly', false);
                     }
                 });
             } else {
