@@ -367,7 +367,11 @@ function Paging(pageDTO) {
     });
 }
 
-
+$(function() {
+	var referUrl = document.referrer;
+	referUrl = referUrl.split('/').filter(Boolean).pop();
+	if(referUrl == 'theater') $('#list').find('#TH').trigger('click');
+});
 
 </script>
 

@@ -28,7 +28,7 @@
 <div class="sect-common">
     <div class="favorite-wrap">
         <div class="sect-favorite">
-            <h4><img src="https://img.cgv.co.kr/R2014/images/title/h4_favorite_cgv.png" alt="자주가는">자주가는 극장</h4>
+            <h4>자주가는 극장</h4>
             <ul id="favoriteTheaters">
                     <li><a href="#"><span>1<em>순위</em></span></a></li>
                     <li><a href="#"><span>2<em>순위</em></span></a></li>
@@ -138,11 +138,10 @@ $(function() {
         
         <div class="wrap-theaterinfo">
             <div class="box-image">
-                <div id="theater_img_container" class="thumb-image"><img src="https://img.cgv.co.kr/Theater/Theater/2014/1211/CGVgangnam.jpg" alt="CGV강남 극장이미지"></div>
+                <div id="theater_img_container" class="thumb-image"><img src="https://img.cgv.co.kr/Theater/Theater/2014/1211/CGVgangnam.jpg"></div>
             </div>
             <div class="box-contents">
                 <div class="theater-info">
-                    <strong class="title"><span></span><a href="./?page=location&amp;theaterCode=0056#menu">위치/주차 안내  &gt;</a></strong>
                     <span class="txt-info">
                         <em>1544-1122</em>
                         <em>6관 / 874석</em>
@@ -158,7 +157,7 @@ $(function() {
                     <ul>
                         
                     </ul>
-                    <a class="link-more" href="/support/news/Default.aspx?type=2" target="_blank" title="새창 열림">공지사항 더보기</a>
+                    <a class="link-more" href="${pageContext.request.contextPath}/inquiry/news" target="" title="새창 열림">공지사항 더보기</a>
                 </div>
             </div>
         </div>
@@ -169,11 +168,6 @@ $(function() {
     <div class="theater-ad">
         <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@SponsorBar_980" width="980" height="90" title="광고-파일럿" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="SponsorBar_980" id="SponsorBar_980"></iframe>
     </div>
-    <ul class="tab-menu" id="menu">
-        <li class="on"><a href="./?areacode=01&amp;theaterCode=0056&amp;date=20240808#menu" title="현재 선택됨">상영시간표</a></li>
-        <li class="last"><a href="./?page=location&amp;theaterCode=0056#menu">위치/주차안내</a></li>
-        <!--<li class='last'><a href="./?page=price&theaterCode=0056#menu" >관람료안내</a></li>-->
-    </ul>
     <div class="cols-content">
         <!-- 상영시간표 UserControl -->
         
@@ -184,7 +178,7 @@ $(function() {
 <!-- Showtimes Start -->
 <div class="showtimes-wrap">
         <div class="sect-schedule">
-            <div id="slider" class="slider">
+            <div id="slider" class="slider" style="width: 640px;">
 				<div class="item-wrap on">
 					<ul class="item" style="width: 800px; height: 111px;">
 					</ul>
@@ -193,8 +187,7 @@ $(function() {
                	<button type="button" class="btn-next">다음 날자보기</button>
                	<div class="descri-info theater" style="display: block;">
 				    <ul>
-				        <li><a id="li_view_price_btn" class="priceinfo" style="cursor:pointer;" title="새창">관람가격 안내</a></li>
-				        <li><a href="javascript:void(0)" id="viewgrade" class="viewgrade" title="새창">관람등급 안내</a></li>
+				        <li><a href="javascript:void(0)" id="viewgrade" class="viewgrade">관람등급 안내</a></li>
 				    </ul>
 				</div>
 			</div>
