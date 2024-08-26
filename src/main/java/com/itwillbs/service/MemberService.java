@@ -1,5 +1,7 @@
 package com.itwillbs.service;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class MemberService {
 		return memberDAO.getMemberNickname(member_nickname);
 	}
 
-	public MemberDTO memberCheck(MemberDTO memberDTO) { // 아이디 비밀번호 일치 조회 -> memberDAO.memberCHeck 실행
+	public Map<String, String> memberCheck(MemberDTO memberDTO) { // 아이디 비밀번호 일치 조회 -> memberDAO.memberCHeck 실행
 		
 		return memberDAO.memberCheck(memberDTO);
 	}

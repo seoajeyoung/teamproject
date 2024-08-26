@@ -27,28 +27,11 @@ public class MemberDTO {
 	private Timestamp point_date;
 	private String point_history;
 	private String member_sns; // sns 로그인 유무
-	private String MEM_ID;
-	private String MEM_PASS;
 	
 	
 	
 	// 더 추가될 수 있음
 	
-	public String getMEM_ID() {
-		return MEM_ID;
-	}
-
-	public void setMEM_ID(String mEM_ID) {
-		MEM_ID = mEM_ID;
-	}
-
-	public String getMEM_PASS() {
-		return MEM_PASS;
-	}
-
-	public void setMEM_PASS(String mEM_PASS) {
-		MEM_PASS = mEM_PASS;
-	}
 
 	// 기본 생성자
 	public MemberDTO() {

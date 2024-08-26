@@ -23,8 +23,7 @@ public class MemberDAO {
 		sqlSession.insert(namespace + ".registerMember", memberDTO);
 	}
 	
-	public MemberDTO memberCheck(MemberDTO memberDTO) { // 아이디 비밀번호 일치하는지 select
-		System.out.println(memberDTO + "dao");
+	public Map<String, String> memberCheck(MemberDTO memberDTO) { // 아이디 비밀번호 일치하는지 select
 		return sqlSession.selectOne(namespace + ".memberCheck", memberDTO);
 	}
 

@@ -79,16 +79,17 @@ public class MemberController {
 	@PostMapping("/loginPro") // post방식, 실제 로그인 진행
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {
 		
-		MemberDTO memberDTO2 = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
+		Map<String, String> params = memberService.memberCheck(memberDTO); // 로그인 처리 (아이디 비밀번호 일치하는지 정보 조회)
 		
 
-		if (memberDTO2 != null) {
+		if (params != null) {
 			// 아이디 비밀번호 일치 -> 로그인표시값을 session 저장 -> /member/main 이동
-			session.setAttribute("member_num", memberDTO2.getMember_num());
-			session.setAttribute("member_id", memberDTO2.getMember_id());
-			session.setAttribute("member_email", memberDTO2.getMember_email());
-			session.setAttribute("member_phone", memberDTO2.getMember_phone());
-			session.setAttribute("member_birth", memberDTO2.getMember_birth());
+			session.setAttribute("member_num", params.get("MEM_NUM"));
+			session.setAttribute("member_id", params.get("MEM_ID"));
+			session.setAttribute("member_email", params.get("MEM_EMAIL"));
+			session.setAttribute("member_phone", params.get("MEM_PHONE"));
+			session.setAttribute("member_birth", params.get("MEM_BIRTH"));
+			System.out.println(params);
 			// 세션에 정보 저장
 
 			// /member/main 주소변경하면서 이동
@@ -186,8 +187,8 @@ public class MemberController {
 			
 			memberDTO.setMember_sns("T"); // 첫 네이버 로그인 시에만 설정
 	        memberService.registerMember(memberDTO);
-	        MemberDTO memberDTO2 = memberService.memberCheck(memberDTO);
-	        session.setAttribute("member_num", memberDTO2.getMember_num());
+	        Map<String, String> params = memberService.memberCheck(memberDTO);
+	        session.setAttribute("member_num", params.get("MEM_NUM"));
 		        
 		    // session에 사용자 정보 저장
 			session.setAttribute("userInfo", userInfoMap);

@@ -14,7 +14,7 @@
 	</insert>
 
 	<select id="memberCheck"
-		resultType="com.itwillbs.domain.MemberDTO"> <!-- 아이디 비밀번호 일치 조회 -->
+		resultType="Map"> <!-- 아이디 비밀번호 일치 조회 -->
 		SELECT * FROM MEMBERS
 		WHERE MEM_ID = #{member_id} AND MEM_PASS = #{member_pass}
 	</select>
