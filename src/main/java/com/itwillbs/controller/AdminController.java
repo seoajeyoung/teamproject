@@ -141,7 +141,7 @@ public class AdminController {
 	@GetMapping("/member/memberlist")
 	public String membertables(Model model) {
 
-		List<MemberDTO> memberList = adminService.getMemberList();
+		List<AdminDTO> memberList = adminService.getMemberList();
 		model.addAttribute("memberList", memberList);
 
 		return "/admin/member/memberlist";
@@ -152,11 +152,12 @@ public class AdminController {
 	// 회원상세정보확인
 
 	@GetMapping("/member/info")
-	public String info(MemberDTO memberDTO, Model model) {
+	public String info(AdminDTO adminDTO, Model model) {
 
-		MemberDTO memberDTO2 = adminService.getMemberInfo(memberDTO.getMember_num());
-
-		model.addAttribute("memberDTO", memberDTO2);
+		AdminDTO adminDTO2 = adminService.getMemberInfo(adminDTO.getMEM_NUM());
+		System.out.println(adminDTO2);
+		model.addAttribute("adminDTO", adminDTO2);
+		
 
 		return "/admin/member/info";
 	}
@@ -166,11 +167,11 @@ public class AdminController {
 	// 회원정보수정 update
 
 	@GetMapping("/member/update")
-	public String update(@RequestParam("member_num") String member_num, Model model) {
+	public String update(@RequestParam("MEM_NUM") String member_num, Model model) {
 
-		MemberDTO memberDTO2 = adminService.getMemberInfo(member_num);
+		AdminDTO adminDTO2 = adminService.getMemberInfo(member_num);
 
-		model.addAttribute("memberDTO", memberDTO2);
+		model.addAttribute("adminDTO", adminDTO2);
 
 		List<MemberDTO> detailList = adminService.getDetailList();
 		model.addAttribute("detailList", detailList);
@@ -201,8 +202,8 @@ public class AdminController {
 	@GetMapping("/member/memberdelete")
 	public String delete(MemberDTO memberDTO, Model model) {
 
-		MemberDTO memberDTO2 = adminService.getMemberInfo(memberDTO.getMember_num());
-		model.addAttribute("memberDTO", memberDTO2);
+//		MemberDTO memberDTO2 = adminService.getMemberInfo(memberDTO.getMember_num());
+//		model.addAttribute("memberDTO", memberDTO2);
 
 		return "/admin/member/memberdelete";
 	}
@@ -376,16 +377,21 @@ public class AdminController {
 
 		return adminService.getMovieNameList(params);
 	}
+	
 
 	// 겹치는 일정 검색
 	@RequestMapping(value = "/movie/getSchedule", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ScheduleDTO> getSchedule(@RequestParam String TH_REGION, @RequestParam String TH_NAME,
-			@RequestParam String TH_NUMBER) {
+	public List<ScheduleDTO> getSchedule(
+			@RequestParam String TH_REGION, 
+			@RequestParam String TH_NAME,
+			@RequestParam String TH_NUMBER, 
+			@RequestParam("runningDts") @DateTimeFormat(pattern = "yyyy-MM-dd") Date runningDts) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", TH_REGION);
 		params.put("TH_NAME", TH_NAME);
 		params.put("TH_NUMBER", TH_NUMBER);
+		params.put("runningDts", runningDts);
 		return adminService.getScheduleByCinema(params);
 	}
 
@@ -393,39 +399,28 @@ public class AdminController {
 	@PostMapping("/movie/movieschedulePro")
 	public String insertSchdule(@RequestParam("TH_REGION") String region, @RequestParam("TH_NAME") String theater,
 			@RequestParam("TH_NUMBER") String cinemaNumber, @RequestParam("title") String movie,
-			@RequestParam(value = "titleEng", required = false) String titleEng,
 			@RequestParam(value = "runtime", required = false) String runtime,
 			@RequestParam("runningDts") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date runningDts,
 			@RequestParam("runningDte") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date runningDte) {
-
-		// CI_NUM 생성
-		int ciNum = new Random().nextInt(1000000);
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", region);
 		params.put("TH_NAME", theater);
 		params.put("TH_NUMBER", cinemaNumber);
 		params.put("title", movie);
-		params.put("titleEng", titleEng);
 		params.put("runtime", runtime);
 		params.put("SC_TIME", runningDts);
 		params.put("SC_TIME_END", runningDte);
-		params.put("CI_NUM", ciNum);
-
-		// 영문명이 비어있는 것 찾고 비어있으면 저장
-		String existingTitleEng = adminService.findTitleEng(movie);
-		if (existingTitleEng == null || existingTitleEng.isEmpty()) {
-			adminService.updateTitleEng(params);
-		}
 
 		// 런타임이 비어있는 것 찾고 비어있으면 저장
 		String existingRuntime = adminService.findRuntime(movie);
 		if (existingRuntime == null || existingRuntime.isEmpty()) {
 			adminService.updateRuntime(params);
 		}
-
-		adminService.insertScreenTime(params);
+		
 		adminService.insertSchedule(params);
+		
+		adminService.insertScreenTime(params);
 
 		return "redirect:/admin/movie/movieschedule";
 	}

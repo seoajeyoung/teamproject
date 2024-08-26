@@ -82,67 +82,63 @@
 									<tbody>
 										<tr>
 											<th>회원번호</th>
-											<td style="width: 291px;">${memberDTO.member_num}</td>
+											<td style="width: 260px;">${adminDTO.MEM_NUM}</td>
 											<th>아이디</th>
-											<td>${memberDTO.member_id}</td>
+											<td style="width: 260px;">${adminDTO.MEM_ID}</td>
 											<th>회원등급</th>
-											<td>${memberDTO.member_grade}</td>
+											<td style="width: 260px;">${adminDTO.MEM_GRADE}</td>
 										</tr>
 										<tr>
 											<th>관리자유무</th>
-											<td>${memberDTO.member_admin}</td>
+											<td>${adminDTO.MEM_ADMIN}</td>
 											<th>닉네임</th>
-											<td>${memberDTO.member_nickname}</td>
+											<td>${adminDTO.MEM_NICKNAME}</td>
 											<th>전화번호</th>
-											<td>${memberDTO.member_phone}</td>
+											<td>${adminDTO.MEM_PHONE}</td>
 										</tr>
 										<tr>
 											<th>이메일</th>
-											<td colspan="3">${memberDTO.member_email}</td>
+											<td colspan="3">${adminDTO.MEM_EMAIL}</td>
 											<th>비밀번호</th>
-											<td>${memberDTO.member_pass}</td>
+											<td>${adminDTO.MEM_PASS}</td>
 										</tr>
 										<tr>
 											<th>이름</th>
-											<td>${memberDTO.member_name}</td>
+											<td>${adminDTO.MEM_NAME}</td>
 											<th>성별</th>
-											<td>${memberDTO.member_gender}</td>
+											<td>${adminDTO.MEM_GENDER}</td>
 											<th>생년월일</th>
-											<td>${memberDTO.member_birth}</td>
-										</tr>
-										<tr>
-											<th>주소</th>
-											<td colspan="5">${memberDTO.member_address}</td>
+											<td>${adminDTO.MEM_BIRTH}</td>
 										</tr>
 										<tr>
 											<th>누적포인트</th>
-											<td>${memberDTO.point_cumulativeP}</td>
+											<td>${adminDTO.PO_CUMP} 점</td>
 											<th>보유포인트</th>
-											<td>${memberDTO.point_currentP}</td>
+											<td>${adminDTO.PO_CURP} 점</td>
 											<th>가입시간</th>
-											<td>${memberDTO.member_input}</td>
+											<td>${adminDTO.MEM_INPUT}</td>
 										</tr>
 										<tr>
 											<th>탈퇴여부</th>
-											<td>${memberDTO.member_status}</td>
+											<td>${adminDTO.MEM_STATUS}</td>
 											<th>탈퇴유예시작시간</th>
-											<td>${memberDTO.member_respite}</td>
+											<td>${adminDTO.MEM_RESPITE}</td>
 											<th>자동탈퇴시간</th>
-											<td>${memberDTO.member_out}</td>
+											<td>${adminDTO.MEM_OUT}</td>
 										</tr>
 										<tr>
 											<th>포인트지급기록</th>
-											<td colspan="5"><pre>${memberDTO.point_history}</pre></td>
+											<td colspan="5"><pre>${adminDTO.PO_HIS}</pre></td>
 										</tr>
 									</tbody>
 								</table>
 
 								<div class="button-container" style="text-align: right;">
 									<a
-										href="${pageContext.request.contextPath}/admin/member/update?member_num=${memberDTO.member_num}"
+										href="${pageContext.request.contextPath}/admin/member/update?MEM_NUM=${adminDTO.MEM_NUM}"
 										class="btn btn-success btn-user" style="font-weight: bold;">회원정보수정</a>
 									<a
-										href="${pageContext.request.contextPath}/admin/member/memberdelete?member_num=${memberDTO.member_num}"
+										href="${pageContext.request.contextPath}/admin/member/memberdelete?MEM_NUM=${adminDTO.MEM_NUM}"
 										class="btn btn-danger btn-user" style="font-weight: bold;">회원정보삭제</a>
 								</div>
 

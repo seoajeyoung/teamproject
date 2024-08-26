@@ -8,7 +8,7 @@
 	<!-- 회원목록 -->
 
 	<select id="getMemberList"
-		resultType="com.itwillbs.domain.MemberDTO">
+		resultType="com.itwillbs.domain.AdminDTO">
 		select * from MEMBERS
 	</select>
 
@@ -17,19 +17,20 @@
 	<!-- 회원상세정보 -->
 
 	<select id="getMemberInfo"
-		resultType="com.itwillbs.domain.MemberDTO">
+		resultType="com.itwillbs.domain.AdminDTO">
 		select M.*, P.*
 		from MEMBERS M
 		left join POINT P ON
-		M.MEM_NUM = P.MEM_NUM
-		where M.MEM_NUM = #{member_num};
+		M.MEM_NUM
+		= P.MEM_NUM
+		where M.MEM_NUM = #{MEM_NUM};
 	</select>
 
 	<!-- ====================================================================================== -->
 
 	<!-- 포인트지급항목 -->
 	<select id="getDetailList"
-		resultType="com.itwillbs.domain.MemberDTO">
+		resultType="com.itwillbs.domain.AdminDTO">
 		select * from DETAIL;
 	</select>
 
@@ -39,18 +40,22 @@
 	<update id="updateMember">
 		update MEMBERS set
 		MEM_PASS = #{member_pass},
-		MEM_NAME = #{member_name},
+		MEM_NAME
+		= #{member_name},
 		MEM_PHONE = #{member_phone},
-		MEM_EMAIL = #{member_email},
+		MEM_EMAIL =
+		#{member_email},
 		MEM_GRADE =
 		CASE
 		WHEN (select
-		point_cumulativeP from POINT where MEM_NUM =
+		point_cumulativeP from
+		POINT where MEM_NUM =
 		#{member_num}) >= 50000
 		THEN 'Red Carpet(SVIP)'
 		WHEN (select point_cumulativeP from POINT where MEM_NUM =
 		#{member_num}) >= 30000 THEN 'Gold Seat(VVIP)'
-		ELSE 'Silver Ticket(VIP)'
+		ELSE 'Silver
+		Ticket(VIP)'
 		END
 		where MEM_NUM =
 		#{member_num}
@@ -91,9 +96,11 @@
 
 	<update id="respiteMember">
 		update MEMBERS set MEM_STATUS = '탈퇴유예',
-		MEM_RESPITE = CURRENT_TIMESTAMP,
+		MEM_RESPITE =
+		CURRENT_TIMESTAMP,
 		MEM_OUT =
-		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
+		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6
+		MONTH)
 		where MEM_NUM =
 		#{member_num}
 	</update>
@@ -104,7 +111,8 @@
 
 	<update id="restoreMember">
 		update MEMBERS set MEM_STATUS = '회원',
-		MEM_RESPITE = NULL,
+		MEM_RESPITE =
+		NULL,
 		MEM_OUT = NULL
 		where MEM_NUM =
 		#{member_num}
@@ -128,13 +136,17 @@
 	<insert id="saveMovie"
 		parameterType="com.itwillbs.domain.AdminDTO">
 		insert into MOVIE (title, titleEng,
-		direcotrNm, actorNm, nation,
+		direcotrNm, actorNm,
+		nation,
 		genre, plot, runtime, rating, releaseDate,
-		posterUrl, stillUrl, vodUrl,
+		posterUrl, stillUrl,
+		vodUrl,
 		soundtrack, themeSong)
 		values
-		(#{title}, #{titleEng}, #{directorNm},
-		#{actorNm}, #{nation}, #{genre}, #{plot}, #{runtime}, #{rating},
+		(#{title}, #{titleEng},
+		#{directorNm},
+		#{actorNm}, #{nation}, #{genre}, #{plot}, #{runtime},
+		#{rating},
 		#{releaseDate}, #{posterUrl}, #{stillUrl}, #{vodUrl},
 		#{soundtrack}, #{themeSong})
 	</insert>
@@ -197,18 +209,22 @@
 	<update id="movieupdate"
 		parameterType="com.itwillbs.domain.MovieDTO">
 		update MOVIE set title = #{title},
-		titleEng = #{titleEng},
+		titleEng =
+		#{titleEng},
 		direcotrNm = #{direcotrNm},
 		actorNm = #{actorNm},
-		genre = #{genre},
+		genre =
+		#{genre},
 		rating = #{rating},
 		runtime = #{runtime},,
-		posterUrl = #{posterUrl},
+		posterUrl =
+		#{posterUrl},
 		releaseDate = #{releaseDate},
 		themsSong = #{themsSong},
 		soundtrack = #{soundtrack},
 		plot = #{plot}
-		where MOVIE_NUM = #{MOVIE_NUM}
+		where MOVIE_NUM =
+		#{MOVIE_NUM}
 	</update>
 
 	<delete id="moviedelete"
@@ -257,23 +273,12 @@
 		#{releaseDate}
 	</select>
 
-	<!-- 영문 제목 찾기 -->
-	<select id="findTitleEng" parameterType="String"
-		resultType="String">
-		SELECT TITLEENG FROM MOVIE WHERE TITLE = #{title}
-	</select>
-
 	<!-- 런타임 찾기 -->
 	<select id="findRuntime" parameterType="String"
 		resultType="String">
 		SELECT RUNTIME FROM MOVIE WHERE TITLE = #{title}
 	</select>
 
-	<!-- 영문 제목 업데이트 -->
-	<update id="updateTitleEng" parameterType="map">
-		UPDATE MOVIE SET
-		TITLEENG = #{titleEng} WHERE TITLE = #{title}
-	</update>
 
 	<!-- 런타임 업데이트 -->
 	<update id="updateRuntime" parameterType="map">
@@ -286,18 +291,36 @@
 	<insert id="insertSchedule" parameterType="map">
 		<!-- CINEMA 테이블에 데이터 삽입 -->
 		INSERT INTO CINEMA (TH_NUM, MOVIE_NUM)
-		VALUES (
-		(SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME
-		= #{TH_NAME} AND TH_NUMBER = #{TH_NUMBER}),
-		(SELECT MOVIE_NUM FROM MOVIE
-		WHERE TITLE = #{title})
+		SELECT
+		(SELECT TH_NUM FROM
+		THEATER WHERE TH_REGION = #{TH_REGION} AND TH_NAME =
+		#{TH_NAME} AND
+		TH_NUMBER = #{TH_NUMBER}),
+		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE =
+		#{title})
+		WHERE NOT EXISTS (
+		SELECT 1 FROM CINEMA
+		WHERE TH_NUM = (SELECT
+		TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION}
+		AND TH_NAME =
+		#{TH_NAME} AND TH_NUMBER = #{TH_NUMBER})
+		AND MOVIE_NUM = (SELECT
+		MOVIE_NUM FROM MOVIE WHERE TITLE = #{title})
 		);
 	</insert>
-	
+
 	<insert id="insertScreenTime" parameterType="map">
-		<!-- SCREEN 테이블에 데이터 삽입 -->
-		INSERT INTO SCREEN (SC_TIME, SC_TIME_END)
+		INSERT INTO SCREEN
+		(CI_NUM, SC_TIME, SC_TIME_END)
 		VALUES (
+		(SELECT CI_NUM
+		FROM CINEMA
+		WHERE
+		TH_NUM = (SELECT TH_NUM FROM THEATER WHERE TH_REGION = #{TH_REGION}
+		AND TH_NAME = #{TH_NAME}
+		AND TH_NUMBER = #{TH_NUMBER})
+		AND MOVIE_NUM =
+		(SELECT MOVIE_NUM FROM MOVIE WHERE TITLE = #{title})),
 		#{SC_TIME},
 		#{SC_TIME_END}
 		);
@@ -333,19 +356,18 @@
 	<select id="getScheduleByCinema" parameterType="map"
 		resultType="com.itwillbs.domain.ScheduleDTO">
 		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
-		S.SC_TIME,
-		S.SC_TIME_END
+		S.SC_TIME, S.SC_TIME_END
 		FROM THEATER T
-		JOIN CINEMA C ON T.TH_NUM =
-		C.TH_NUM
+		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
 		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		JOIN SCREEN S ON
-		C.CI_NUM = S.CI_NUM
+		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 		WHERE T.TH_REGION = #{TH_REGION}
-		AND T.TH_NAME =
-		#{TH_NAME}
+		AND T.TH_NAME = #{TH_NAME}
 		AND T.TH_NUMBER = #{TH_NUMBER}
+		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = DATE_FORMAT(#{runningDts}, '%Y-%m-%d')
 	</select>
+
+	
 
 	<!-- SCREEN 테이블에서 삭제 -->
 	<delete id="deleteScreenByCINum" parameterType="int">
@@ -379,16 +401,16 @@
 	<!-- 영문지역명 찾기 -->
 	<select id="getfindAll" parameterType="String"
 		resultType="com.itwillbs.domain.AdminDTO">
-<!-- 		SELECT DISTINCT -->
-<!-- 		T.TH_REGION, -->
-<!-- 		T.TH_NAME, -->
-<!-- 		T.TH_ADDR, -->
-<!-- 		T.TH_NUMBER -->
-<!-- 		FROM -->
-<!-- 		THEATER T -->
-<!-- 		LEFT JOIN -->
-<!-- 		CINEMA C -->
-<!-- 		ON T.TH_NUM = C.TH_NUM; -->
+		<!-- SELECT DISTINCT -->
+		<!-- T.TH_REGION, -->
+		<!-- T.TH_NAME, -->
+		<!-- T.TH_ADDR, -->
+		<!-- T.TH_NUMBER -->
+		<!-- FROM -->
+		<!-- THEATER T -->
+		<!-- LEFT JOIN -->
+		<!-- CINEMA C -->
+		<!-- ON T.TH_NUM = C.TH_NUM; -->
 	</select>
 
 	<insert id="insertTheater" parameterType="map">
@@ -437,7 +459,8 @@
 		FROM
 		CODEDETAIL CD
 		JOIN
-		CODES C ON CD.CODE_NUM = C.CODE_NUM
+		CODES
+		C ON CD.CODE_NUM = C.CODE_NUM
 		WHERE
 		C.CODE_ID = 'ST'
 	</select>
@@ -473,7 +496,8 @@
 		UPDATE STORE
 		SET
 		ST_NAME = #{ST_NAME},
-		ST_DETAIL = #{ST_DETAIL},
+		ST_DETAIL =
+		#{ST_DETAIL},
 		ST_PRICE = #{ST_PRICE},
 		ST_PICTURE = #{ST_PICTURE},
 		ST_TYPE = #{ST_TYPE},
@@ -511,11 +535,13 @@
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
-		CINEMA C ON S.CI_NUM = C.CI_NUM
+		CINEMA C
+		ON S.CI_NUM = C.CI_NUM
 		JOIN
 		THEATER T ON C.TH_NUM = T.TH_NUM
 		JOIN
-		MOVIE MV ON C.MOVIE_NUM =
+		MOVIE MV
+		ON C.MOVIE_NUM =
 		MV.MOVIE_NUM
 	</select>
 
@@ -543,11 +569,13 @@
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
-		CINEMA C ON S.CI_NUM = C.CI_NUM
+		CINEMA C
+		ON S.CI_NUM = C.CI_NUM
 		JOIN
 		THEATER T ON C.TH_NUM = T.TH_NUM
 		JOIN
-		MOVIE MV ON C.MOVIE_NUM =
+		MOVIE MV
+		ON C.MOVIE_NUM =
 		MV.MOVIE_NUM
 		WHERE
 		TP.TP_NUM = #{tp_NUM}
@@ -566,7 +594,8 @@
 		FROM
 		STOREPAYMENT SP
 		JOIN
-		STORE S ON SP.ST_NUM =
+		STORE S
+		ON SP.ST_NUM =
 		S.ST_NUM
 		JOIN
 		MEMBERS M ON SP.MEM_NUM =
@@ -586,7 +615,8 @@
 		FROM
 		STOREPAYMENT SP
 		JOIN
-		STORE S ON SP.ST_NUM =
+		STORE S
+		ON SP.ST_NUM =
 		S.ST_NUM
 		JOIN
 		MEMBERS M ON SP.MEM_NUM =
@@ -704,7 +734,7 @@
 		ORDER BY SALES_DATE
 		ASC
 	</select>
-	
+
 	<select id="getAllSalesDataForYesterday"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT SALES_DATE, ALL_TOTALSALES
@@ -714,7 +744,7 @@
 		#{endOfDay}
 		ORDER BY SALES_DATE ASC
 	</select>
-	
+
 	<select id="getAllSalesDataForOneMonth"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT DATE_FORMAT(SALES_DATE, '%Y-%m') as SALES_DATE,
@@ -726,16 +756,18 @@
 		#{endOfMonth}
 		GROUP BY
 		DATE_FORMAT(SALES_DATE, '%Y-%m')
-		ORDER BY SALES_DATE
+		ORDER BY
+		SALES_DATE
 		ASC
 	</select>
-	
+
 	<!-- =========================================================================================================== -->
 
 	<select id="getMemberJoinDataForMonth"
 		resultType="com.itwillbs.domain.AdminDTO">
 		SELECT DATE_FORMAT(MEM_INPUT, '%Y-%m') as JOINMONTH,
-		COUNT(*) as JOINMEMBER_COUNT
+		COUNT(*) as
+		JOINMEMBER_COUNT
 		FROM MEMBERS
 		WHERE MEM_INPUT >= #{startMonth} AND
 		MEM_INPUT <![CDATA[<=]]>
@@ -744,22 +776,33 @@
 		ORDER BY
 		DATE_FORMAT(MEM_INPUT, '%Y-%m') ASC
 	</select>
-	
+
 	<select id="getMembersByAgeGroup"
 		resultType="com.itwillbs.domain.AdminDTO">
-		SELECT 
-		    CASE 
-		        WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 10 AND 19 THEN '10대'
-		        WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 20 AND 29 THEN '20대'
-		        WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 30 AND 39 THEN '30대'
-		        WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 40 AND 49 THEN '40대'
-		        WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 50 AND 59 THEN '50대'
-		        ELSE '60대 이상'
-		    END AS AGE_GROUP,
-		    COUNT(*) as AGE_GROUP_COUNT
-		FROM MEMBERS
+		SELECT
+		CASE
+		WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE())
+		BETWEEN 10 AND 19 THEN
+		'10대'
+		WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH,
+		CURDATE()) BETWEEN 20 AND 29 THEN
+		'20대'
+		WHEN TIMESTAMPDIFF(YEAR,
+		MEM_BIRTH, CURDATE()) BETWEEN 30 AND 39 THEN
+		'30대'
+		WHEN
+		TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 40 AND 49 THEN
+		'40대'
+		WHEN TIMESTAMPDIFF(YEAR, MEM_BIRTH, CURDATE()) BETWEEN 50 AND 59 THEN
+		'50대'
+		ELSE '60대 이상'
+		END AS AGE_GROUP,
+		COUNT(*) as AGE_GROUP_COUNT
+		FROM
+		MEMBERS
 		GROUP BY AGE_GROUP
-		ORDER BY AGE_GROUP ASC
+		ORDER BY AGE_GROUP
+		ASC
 	</select>
 
 

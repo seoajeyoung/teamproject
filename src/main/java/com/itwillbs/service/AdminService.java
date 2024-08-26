@@ -37,7 +37,7 @@ public class AdminService {
 
 	// 회원목록
 
-	public List<MemberDTO> getMemberList() {
+	public List<AdminDTO> getMemberList() {
 
 		return adminDAO.getMemberList();
 	}
@@ -46,9 +46,9 @@ public class AdminService {
 
 	// 회원상세정보
 
-	public MemberDTO getMemberInfo(String member_num) {
+	public AdminDTO getMemberInfo(String MEM_NUM) {
 
-		return adminDAO.getMemberInfo(member_num);
+		return adminDAO.getMemberInfo(MEM_NUM);
 	}
 
 // ===========================================================
@@ -225,19 +225,10 @@ public class AdminService {
 		return adminDAO.getMovieNameList(params);
 	}
 
-	// 영문명 찾기
-	public String findTitleEng(String movie) {
-		return adminDAO.findTitleEng(movie);
-	}
 
 	// 런타임 찾기
 	public String findRuntime(String movie) {
 		return adminDAO.findRuntime(movie);
-	}
-
-	// 영문명 저장
-	public void updateTitleEng(Map<String, Object> params) {
-		adminDAO.updateTitleEng(params);
 	}
 
 	// 런타임 저장
@@ -249,14 +240,15 @@ public class AdminService {
 		return adminDAO.getScheduleByCinema(params);
 	}
 
-	// 상영시간 저장
-	public void insertScreenTime(Map<String, Object> params) {
-		adminDAO.insertScreenTime(params);
-	}
 
 	// 상영일정 저장
 	public void insertSchedule(Map<String, Object> params) {
 		adminDAO.insertSchedule(params);
+	}
+	
+	// 상영시간 저장
+		public void insertScreenTime(Map<String, Object> params) {
+			adminDAO.insertScreenTime(params);
 	}
 
 	// 상영일정 수정

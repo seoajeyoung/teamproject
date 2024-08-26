@@ -30,12 +30,11 @@ public class AdminDAO {
 
 	private static final String namespace = "com.itwillbs.mappers.AdminMapper";
 
-
 // ===========================================================================	
 
 	// 회원목록
 
-	public List<MemberDTO> getMemberList() {
+	public List<AdminDTO> getMemberList() {
 
 		return sqlSession.selectList(namespace + ".getMemberList");
 	}
@@ -44,9 +43,9 @@ public class AdminDAO {
 
 	// 회원상세정보
 
-	public MemberDTO getMemberInfo(String member_num) {
+	public AdminDTO getMemberInfo(String MEM_NUM) {
 
-		return sqlSession.selectOne(namespace + ".getMemberInfo", member_num);
+		return sqlSession.selectOne(namespace + ".getMemberInfo", MEM_NUM);
 
 	}
 
@@ -112,7 +111,6 @@ public class AdminDAO {
 
 // ===========================================================================
 
-
 	public void saveMovie(AdminDTO adminDTO) {
 
 		sqlSession.insert(namespace + ".saveMovie", adminDTO);
@@ -121,13 +119,13 @@ public class AdminDAO {
 	public boolean checkMovieExists(String title) {
 		return sqlSession.selectOne(namespace + ".checkMovieExists", title);
 	}
-	
-	public void resetMovieRank() { 
-		sqlSession.update(namespace + ".resetMovieRank"); 
+
+	public void resetMovieRank() {
+		sqlSession.update(namespace + ".resetMovieRank");
 	}
-	
-	public void updateMovieRank(List<AdminDTO> adminDTOList) { 
-		sqlSession.update(namespace + ".updateMovieRank", adminDTOList); 
+
+	public void updateMovieRank(List<AdminDTO> adminDTOList) {
+		sqlSession.update(namespace + ".updateMovieRank", adminDTOList);
 	}
 
 // ===========================================================================	
@@ -179,39 +177,30 @@ public class AdminDAO {
 		return sqlSession.selectList("getMovieNameList", params);
 	}
 
-	// 영문명 찾기
-	public String findTitleEng(String movie) {
-		return sqlSession.selectOne(namespace + ".findTitleEng", movie);
-	}
 
 	// 런타임 찾기
 	public String findRuntime(String movie) {
 		return sqlSession.selectOne(namespace + ".findRuntime", movie);
 	}
 
-	// 영문명 저장
-	public void updateTitleEng(Map<String, Object> params) {
-		sqlSession.update(namespace + ".updateTitleEng", params);
-	}
-
 	// 런타임 저장
 	public void updateRuntime(Map<String, Object> params) {
 		sqlSession.update(namespace + ".updateRuntime", params);
 	}
-	
+
 	// 각 상영관에 따른 상영일정
 	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
 		return sqlSession.selectList(namespace + ".getScheduleByCinema", params);
 	}
 
-	// 상영시간 저장
-	public void insertScreenTime(Map<String, Object> params) {
-		sqlSession.insert(namespace + ".insertScreenTime", params);
-	}
-
 	// 상영일정 저장
 	public void insertSchedule(Map<String, Object> params) {
 		sqlSession.insert(namespace + ".insertSchedule", params);
+	}
+
+	// 상영시간 저장
+	public void insertScreenTime(Map<String, Object> params) {
+		sqlSession.insert(namespace + ".insertScreenTime", params);
 	}
 
 	// 상영일정 수정
@@ -227,16 +216,15 @@ public class AdminDAO {
 	public List<ScheduleDTO> getScheduleList() {
 		return sqlSession.selectList(namespace + ".getScheduleList");
 	}
-	
+
 	public void deleteScreenByCINum(int ciNum) {
 		sqlSession.delete(namespace + ".deleteScreenByCINum", ciNum);
-		
+
 	}
 
 	public void deleteCinemaByCINum(int ciNum) {
 		sqlSession.delete(namespace + ".deleteCinemaByCINum", ciNum);
 	}
-
 
 	public List<AdminDTO> getBranchList() {
 		return sqlSession.selectList(namespace + ".getBranchList");
@@ -262,56 +250,56 @@ public class AdminDAO {
 	public void deleteTheater(int thNum) {
 		sqlSession.delete(namespace + ".deleteTheater", thNum);
 	}
-	
+
 // ===========================================================================	
 
 	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
-	    Map<String, Boolean> result = sqlSession.selectOne(namespace + ".checkStoreDetails", storeDetails);
-	    
-	 // Boolean 값을 저장할 빈 HashMap 생성
-	    Map<String, Boolean> finalResult = new HashMap<>();
+		Map<String, Boolean> result = sqlSession.selectOne(namespace + ".checkStoreDetails", storeDetails);
 
-	    // result 맵의 모든 엔트리(키-값 쌍)를 순회
-	    for (Map.Entry<String, ?> entry : result.entrySet()) {
-	        
-	        // 현재 엔트리의 값을 Object 타입으로 저장
-	        Object value = entry.getValue();
+		// Boolean 값을 저장할 빈 HashMap 생성
+		Map<String, Boolean> finalResult = new HashMap<>();
 
-	        // 값이 Long 타입일 경우 처리
-	        if (value instanceof Long) {
-	            // Long 타입의 값을 1L과 비교하여 true 또는 false로 변환 후 맵에 추가
-	            finalResult.put(entry.getKey(), (Long) value == 1L);
-	        } 
-	        // 값이 Integer 타입일 경우 처리
-	        else if (value instanceof Integer) {
-	            // Integer 타입의 값을 1과 비교하여 true 또는 false로 변환 후 맵에 추가
-	            finalResult.put(entry.getKey(), (Integer) value == 1);
-	        } 
-	        // 값이 String 타입일 경우 처리
-	        else if (value instanceof String) {
-	            try {
-	                // String을 Integer로 변환한 후 1과 비교하여 true 또는 false로 변환 후 맵에 추가
-	                int intValue = Integer.parseInt((String) value);
-	                finalResult.put(entry.getKey(), intValue == 1);
-	            } catch (NumberFormatException e) {
-	                // 변환이 실패한 경우 false로 설정
-	                finalResult.put(entry.getKey(), false);
-	            }
-	        } 
-	        // 값이 Boolean 타입일 경우 처리
-	        else if (value instanceof Boolean) {
-	            // Boolean 값 그대로 맵에 추가
-	            finalResult.put(entry.getKey(), (Boolean) value);
-	        } 
-	        // 그 외의 예상치 못한 타입의 경우 처리
-	        else {
-	            // 기본값으로 false를 맵에 추가
-	            finalResult.put(entry.getKey(), false);
-	        }
-	    }
+		// result 맵의 모든 엔트리(키-값 쌍)를 순회
+		for (Map.Entry<String, ?> entry : result.entrySet()) {
 
-	    // 변환된 결과를 반환
-	    return finalResult;
+			// 현재 엔트리의 값을 Object 타입으로 저장
+			Object value = entry.getValue();
+
+			// 값이 Long 타입일 경우 처리
+			if (value instanceof Long) {
+				// Long 타입의 값을 1L과 비교하여 true 또는 false로 변환 후 맵에 추가
+				finalResult.put(entry.getKey(), (Long) value == 1L);
+			}
+			// 값이 Integer 타입일 경우 처리
+			else if (value instanceof Integer) {
+				// Integer 타입의 값을 1과 비교하여 true 또는 false로 변환 후 맵에 추가
+				finalResult.put(entry.getKey(), (Integer) value == 1);
+			}
+			// 값이 String 타입일 경우 처리
+			else if (value instanceof String) {
+				try {
+					// String을 Integer로 변환한 후 1과 비교하여 true 또는 false로 변환 후 맵에 추가
+					int intValue = Integer.parseInt((String) value);
+					finalResult.put(entry.getKey(), intValue == 1);
+				} catch (NumberFormatException e) {
+					// 변환이 실패한 경우 false로 설정
+					finalResult.put(entry.getKey(), false);
+				}
+			}
+			// 값이 Boolean 타입일 경우 처리
+			else if (value instanceof Boolean) {
+				// Boolean 값 그대로 맵에 추가
+				finalResult.put(entry.getKey(), (Boolean) value);
+			}
+			// 그 외의 예상치 못한 타입의 경우 처리
+			else {
+				// 기본값으로 false를 맵에 추가
+				finalResult.put(entry.getKey(), false);
+			}
+		}
+
+		// 변환된 결과를 반환
+		return finalResult;
 	}
 
 	public List<AdminDTO> getTypeList() {
@@ -327,17 +315,17 @@ public class AdminDAO {
 	}
 
 	public AdminDTO getstoreInfo(String storeNum) {
-		return sqlSession.selectOne(namespace+ ".getstoreInfo", storeNum);
+		return sqlSession.selectOne(namespace + ".getstoreInfo", storeNum);
 	}
 
 	public void updateStore(AdminDTO adminDTO) {
 		sqlSession.update(namespace + ".updateStore", adminDTO);
-		
+
 	}
 
 	public void deleteStore(String stNum) {
 		sqlSession.delete(namespace + ".deleteStore", stNum);
-		
+
 	}
 
 	public List<AdminDTO> getBookinglist() {
@@ -355,15 +343,13 @@ public class AdminDAO {
 	public AdminDTO getPaymentinfo(String sp_num) {
 		return sqlSession.selectOne(namespace + ".getPaymentinfo", sp_num);
 	}
-	
-	
+
 	// =========================================================================================
-	
-	
+
 	public int getStoreSalesSumByDate(Map<String, Object> params) {
 		return sqlSession.selectOne(namespace + ".getStoreSalesSumByDate", params);
 	}
-	
+
 	public int getMovieSalesSumByDate(Map<String, Object> params) {
 		return sqlSession.selectOne(namespace + ".getMovieSalesSumByDate", params);
 	}
@@ -373,95 +359,92 @@ public class AdminDAO {
 	}
 
 	public List<AdminDTO> getSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        return sqlSession.selectList(namespace + ".getSalesDataForWeek", params);
-    }
-	
+		Map<String, Object> params = new HashMap<>();
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		return sqlSession.selectList(namespace + ".getSalesDataForWeek", params);
+	}
+
 	// =========================================================================================
-	
+
 	public List<AdminDTO> getSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
-	    params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
-	    return sqlSession.selectList(namespace + ".getSalesDataForMonth", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
+		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
+		return sqlSession.selectList(namespace + ".getSalesDataForMonth", params);
 	}
-	
+
 	// =========================================================================================
-	
+
 	public List<AdminDTO> getMovieSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        return sqlSession.selectList(namespace + ".getMovieSalesDataForWeek", params);
-    }
-	
-	public List<AdminDTO> getMovieSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
-	    params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
-	    return sqlSession.selectList(namespace + ".getMovieSalesDataForMonth", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		return sqlSession.selectList(namespace + ".getMovieSalesDataForWeek", params);
 	}
-	
+
+	public List<AdminDTO> getMovieSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
+		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
+		return sqlSession.selectList(namespace + ".getMovieSalesDataForMonth", params);
+	}
+
 	// =========================================================================================
 
 	public List<AdminDTO> getAllSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        return sqlSession.selectList(namespace + ".getAllSalesDataForWeek", params);
-    }
-	
-	public List<AdminDTO> getAllSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
-	    params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
-	    return sqlSession.selectList(namespace + ".getAllSalesDataForMonth", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		return sqlSession.selectList(namespace + ".getAllSalesDataForWeek", params);
 	}
-	
+
+	public List<AdminDTO> getAllSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
+		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
+		return sqlSession.selectList(namespace + ".getAllSalesDataForMonth", params);
+	}
+
 	public AdminDTO getAllSalesDataForYesterday(LocalDateTime startOfDay, LocalDateTime endOfDay) {
 		Map<String, Object> params = new HashMap<>();
-        params.put("startOfDay", startOfDay);
-        params.put("endOfDay", endOfDay);
+		params.put("startOfDay", startOfDay);
+		params.put("endOfDay", endOfDay);
 		return sqlSession.selectOne(namespace + ".getAllSalesDataForYesterday", params);
 	}
-	
+
 	public AdminDTO getAllSalesDataForOneMonth(LocalDateTime startOfMonth, LocalDateTime endOfMonth) {
 		Map<String, Object> params = new HashMap<>();
-        params.put("startOfMonth", startOfMonth);
-        params.put("endOfMonth", endOfMonth);
+		params.put("startOfMonth", startOfMonth);
+		params.put("endOfMonth", endOfMonth);
 		return sqlSession.selectOne(namespace + ".getAllSalesDataForOneMonth", params);
 	}
-	
+
 	// =========================================================================================
 
 	public List<AdminDTO> getMemberJoinDataForMonth(YearMonth startMonth, YearMonth endMonth) {
 		Map<String, Object> params = new HashMap<>();
-	    params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
-	    params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
-	    return sqlSession.selectList(namespace + ".getMemberJoinDataForMonth", params);
+		params.put("startMonth", startMonth.atDay(1)); // 시작 월의 첫 날
+		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
+		return sqlSession.selectList(namespace + ".getMemberJoinDataForMonth", params);
 	}
 
 	public List<AdminDTO> getMembersByAgeGroup() {
 		return sqlSession.selectList(namespace + ".getMembersByAgeGroup");
 	}
-	
+
 	// =========================================================================================
-	
+
 	public List<AdminDTO> getTheaterSalesDataForWeek(LocalDate endDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("endDate", endDate);
-        return sqlSession.selectList(namespace + ".getTheaterSalesDataForWeek", params);
-    }
-	
-	public List<AdminDTO> getTheaterSalesDataForMonth(YearMonth endMonth) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
-	    return sqlSession.selectList(namespace + ".getTheaterSalesDataForMonth", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("endDate", endDate);
+		return sqlSession.selectList(namespace + ".getTheaterSalesDataForWeek", params);
 	}
 
-	
+	public List<AdminDTO> getTheaterSalesDataForMonth(YearMonth endMonth) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
+		return sqlSession.selectList(namespace + ".getTheaterSalesDataForMonth", params);
+	}
 
-	
 }

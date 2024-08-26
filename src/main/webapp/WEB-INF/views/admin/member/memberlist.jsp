@@ -104,16 +104,16 @@
 									<tbody>
 										<!-- 회원목록  -->
 
-										<c:forEach var="memberDTO" items="${memberList}">
+										<c:forEach var="adminDTO" items="${memberList}">
 											<tr>
-												<td class="column-member-number">${memberDTO.member_num}</td>
-												<td class="column-member-id">${memberDTO.member_id}</td>
-												<td class="column-member-name">${memberDTO.member_name}</td>
-												<td class="column-phone">${memberDTO.member_phone}</td>
-												<td class="column-email">${memberDTO.member_email}</td>
-												<td class="column-grade">${memberDTO.member_grade}</td>
+												<td class="column-member-number">${adminDTO.MEM_NUM}</td>
+												<td class="column-member-id">${adminDTO.MEM_ID}</td>
+												<td class="column-member-name">${adminDTO.MEM_NAME}</td>
+												<td class="column-phone">${adminDTO.MEM_PHONE}</td>
+												<td class="column-email">${adminDTO.MEM_EMAIL}</td>
+												<td class="column-grade">${adminDTO.MEM_GRADE}</td>
 												<td class="column-action"><a
-													href="${pageContext.request.contextPath}/admin/member/info?member_num=${memberDTO.member_num}"
+													href="${pageContext.request.contextPath}/admin/member/info?MEM_NUM=${adminDTO.MEM_NUM}"
 													class="btn btn-detailinfo btn-user btn-block"
 													>상세정보확인</a></td>
 											</tr>
