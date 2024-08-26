@@ -101,7 +101,7 @@ function deleteMovie(movieNum) {
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="4">${movieDTO.title}상세정보</th>
+											<th colspan="4">${movieDTO.title} 상세정보</th>
 											<!-- 											<th colspan="2">영화 포스터</th> -->
 										</tr>
 									</thead>
