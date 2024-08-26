@@ -284,7 +284,7 @@
 		</div>
 
 		<!-- 구매 상품 정보 테이블 -->
-		<div class="store_pay" style="text-align: center; margin-left: 17%;">
+		<div class="store_pay" style="text-align: center; margin-left: 24%;">
 			<div class="store_pay_box">
 				<div class="store_subject">장바구니</div>
 				<table class="store_pay_table">

@@ -15,6 +15,8 @@
 <meta name="author" content="">
 
 <title>OSTicket - Control Store</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/movieschedule.css">
@@ -230,8 +232,9 @@ function deleteCode(detail_code_num) {
 
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 20px;">스토어메뉴관리</h1>
-					<br>
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">스토어 메뉴 관리</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -266,7 +269,7 @@ function deleteCode(detail_code_num) {
 										</tr>
 										
 									</table>
-									<div class="button-container">
+									<div class="button-container" style="margin-bottom: 15px;">
 										<button type="submit"
 											class="btn btn-danger btn-user same-size"
 											style="margin-right: 2px;">등록</button>
