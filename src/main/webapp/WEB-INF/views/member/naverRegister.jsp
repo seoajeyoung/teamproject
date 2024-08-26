@@ -19,8 +19,9 @@
 		<div class="naverNickTf">
 			<input id=nickname name="member_nickname" type="text" class="nickname" placeholder="닉네임(활동명)"> 
 			<input type="button" value="중복체크" id="nickbtn">
+			<div id="nickck" class="checkText"></div>
 		</div>
-		<div id="nickck" class="checkText"></div>
+		
 		<input type="submit" value="사이트 이용하기" id="naverNickBtn">
 	</form>
 </body>

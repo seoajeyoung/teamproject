@@ -13,7 +13,7 @@
 
     $(document).ready(function() {
         initializeCartData();  // 페이지가 로드되면 장바구니 데이터를 초기화
-        console.log("member_num: " + ${memberDTO.member_num});
+//         console.log("member_num: " + ${memberDTO.member_num});
     });
 
     function initializeCartData() { // 페이지 로드되면 실행

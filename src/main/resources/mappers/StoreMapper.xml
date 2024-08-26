@@ -159,14 +159,14 @@
 		SELECT COUNT(*)
 		FROM
 		CODEDETAIL
-		WHERE CODE_ID = #{codeId} AND DETAIL_CODE = #{detailCode}
+		WHERE CODE_NUM = #{code_num} AND DETAIL_CODE = #{detail_code}
 	</select>
 
 	<select id="countDetailValue" resultType="int">
 		SELECT COUNT(*)
 		FROM
 		CODEDETAIL
-		WHERE CODE_ID = #{codeId} AND DETAIL_VALUE = #{detailValue}
+		WHERE CODE_NUM = #{code_num} AND DETAIL_VALUE = #{detail_value}
 	</select>
 
 	<!-- ====================================== -->

@@ -63,7 +63,6 @@ public class StoreService {
     }
     
     public MemberDTO getMemberInfo(String member_num) { // 장바구니에 사용자 정보 들어갔는지 확인용
-		
 		return storeDAO.getMemberInfo(member_num);
 	}
 	
