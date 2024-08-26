@@ -73,7 +73,7 @@
 					<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</div>
 				
-				<c:if test="${MEMBER_NAME == 'admin'}">
+				<c:if test="${MEM_ID == 'admin'}">
 					<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/updatenews?NEWS_NUM=${newsDTO.NEWS_NUM}')" class="round inblack" >
 				<span>글수정</span></button>
 				<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/deletenews?NEWS_NUM=${newsDTO.NEWS_NUM}')" class="round inblack" ><span>
@@ -153,7 +153,6 @@ function loading(currentNewsNum, searchtext, newsSection){
             // 다음글
             displayPrev(result.prev, searchtext, newsSection)
             // 이전글
-            debugger;
             displayNext(result.next, searchtext, newsSection)
         },
         error: function() {

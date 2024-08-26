@@ -166,7 +166,7 @@
 <!-- 	내가쓴 글 (전체,비공개) -->
 	<select id="getMyPrev" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
-	SELECT M.MEMBER_ID
+	SELECT M.MEM_ID
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 	  FROM INQUIRY I
@@ -181,7 +181,7 @@
 <!-- 	내가쓴 글 (전체,비공개) -->	
 	<select id="getMyNext" resultType="java.util.LinkedHashMap" parameterType="Map">
 	<![CDATA[
-	SELECT M.MEMBER_ID 
+	SELECT M.MEM_ID 
 		 , I.IQ_NUM
 		 , I.IQ_NAME
 	  FROM INQUIRY I

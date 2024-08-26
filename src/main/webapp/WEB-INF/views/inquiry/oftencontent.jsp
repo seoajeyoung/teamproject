@@ -73,7 +73,7 @@
 					<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</div>
 				
-				<c:if test="${MEMBER_NAME == 'admin'}">
+				<c:if test="${MEM_ID == 'admin'}">
 					<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/updateoften?OF_NUM=${content.OF_NUM}')" class="round inblack" >
 				<span>글수정</span></button>
 				<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/deleteoften?OF_NUM=${content.OF_NUM}')" class="round inblack" ><span>

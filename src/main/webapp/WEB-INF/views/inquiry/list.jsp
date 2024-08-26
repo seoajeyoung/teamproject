@@ -137,11 +137,11 @@
 											
 											<td >${inquiryDTO.RN}</td>
 											<td>${inquiryDTO.MEM_NICKNAME}</td> 
-											<c:if test="${sessionScope.member_name eq 'admin'}">
+											<c:if test="${sessionScope.member_id eq 'admin'}">
 											<td id="title0" class="txt"><a
 												href="${pageContext.request.contextPath}/inquiry/answer?search=${pageDTO.search}&IQ_NUM=${inquiryDTO.IQ_NUM}">${inquiryDTO.IQ_NAME}</a></td>
 											</c:if>
-											<c:if test="${sessionScope.member_name ne 'admin'}">
+											<c:if test="${sessionScope.member_id ne 'admin'}">
 											<td id="title0" class="txt"><a
 												href="${pageContext.request.contextPath}/inquiry/content?search=${pageDTO.search}&IQ_NUM=${inquiryDTO.IQ_NUM}">${inquiryDTO.IQ_NAME}</a></td>
 											</c:if>

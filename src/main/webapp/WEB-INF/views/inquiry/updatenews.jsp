@@ -135,11 +135,11 @@ function __doPostBack(eventTarget, eventArgument) {
 										<th scope="row">공지유형 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></th>
 										<td colspan="3">
 											<ul class="type_list">
-												<li id="li_ra_1" class="on"><input type="radio" checked="checked" id="inp_type02" name="NEWS_SECTION" value="SYS"><label for="inp_type02">시스템 점검</label></li>
+												<li id="li_ra_1" class="on"><input type="radio" checked="checked" id="inp_type01" name="NEWS_SECTION" value="SYS"><label for="inp_type01">시스템 점검</label></li>
 												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="TH"><label for="inp_type02">극장</label></li>
-												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="EV"><label for="inp_type02">행사/이벤트</label></li>
-												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="RE"><label for="inp_type02">제휴이벤트</label></li>
-												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="ECT"><label for="inp_type02">기타</label></li>
+												<li id="li_ra_3"><input type="radio" id="inp_type03" name="NEWS_SECTION" value="EV"><label for="inp_type03">행사/이벤트</label></li>
+												<li id="li_ra_4"><input type="radio" id="inp_type04" name="NEWS_SECTION" value="RE"><label for="inp_type04">제휴이벤트</label></li>
+												<li id="li_ra_5"><input type="radio" id="inp_type05" name="NEWS_SECTION" value="ECT"><label for="inp_type05">기타</label></li>
 											</ul>
 										</td>
 									</tr>
@@ -181,6 +181,26 @@ function __doPostBack(eventTarget, eventArgument) {
 
 $(function () {     
 	$('#inp_textbox').on('keyup', checkByte);
+	
+	const type = '${news.SECTION_CODE}';
+	// 모든 <li> 요소를 선택
+	const listItems = document.querySelectorAll('.type_list li');
+	
+	// 모든 <li> 요소에서 'on' 클래스를 제거
+	listItems.forEach(item => item.classList.remove('on'));
+	
+	// 모든 <input> 요소에서 'checked' 속성을 제거합니다.
+	const inputs = document.querySelectorAll('.type_list input');
+	inputs.forEach(input => input.checked = false);
+	// 가져온 값에 해당하는 <li> 요소를 찾아 'on' 클래스를 추가하고 <input> 요소를 체크합니다.
+    listItems.forEach(item => {
+      const input = item.querySelector('input');
+      if (input && input.value === type) {
+        item.classList.add('on');
+        
+        input.checked = true; // 해당 <input> 요소를 체크합니다.
+      }
+    });
 });
 
 function checkByte() {

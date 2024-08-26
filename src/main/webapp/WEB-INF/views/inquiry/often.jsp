@@ -75,7 +75,7 @@
 				</div>
 			
 			
-			<c:if test="${member_name eq 'admin'}">
+			<c:if test="${member_id eq 'admin'}">
 				<div class="box-btn qna_email  newbox">
                 	<button style="width:90px" class="round inred" type="button" id="emailsubmit"><span>자주찾는질문 등록하기</span></button>
 				</div>
@@ -90,14 +90,12 @@
 				<caption>목록</caption>
 				<colgroup>
 					<col style="width:40px;">
-                    <col style="width:120px;">
 					<col style="width:560px;">
 					<col style="auto">
 				</colgroup>
 				<thead> 
 					<tr>
 					<th scope="col">번호</th>
-<!--                     <th scope="col">구분</th> -->
 					<th scope="col" class="tit">제목</th>
 					<th scope="col">등록일</th>
 					</tr>
@@ -107,7 +105,6 @@
 					<tbody>
 					<tr class="first">
 						<td >${oftenDTO.RN}</td>
-<%-- 						<td>${oftenDTO.OF_SECTION}</td> --%>
 						<td id="title0" class="txt"><a
 							href="${pageContext.request.contextPath}/inquiry/oftencontent?search=${pageDTO.search}&OF_NUM=${oftenDTO.OF_NUM}">${oftenDTO.OF_NAME}</a></td>
 						<td>${oftenDTO.OF_DATE}</td>
@@ -127,11 +124,11 @@
 		
 		<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
 		<li class="<c:out value="${i == pageDTO.currentPage ? 'on' : ''}" />">
-			<a href="#" data-page="${i}"> ${i}</a>
+			<a href="#" data-page="${i}" onclick="goToPage(${i}); return false;"> ${i}</a>
 		</c:forEach>
 		
 		<c:if test="${pageDTO.endPage < pageDTO.pageCount }">
-			<a href="#" data-page="${pageDTO.startPage + pageDTO.pageBlock }">[다음]</a>
+			<a href="#" data-page="${pageDTO.startPage + pageDTO.pageBlock}" >[다음]</a>
 		</c:if>
     </li>
 
@@ -173,6 +170,9 @@ $('#btn_search').on('click', function() {
 
 });
 
+function goToPage(pageNumber) {
+    window.location.href = '?pageNum=' + pageNumber;
+}
 </script>
             
             <!--/ Contents End -->

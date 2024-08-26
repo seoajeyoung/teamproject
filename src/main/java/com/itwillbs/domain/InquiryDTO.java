@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class InquiryDTO {
 	private String IQ_NUM;
-	private String MEM_NUM;//회원넘버
+	private int MEM_NUM;//회원넘버
 	private String IQ_NAME;//문의 제목
 	private String IQ_DETAIL;//파일,사진 추가
 	private String IQ_PICTURE;
@@ -27,10 +27,10 @@ public class InquiryDTO {
 	public void setIQ_NUM(String IQ_NUM) {
 		this.IQ_NUM = IQ_NUM;
 	}
-	public String getMEM_NUM() {
+	public int getMEM_NUM() {
 		return MEM_NUM;
 	}
-	public void setMEM_NUM(String MEM_NUM) {
+	public void setMEM_NUM(int MEM_NUM) {
 		this.MEM_NUM = MEM_NUM;
 	}
 	public String getIQ_NAME() {

@@ -68,7 +68,7 @@
 					<button type="button" class="round inblack" title="검색하기" id="btn_search"><span>검색하기</span></button>
 				</form>
 			</div>
-			<c:if test="${MEMBER_NAME == 'admin'}">
+			<c:if test="${MEM_ID == 'admin'}">
 				<div class="box-btn qna_email  newbox">
                 	<button style="width:80px" class="round inred" type="button" id="emailsubmit"><span>뉴스/공지 등록하기</span></button>
 				</div>
@@ -119,7 +119,6 @@
 					<c:forEach var="newsDTO" items="${newslist}">
 					<tr class="first">
 						<!--순번 오름차순으로 변경-->
-						<!-- TODO 글쓸때 회원번호 넣고나서 수정해야됨 MEMBER_NICKNAME -->
 						
 						<td >${newsDTO.RN}</td>
 						<td>${newsDTO.NEWS_SECTION}</td>

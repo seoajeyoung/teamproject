@@ -63,12 +63,6 @@ public class InquiryController {
 
 	@GetMapping("/Imain")//고객센터 메인
 	public String Imain(HttpServletRequest request, HttpSession session, Model model) {
-		
-        // 세션에 임의의 사용자 이름 설정@@@@@@@@@@@@@@@@@@@@@@@@@@@@ = > TODO 올려주시면 지우기
-//		session.setAttribute("MEM_NUM", "10");
-//        session.setAttribute("member_name", "admi");
-//        session.setAttribute("member_phone", "010-1234-5678");
-//        session.setAttribute("member_email", "aaa1234@gmail.com");
         
         List<Map<String, Object>> newslist = newsService.getShowNews();
         model.addAttribute("newslist", newslist);
@@ -78,8 +72,8 @@ public class InquiryController {
 
 	@GetMapping("/news")//공지&뉴스 리스트
 	public String news(HttpServletRequest request,HttpSession session, Model model) {
-		String member_name = (String)session.getAttribute("member_name");
-		model.addAttribute("MEMBER_NAME", member_name);
+		String member_id = (String)session.getAttribute("member_id");
+		model.addAttribute("MEM_ID", member_id);
 		return "inquiry/news";
 	}
 	
@@ -98,7 +92,7 @@ public class InquiryController {
 	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
 
-		String MEM_NUM = (String)session.getAttribute("member_num");
+		int MEM_NUM = (Integer)session.getAttribute("member_num");
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
 
@@ -122,9 +116,9 @@ public class InquiryController {
 		params.put("MEM_NUM", MEM_NUM);
 		params.put("pageDTO", pageDTO);
 		
-		String memberName = (String) session.getAttribute("member_name");
+		String MEM_ID = (String) session.getAttribute("member_id");
 		
-		if(memberName != null && memberName.equals("admin")) {
+		if(MEM_ID != null && MEM_ID.equals("admin")) {
 			List<Map<String, Object>> mylist = inquiryService.getAdminListF(pageDTO);
 			int count = inquiryService.getAdminCountF(pageDTO);
 			// 한 화면에 보여줄 페이지 개수
@@ -185,7 +179,7 @@ public class InquiryController {
 	public String myconcent(@RequestParam(value = "search", required = false) String search, InquiryDTO inquiryDTO, HttpSession session, Model model) {
 		
 		String IQ_NUM = inquiryDTO.getIQ_NUM();
-		String MEM_NUM = (String)session.getAttribute("member_num");
+		int MEM_NUM = (Integer)session.getAttribute("member_num");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("IQ_NUM", IQ_NUM);
@@ -223,7 +217,7 @@ public class InquiryController {
 	
 	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile IQ_PICTURE, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
-		String MEM_NUM = (String)session.getAttribute("member_num");
+		int MEM_NUM = (Integer)session.getAttribute("member_num");
 		
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + IQ_PICTURE.getOriginalFilename();
@@ -276,10 +270,10 @@ public class InquiryController {
 		String search = request.getParameter("search");
 		pageDTO.setSearch(search);
 		
-		String memberName = (String)session.getAttribute("member_name");
+		String member_id = (String)session.getAttribute("member_id");
 		
 		//@@@@@@@@@@@@@@@@@@@@@@관리자만 모든 게시글 보이게################################안에 세션값 수정
-		if(memberName != null && memberName.equals("admin")) {
+		if(member_id != null && member_id.equals("admin")) {
 			List<Map<String, Object>> inquiryList = inquiryService.getAdminList(pageDTO);
 			int count = inquiryService.getAdminCount(pageDTO);
 			// 한 화면에 보여줄 페이지 개수
@@ -486,8 +480,8 @@ public class InquiryController {
 		model.addAttribute("prev", newsDTO3);
 		model.addAttribute("next", newsDTO4);
 		
-		String member_name = (String)session.getAttribute("member_name");
-		model.addAttribute("MEMBER_NAME", member_name);
+		String member_id = (String)session.getAttribute("member_id");
+		model.addAttribute("MEM_ID", member_id);
 		
 		return "/inquiry/newscontent";
 	
@@ -605,11 +599,20 @@ public class InquiryController {
 		pageDTO.setPageNum(pageNum);
 		pageDTO.setCurrentPage(currentPage);
 		
+		// 시작하는 행번호
+		int startRow = (pageDTO.getCurrentPage() - 1)*pageDTO.getPageSize() + 1;
+		//끝나는 행번호
+		int endRow = startRow + pageDTO.getPageSize() - 1;
+		//pageDTO 에 저장
+		// sql에서 사용할 구문 => limit startRow-1, pageSize 
+		pageDTO.setStartRow(startRow-1); //sql구문에서 하기 힘드니까 미리 -1 하기
+		pageDTO.setEndRow(endRow);
+		
 		//검색어
 		String search = request.getParameter("search");
 		pageDTO.setSearch(search);
 		
-		String memberName = (String) session.getAttribute("member_name");
+		String MEM_ID = (String) session.getAttribute("member_id");
 		List<Map<String, Object>> oftenList = ofteniqService.getOftenList(pageDTO);
 		// -----------------------------------------------------------------
 		// 전체 글 개수 int count = getBoardCount() 메서드 호출
@@ -668,8 +671,8 @@ public class InquiryController {
 		model.addAttribute("prev", ofteniqDTO3);
 		model.addAttribute("next", ofteniqDTO4);
 		
-		String member_name = (String)session.getAttribute("member_name");
-		model.addAttribute("MEMBER_NAME", member_name);
+		String member_id = (String)session.getAttribute("member_id");
+		model.addAttribute("MEM_ID", member_id);
 		return "/inquiry/oftencontent";
 	}
 	
@@ -677,7 +680,7 @@ public class InquiryController {
 	public String updateoften(@RequestParam("OF_NUM")String OF_NUM, Model model) {
 		model.addAttribute("OF_NUM", OF_NUM);
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("OF_NUM", OF_NUM);
+		param.put("clickNo", OF_NUM);
 		Map<String, Object> often = ofteniqService.getOften(param);
 		model.addAttribute("often", often);
 		
