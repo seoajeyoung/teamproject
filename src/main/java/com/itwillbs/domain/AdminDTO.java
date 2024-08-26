@@ -625,8 +625,10 @@ public class AdminDTO {
 
 	@Override
 	public String toString() {
-		return "AdminDTO [movieNm=" + movieNm + ", rank=" + rank + "]";
+		return "AdminDTO [title=" + title + "]";
 	}
+
+	
 
 	
 	
