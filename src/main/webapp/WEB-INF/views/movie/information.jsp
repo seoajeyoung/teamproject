@@ -994,7 +994,7 @@ $(document).on('click', '.movie_player_popup', function() {
 				    <div class="sect-layerplayer" style="display: inline-block;">
 			        <div class="cols-pop-player">
 			            <h1 class="title" id="movie_player_popup_title" style="position: absolute;">
-			            <span class="ico-trailer hd">HD</span>제목</h1>
+			            <span class="ico-trailer hd">HD</span></h1>
 			            <div class="col-pop-player">
 			                <div class="warp-pop-player" style="display: inline-block; position: relative;">
 			                <iframe id="ifrm_movie_player_popup" width="880" height="560" src="\${videoLink}" scrolling="no" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -1191,6 +1191,7 @@ $(document).on('click', '.set-btn>button', function() {
 
 var reviewNum;
 $(document).on('click', '.link-reviewwrite', function() {
+	
 	$.ajax({
 		type: 'GET',
 		url: '${pageContext.request.contextPath}/movie/getMemberReview',
@@ -1237,7 +1238,8 @@ $(document).on('click', '.link-reviewwrite', function() {
 					</div>`
 			$('body').append(text);		
 		},
-		error: function(e) {
+		error: function(e, a, b, c) {
+			debugger;
 			if(e.error != null) {
 				alert('해당 영화에 작성한 리뷰가 없습니다')
 			} else {

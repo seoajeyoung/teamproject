@@ -268,7 +268,7 @@ public class MovieController implements WebMvcConfigurer {
 			review = list.get(0);
 			return ResponseEntity.status(HttpStatus.OK).body(review);
 		} else {
-			review.put("error", "error");
+			review.put("error", "noReview");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(review);
 		}
 	}

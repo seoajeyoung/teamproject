@@ -248,8 +248,6 @@ $(document).on('click', '.btn-close', function() {
     <div class="wrap-movie-chart">
     
     
-    
-    
         <!-- Heading Map Multi -->
         <div class="tit-heading-wrap">
             <h3>무비차트</h3>

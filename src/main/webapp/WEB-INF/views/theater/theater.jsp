@@ -28,16 +28,15 @@
 <div class="sect-common">
     <div class="favorite-wrap">
         <div class="sect-favorite">
-            <h4><img src="https://img.cgv.co.kr/R2014/images/title/h4_favorite_cgv.png" alt="자주가는 CGV"></h4>
+            <h4><img src="https://img.cgv.co.kr/R2014/images/title/h4_favorite_cgv.png" alt="자주가는">자주가는 극장</h4>
             <ul id="favoriteTheaters">
-                    <li><a href="#" data-regioncode="" data-theatercode="" data-selecteddate="20240808"><span>1<em>순위</em></span></a></li>
-                    <li><a href="#" data-regioncode="" data-theatercode="" data-selecteddate="20240808"><span>2<em>순위</em></span></a></li>
-                    <li><a href="#" data-regioncode="" data-theatercode="" data-selecteddate="20240808"><span>3<em>순위</em></span></a></li>
-                    <li><a href="#" data-regioncode="" data-theatercode="" data-selecteddate="20240808"><span>4<em>순위</em></span></a></li>
-                    <li><a href="#" data-regioncode="" data-theatercode="" data-selecteddate="20240808"><span>5<em>순위</em></span></a></li>
-                
+                    <li><a href="#"><span>1<em>순위</em></span></a></li>
+                    <li><a href="#"><span>2<em>순위</em></span></a></li>
+                    <li><a href="#"><span>3<em>순위</em></span></a></li>
+                    <li><a href="#"><span>4<em>순위</em></span></a></li>
+                    <li><a href="#"><span>5<em>순위</em></span></a></li>
             </ul>
-            <button id="btn_set_my_favorite" type="button" title="새창">자주가는 CGV 설정</button>
+            <button id="btn_set_my_favorite" type="button" title="새창">자주가는 극장 설정</button>
         </div>
         <div class="sect-city">
 	        <ul>

@@ -166,79 +166,6 @@
 		</choose>
 	</select>
 	
-	<!-- 평점순 -->
-<!-- 	<select id="getSortMovies2" resultType="map" > -->
-<!-- 		SELECT M.MOVIE_NUM -->
-<!-- 			, M.TITLE -->
-<!-- 			, M.DIRECOTRNM -->
-<!-- 			, M.ACTORNM -->
-<!-- 			, M.NATION -->
-<!-- 			, M.GENRE -->
-<!-- 			, DATE_FORMAT(M.RELEASEDATE, '%Y-%M-%D') AS RELEASEDATE -->
-<!-- 			, SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL -->
-<!-- 			, M.RUNTIME -->
-<!-- 			, M.RATING -->
-<!-- 			, M.AWARDS1 -->
-<!-- 			, M.RELEASEDTS -->
-<!-- 			, M.RELEASEDTE -->
-<!-- 			, M.TARGETDT -->
-<!-- 			, M.MOVIENM -->
-<!-- 			, (M.RELEASEDATE - CURRENT_DATE()) AS D_DAY -->
-<!-- 			, IF(C.MOVIE_NUM IS NOT NULL &amp;&amp; CURRENT_DATE() BETWEEN MIN(S.SC_TIME) AND MAX(S.SC_TIME_END), 'SHOWMOVIE', 'NOTSHOW') AS "SHOW" -->
-<!-- 			, ROUND(SUM(IF(T.SC_NUM IS NOT NULL, 1, 0)) / (SELECT COUNT(*) FROM TICKETPAYMENT) * 100, 1) AS RATE	  -->
-<!-- 		    , SUM(IFNULL(R.MOVIE_LIKED, 0)) AS MOVIE_LIKED -->
-<!-- 		FROM TICKETPAYMENT T -->
-<!-- 		JOIN SCREEN S -->
-<!-- 		ON T.SC_NUM = S.SC_NUM -->
-<!-- 		JOIN CINEMA C -->
-<!-- 		ON S.CI_NUM = C.CI_NUM -->
-<!-- 		RIGHT OUTER JOIN MOVIE M -->
-<!-- 		ON C.MOVIE_NUM = M.MOVIE_NUM -->
-<!-- 		LEFT OUTER JOIN REVIEW R -->
-<!-- 		ON M.MOVIE_NUM = R.MOVIE_NUM -->
-<!-- 		GROUP BY M.MOVIE_NUM -->
-<!-- 		<choose> -->
-<!-- 		<when test="SORTSTR == 'SORTRATE'"> -->
-<!-- 			ORDER BY RATE DESC, M.RANK DESC; -->
-<!-- 		</when> -->
-<!-- 		<when test="SORTSTR == 'SORTLIKED'"> -->
-<!-- 			ORDER BY MOVIE_LIKED DESC; -->
-<!-- 		</when> -->
-<!-- 		<when test="SORTSTR == 'SORTRANK'"> -->
-<!-- 			ORDER BY M.RANK DESC; -->
-<!-- 		</when> -->
-<!-- 		</choose> -->
-<!-- 	</select> -->
-	
-	<!-- 관람객순 -->
-<!-- 	<select id="getSortMovies3" resultType="map"> -->
-<!-- 		SELECT MOVIE_NUM -->
-<!-- 			, TITLE -->
-<!-- 			, DIRECOTRNM -->
-<!-- 			, ACTORNM -->
-<!-- 			, NATION -->
-<!-- 			, GENRE -->
-<!-- 			, DATE_FORMAT(RELEASEDATE, '%Y-%m-%d') AS RELEASEDATE -->
-<!-- 			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL -->
-<!-- 			, RUNTIME -->
-<!-- 			, RATING -->
-<!-- 			, AWARDS1 -->
-<!-- 			, RELEASEDTS -->
-<!-- 			, RELEASEDTE -->
-<!-- 			, TARGETDT -->
-<!-- 			, A.RANK "RANK" -->
-<!-- 			, MOVIENM -->
-<!-- 			, (RELEASEDATE - CURRENT_DATE()) AS D_DAY -->
-<!-- 			, IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND ( -->
-<!-- 				 SELECT MAX(DATE_FORMAT(S.SC_TIME_END, '%Y-%M-%D')) -->
-<!-- 				 FROM MOVIE M JOIN CINEMA C  -->
-<!-- 				 ON M.MOVIE_NUM = C.MOVIE_NUM -->
-<!-- 				 JOIN SCREEN S ON C.CI_NUM = S.CI_NUM -->
-<!-- 				 WHERE M.MOVIE_NUM = A.MOVIE_NUM -->
-<!-- 			 	 ), 'showMovie', 'notShow') AS 'show' -->
-<!-- 		FROM MOVIE A -->
-<!-- 		ORDER BY RANK; -->
-<!-- 	</select> -->
 	
 	<!-- 영화 상세정보 -->
 	<select id="movieInfo" resultType="com.itwillbs.domain.MovieDTO" parameterType="java.lang.Integer">
@@ -283,18 +210,22 @@
 	<select id="getBookmark" resultType="java.lang.Integer">
 		SELECT IF(COUNT(*) != 0, TRUE, FALSE)
 		FROM BOOKMARK
-		WHERE MEMBER_ID = #{MEMBER_ID}
+		WHERE MEM_NUM = (SELECT MEM_NUM
+					     FROM MEMBERS
+					     WHERE MEM_ID = #{MEMBER_ID})
 		AND MOVIE_NUM = #{MOVIE_NUM}
 	</select>
 	<!-- 찜한 정보 저장 -->
 	<insert id="insertBookmark">
-		INSERT INTO BOOKMARK(MEMBER_ID, MOVIE_NUM)
-		VALUES(#{MEMBER_ID}, #{MOVIE_NUM})
+		INSERT INTO BOOKMARK(MEM_NUM, MOVIE_NUM)
+		VALUES((SELECT MEM_NUM
+			    FROM MEMBERS
+			    WHERE MEM_ID = #{MEMBER_ID}), #{MOVIE_NUM})
 	</insert>
 	<!-- 찜한 정보 삭제 -->
 	<delete id="deleteBookmark">
 		DELETE FROM BOOKMARK
-		WHERE MEMBER_ID = #{MEMBER_ID}
+		WHERE MEM_ID = #{MEMBER_ID}
 		AND MOVIE_NUM = #{MOVIE_NUM}
 	</delete>
 	
@@ -351,12 +282,12 @@
 	        ORDER BY M.RANK
 	        LIMIT 6
 	        </when>
-	        <when test="MEMBER_ID != null">
+	        <when test="MEM_ID != null">
 			AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
 							  FROM MOVIE
 							  WHERE MOVIE_NUM IN (SELECT MOVIE_NUM
 											      FROM BOOKMARK
-												  WHERE MEMBER_ID = #{MEMBER_ID})
+												  WHERE MEM_ID = #{MEMBER_ID})
 							  GROUP BY GENRE
 							  ORDER BY COUNT(GENRE) DESC
 					   		  limit 1)
@@ -373,14 +304,16 @@
 		SELECT REVIEW_CONTENT
 		FROM REVIEW
 		WHERE MOVIE_NUM = #{MOVIE_NUM}
-		AND MEMBER_ID = #{MEMBER_ID}
+		AND MEM_NUM = (SELECT MEM_NUM
+				       FROM MEMBERS
+				       WHERE MEM_ID = #{MEMBER_ID})
 	</select>
 	
 	<!-- 평점(리뷰) 저장 -->
 	<insert id="insertReview">
 		INSERT INTO REVIEW(
 			MOVIE_NUM
-			, MEMBER_ID
+			, MEM_NUM
 			, REVIEW_DATE
 			, REVIEW_CONTENT
 			, RECOMMEND
@@ -397,7 +330,9 @@
 			, EM_TENSION)
 		VALUES(
 			#{MOVIE_NUM}
-			, #{MEMBER_ID}
+			, (SELECT MEM_NUM
+		       FROM MEMBERS
+		       WHERE MEM_ID = #{MEMBER_ID})
 			, NOW()
 			, #{REVIEW_CONTENT}
 			, 0
@@ -419,19 +354,21 @@
 	<select id="getReview" resultType="java.util.LinkedHashMap" parameterType="map">
 		select REVIEW_NUM
 			, MOVIE_NUM
-			, MEMBER_ID
+			, MEM_ID
 			, DATE_FORMAT(REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
 			, REVIEW_CONTENT
 			, RECOMMEND
 		FROM REVIEW
 		WHERE 1=1
 		
-		<if test="MEMBER_ID != null and MOVIE_NUM != null">
-		AND MEMBER_ID = #{MEMBER_ID}
+		<if test="MEM_ID != null and MOVIE_NUM != null">
+		AND MEM_ID = (SELECT MEM_NUM
+					  FROM MEMBERS
+					  WHERE MEM_ID = #{MEMBER_ID})
 		AND MOVIE_NUM = #{MOVIE_NUM}
 		</if>
 		
-		<if test="MEMBER_ID == null and MOVIE_NUM != null"> 
+		<if test="MEM_ID == null and MOVIE_NUM != null"> 
 		AND MOVIE_NUM = #{MOVIE_NUM}
         <choose>
             <when test="SORT_TAB.equals('most')">
@@ -471,13 +408,17 @@
 		SELECT count(*)
 		FROM RECOMMEND_CHECK
 		WHERE REVIEW_NUM = #{REVIEW_NUM}
-		AND MEMBER_ID = #{MEMBER_ID};
+		AND MEM_NUM = (SELECT MEM_NUM
+					   FROM MEMBERS
+					   WHERE MEM_ID = #{MEMBER_ID}) 
 	</select>
 	
 	<!-- 리뷰 추천유저 정보 저장 -->
 	<insert id="reUserinsert">
-		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEMBER_ID)
-		VALUES(#{REVIEW_NUM}, #{MEMBER_ID})
+		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEM_ID)
+		VALUES(#{REVIEW_NUM}, (SELECT MEM_NUM
+							   FROM MEMBERS
+							   WHERE MEM_ID = #{MEMBER_ID}))
 	</insert>
 	<!-- 리뷰 수정 -->
 	<update id="updateReview">
@@ -495,11 +436,15 @@
 	<select id="getMyMovieCount" resultType="map">
 		SELECT (SELECT COUNT(*)
 				FROM REVIEW
-		        WHERE MEMBER_ID = #{MEMBER_ID}) AS REVIEW
+		        WHERE MEM_NUM = (SELECT MEM_NUM
+							     FROM MEMBERS
+							     WHERE MEM_ID = #{MEMBER_ID})) AS REVIEW
 		    	,    
 				(SELECT COUNT(*)
 				FROM BOOKMARK
-		        WHERE MEMBER_ID = #{MEMBER_ID}) AS BOOKMARK
+		        WHERE MEM_NUM = (SELECT MEM_NUM
+							     FROM MEMBERS
+							     WHERE MEM_ID = #{MEMBER_ID})) AS BOOKMARK
 		FROM DUAL;
 	</select>
 	
@@ -516,7 +461,9 @@
 	            , B.BOOKMARK_DATE AS SAVEDDATE
 	        FROM MOVIE M
 	        RIGHT OUTER JOIN BOOKMARK B ON M.MOVIE_NUM = B.MOVIE_NUM
-	        WHERE B.MEMBER_ID = #{MEMBER_ID}
+	        WHERE B.MEM_NUM = (SELECT MEM_NUM
+						       FROM MEMBERS
+						       WHERE MEM_ID = #{MEMBER_ID})
 	    </when>
 	    <when test="LABEL.equals('review')">
 	        SELECT M.MOVIE_NUM
@@ -531,7 +478,9 @@
 	            , R.REVIEW_CONTENT
 	        FROM MOVIE M
 	        RIGHT OUTER JOIN REVIEW R ON M.MOVIE_NUM = R.MOVIE_NUM
-	        WHERE R.MEMBER_ID = #{MEMBER_ID}
+	        WHERE R.MEM_NUM = (SELECT MEM_NUM
+						       FROM MEMBERS
+						       WHERE MEM_ID = #{MEMBER_ID});
 	    </when>
 	    <when test="LABEL.equals('watched')">
 	        SELECT DISTINCT
@@ -549,9 +498,9 @@
 	        JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 	        JOIN TICKETPAYMENT T ON S.SC_NUM = T.SC_NUM
 	        JOIN MEMBERS M2 ON T.MEMBER_NUM = M2.MEMBER_NUM
-	        WHERE T.MEMBER_NUM = (SELECT MEMBER_NUM
+	        WHERE T.MEM_NUM = (SELECT MEM_NUM
 	                              FROM MEMBERS
-	                              WHERE MEMBER_ID = #{MEMBER_ID})
+	                              WHERE MEM_ID = #{MEMBER_ID})
 	    </when>
 	</choose>
 	
@@ -597,6 +546,8 @@
 		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = #{C_DATE}
 		AND MOVIE_NUM = #{MOVIE_NUM};
 	</select>
+	
+	
 
 	<!-- 채현 메인 상영예정 영화 디데이 리스트 -->
 	<select id="getMovie3" resultType="java.util.LinkedHashMap">
