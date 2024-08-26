@@ -39,6 +39,12 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
+<style>
+.input_txt {
+	border: 0px !important;
+}
+</style>
+
 
 </head>
 <body>
@@ -48,7 +54,7 @@
 
 		<!-- Contents Area -->
 		<div id="contents" class="">
-		<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
+			<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 
 			<!-- Contents Start -->
 
@@ -74,7 +80,8 @@
 										결제 내역<i></i>
 								</a></li>
 								<li class=""><a
-									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의 선호 영화<i></i>
+									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의
+										선호 영화<i></i>
 								</a></li>
 								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/often"
@@ -116,137 +123,148 @@
 										<div class="info"></div>
 									</div>
 									<div class="table_col">
-									<form action="${pageContext.request.contextPath}/mypage/myupdatePro" method="post">
-									<input type="hidden" name="member_id" value="${sessionScope.member_id}">
-										<table>
-											<colgroup>
-												<col style="width: 25%">
-												<col>
-											</colgroup>
-											<tbody>
-							
+										<form
+											action="${pageContext.request.contextPath}/mypage/myupdatePro"
+											method="post">
+											<input type="hidden" name="member_id"
+												value="${sessionScope.member_id}">
+											<table>
+												<colgroup>
+													<col style="width: 25%">
+													<col>
+												</colgroup>
+												<tbody>
 
-												<tr class="input">
-													<th scope="row">이름</th>
-													<td style="padding-top: 20px;"><span
-														class="input_txt w330" style="padding-right: 100px;">
-															<input type="text" id="name" name="member_name" class="text"
-															value="${mypageDTO.member_name}">
-													</span></td>
-												</tr>
-												<tr>
-													<th scope="row">아이디</th>
-													<td style="padding-top: 20px; padding-right: 140px;"><span
-														id="mbr_id_area">${sessionScope.member_id}</span></td>
-												</tr>
-												<tr>
-													<th scope="row">비밀번호</th>
-													<td style="padding-top: 18px;"><span
-														class="input_txt w330" style="padding-right: 100px;">
-															<input type="password" id="originalpwd" name="originalpwd" class="text"
-															placeholder="비밀번호를 입력해주세요." title="비밀번호" maxlength="20">
-													</span></td>
-												</tr>
-												<tr>
-													<th scope="row" style="padding-top: 30px;">비밀번호 변경</th>
-													<td style="padding-top: 18px;"><span
-														class="input_txt w330" style="padding-right: 100px;">
-															<input type="password" id="changepwd" name="member_pass" class="text"
-															placeholder="변경할 비밀번호를 입력해주세요." title="비밀번호"
-															maxlength="20">
-													</span><br> <span class="passhint"
-														style="padding-right: 25px;">(영문, 숫자, 특수문자를 하나 이상
-															포함해야 합니다.(5~20자))</span></td>
-												</tr>
-												<tr>
-													<th scope="row" style="padding-top: 39px;">비밀번호 확인</th>
-													<td style="padding-top: 18px; padding-bottom: 10px;"><span
-														class="input_txt w330" style="padding-right: 100px;">
-															<input type="password" id="changepwdcheck" name="member_passcheck" class="text"
-															placeholder="변경할 비밀번호를 확인해주세요." title="비밀번호"
-															maxlength="20">
-													</span><br> <span class="passhint"
-														style="padding-right: 25px;">(영문, 숫자, 특수문자를 하나 이상
-															포함해야 합니다.(5~20자))</span><br> <span id="password-match-hint"
-														style="padding-right: 270px;"></span></td>
-												</tr>
-												<tr class="input">
-													<th scope="row"><label for="birth_yy">생년월일</label></th>
-													<td style="padding-top: 20px; padding-right: 120px;"><span
-														class="w120 " data-skin="form"> <fmt:formatDate
-																value="${member_birth}" pattern="yyyy년 MM월 dd일" />
-													</span></td>
-												</tr>
-												<tr>
-													<th scope="row">성별</th>
-													<td style="padding-top: 20px; padding-right: 140px;">
-														<div class="reg_content radio_area">
-															<c:if test="${mypageDTO.member_gender eq '남' }">
-																<input type="radio" class="css-radio" id="mmm_lbl"
-																	name="member_gender" value="남" checked>
-																<label for="mmm_lbl">남</label>
-																<input type="radio" class="css-radio" id="www_lbl"
-																	name="member_gender" value="여">
-																<label for="www_lbl">여</label>
-															</c:if>
-															<c:if test="${mypageDTO.member_gender eq '여' }">
-																<input type="radio" class="css-radio" id="mmm_lbl"
-																	name="member_gender" value="남">
-																<label for="mmm_lbl">남</label>
-																<input type="radio" class="css-radio" id="www_lbl"
-																	name="member_gender" value="여" checked>
-																<label for="www_lbl">여</label>
-															</c:if>
-														</div>
-													</td>
-												</tr>
-												<tr class="input">
-													<th scope="row" style="padding-top: 24px;"><label
-														for="mob_no_1">휴대전화번호</label></th>
 
-													<td style="padding-top: 27px;">
-														<div>
-															<span class="input_txt w100 phon_write"
-																style="padding-right: 100px;" id="mobileNoInfo"><input
-																type="text" id="phone" class="text" name="member_phone"
-																value="${mypageDTO.member_phone}"></span>
-														</div>
-													</td>
-												</tr>
-												<tr class="input">
-													<th scope="row"><label for="email_addr1">이메일</label></th>
-													<td style="padding-top: 20px;">
+													<tr class="input">
+														<th scope="row">이름</th>
+														<td style="padding-top: 20px;"><span
+															class="input_txt w330" style="padding-right: 100px;">
+																<input type="text" id="name" name="member_name"
+																class="text" value="${mypageDTO.member_name}">
+														</span></td>
+													</tr>
+													<tr>
+														<th scope="row">아이디</th>
+														<td style="padding-top: 20px; padding-right: 140px;"><span
+															id="mbr_id_area">${sessionScope.member_id}</span></td>
+													</tr>
+													<tr>
+														<th scope="row">비밀번호</th>
+														<td style="padding-top: 18px;"><span
+															class="input_txt w330" style="padding-right: 100px;">
+																<input type="password" id="originalpwd"
+																name="originalpwd" class="text"
+																placeholder="비밀번호를 입력해주세요." title="비밀번호" maxlength="20">
+														</span></td>
+													</tr>
+													<tr>
+														<th scope="row" style="padding-top: 30px;">비밀번호 변경</th>
+														<td style="padding-top: 18px;"><span
+															class="input_txt w330"
+															style="padding-right: 100px; margin-bottom: 5px;">
+																<input type="password" id="changepwd" name="member_pass"
+																class="text" placeholder="변경할 비밀번호를 입력해주세요."
+																title="비밀번호" maxlength="20">
+														</span><br> <span class="passhint"
+															style="padding-right: 25px;">(영문, 숫자, 특수문자를 하나 이상
+																포함해야 합니다.(5~20자))</span></td>
+													</tr>
+													<tr>
+														<th scope="row" style="padding-top: 39px;">비밀번호 확인</th>
+														<td style="padding-top: 18px; padding-bottom: 10px;"><span
+															class="input_txt w330"
+															style="padding-right: 100px; margin-bottom: 5px;">
+																<input type="password" id="changepwdcheck"
+																name="member_passcheck" class="text"
+																placeholder="변경할 비밀번호를 확인해주세요." title="비밀번호"
+																maxlength="20">
+														</span><br> <span class="passhint"
+															style="padding-right: 25px;">(영문, 숫자, 특수문자를 하나 이상
+																포함해야 합니다.(5~20자))</span><br> <span
+															id="password-match-hint" style="padding-right: 270px;"></span></td>
+													</tr>
+													<tr class="input">
+														<th scope="row"><label for="birth_yy">생년월일</label></th>
+														<td style="padding-top: 20px; padding-right: 120px;"><span
+															class="w120 " data-skin="form"> <fmt:formatDate
+																	value="${member_birth}" pattern="yyyy년 MM월 dd일" />
+														</span></td>
+													</tr>
+													<tr>
+														<th scope="row">성별</th>
+														<td style="padding-top: 20px; padding-right: 140px;">
+															<div class="reg_content radio_area">
+																<c:if test="${mypageDTO.member_gender eq '남' }">
+																	<input type="radio" class="css-radio" id="mmm_lbl"
+																		name="member_gender" value="남" checked>
+																	<label for="mmm_lbl">남</label>
+																	<input type="radio" class="css-radio" id="www_lbl"
+																		name="member_gender" value="여">
+																	<label for="www_lbl">여</label>
+																</c:if>
+																<c:if test="${mypageDTO.member_gender eq '여' }">
+																	<input type="radio" class="css-radio" id="mmm_lbl"
+																		name="member_gender" value="남">
+																	<label for="mmm_lbl">남</label>
+																	<input type="radio" class="css-radio" id="www_lbl"
+																		name="member_gender" value="여" checked>
+																	<label for="www_lbl">여</label>
+																</c:if>
+															</div>
+														</td>
+													</tr>
+													<tr class="input">
+														<th scope="row" style="padding-top: 21px;"><label
+															for="mob_no_1">휴대전화번호</label></th>
 
-														<div class="textForm emailContainer">
-															<input id=email name="email_username" type="text"
-																class="email"> @ <input name="email_domain"
-																type="text" class="emailDomain" id="emailDomain">
-															<select class="domainList" id="domainList">
-																<option value="">직접 입력</option>
-																<option value="naver.com">naver.com</option>
-																<option value="gmail.com">gmail.com</option>
-																<option value="daum.net">daum.net</option>
-															</select>
-														</div>
-														<input type="hidden" name="member_email" id="completeEmail">
+														<td style="padding-top: 15px;">
+															<div>
+																<span class="input_txt w100 phon_write"
+																	style="padding-right: 100px;" id="mobileNoInfo"><input
+																	type="text" id="phone" class="text" name="member_phone"
+																	value="${mypageDTO.member_phone}"></span>
+															</div>
+														</td>
+													</tr>
+													<tr class="input">
+														<th scope="row"><label for="email_addr1">이메일</label></th>
+														<td style="padding-top: 20px;">
 
-													</td>
-												</tr>
-												<tr>
-													<th scope="row">주소</th>
-													<td style="padding-top: 20px;"><span
-														class="input_txt w100 phon_write"
-														style="padding-right: 100px;" id="mobileNoInfo"><input
-															type="text" id="address" class="text" name="member_address"
-															value="${mypageDTO.member_address}"></span>
-												</tr>
-											</tbody>
-										</table>
-										
-										<div class="btn_sec btn_center">
-											<button type="button" class="btn" id="btn_cancel">취소</button>
-											<button type="submit" class="btn btn_em" id="btn_submit">수정완료</button>
-										</div>
+															<div class="textForm emailContainer">
+																<input id=email name="email_username" type="text"
+																	class="email" style="background: #f2f0e5; color: #888;">
+																@ <input name="email_domain" type="text"
+																	class="emailDomain" id="emailDomain"
+																	style="background: #f2f0e5; color: #888;"> <select
+																	class="domainList" id="domainList"
+																	style="background: #f2f0e5; color: #888; border: 1px solid #b5b5b5;">
+																	<option value="">직접 입력</option>
+																	<option value="naver.com">naver.com</option>
+																	<option value="gmail.com">gmail.com</option>
+																	<option value="daum.net">daum.net</option>
+																</select>
+															</div> <input type="hidden" name="member_email"
+															id="completeEmail">
+
+														</td>
+													</tr>
+													<tr>
+														<th scope="row">주소</th>
+														<td style="padding-top: 20px;"><span
+															class="input_txt w100 phon_write"
+															style="padding-right: 100px;" id="mobileNoInfo"><input
+																type="text" id="address" class="text"
+																name="member_address"
+																value="${mypageDTO.member_address}"></span>
+													</tr>
+												</tbody>
+											</table>
+
+											<div class="btn_sec btn_center">
+												<button type="button" class="btn" id="btn_cancel">취소</button>
+												<button type="submit" class="btn btn_em" id="btn_submit">수정완료</button>
+											</div>
 										</form>
 									</div>
 									<!-- //기본정보 -->
@@ -262,8 +280,8 @@
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<script>
 	// JavaScript로 이메일 분리 및 입력 필드에 채우기
 	document.addEventListener("DOMContentLoaded", function() {

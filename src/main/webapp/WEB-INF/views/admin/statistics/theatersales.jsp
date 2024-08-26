@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - MovieStatistics</title>
+<title>OSTicket - TheaterStatistics</title>
 <!-- 페이지 title -->
 
 <!-- Custom fonts for this template-->
@@ -69,9 +69,12 @@ input[type="date"]::after, input[type="month"]::after {
 }
 
 a {
-	text-decoration: none;
-	background-color: transparent;
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: transparent;
 }
+
+
 </style>
 </head>
 
@@ -100,22 +103,207 @@ a {
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
-					<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
+					<!-- Page Heading -->
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">화면이름뭘로할래</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
+					<!--                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i -->
+					<!--                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
 
+					<!-- Content Row -->
+					<div class="row">
 
-					<div class="c_tab_wrap"
-						style="width: 1445px; margin-left: 40px !important;">
-						<ul class="c_tab" id="list"
-							style="margin-left: 15.5px !important;">
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-primary shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+												일별매출 (Daily)</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-calendar fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-success text-uppercase mb-1">
+												월별매출 (Monthly)</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-info shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+											</div>
+											<div class="row no-gutters align-items-center">
+												<div class="col-auto">
+													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+												</div>
+												<div class="col">
+													<div class="progress progress-sm mr-2">
+														<div class="progress-bar bg-info" role="progressbar"
+															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Pending Requests Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-warning shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+												Pending Requests</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-comments fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Content Row -->
+					<div class="row">
+
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-primary shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+												매출 통계</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">매출
+												통계</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-calendar fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-success text-uppercase mb-1">
+												월별매출 (Monthly)</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Earnings (Monthly) Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-info shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+											</div>
+											<div class="row no-gutters align-items-center">
+												<div class="col-auto">
+													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+												</div>
+												<div class="col">
+													<div class="progress progress-sm mr-2">
+														<div class="progress-bar bg-info" role="progressbar"
+															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+															aria-valuemax="100"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Pending Requests Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-warning shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+												Pending Requests</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-comments fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="c_tab_wrap">
+						<ul class="c_tab" id="list">
 							<li><a
-								href="${pageContext.request.contextPath}/admin/member/index"
-								style="color: #ffffff; font-size: 15px;">전체 매출</a></li>
+								href="${pageContext.request.contextPath}/admin/member/index">전체
+									매출</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/statistics/moviesales"
-								style="color: #ffffff; font-size: 15px;">영화 매출</a></li>
+								href="${pageContext.request.contextPath}/admin/statistics/moviesales">영화
+									매출</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/statistics/storesales"
-								style="color: #ffffff; font-size: 15px;">스토어 매출</a></li>
+								href="${pageContext.request.contextPath}/admin/statistics/storesales">스토어
+									매출</a></li>
 						</ul>
 					</div>
 					<br>
@@ -125,19 +313,16 @@ a {
 					<div class="row" style="margin-right: 90px;">
 
 						<!-- Area Chart -->
-						<div class="col-lg-6" style="padding-left: 50px; width: 762px;">
-							<div class="card shadow mb-4" style="width: 708px;">
+						<div class="col-lg-6" style="padding-left: 50px;">
+							<div class="card shadow mb-4" style="width: 700px;">
 								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 align-items-center justify-content-between">
 									<h6
 										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
-										<span>일간 영화 매출</span>
+										<span>극장별 일일 영화 매출</span>
 										<div class="d-flex align-items-center">
-											<input type="date" id="start_date" name="start_date" readonly>
-											<!-- start_date를 readonly로 설정 -->
-											&nbsp;&nbsp; <input type="date" id="end_date" name="end_date">
-											<!-- end_date를 입력 가능 -->
+											<input type="date" id="end_date" name="end_date">
 											&nbsp;
 											<button id="searchWeekButton" class="custom-button">검색</button>
 										</div>
@@ -146,25 +331,22 @@ a {
 								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas id="weeklyMovieChart"></canvas>
+										<canvas id="dailyTheaterChart"></canvas>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- Area Chart -->
-						<div class="col-lg-6" style="padding-left: 25px; width: 762px;">
-							<div class="card shadow mb-4" style="width: 708px;">
+						<div class="col-lg-6" style="padding-left: 50px;">
+							<div class="card shadow mb-4" style="width: 700px;">
 								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 align-items-center justify-content-between">
 									<h6
 										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
-										<span>월간 영화 매출</span>
+										<span>극장별 월간 영화 매출</span>
 										<div class="d-flex align-items-center">
-											<input type="month" id="start_month" name="start_month"
-												readonly>
-											<!-- start_date를 readonly로 설정 -->
-											&nbsp;&nbsp; <input type="month" id="end_month"
+											<input type="month" id="end_month"
 												name="end_month">
 											<!-- end_date를 입력 가능 -->
 											&nbsp;
@@ -175,7 +357,7 @@ a {
 								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas id="monthlyMovieChart"></canvas>
+										<canvas id="monthlyTheaterChart"></canvas>
 									</div>
 								</div>
 							</div>
@@ -370,7 +552,7 @@ a {
 	        {
 	            label: '전일 대비 매출 증감률 (%)',
 	            data: percentChange,
-	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            backgroundColor: 'rgba(54, 162, 235, 0.2)',
 	            borderColor: 'rgba(54, 162, 235, 0.5)',
 	            type: 'line',
 	            yAxisID: 'y1',
@@ -460,7 +642,7 @@ a {
 	        {
 	            label: '전월 대비 매출 증감률 (%)',
 	            data: percentChange,
-	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            backgroundColor: 'rgba(54, 162, 235, 0.2)',
 	            borderColor: 'rgba(54, 162, 235, 0.5)',
 	            type: 'line',
 	            yAxisID: 'y1',

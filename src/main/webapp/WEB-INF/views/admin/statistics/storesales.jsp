@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>OSTicket - Admin</title>
+<title>OSTicket - StoreStatistics</title>
 <!-- 페이지 title -->
 
 <!-- Custom fonts for this template-->
@@ -33,7 +33,48 @@
 	href="${pageContext.request.contextPath}/resources/css/mypage/customer.css"
 	rel="stylesheet">
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.custom-button {
+	background-color: #b0b0b0; /* 내부 색 */
+	border: 1px solid #dfdfdf; /* 테두리 색 */
+	border-radius: 10px; /* 모서리를 둥글게 */
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 */
+	color: #ffffff; /* 글자 색 */
+	padding: 3px 10px; /* 버튼 크기 조절 */
+	cursor: pointer; /* 마우스를 올렸을 때 커서 모양 변경 */
+}
+
+.custom-button:hover {
+	background-color: #a0a0a0; /* 호버 시 내부 색 */
+}
+
+/* 테두리와 내부 텍스트 스타일 변경 */
+input[type="date"], [type="month"] {
+	border: 1px solid #e0e0e0;
+	background-color: #f9f9f9;
+	color: #a0a0a0;
+	padding: 3px;
+	border-radius: 8px;
+	font-weight: bold;
+	width: 130px;
+	text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 선택된 날짜 텍스트 색상 */
+input[type="date"]::after, input[type="month"]::after {
+	color: #333; /* 날짜 선택 후 텍스트 색상 */
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+
+</style>
 </head>
 
 
@@ -60,223 +101,49 @@
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
+				
+					<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" />
 
-					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800"
-						style="margin-left: 30px; padding-top: 12px;">화면이름뭘로할래</h1>
-					<hr style="margin-bottom: 20px; margin-top: 30px;">
-					<!--                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i -->
-					<!--                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
 
-					<!-- Content Row -->
-					<div class="row">
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-primary shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												일별매출 (Daily)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-success shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-success text-uppercase mb-1">
-												월별매출 (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-info shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-											</div>
-											<div class="row no-gutters align-items-center">
-												<div class="col-auto">
-													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-												</div>
-												<div class="col">
-													<div class="progress progress-sm mr-2">
-														<div class="progress-bar bg-info" role="progressbar"
-															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Pending Requests Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-warning shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-												Pending Requests</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-comments fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Content Row -->
-					<div class="row">
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-primary shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												매출 통계</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">매출
-												통계</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-success shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-success text-uppercase mb-1">
-												월별매출 (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Earnings (Monthly) Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-info shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-											</div>
-											<div class="row no-gutters align-items-center">
-												<div class="col-auto">
-													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-												</div>
-												<div class="col">
-													<div class="progress progress-sm mr-2">
-														<div class="progress-bar bg-info" role="progressbar"
-															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Pending Requests Card Example -->
-						<div class="col-xl-3 col-md-6 mb-4">
-							<div class="card border-left-warning shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row no-gutters align-items-center">
-										<div class="col mr-2">
-											<div
-												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-												Pending Requests</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-										</div>
-										<div class="col-auto">
-											<i class="fas fa-comments fa-2x text-gray-300"></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="c_tab_wrap">
-						<ul class="c_tab" id="list">
+					<div class="c_tab_wrap"
+						style="width: 1445px; margin-left: 40px !important;">
+						<ul class="c_tab" id="list"
+							style="margin-left: 15.5px !important;">
 							<li><a
-								href="${pageContext.request.contextPath}/admin/statistics/mypayment">전체
-									매출</a></li>
+								href="${pageContext.request.contextPath}/admin/member/index"
+								style="color: #ffffff; font-size: 15px;">전체 매출</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/statistics/moviesales">영화
-									매출</a></li>
+								href="${pageContext.request.contextPath}/admin/statistics/moviesales"
+								style="color: #ffffff; font-size: 15px;">영화 매출</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/admin/statistics/storesales">스토어
-									매출</a></li>
+								href="${pageContext.request.contextPath}/admin/statistics/storesales"
+								style="color: #ffffff; font-size: 15px;">스토어 매출</a></li>
 						</ul>
 					</div>
 					<br>
 
 					<!-- Content Row -->
 
-					<div class="row">
+					<div class="row" style="margin-right: 90px;">
 
 						<!-- Area Chart -->
-						<div class="col-lg-6">
-							<div class="card shadow mb-4" style="width: 700px;">
+						<div class="col-lg-6" style="padding-left: 50px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
 								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-danger">일별 스토어 매출</h6>
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
+										<span>일간 스토어 매출</span>
+										<div class="d-flex align-items-center">
+											<input type="date" id="start_date" name="start_date" readonly>
+											<!-- start_date를 readonly로 설정 -->
+											&nbsp;&nbsp; <input type="date" id="end_date" name="end_date">
+											<!-- end_date를 입력 가능 -->
+											&nbsp;
+											<button id="searchWeekButton" class="custom-button">검색</button>
+										</div>
+									</h6>
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
@@ -287,17 +154,30 @@
 							</div>
 						</div>
 						<!-- Area Chart -->
-						<div class="col-lg-6">
-							<div class="card shadow mb-4" style="width: 700px;">
+						<div class="col-lg-6" style="padding-left: 25px; width: 762px;">
+							<div class="card shadow mb-4" style="width: 708px;">
 								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-danger">월별 스토어 매출</h6>
+									<h6
+										class="m-0 font-weight-bold text-danger d-flex justify-content-between align-items-center">
+										<span>월간 스토어 매출</span>
+										<div class="d-flex align-items-center">
+											<input type="month" id="start_month" name="start_month"
+												readonly>
+											<!-- start_date를 readonly로 설정 -->
+											&nbsp;&nbsp; <input type="month" id="end_month"
+												name="end_month">
+											<!-- end_date를 입력 가능 -->
+											&nbsp;
+											<button id="searchMonthButton" class="custom-button">검색</button>
+										</div>
+									</h6>
 								</div>
 								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-area">
-										<canvas id="myAreaChart"></canvas>
+										<canvas id="monthlyStoreChart"></canvas>
 									</div>
 								</div>
 							</div>
@@ -349,99 +229,349 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-
 	<script>
-    const weekSalesData = JSON.parse('${weekSalesDataJson}');
-    
-    // 차트에 사용될 데이터 설정
-    const labels = weekSalesData.map(data => data.ssales_DATE);
-    const salesData = weekSalesData.map(data => parseInt(data.store_TOTALSALES));
+	document.addEventListener('DOMContentLoaded', function () {
+	    // 일별 매출 데이터를 설정합니다.
+	    const weekSalesData = JSON.parse('${weekSalesDataJson}');
+	    updateWeekChart(weekSalesData); // 페이지가 로드될 때 기본 차트 설정
 
-    console.log(labels); // 날짜가 제대로 들어가는지 확인
-    console.log(salesData); // 매출 데이터가 숫자로 변환되었는지 확인
+	    const startDateInput = document.getElementById('start_date');
+	    const endDateInput = document.getElementById('end_date');
 
-    // 전일 대비 증감률 계산
-    const percentChange = salesData.map((current, index, array) => {
-        if (index === 0) return 0; // 첫 번째 날은 전일이 없으므로 0%
-        const previous = array[index - 1];
-        const change = ((current - previous) / previous) * 100;
-        return change.toFixed(2); // 소수점 두 자리로 고정
-    });
+	    endDateInput.addEventListener('change', function () {
+	        const selectedDate = new Date(endDateInput.value);
+	        const today = new Date();
+	        today.setHours(0, 0, 0, 0);
 
-    console.log(percentChange); // 증감률 데이터를 확인
+	        if (selectedDate > today) {
+	            alert("종료 날짜는 오늘을 포함, 미래일 수 없습니다.");
+	            endDateInput.value = '';
+	            startDateInput.value = '';
+	            return;
+	        }
 
-    const ctx = document.getElementById('weeklyStoreChart').getContext('2d');
-    const chartData = {
-        labels: labels, // X축에 날짜 추가
-        datasets: [{
-            label: '스토어 매출',
-            data: salesData, // Y축에 매출 추가
-            borderColor: 'rgba(255, 99, 132, 1)',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderWidth: 1,
-            yAxisID: 'y'
-        },
-        {
-            label: '전일 대비 매출 증감률',
-            data: percentChange, // Y축에 증감률 추가
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 0.5)',
-            type: 'line',
-            yAxisID: 'y1',
-            fill: false,
-        }]
-    };
+	        const startDate = new Date(selectedDate);
+	        startDate.setDate(selectedDate.getDate() - 6);
 
-    const chartOptions = {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString() + '원'; // 숫자 뒤에 '원' 추가
-                    }
-                },
-                position: 'left',
-            },
-            y1: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return value + '%'; // 숫자 뒤에 '%' 추가
-                    }
-                },
-                position: 'right',
-                grid: {
-                    drawOnChartArea: false, // 두 번째 Y축의 격자선을 숨깁니다.
-                }
-            }
-        },
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        if (context.dataset.type === 'line') {
-                            label += context.raw + '%'; // 증감률 툴팁에 '%' 추가
-                        } else {
-                            label += context.raw.toLocaleString() + '원'; // 매출 툴팁에 '원' 추가
-                        }
-                        return label;
-                    }
-                }
-            }
-        }
-    };
+	        startDateInput.valueAsDate = startDate;
+	    });
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: chartOptions
-    });
+	    document.getElementById('searchWeekButton').addEventListener('click', function () {
+	        const startDate = startDateInput.value;
+	        const endDate = endDateInput.value;
+
+	        if (!endDate) {
+	            alert("종료 날짜를 선택하세요.");
+	        } else if (new Date(startDate) > new Date(endDate)) {
+	            alert("시작 날짜는 종료 날짜보다 앞서야 합니다.");
+	        } else {
+	            fetchWeekSalesData(startDate, endDate);
+	        }
+	    });
+
+	    // 월별 매출 데이터를 설정합니다.
+	    const monthSalesData = JSON.parse('${monthSalesDataJson}');
+	    updateMonthChart(monthSalesData); // 페이지가 로드될 때 기본 차트 설정
+
+	    const startMonthInput = document.getElementById('start_month');
+	    const endMonthInput = document.getElementById('end_month');
+
+	    endMonthInput.addEventListener('change', function () {
+	        const selectedMonth = new Date(endMonthInput.value + '-01');
+	        const today = new Date();
+
+	        if (selectedMonth.getFullYear() > today.getFullYear() || 
+	            (selectedMonth.getFullYear() === today.getFullYear() && selectedMonth.getMonth() > today.getMonth())) {
+	            alert("종료 월은 미래일 수 없습니다.");
+	            endMonthInput.value = '';
+	            startMonthInput.value = '';
+	            return;
+	        }
+
+	        const startMonth = new Date(selectedMonth);
+	        startMonth.setMonth(selectedMonth.getMonth() - 5);
+
+	        startMonthInput.valueAsDate = startMonth;
+	    });
+
+	    document.getElementById('searchMonthButton').addEventListener('click', function () {
+	        const startMonth = startMonthInput.value;
+	        const endMonth = endMonthInput.value;
+
+	        if (!endMonth) {
+	            alert("종료 월을 선택하세요.");
+	        } else if (new Date(startMonth) > new Date(endMonth)) {
+	            alert("시작 월은 종료 월보다 앞서야 합니다.");
+	        } else {
+	            fetchMonthSalesData(startMonth, endMonth);
+	        }
+	    });
+	});
+
+	// 일별 매출 데이터를 가져오는 함수
+	function fetchWeekSalesData(startDate, endDate) {
+	    $.ajax({
+	        url: '${pageContext.request.contextPath}/admin/statistics/storeWeekSalesSearch',
+	        type: 'GET',
+	        data: {
+	            start_date: startDate,
+	            end_date: endDate
+	        },
+	        dataType: 'json',
+	        success: function(data) {
+	            updateWeekChart(data);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error fetching sales data: ", status, error);
+	        }
+	    });
+	}
+
+	// 월별 매출 데이터를 가져오는 함수
+	function fetchMonthSalesData(startMonth, endMonth) {
+	    $.ajax({
+	        url: '${pageContext.request.contextPath}/admin/statistics/storeMonthSalesSearch',
+	        type: 'GET',
+	        data: {
+	            start_date: startMonth,
+	            end_date: endMonth
+	        },
+	        dataType: 'json',
+	        success: function(data) {
+	            updateMonthChart(data);
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error fetching sales data: ", status, error);
+	        }
+	    });
+	}
+
+	// 일별 차트를 업데이트하는 함수
+	function updateWeekChart(weekSalesData) {
+	    const labels = weekSalesData.map(data => data.sales_DATE);
+	    const salesData = weekSalesData.map(data => parseInt(data.store_TOTALSALES));
+
+	    const percentChange = salesData.map((current, index, array) => {
+	        if (index === 0) return 100; // 첫 번째 날은 100%로 시작
+	        const previous = array[index - 1];
+	        const change = (current / previous) * 100;
+	        return change.toFixed(2);
+	    });
+
+	    const ctx = document.getElementById('weeklyStoreChart').getContext('2d');
+	    const chartData = {
+	        labels: labels,
+	        datasets: [{
+	            label: '스토어 매출 (원)',
+	            data: salesData,
+	            borderColor: 'rgba(255, 99, 132, 1)',
+	            backgroundColor: 'rgba(255, 99, 132, 0.05)',
+	            borderWidth: 1,
+	            yAxisID: 'y'
+	        },
+	        {
+	            label: '전일 대비 매출 증감률 (%)',
+	            data: percentChange,
+	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            borderColor: 'rgba(54, 162, 235, 0.5)',
+	            type: 'line',
+	            yAxisID: 'y1',
+	            fill: false,
+	        }]
+	    };
+
+	    const chartOptions = {
+	        scales: {
+	            y: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value.toLocaleString() + '원';
+	                    }
+	                },
+	                position: 'left',
+	            },
+	            y1: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value + '%';
+	                    }
+	                },
+	                position: 'right',
+	                grid: {
+	                    drawOnChartArea: false,
+	                }
+	            }
+	        },
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        let label = context.dataset.label || '';
+	                        if (label) {
+	                            label += ': ';
+	                        }
+	                        if (context.dataset.type === 'line') {
+	                            label += context.raw + '%';
+	                        } else {
+	                            label += context.raw.toLocaleString() + '원';
+	                        }
+	                        return label;
+	                    }
+	                }
+	            }
+	        }
+	    };
+
+	    if (window.weeklyChart) {
+	        window.weeklyChart.destroy();
+	    }
+
+	    window.weeklyChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: chartData,
+	        options: chartOptions
+	    });
+	}
+
+	// 월별 차트를 업데이트하는 함수
+	function updateMonthChart(monthSalesData) {
+	    const labels = monthSalesData.map(data => data.sales_DATE);
+
+	    const salesData = monthSalesData.map(data => parseInt(data.store_TOTALSALES));
+
+	    const percentChange = salesData.map((current, index, array) => {
+	        if (index === 0) return 100; // 첫 번째 달은 100%로 시작
+	        const previous = array[index - 1];
+	        const change = (current / previous) * 100;
+	        return change.toFixed(2);
+	    });
+
+	    const ctx = document.getElementById('monthlyStoreChart').getContext('2d');
+	    const chartData = {
+	        labels: labels,
+	        datasets: [{
+	            label: '스토어 매출 (원)',
+	            data: salesData,
+	            borderColor: 'rgba(255, 99, 132, 1)',
+	            backgroundColor: 'rgba(255, 99, 132, 0.05)',
+	            borderWidth: 1,
+	            yAxisID: 'y'
+	        },
+	        {
+	            label: '전월 대비 매출 증감률 (%)',
+	            data: percentChange,
+	            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+	            borderColor: 'rgba(54, 162, 235, 0.5)',
+	            type: 'line',
+	            yAxisID: 'y1',
+	            fill: false,
+	        }]
+	    };
+
+	    const chartOptions = {
+	        scales: {
+	            y: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        if (value >= 100000000) {
+	                            return (value / 100000000).toFixed(1) + '억 원';
+	                        } else if (value >= 10000) {
+	                            return (value / 10000).toLocaleString() + '만원';
+	                        }
+	                        return value.toLocaleString() + '원';
+	                    }
+	                },
+	                position: 'left',
+	            },
+	            y1: {
+	                beginAtZero: true,
+	                ticks: {
+	                    callback: function(value) {
+	                        return value + '%';
+	                    }
+	                },
+	                position: 'right',
+	                grid: {
+	                    drawOnChartArea: false,
+	                }
+	            }
+	        },
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        let label = context.dataset.label || '';
+	                        if (label) {
+	                            label += ': ';
+	                        }
+	                        if (context.dataset.type === 'line') {
+	                            label += context.raw + '%';
+	                        } else {
+	                            let value = context.raw;
+	                            if (value >= 100000000) {
+	                                label += (value / 100000000).toFixed(1) + '억 원';
+	                            } else if (value >= 10000) {
+	                                label += (value / 10000).toLocaleString() + '만원';
+	                            } else {
+	                                label += value.toLocaleString() + '원';
+	                            }
+	                        }
+	                        return label;
+	                    }
+	                }
+	            }
+	        }
+	    };
+
+	    if (window.monthlyChart) {
+	        window.monthlyChart.destroy();
+	    }
+
+	    window.monthlyChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: chartData,
+	        options: chartOptions
+	    });
+	}
 </script>
+<script type="text/javascript">
+				$(document).ready(function() {
+					// 현재 URL 경로를 가져오기
+					var currentPath = window.location.pathname;
+
+					// 모든 탭에서 'on' 클래스 제거
+					$('#list li').removeClass('on');
+
+					// 현재 URL에 해당하는 링크를 찾아 해당 li 요소에 'on' 클래스 추가
+					$('#list a').each(function() {
+						var href = $(this).attr('href');
+						if (href === currentPath) {
+							$(this).parent('li').addClass('on');
+						}
+					});
+
+					// 처음 페이지 로드 시 영화 탭에 'on' 클래스 추가 (기본 설정)
+					if ($('#list li.on').length === 0) {
+						$('#list li:first').addClass('on');
+					}
+
+					// 섹션 클릭 이벤트
+					$('#list').on('click', 'a', function(event) {
+						// 모든 탭에서 'on' 클래스 제거
+						$('#list li').removeClass('on');
+
+						// 클릭한 a 요소의 부모 li에 'on' 클래스 추가
+						$(this).parent('li').addClass('on');
+					});
+				});
+			</script>
+
+
+
+
 
 
 	<!-- Bootstrap core JavaScript-->

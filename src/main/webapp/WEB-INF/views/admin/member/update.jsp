@@ -55,10 +55,11 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar include -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -91,7 +92,7 @@
 												<th class="column-header">회원번호</th>
 												<td><input type="hidden" name="member_num"
 													value="${memberDTO.member_num}">${memberDTO.member_num}</td>
-												<th class="column-header">회원ID</th>
+												<th class="column-header" style="width: 286px;">회원ID</th>
 												<td><input type="text" name="member_id"
 													value="${memberDTO.member_id}" readonly></td>
 											</tr>
@@ -145,7 +146,8 @@
 											</tr>
 										</tbody>
 									</table>
-									<button type="submit" class="btn btn-success btn-user" style="float: right;">수정완료</button>
+									<button type="submit" class="btn btn-success btn-user"
+										style="float: right; font-weight: bold;" >수정완료</button>
 								</form>
 							</div>
 						</div>

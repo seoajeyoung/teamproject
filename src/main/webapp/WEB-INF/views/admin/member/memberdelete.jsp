@@ -71,8 +71,8 @@
 				<div class="row justify-content-center">
 					<div class="col-xl-4 col-md-6 mb-4">
 						<div class="card border-left-danger shadow h-100 py-2"
-							style="width: 465px; margin-right: 30px;" >
-							<div class="card-body">
+							style="width: 465px; margin-right: 30px;">
+							<div class="card-body" style="padding-left: 30px;">
 								<form id="respiteForm"
 									action="${pageContext.request.contextPath}/admin/member/memberRespitePro"
 									method="post">
@@ -91,7 +91,7 @@
 										onclick="confirmRespite()">
 										<span class="icon text-gray-600"> <i
 											class="fas fa-arrow-right"></i>
-										</span> <span class="text">회원탈퇴(유예)</span>
+										</span> <span class="text" style="color: #888; font-weight: bold;">회원탈퇴(유예)</span>
 									</button>
 								</form>
 							</div>
@@ -99,8 +99,9 @@
 					</div>
 
 					<div class="col-xl-4 col-md-6 mb-4">
-						<div class="card border-left-success shadow h-100 py-2" style="width: 465px;">
-							<div class="card-body">
+						<div class="card border-left-success shadow h-100 py-2"
+							style="width: 465px;">
+							<div class="card-body" style="padding-left: 30px;">
 								<form id="restoreForm"
 									action="${pageContext.request.contextPath}/admin/member/memberRestorePro"
 									method="post">
@@ -119,7 +120,7 @@
 										onclick="confirmRestore()">
 										<span class="icon text-gray-600"> <i
 											class="fas fa-arrow-right"></i>
-										</span> <span class="text">유예복구</span>
+										</span> <span class="text" style="color: #888; font-weight: bold;">유예복구</span>
 									</button>
 								</form>
 							</div>

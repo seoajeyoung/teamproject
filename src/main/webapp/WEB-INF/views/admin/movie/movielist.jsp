@@ -57,10 +57,11 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 
 			<!-- Main Content -->
-			<div id="content"><br>
+			<div id="content">
+				<br>
 
 				<!-- Topbar Include -->
-<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
+				<%-- 				<jsp:include page="/WEB-INF/views/admin/inc/top.jsp" /> --%>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
@@ -81,26 +82,20 @@
 										<tr>
 											<th>영화코드</th>
 											<th>영화제목</th>
-											<th>상영상태</th>
 											<th>상영시간</th>
 											<th>장르</th>
-											<th>등록시간</th>
-											<th>상영일</th>
-											<th>종영일</th>
-											<th>수정/삭제</th>
+											<th>개봉일자</th>
+											<th>상세정보</th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
 											<th>영화코드</th>
 											<th>영화제목</th>
-											<th>상영상태</th>
 											<th>상영시간</th>
 											<th>장르</th>
-											<th>등록시간</th>
-											<th>상영일</th>
-											<th>종영일</th>
-											<th>수정/삭제</th>
+											<th>개봉일자</th>
+											<th>상세정보</th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -108,12 +103,9 @@
 											<tr>
 												<td>${list.MOVIE_NUM}</td>
 												<td>${list.title}</td>
-												<td>-</td>
-												<td>${list.runtime}</td>
+												<td>${list.runtime}분</td>
 												<td>${list.genre}</td>
 												<td>${list.releaseDate}</td>
-												<td>${list.releaseDts}</td>
-												<td>${list.releaseDte}</td>
 												<td><a
 													href="${pageContext.request.contextPath}/admin/movie/movieinfo?MOVIE_NUM=${list.MOVIE_NUM}"
 													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>

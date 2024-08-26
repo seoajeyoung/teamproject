@@ -151,11 +151,11 @@
 													<td style="padding-top: 20px;"><span id="">${mypageDTO.TH_REGION}/${mypageDTO.TH_NAME}/${mypageDTO.TH_NUMBER}/${mypageDTO.TP_SEAT}</span></td>
 												</tr>
 												<tr class="input">
-													<th scope="row" style="padding-top: 27px;"><label
+													<th scope="row"><label
 														for="mob_no_1">상영시작시간</label></th>
-													<td style="padding-top: 27px;">
+													<td style="padding-top: 20px;">
 														<div>
-															<span class="input_txt w100 phon_write" id="">${mypageDTO.SC_TIME}</span>
+															<span class="input w100 phon_write" id="">${mypageDTO.SC_TIME}</span>
 														</div>
 													</td>
 												</tr>
@@ -178,6 +178,13 @@
 													<td style="padding-top: 20px;">
 														<div class="" style="width: 560px;">
 															${mypageDTO.TP_PRICE}원</div>
+													</td>
+												</tr>
+												<tr class="input">
+													<th scope="row">결제날짜</th>
+													<td style="padding-top: 20px;">
+														<div class="" style="width: 560px;">
+															${mypageDTO.TP_TIME}</div>
 													</td>
 												</tr>
 												<tr class="input">

@@ -69,9 +69,9 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800" style="margin-left: 30px;padding-top: 12px;">
-						회원목록</h1>
-					<hr style="margin-bottom: 20px;margin-top: 30px;">
+					<h1 class="h3 mb-2 text-gray-800"
+						style="margin-left: 30px; padding-top: 12px;">회원목록</h1>
+					<hr style="margin-bottom: 20px; margin-top: 30px;">
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
@@ -87,7 +87,7 @@
 											<th class="column-phone">전화번호</th>
 											<th class="column-email">이메일</th>
 											<th class="column-grade">회원등급</th>
-											<th class="column-action">비고</th>
+											<th class="column-action">상세정보</th>
 										</tr>
 									</thead>
 									<tfoot class="thc">
@@ -98,7 +98,7 @@
 											<th class="column-phone">전화번호</th>
 											<th class="column-email">이메일</th>
 											<th class="column-grade">회원등급</th>
-											<th class="column-action">비고</th>
+											<th class="column-action">상세정보</th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -114,7 +114,8 @@
 												<td class="column-grade">${memberDTO.member_grade}</td>
 												<td class="column-action"><a
 													href="${pageContext.request.contextPath}/admin/member/info?member_num=${memberDTO.member_num}"
-													class="btn btn-detailinfo btn-user btn-block">상세정보확인</a></td>
+													class="btn btn-detailinfo btn-user btn-block"
+													>상세정보확인</a></td>
 											</tr>
 										</c:forEach>
 									</tbody>

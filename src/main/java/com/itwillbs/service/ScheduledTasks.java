@@ -60,18 +60,18 @@ public class ScheduledTasks {
 //          LocalDate releaseDte = today.minusDays(1); // 어제
 
 		// 오늘로부터 4개월 전
-		LocalDate releaseDts = today.minusMonths(3);
+		LocalDate releaseDts = today.minusMonths(4);
 		// 오늘로부터 한 달 뒤
 		LocalDate releaseDte = today.plusMonths(2);
 
 		String releaseDtsStr = releaseDts.format(formatter);
-		String releaseDteStr = releaseDte.format(formatter);
+		String releaseDteStr = releaseDte.format(formatter); 
 
-//          adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr);
+//          adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr); 
+ 
+//      adminService.selectAndSaveMovies("20240807", "20240807");
 
-//      adminService.selectAndSaveMovies("20240814", "20240816");
-
-	}
+	} 
 
 	@Scheduled(fixedRate = 604800000) // 7일마다 실행 (15일 = 1296000000 milliseconds)
 	public void updateMoviesRank() {
@@ -86,9 +86,9 @@ public class ScheduledTasks {
 
 		LocalDate targetDt = today.minusDays(7);
 
-		String targetDtStr = targetDt.format(formatter);
+		String targetDtStr = targetDt.format(formatter); 
 
-//		adminService.updateMoviesRank(targetDtStr); 
+		adminService.updateMoviesRank(targetDtStr); 
 
 	}
 
@@ -101,7 +101,9 @@ public class ScheduledTasks {
 		System.out.println("일정지난 스케쥴 삭제");
 	}
 
-	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
+	// (cron = "0 0 0 * * ?")
+	// (fixedRate = 86400000)
 	public void insertSales() {
 
 		// 어제 날짜 계산 (오늘 날짜에서 하루를 뺌)
@@ -111,26 +113,18 @@ public class ScheduledTasks {
 		LocalDateTime startOfDay = yesterday.atStartOfDay();
 		LocalDateTime endOfDay = startOfDay.plusDays(1);
 
-		// 어제의 매출 합계를 계산
-//        int totalSales = adminService.getSalesSumByDate(startOfDay, endOfDay);
-
-//        System.out.println("totalSales: " + totalSales);  
-
-		// 어제의 매출 합계와 날짜를 STORE_ST 테이블에 삽입
-//        adminService.insertDailyTotalSales(yesterday, totalSales);
-	}
-
-	@Scheduled(cron = "0 1 0 * * ?") // 매일 자정 1분에 실행
-	public void getWeeksSales() {
-		 // 오늘 날짜 계산
-        LocalDate today = LocalDate.now();
+//		 어제의 매출 합계를 계산
+        int storeTotalSales = adminService.getStoreSalesSumByDate(startOfDay, endOfDay);
+        int movieTotalSales = adminService.getMovieSalesSumByDate(startOfDay, endOfDay);
+		// 어제의 매출 합계와 날짜를 테이블에 삽입
         
-        // 일주일 전 날짜 계산
-        LocalDate oneWeekAgo = today.minusDays(7);
+        System.out.println("S: " + storeTotalSales);
+        System.out.println("M: " + movieTotalSales);
+        System.out.println("A: " + (storeTotalSales+movieTotalSales));
+        
+//        adminService.insertDailyTotalSales(yesterday, storeTotalSales, movieTotalSales); 
+        
+	} 
 
-        // 지난 일주일간의 매출 데이터 가져오기
-        List<AdminDTO> weekSalesData = adminService.getSalesDataForPeriod(oneWeekAgo, today);
-
-	}
 
 }

@@ -1,12 +1,16 @@
 package com.itwillbs.controller;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -66,7 +70,66 @@ public class AdminController {
 	// 메인화면
 
 	@GetMapping("/member/index")
-	public String index() {
+	public String index(@RequestParam(value = "start_date", required = false) String startDateStr,
+			@RequestParam(value = "end_date", required = false) String endDateStr,
+			@RequestParam(value = "start_month", required = false) String startMonthStr,
+			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
+		// 오늘 날짜 계산
+		LocalDate today = LocalDate.now();
+
+		// 어제 날짜 계산
+		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
+		LocalDate startDate = (startDateStr != null) ? LocalDate.parse(startDateStr) : endDate.minusDays(6);
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 현재 날짜를 기준으로 이번 달을 구함
+		YearMonth currentMonth = YearMonth.now();
+
+		// 이번 달의 첫날 (예: 2024-08-01 00:00)
+		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
+
+		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
+		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+
+		// 요청된 기간의 일별 매출 데이터를 가져옴
+		List<AdminDTO> weekSalesData = adminService.getAllSalesDataForWeek(startDate, endDate);
+
+		// 월별 매출 데이터를 위한 날짜 처리
+		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
+
+		// 요청된 기간의 월별 매출 데이터를 가져옴
+		List<AdminDTO> monthSalesData = adminService.getAllSalesDataForMonth(startMonth, endMonth);
+
+		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+		model.addAttribute("weekSalesData", weekSalesData);
+		model.addAttribute("monthSalesData", monthSalesData);
+
+		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
+		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+
+		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
+		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
+
+		model.addAttribute("formattedSales", formattedSales);
+		model.addAttribute("adminDTO", yesterdaySalesData);
+
+		model.addAttribute("formattedMonthSales", formattedMonthSales);
+		model.addAttribute("adminDTO2", oneMonthlySalesData);
+
+		try {
+			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "/admin/member/index";
 	}
@@ -219,25 +282,29 @@ public class AdminController {
 	public String movieinfo(MovieDTO movieDTO, Model model) {
 
 		int movienum = Integer.parseInt(movieDTO.getMOVIE_NUM());
-		MovieDTO movieDTO2 = adminService.movieInfo(movienum);
+		MovieDTO movieDTO2 = adminService.getMovieInfo(movienum);
 
 		model.addAttribute("movieDTO", movieDTO2);
 
 		return "/admin/movie/movieinfo";
 	}
+	
+	
 
 // ===========================================================
 
 	// 영화정보수정
 
 	@GetMapping("/movie/movieupdate")
-	public String mupdate(@RequestParam("MOVIE_NUM") int movie_num, Model model) {
+	public String mupdate(@RequestParam("MOVIE_NUM") int movienum, Model model) {
 
-		MovieDTO movieDTO2 = movieService.movieInfo(movie_num);
+		MovieDTO movieDTO2 = adminService.getMovieInfo(movienum);
 		model.addAttribute("movieDTO", movieDTO2);
 
 		return "/admin/movie/movieupdate";
 	}
+	
+	
 
 // ===========================================================
 
@@ -498,7 +565,7 @@ public class AdminController {
 
 		return "/admin/store/storeinfo";
 	}
-	
+
 	@PostMapping("/store/storeinfoPro")
 	public String storeInfoPro(AdminDTO adminDTO, MultipartFile store_picture) throws Exception {
 
@@ -514,23 +581,23 @@ public class AdminController {
 
 		return "redirect:/admin/store/controlstore";
 	}
-	
+
 	@PostMapping("/store/deleteStore")
 	@ResponseBody
 	public String deleteStore(@RequestParam("ST_NUM") String stNum) {
 		adminService.deleteStore(stNum);
 		return "redirect:/admin/store/controlstore";
 	}
-	
+
 	@GetMapping("/movie/bookinglist")
 	public String bookingmovie(Model model) {
-		
+
 		List<AdminDTO> bookingList = adminService.getBookinglist();
 		model.addAttribute("bookingList", bookingList);
-		
+
 		return "/admin/movie/bookinglist";
 	}
-	
+
 	@GetMapping("/movie/bookinginfo")
 	public String bookinginfo(AdminDTO adminDTO, Model model) {
 
@@ -540,16 +607,16 @@ public class AdminController {
 
 		return "/admin/movie/bookinginfo";
 	}
-	
+
 	@GetMapping("/store/paymentlist")
 	public String storepaymentlist(Model model) {
-		
+
 		List<AdminDTO> storePaymentList = adminService.getStorePaymentlist();
 		model.addAttribute("storePaymentList", storePaymentList);
-		
+
 		return "/admin/store/paymentlist";
 	}
-	
+
 	@GetMapping("/store/paymentinfo")
 	public String paymentinfo(AdminDTO adminDTO, Model model) {
 
@@ -559,58 +626,330 @@ public class AdminController {
 
 		return "/admin/store/paymentinfo";
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		
+
 		// 로그아웃 처리
 		session.invalidate();
-		
+
 		return "redirect:/main/main";
 	}
-	
+
 	@GetMapping("/member/indextest")
 	public String indextest() {
-		
+
 		return "/admin/member/indextest";
 	}
-	
-	@GetMapping("/statistics/salestatistics")
-	public String salestatistics() {
-		
-		return "/admin/statistics/salestatistics";
+
+	// =================================================================================================
+
+	@GetMapping("/statistics/storesales")
+	public String storesales(@RequestParam(value = "start_date", required = false) String startDateStr,
+			@RequestParam(value = "end_date", required = false) String endDateStr,
+			@RequestParam(value = "start_month", required = false) String startMonthStr,
+			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
+		// 오늘 날짜 계산
+		LocalDate today = LocalDate.now();
+
+		// 어제 날짜 계산
+		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
+		LocalDate startDate = (startDateStr != null) ? LocalDate.parse(startDateStr) : endDate.minusDays(6);
+
+		// 요청된 기간의 일별 매출 데이터를 가져옴
+		List<AdminDTO> weekSalesData = adminService.getSalesDataForWeek(startDate, endDate);
+
+		// 월별 매출 데이터를 위한 날짜 처리
+		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
+
+		// 요청된 기간의 월별 매출 데이터를 가져옴
+		List<AdminDTO> monthSalesData = adminService.getSalesDataForMonth(startMonth, endMonth);
+
+		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+		model.addAttribute("weekSalesData", weekSalesData);
+		model.addAttribute("monthSalesData", monthSalesData);
+
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 현재 날짜를 기준으로 이번 달을 구함
+		YearMonth currentMonth = YearMonth.now();
+
+		// 이번 달의 첫날 (예: 2024-08-01 00:00)
+		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
+
+		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
+		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+
+		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
+		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+
+		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
+		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
+
+		model.addAttribute("formattedSales", formattedSales);
+		model.addAttribute("adminDTO", yesterdaySalesData);
+
+		model.addAttribute("formattedMonthSales", formattedMonthSales);
+		model.addAttribute("adminDTO2", oneMonthlySalesData);
+
+		try {
+			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP 페이지로 리턴
+		return "/admin/statistics/storesales";
 	}
-	
+
+	@RequestMapping(value = "/statistics/storeWeekSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getStoreSalesDataForWeek(@RequestParam("start_date") String startDateStr,
+			@RequestParam("end_date") String endDateStr) {
+		LocalDate startDate = LocalDate.parse(startDateStr);
+		LocalDate endDate = LocalDate.parse(endDateStr);
+
+		return adminService.getSalesDataForWeek(startDate, endDate);
+	}
+
+	@RequestMapping(value = "/statistics/storeMonthSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getStoreSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
+			@RequestParam("end_date") String endMonthStr) {
+		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+
+		return adminService.getSalesDataForMonth(startMonth, endMonth);
+	}
+
+	// =================================================================================================
+
 	@GetMapping("/statistics/moviesales")
-	public String moviesales() {
-		
+	public String moviesales(@RequestParam(value = "start_date", required = false) String startDateStr,
+			@RequestParam(value = "end_date", required = false) String endDateStr,
+			@RequestParam(value = "start_month", required = false) String startMonthStr,
+			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
+		// 오늘 날짜 계산
+		LocalDate today = LocalDate.now();
+
+		// 어제 날짜 계산
+		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
+		LocalDate startDate = (startDateStr != null) ? LocalDate.parse(startDateStr) : endDate.minusDays(6);
+
+		// 요청된 기간의 일별 매출 데이터를 가져옴
+		List<AdminDTO> weekSalesData = adminService.getMovieSalesDataForWeek(startDate, endDate);
+
+		// 월별 매출 데이터를 위한 날짜 처리
+		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
+
+		// 요청된 기간의 월별 매출 데이터를 가져옴
+		List<AdminDTO> monthSalesData = adminService.getMovieSalesDataForMonth(startMonth, endMonth);
+
+		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+		model.addAttribute("weekSalesData", weekSalesData);
+		model.addAttribute("monthSalesData", monthSalesData);
+
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 현재 날짜를 기준으로 이번 달을 구함
+		YearMonth currentMonth = YearMonth.now();
+
+		// 이번 달의 첫날 (예: 2024-08-01 00:00)
+		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
+
+		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
+		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+
+		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
+		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+
+		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
+		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
+
+		model.addAttribute("formattedSales", formattedSales);
+		model.addAttribute("adminDTO", yesterdaySalesData);
+
+		model.addAttribute("formattedMonthSales", formattedMonthSales);
+		model.addAttribute("adminDTO2", oneMonthlySalesData);
+
+		try {
+			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP 페이지로 리턴
 		return "/admin/statistics/moviesales";
 	}
-	
-	@GetMapping("/statistics/storesales")
-    public String storesales(Model model) {
-		// 일주일 전 날짜 계산
-        LocalDate today = LocalDate.now();
-        LocalDate oneWeekAgo = today.minusDays(7);
 
-        // 지난 일주일간의 매출 데이터를 가져와 모델에 추가
-        List<AdminDTO> weekSalesData = adminService.getSalesDataForPeriod(oneWeekAgo, today);
-        model.addAttribute("weekSalesData", weekSalesData);
-        
-        try {
-            // Java 객체를 JSON 문자열로 변환
-            String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
-            model.addAttribute("weekSalesDataJson", weekSalesDataJson);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 예외 발생 시 처리 로직
-        }
+	@RequestMapping(value = "/statistics/movieWeekSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getMovieSalesDataForWeek(@RequestParam("start_date") String startDateStr,
+			@RequestParam("end_date") String endDateStr) {
+		LocalDate startDate = LocalDate.parse(startDateStr);
+		LocalDate endDate = LocalDate.parse(endDateStr);
 
-        return "/admin/statistics/storesales";
-    }
-	
-	
-	
-	
+		return adminService.getMovieSalesDataForWeek(startDate, endDate);
+	}
 
+	@RequestMapping(value = "/statistics/movieMonthSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getMovieSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
+			@RequestParam("end_date") String endMonthStr) {
+		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+
+		return adminService.getMovieSalesDataForMonth(startMonth, endMonth);
+	}
+
+	// =================================================================================================
+
+	@RequestMapping(value = "/statistics/allWeekSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getAllSalesDataForWeek(@RequestParam("start_date") String startDateStr,
+			@RequestParam("end_date") String endDateStr) {
+		LocalDate startDate = LocalDate.parse(startDateStr);
+		LocalDate endDate = LocalDate.parse(endDateStr);
+
+		return adminService.getAllSalesDataForWeek(startDate, endDate);
+	}
+
+	@RequestMapping(value = "/statistics/allMonthSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getAllSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
+			@RequestParam("end_date") String endMonthStr) {
+		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+
+		return adminService.getAllSalesDataForMonth(startMonth, endMonth);
+	}
+
+	// =================================================================================================
+
+	@GetMapping("/statistics/memberStatistics")
+	public String memberStatistics(@RequestParam(value = "start_month", required = false) String startMonthStr,
+			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
+		// 오늘 날짜 계산
+		LocalDate today = LocalDate.now();
+
+		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
+
+		List<AdminDTO> monthMemberJoinData = adminService.getMemberJoinDataForMonth(startMonth, endMonth);
+		List<AdminDTO> getMembersByAgeGroupData = adminService.getMembersByAgeGroup();
+
+		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+		model.addAttribute("monthMemberJoinData", monthMemberJoinData);
+		model.addAttribute("getMembersByAgeGroupData", getMembersByAgeGroupData);
+
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 현재 날짜를 기준으로 이번 달을 구함
+		YearMonth currentMonth = YearMonth.now();
+
+		// 이번 달의 첫날 (예: 2024-08-01 00:00)
+		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
+
+		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
+		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+
+		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
+		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+
+		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
+		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
+
+		model.addAttribute("formattedSales", formattedSales);
+		model.addAttribute("adminDTO", yesterdaySalesData);
+
+		model.addAttribute("formattedMonthSales", formattedMonthSales);
+		model.addAttribute("adminDTO2", oneMonthlySalesData);
+
+		try {
+			String monthMemberJoinDataJson = new ObjectMapper().writeValueAsString(monthMemberJoinData);
+			String getMembersByAgeGroupDataJson = new ObjectMapper().writeValueAsString(getMembersByAgeGroupData);
+			model.addAttribute("monthMemberJoinDataJson", monthMemberJoinDataJson);
+			model.addAttribute("getMembersByAgeGroupDataJson", getMembersByAgeGroupDataJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP 페이지로 리턴
+		return "/admin/statistics/memberStatistics";
+	}
+
+	@RequestMapping(value = "/statistics/joinMemberMonthSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getMemberJoinForMonth(@RequestParam("start_date") String startMonthStr,
+			@RequestParam("end_date") String endMonthStr) {
+		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+
+		return adminService.getMemberJoinDataForMonth(startMonth, endMonth);
+	}
+
+	// =================================================================================================
+
+//	@GetMapping("/statistics/theatersales")
+//	public String theaterStatistics(
+//			@RequestParam(value = "end_date", required = false) String endDateStr,
+//			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
+//		// 오늘 날짜 계산
+//		LocalDate today = LocalDate.now();
+//
+//		// 어제 날짜 계산
+//		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
+//
+//		// 요청된 기간의 일별 매출 데이터를 가져옴
+//		List<AdminDTO> weekSalesData = adminService.getTheaterSalesDataForWeek(endDate);
+//
+//		// 월별 매출 데이터를 위한 날짜 처리
+//		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+//
+//		// 요청된 기간의 월별 매출 데이터를 가져옴
+//		List<AdminDTO> monthSalesData = adminService.getTheaterSalesDataForMonth(endMonth);
+//
+//		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+//		model.addAttribute("weekSalesData", weekSalesData);
+//		model.addAttribute("monthSalesData", monthSalesData);
+//
+//		try {
+//			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
+//			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+//			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+//
+//			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+//			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		// JSP 페이지로 리턴
+//		return "/admin/statistics/theatersales";
+//	}
 }

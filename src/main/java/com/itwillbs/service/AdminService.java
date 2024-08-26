@@ -2,6 +2,7 @@ package com.itwillbs.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +29,9 @@ public class AdminService {
 
 	@Autowired
 	private KMDBApiService kmdbApiService;
-	
+
 	@Autowired
 	private KobisApiService kobisApiService;
-
 
 // =========================================================== 
 
@@ -140,36 +140,39 @@ public class AdminService {
 			adminDTO.setAwards1(movie.getAwards1());
 
 			processMovie(adminDTO);
+			
 		}
 	}
-	
+
 	public void resetMovieRank() {
-        
+
 		adminDAO.resetMovieRank();
 	}
-	
+
 	public void updateMoviesRank(String targetDt) {
-		
+
 		List<MovieResponse> movies = kobisApiService.fetchMovies(targetDt);
 		List<AdminDTO> adminDTOList = new ArrayList();
 
-        for (MovieResponse movie : movies) {
-            AdminDTO adminDTO = new AdminDTO();
-            adminDTO.setMovieNm(movie.getMovieNm());
-            adminDTO.setRank(movie.getRank());
-            adminDTOList.add(adminDTO);  
-        }
-        
-		adminDAO.updateMovieRank(adminDTOList);
+		for (MovieResponse movie : movies) {
+			AdminDTO adminDTO = new AdminDTO();
+			adminDTO.setMovieNm(movie.getMovieNm());
+			adminDTO.setRank(movie.getRank());
+			adminDTOList.add(adminDTO);
+		}
 		
+		System.out.println(adminDTOList);
+		adminDAO.updateMovieRank(adminDTOList);
+
 	}
 
 	public void processMovie(AdminDTO adminDTO) {
 		if (adminDTO.isReleaseDateValid()) {
-			if (!adminDAO.checkMovieExists(adminDTO.getTitle())) {
+			if (!adminDAO.checkMovieExists(adminDTO.getTitle()) && adminDTO.getPosterUrl().trim().length() > 0 && adminDTO.getRating().trim().length() > 0) {
 				adminDAO.saveMovie(adminDTO);
+				System.out.println("저장된 영화 제목: " + adminDTO.getTitle());
 			} else {
-				System.out.println("중복된 영화 제목: " + adminDTO.getTitle());
+				System.out.println("저장 안 된 영화 제목: " + adminDTO.getTitle() + " / PosterUrl: " + adminDTO.getPosterUrl() + " / Rating: " + adminDTO.getRating());
 			}
 		} else {
 			System.out.println("잘못된 날짜 형식의 영화제목과 형식: " + adminDTO.getTitle() + ", " + adminDTO.getReleaseDateStr());
@@ -186,8 +189,8 @@ public class AdminService {
 	}
 
 	// 영화 상세정보
-	public MovieDTO movieInfo(int num) {
-		return adminDAO.movieInfo(num);
+	public MovieDTO getMovieInfo(int movienum) {
+		return adminDAO.getMovieInfo(movienum);
 	}
 
 	// 영화 정보 수정
@@ -202,7 +205,6 @@ public class AdminService {
 		adminDAO.moviedelete(movieDTO);
 	}
 
-	
 	// =================================================================
 	// 우석 / 극장리스트 가져오기
 
@@ -245,7 +247,7 @@ public class AdminService {
 	public void updateRuntime(Map<String, Object> params) {
 		adminDAO.updateRuntime(params);
 	}
-	
+
 	public List<ScheduleDTO> getScheduleByCinema(Map<String, Object> params) {
 		return adminDAO.getScheduleByCinema(params);
 	}
@@ -273,11 +275,11 @@ public class AdminService {
 	public List<ScheduleDTO> getScheduleList() {
 		return adminDAO.getScheduleList();
 	}
-	
+
 	public void deleteScreenByCINum(int ciNum) {
 		adminDAO.deleteScreenByCINum(ciNum);
 	}
-	
+
 	public void deleteCinemaByCINum(int ciNum) {
 		adminDAO.deleteCinemaByCINum(ciNum);
 	}
@@ -285,7 +287,7 @@ public class AdminService {
 	public List<AdminDTO> getBranchList() {
 		return adminDAO.getBranchList();
 	}
-	
+
 	public List<AdminDTO> getfindAll(String region) {
 		List<AdminDTO> findAllList = adminDAO.getfindAll(region);
 		return findAllList;
@@ -307,15 +309,14 @@ public class AdminService {
 		adminDAO.deleteTheater(thNum);
 	}
 
-	
-	// ===========================================================	
-	
+	// ===========================================================
+
 	// 스토어
-	
+
 	public Map<String, Boolean> checkStoreDetails(Map<String, String> storeDetails) {
-        return adminDAO.checkStoreDetails(storeDetails);
-    }
-	
+		return adminDAO.checkStoreDetails(storeDetails);
+	}
+
 	public List<AdminDTO> getTypeList() {
 		return adminDAO.getTypeList();
 	}
@@ -355,38 +356,98 @@ public class AdminService {
 	public AdminDTO getPaymentinfo(String sp_num) {
 		return adminDAO.getPaymentinfo(sp_num);
 	}
-	
-	public int getSalesSumByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
-        // Map에 파라미터를 담기
-        Map<String, Object> params = new HashMap();
-        params.put("startOfDay", startOfDay);
-        params.put("endOfDay", endOfDay);
 
-        // DAO로 Map 전달
-        return adminDAO.getSalesSumByDate(params);
-    }
+	// =========================================================================================
+	// 스토어 통계 시작
 
-	public void insertDailyTotalSales(LocalDate yesterday, int totalSales) {
-		
+	public int getStoreSalesSumByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		// Map에 파라미터를 담기
 		Map<String, Object> params = new HashMap();
-        params.put("yesterday", yesterday);
-        params.put("totalSales", totalSales);
+		params.put("startOfDay", startOfDay);
+		params.put("endOfDay", endOfDay);
+
+		// DAO로 Map 전달
+		return adminDAO.getStoreSalesSumByDate(params);
+	}
+	
+	public int getMovieSalesSumByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		// Map에 파라미터를 담기
+		Map<String, Object> params = new HashMap();
+		params.put("startOfDay", startOfDay);
+		params.put("endOfDay", endOfDay);
+
+		// DAO로 Map 전달
+		return adminDAO.getMovieSalesSumByDate(params);
+	}
+
+	public void insertDailyTotalSales(LocalDate yesterday, int storeTotalSales, int movieTotalSales) {
+
+		Map<String, Object> params = new HashMap();
+		params.put("yesterday", yesterday);
+		params.put("storeTotalSales", storeTotalSales);
+		params.put("movieTotalSales", movieTotalSales);
 		adminDAO.insertDailyTotalSales(params);
 	}
 	
-	public List<AdminDTO> getSalesDataForPeriod(LocalDate startDate, LocalDate endDate) {
-        return adminDAO.getSalesDataForPeriod(startDate, endDate);
-    }
+	// =================================================================================================
 
+	public List<AdminDTO> getSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
+		return adminDAO.getSalesDataForWeek(startDate, endDate);
+	}
 
+	public List<AdminDTO> getSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		return adminDAO.getSalesDataForMonth(startMonth, endMonth);
+	}
+	
+	// =================================================================================================
+
+	public List<AdminDTO> getMovieSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
+		return adminDAO.getMovieSalesDataForWeek(startDate, endDate);
+	}
+
+	public List<AdminDTO> getMovieSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		return adminDAO.getMovieSalesDataForMonth(startMonth, endMonth);
+	}
+	
+	// =================================================================================================
+	
+	public List<AdminDTO> getAllSalesDataForWeek(LocalDate startDate, LocalDate endDate) {
+		return adminDAO.getAllSalesDataForWeek(startDate, endDate);
+	}
+
+	public List<AdminDTO> getAllSalesDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		return adminDAO.getAllSalesDataForMonth(startMonth, endMonth);
+	}
+	
+	public AdminDTO getAllSalesDataForYesterday(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		return adminDAO.getAllSalesDataForYesterday(startOfDay, endOfDay);
+	}
+	
+	public AdminDTO getAllSalesDataForOneMonth(LocalDateTime startOfMonth, LocalDateTime endOfMonth) {
+		return adminDAO.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+	}
+	
+	// =================================================================================================
+
+	public List<AdminDTO> getMemberJoinDataForMonth(YearMonth startMonth, YearMonth endMonth) {
+		return adminDAO.getMemberJoinDataForMonth(startMonth, endMonth);
+	}
+
+	public List<AdminDTO> getMembersByAgeGroup() {
+		return adminDAO.getMembersByAgeGroup();
+	}
+	
+	// =================================================================================================
+	
+	public List<AdminDTO> getTheaterSalesDataForWeek(LocalDate endDate) {
+		return adminDAO.getTheaterSalesDataForWeek(endDate);
+	}
+
+	public List<AdminDTO> getTheaterSalesDataForMonth(YearMonth endMonth) {
+		return adminDAO.getTheaterSalesDataForMonth(endMonth);
+	}
 
 	
 
-	
-	
-	
-
-		
-	
 	
 }

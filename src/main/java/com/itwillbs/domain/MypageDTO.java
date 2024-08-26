@@ -197,7 +197,16 @@ public class MypageDTO {
 	private String TP_PRICE;
 	private String TP_TYPE;
 	private String TP_PAYMENT;
+	private String TP_TIME;
+	
+	
 
+	public String getTP_TIME() {
+		return TP_TIME;
+	}
+	public void setTP_TIME(String TP_TIME) {
+		this.TP_TIME = TP_TIME;
+	}
 	public String getTitle() {
 		return title;
 	}
