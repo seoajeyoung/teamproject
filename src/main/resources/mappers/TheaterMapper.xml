@@ -27,6 +27,16 @@
 		WHERE RN = 1
 		ORDER BY TH_NUM;
 	</select>
+	<select id="getfavTheater" resultType="java.lang.String">
+		SELECT FAV_THEATER
+		FROM MEMBERS
+		WHERE MEM_NUM = (SELECT MEM_NUM
+						 FROM MEMBERS
+		                 WHERE MEM_ID = #{MEM_ID});
+	</select>
+	
+	
+	
 	
 	<!-- 해당 극장에서 상영일자만 중복없이 -->
 	<select id="getRunningDate" parameterType="map" resultType="map">

@@ -54,14 +54,6 @@ public class MovieDAO {
 	}
 	
 	
-//	// 평점순 정렬
-//	public List<Map<String, Object>> getSortMovies2() {
-//		return sqlsession.selectList("movieMapper.getSortMovies2");
-//	}
-//	// 관람객순 정렬
-//	public List<Map<String, Object>> getSortMovies3() {
-//		return sqlsession.selectList("movieMapper.getSortMovies3");
-//	}
 	
 	
 	

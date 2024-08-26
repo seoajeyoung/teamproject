@@ -252,7 +252,7 @@ $(document).on('click', '.btn-close', function() {
             <h3>무비차트</h3>
             <div class="submenu">
                 <ul>
-                	<c:if test="${sessionScope.id != null}">
+                	<c:if test="${sessionScope.member_id != null}">
                 	<li><a class="favorMovie" href="javascript:void(0)">회원추천영화</a></li>
                 	</c:if>
                     <li class="on"><a href="${pageContext.request.contextPath}/movie/movie" title="선택">무비차트</a></li>

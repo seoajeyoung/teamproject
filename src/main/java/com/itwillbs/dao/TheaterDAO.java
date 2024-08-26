@@ -28,6 +28,11 @@ public class TheaterDAO {
 		return sqlSession.selectList(namespace + "getAreaList");
 	}
 	
+	// 선호하는 극장
+	public String getfavTheater(String MEM_ID) {
+		return sqlSession.selectOne(namespace+"getfavTheater", MEM_ID);
+	}
+	
 	
 	//ajax로 해당 극장의 모든 영화 상영일만 중복없이 받아오기
 	public List<Map<String, String>> getRunningDate(Map<String, String> rMap) {

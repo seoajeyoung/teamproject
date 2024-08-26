@@ -244,7 +244,7 @@ function pointChart() {
 <body>
 <jsp:include page="../ticket/top.jsp" />
 <!-- 세션 아이디 임시 저장 -->
-<input type="hidden" class="sessionId" value="${sessionScope.id}">
+<input type="hidden" class="sessionId" value="${sessionScope.member_id}">
 
 
 		<!-- Contents Area -->
@@ -346,7 +346,7 @@ $(function() {
 	urlNum = parseInt(url.get('num'));
 	memberId = $('.sessionId').val();
 	
-	
+	// 찜하기 기능
 	$("#bookmark").on('click', function() {
 		$.ajax({
 			type: 'POST',
@@ -357,8 +357,11 @@ $(function() {
 				$('#bookmark>i').removeClass('hate').addClass('favor');
 			},
 			error: function(e) {
-				if(e.responseText == "delete") {
-					$('#bookmark>i').removeClass('favor').addClass('hate');
+				switch (e.responseText) {
+					case "nullId": alert('로그인 후 이용해 주세요.');
+				    	break;
+					case "delete": $('#bookmark>i').removeClass('favor').addClass('hate');
+						break;
 				}
 			}
 		})
@@ -1040,6 +1043,7 @@ $(document).on('click', '.btn-close', function() {
 
 // 평점 작성 버튼 클릭
 $(document).on('click', '.link-gradewrite', function() {
+	debugger;
 	if(memberId == null || memberId == "") {
 		alert('비회원은 평점 작성 불가');
 		return;

@@ -14,8 +14,22 @@
 <link href="${pageContext.request.contextPath}/resources/css/movie/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel="stylesheet">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
 
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
+
+
+<style type="text/css">
+#fav_theater {
+  font-family: "Jua", sans-serif;
+  font-style: italic;
+}
+
+
+</style>
 </head>
 <body>
 <jsp:include page="../ticket/top.jsp" />
@@ -28,24 +42,27 @@
 <div class="sect-common">
     <div class="favorite-wrap">
         <div class="sect-favorite">
-            <h4>자주가는 극장</h4>
+            <h4 style="z-index: 999; font-size: 24px; color: white; font-weight: 900; top: 20px;"><i id="fav_theater">자주가는 극장</i></h4>
             <ul id="favoriteTheaters">
-                    <li><a href="#"><span>1<em>순위</em></span></a></li>
-                    <li><a href="#"><span>2<em>순위</em></span></a></li>
-                    <li><a href="#"><span>3<em>순위</em></span></a></li>
-                    <li><a href="#"><span>4<em>순위</em></span></a></li>
-                    <li><a href="#"><span>5<em>순위</em></span></a></li>
+				<li><a href="#"><span>1</span></a>${favTh.get(0)}</li>
+				<li><a href="#"><span>2</span></a>${favTh.get(1)}</li>
+				<li><a href="#"><span>3</span></a>${favTh.get(2)}</li>
+				<li><a href="#"><span>4</span></a>${favTh.get(3)}</li>
+				<li><a href="#"><span>5</span></a>${favTh.get(4)}</li>
             </ul>
             <button id="btn_set_my_favorite" type="button" title="새창">자주가는 극장 설정</button>
         </div>
-        <div class="sect-city">
+<script type="text/javascript">
+
+</script>
+        <div class="sect-city" style="display: flex; height: auto">
 	        <ul>
 	        <c:set var="forCount" value="0" />
 			<c:set var="endCount" value="0"/>
 			<c:forEach var="region" items="${regionList}">
 				<li>
 				<a href="#" class="region">${region.TH_REGION}</a>
-					<div class="area">
+					<div class="area" style="top:80px;">
 						<ul id="ulcontent">
 							<!-- DB에서 가져온걸로 foreach -->
 							<c:set var="endCount" value="${endCount + region.COUNT}" />
@@ -163,8 +180,6 @@ $(function() {
         </div>
     </div>
     <!-- .sect-theater -->
-   
-
     <div class="theater-ad">
         <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@SponsorBar_980" width="980" height="90" title="광고-파일럿" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="SponsorBar_980" id="SponsorBar_980"></iframe>
     </div>

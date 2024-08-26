@@ -1,6 +1,8 @@
 package com.itwillbs.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,17 @@ public class TheaterService {
 	public List<TheaterDTO> getAreaList() {
 		return theaterDAO.getAreaList();
 	}
+	
+	public List<String> getfavTheater(String MEM_ID) {
+		String favTheater = theaterDAO.getfavTheater(MEM_ID);
+		List<String> splitTH = new ArrayList<String>();
+		if(favTheater != null) {
+			String[] spStr = favTheater.split(",");
+			splitTH = Arrays.asList(spStr);
+		}
+		return splitTH;
+	}
+	
 	
 	// 해당 극장의 상영일정이 있는 날자만
 	public List<Map<String, String>> getRunningDate(Map<String, String> rMap) {

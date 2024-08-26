@@ -52,7 +52,7 @@ public class MovieController implements WebMvcConfigurer {
 	@PostMapping("/favorMovie")
 	@ResponseBody
 	public List<Map<String, Object>> favorMovie(HttpSession session) {
-		String id = (String)session.getAttribute("id");
+		String id = (String)session.getAttribute("member_id");
 		List<Map<String, Object>> relMovie = new ArrayList<Map<String,Object>>();
 		if(id != null) {
 			Map<String, Object> rMap = new HashMap<String, Object>();
@@ -163,7 +163,7 @@ public class MovieController implements WebMvcConfigurer {
 		model.addAttribute("trailerTeaser", trailerTeaser);
 		model.addAttribute("stillcutUrl", stillcutUrl);
 		
-		String id = (String)session.getAttribute("id");
+		String id = (String)session.getAttribute("member_id");
 		if(id != null) {
 			map.put("MEMBER_ID", id);
 			String bookmark = movieService.getBookmark(map) ? "favor" : "hate";
@@ -173,9 +173,14 @@ public class MovieController implements WebMvcConfigurer {
 		return "/movie/information";
 	}
 	
+	// 찜하기
 	@PostMapping("/bookmark")
 	@ResponseBody
 	public ResponseEntity<String> bookmark(@RequestParam Map<String, Object> rMap) {
+		String id = (String)rMap.get("member_id");
+		if(id == null || id.trim().equals("")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nullId");
+		
+		
 		boolean check = movieService.getBookmark(rMap);
 		if(!check) {
 			movieService.insertBookmark(rMap);
@@ -190,6 +195,7 @@ public class MovieController implements WebMvcConfigurer {
 	
 	
 	
+
 	//ifream 광고 ?
 	@GetMapping("/ad")
 	public String ad(Model model) {
@@ -333,7 +339,7 @@ public class MovieController implements WebMvcConfigurer {
 	// ============================= myMovie =======================================
 	@GetMapping("/myMovie")
 	public String myMovie(HttpSession session, Model model) {
-		String id = (String)session.getAttribute("id");
+		String id = (String)session.getAttribute("member_id");
 		if(id == null) return "/movie/idBack";
 		Map<String, Object> data = movieService.getMyMovieCount(id);
 		model.addAttribute("count", data);
@@ -343,7 +349,7 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/myMovieList")
 	@ResponseBody
 	public List<Map<String, Object>> myMovieList(@RequestParam Map<String, String> rMap, HttpSession session) {
-		String id = (String)session.getAttribute("id");
+		String id = (String)session.getAttribute("member_id");
 		rMap.put("MEMBER_ID", id);
 		List<Map<String, Object>> list = movieService.getMyMovieList(rMap);
 		System.out.println(rMap);
@@ -355,7 +361,7 @@ public class MovieController implements WebMvcConfigurer {
 	@PostMapping("/deleteBookmark")
 	@ResponseBody
 	public ResponseEntity<String> deleteBookmark(@RequestParam Map<String, Object> rMap, HttpSession session) {
-		String id = (String)session.getAttribute("id");
+		String id = (String)session.getAttribute("member_id");
 		rMap.put("MEMBER_ID", id);
 		boolean result = movieService.deleteBookmark(rMap);
 		if(result) {

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,15 +30,17 @@ private TheaterService theaterService;
 
 
 	@GetMapping("/theater")
-    public String theaterPage(Model model) {
+    public String theaterPage(Model model, HttpSession session) {
 	 	//지역 조회
 		List<Map<String, Object>> regionList = theaterService.getRegionList();
 		List<TheaterDTO> areaList = theaterService.getAreaList();
-//		HashSet<String> region = new HashSet<String>();
-//		for(TheaterDTO t : areaList) {
-//			region.add(t.getTh_region());
-//		}
-//		System.out.println(region);
+		
+		String id = (String)session.getAttribute("member_id");
+		if(id != null) {
+			List<String> favTh = theaterService.getfavTheater(id);
+			favTh.get(0);
+			model.addAttribute("favTheater", favTh);
+		}
 		
 		// 모델에 추가
     	model.addAttribute("regionList", regionList);
