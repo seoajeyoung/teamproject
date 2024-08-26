@@ -21,7 +21,7 @@ public class MovieDTO {
     private String plot;
     private String runtime;
     private String rating;
-    private String themsSong;
+    private String themeSong;
     private String soundtrack;
     private String Awards1;
     private LocalDate targetDt;
@@ -30,7 +30,20 @@ public class MovieDTO {
     private String show;
     private int rn;
     private Integer dDay;
-    public Integer getdDay() {
+    
+    
+    @Override
+	public String toString() {
+		return "MovieDTO [MOVIE_NUM=" + MOVIE_NUM + ", movieNum=" + movieNum + ", title=" + title + ", titleEng="
+				+ titleEng + ", direcotrNm=" + direcotrNm + ", actorNm=" + actorNm + ", nation=" + nation + ", genre="
+				+ genre + ", posterUrl=" + posterUrl + ", stillUrl=" + stillUrl + ", vodUrl=" + vodUrl + ", audiAcc="
+				+ audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating + ", themeSong="
+				+ themeSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", targetDt=" + targetDt
+				+ ", rank=" + rank + ", movieNm=" + movieNm + ", show=" + show + ", rn=" + rn + ", dDay=" + dDay
+				+ ", releaseDate=" + releaseDate + ", releaseDts=" + releaseDts + ", releaseDte=" + releaseDte + "]";
+	}
+
+	public Integer getdDay() {
 		return dDay;
 	}
 
@@ -38,16 +51,6 @@ public class MovieDTO {
 		this.dDay = dDay;
 	}
 
-	@Override
-	public String toString() {
-		return "MovieDTO [MOVIE_NUM=" + MOVIE_NUM + ", movieNum=" + movieNum + ", title=" + title + ", titleEng="
-				+ titleEng + ", direcotrNm=" + direcotrNm + ", actorNm=" + actorNm + ", nation=" + nation + ", genre="
-				+ genre + ", posterUrl=" + posterUrl + ", stillUrl=" + stillUrl + ", vodUrl=" + vodUrl + ", audiAcc="
-				+ audiAcc + ", plot=" + plot + ", runtime=" + runtime + ", rating=" + rating + ", themsSong="
-				+ themsSong + ", soundtrack=" + soundtrack + ", Awards1=" + Awards1 + ", targetDt=" + targetDt
-				+ ", rank=" + rank + ", movieNm=" + movieNm + ", show=" + show + ", rn=" + rn + ", dDay=" + dDay
-				+ ", releaseDate=" + releaseDate + ", releaseDts=" + releaseDts + ", releaseDte=" + releaseDte + "]";
-	}
     
 	public String getVodUrl() {
 		return vodUrl;
@@ -158,11 +161,12 @@ public class MovieDTO {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	public String getThemsSong() {
-		return themsSong;
+	public String getThemeSong() {
+		return themeSong;
 	}
-	public void setThemsSong(String themsSong) {
-		this.themsSong = themsSong;
+
+	public void setThemeSong(String themeSong) {
+		this.themeSong = themeSong;
 	}
 	public String getSoundtrack() {
 		return soundtrack;

@@ -16,10 +16,9 @@
 		   , PLOT
 		   , RUNTIME
 		   , LEFT(RATING, 2) RATING
-		   , THEMSSONG
+		   , THEMESONG
 		   , SOUNDTRACK
 		   , a.RANK AS "RANK"
-		   , MOVIENM
 		   , IF(CURRENT_DATE() BETWEEN DATE(RELEASEDATE) AND (
 				 SELECT MAX(DATE_FORMAT(s.SC_TIME_END, '%Y-%m-%d'))
 				 FROM MOVIE m
@@ -59,7 +58,7 @@
 			, PLOT
 			, RUNTIME
 			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
-			, THEMSSONG
+			, THEMESONG
 			, SOUNDTRACK
 			, M.RANK AS 'RANK'
 		FROM MOVIE M
@@ -101,7 +100,7 @@
 			, POSTERURL
 			, RUNTIME
 			, LEFT(RATING, 2) RATING
-			, THEMSSONG
+			, THEMESONG
 			, SOUNDTRACK
 			, m.RANK AS 'RANK'
 		FROM MOVIE m
@@ -541,7 +540,7 @@
 			, PLOT
 			, RUNTIME
 			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
-			, THEMSSONG
+			, THEMESONG
 			, SOUNDTRACK
 			, RELEASEDTS
 			, RELEASEDTE
@@ -551,8 +550,6 @@
 		WHERE current_date() &lt; RELEASEDATE
 		ORDER BY RELEASEDATE, m.RANK
 	</select>
-	
-	
 	
 	
 	
