@@ -47,7 +47,7 @@ $(document).ready(function() {
     // 첫 좌석 가져오는 함수 
   function loadSeats() {
     $.ajax({
-        url: '/myweb/LOADSEAT', 
+        url: '/teamproject/LOADSEAT', 
         method: 'GET',
         dataType: 'json',
         data: {
@@ -215,7 +215,7 @@ loadSeats();
         if (confirm(confirmMessage)) {
         // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
         $.ajax({
-            url: '/myweb/SEATPAYMENT', 
+            url: '/teamproject/SEATPAYMENT', 
             method: 'POST', 
             contentType: 'application/json', 
             data: JSON.stringify({
@@ -245,7 +245,7 @@ loadSeats();
                     tp_num: tpNumList.join(',')
                 }).toString();
                 
-                window.location.href = `/myweb/ticketpayment?${queryParams}`;
+                window.location.href = `/teamproject/ticketpayment?${queryParams}`;
             	} else {
                	 alert(response.message);
            		 }

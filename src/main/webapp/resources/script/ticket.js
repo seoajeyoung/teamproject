@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isTHRegionInProgress = true;
 
         $.ajax({
-            url: '/myweb/TH_REGION',
+            url: '/teamproject/TH_REGION',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -133,14 +133,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (order) requestData.order = order;
         requestData.type = languagetype;
         $.ajax({
-            url: '/myweb/MovieTicket',
+            url: '/teamproject/MovieTicket',
             type: 'GET',
             dataType: 'json',
             data: requestData,
             success: function(data) {
                 var movieListHtml = '';
-                var ratingText = getRatingText(movie.rating);
                 $.each(data, function(index, movie) {
+                	var ratingText = getRatingText(movie.rating);
+                	debugger;
                     movieListHtml +=
                         `<li data-index="${movie.MOVIE_NUM}"  data-post-url="${movie.posterUrl}">
                             <a href="#"  title="${movie.title}" alt="${movie.title}">
@@ -151,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </li>`;
                 });
                 $('#movie').html(movieListHtml);
+                debugger;
                 TH_REGION(); // 극장 호출
                 movieupdateScrollbar();
             },
@@ -162,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateMovie() {
     	
         $.ajax({
-            url: '/myweb/UPDATE_MOVIE',
+            url: '/teamproject/UPDATE_MOVIE',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -196,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateTime() {
     
         $.ajax({
-            url: '/myweb/UPDATE_TIME',
+            url: '/teamproject/UPDATE_TIME',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -282,26 +284,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // 상영등급 필터링
     function getRatingText(rating) {
         switch (rating) {
-            case "12세 이상 관람가":
+            case "12세이상관람가":
                 return '12';
-            case "15세 이상 관람가":
+            case "15세이상관람가":
                 return '15';
-            case "19세 이상 관람가":
+            case "18세관람가(청소년관람불가)":
+                return '18';
+            case "청소년관람불가":
                 return '18';
             case "전체관람가":
-                return 'ageAll';
+                return 'All';
             default:
                 return '';
         }
     }
-
 
     // 지역별 극장 이름 가져오기
     function th_name(region) {
         regionvalue = region;
         var $ul = $(`ul[data-region="${region}"]`);
         $.ajax({
-            url: '/myweb/TH_NAME',
+            url: '/teamproject/TH_NAME',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -333,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 영화 선택시 극장 비교 
     function updateTheaterList() {
         $.ajax({
-            url: '/myweb/UPDATE_TH_NAME',
+            url: '/teamproject/UPDATE_TH_NAME',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -379,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 관, 시간 가져오는 ajax
   function MovieTimes() {
     $.ajax({
-        url: '/myweb/MTIME',
+        url: '/teamproject/MTIME',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -767,14 +770,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 모든 값이 유효한 경우
        var member_num = $('#member_num').data('memberNum');
-		debugger;
         if (!member_num) {	
          var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
         	 if (confirmLogin) {
-            	window.location.href = `/myweb/member/login`; // 로그인 페이지로 이동
+            	window.location.href = `/teamproject/member/login`; // 로그인 페이지로 이동
         	}
         } else {
-           window.location.href = '/myweb/결제TEST?' + param;
+           window.location.href = '/teamproject/결제TEST?' + param;
         }
    
     });

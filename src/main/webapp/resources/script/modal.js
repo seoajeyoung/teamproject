@@ -13,7 +13,7 @@ $(document).ready(function() {
     	 regionvalue = $(this).val();
     	 if(regionvalue){
     	 $.ajax({
-    		url: '/myweb/MODALTH_NAME',
+    		url: '/teamproject/MODALTH_NAME',
    			type: 'GET',
     		dataType: 'json', 
     		data: {
@@ -60,7 +60,7 @@ $(document).ready(function() {
 	// 관 불러오는 함수    
     function getci_number() {
     $.ajax({
-        url: '/myweb/CI_NUMBER',  
+        url: '/teamproject/CI_NUMBER',  
         type: 'GET',
         dataType: 'json',
         data: {
@@ -86,7 +86,7 @@ $(document).ready(function() {
     // 저장된 관 불러와 좌석 생성 
     function createsave_seat() {
     $.ajax({
-        url: '/myweb/SAVECI_NUMBER',
+        url: '/teamproject/SAVECI_NUMBER',
         method: 'GET',
         data: {
             region: regionvalue,
@@ -253,7 +253,7 @@ $(document).ready(function() {
         });
         
          $.ajax({
-        url: '/myweb/INSERTSEAT', 
+        url: '/teamproject/INSERTSEAT', 
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({

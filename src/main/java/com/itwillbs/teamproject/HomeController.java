@@ -1,4 +1,4 @@
-package com.itwillbs.myweb;
+package com.itwillbs.teamproject;
 
 import java.text.DateFormat;
 import java.util.Date;

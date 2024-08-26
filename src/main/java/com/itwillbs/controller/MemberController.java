@@ -37,7 +37,7 @@ public class MemberController {
 
 	private static final String clientSecret = "rJlw4TMlJH";
 
-	private static final String redirectURI = "http://localhost:8080/myweb/member/callback";
+	private static final String redirectURI = "http://localhost:8080/teamproject/member/callback";
 
 	@Inject
 	private MemberService memberService;
