@@ -386,7 +386,7 @@
 	</insert>
 
 	<insert id="insertticketpayment" parameterType="map">
-		INSERT INTO TICKETPAYMENT (member_num, TP_PAYMENT, SC_NUM, TP_PRICE,
+		INSERT INTO TICKETPAYMENT (MEM_NUM, TP_PAYMENT, SC_NUM, TP_PRICE,
 		TP_TYPE, TP_SEAT)
 		VALUES (
 		#{member_num},  <!-- member_num -->
@@ -503,8 +503,8 @@
 
 	<select id="selectmember" resultType="map" parameterType="map">
 		SELECT
-		member_name , member_phone FROM MEMBERS
-		WHERE member_num =
+		MEM_NAME , MEM_PHONE FROM MEMBERS
+		WHERE MEM_NUM =
 		#{member_num}
 	</select>
 
@@ -538,7 +538,7 @@
 		AND SC_TIME =
 		CONCAT(#{fulldate}, ' ', #{sctime})
 		)
-		AND member_num = #{member_num}
+		AND MEM_NUM = #{member_num}
 		AND
 		TP_SEAT IN
 		<foreach collection="seseat" item="seat" open="(" close=")"
