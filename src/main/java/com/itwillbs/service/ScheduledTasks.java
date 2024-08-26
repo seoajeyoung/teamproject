@@ -49,7 +49,6 @@ public class ScheduledTasks {
 	@Scheduled(fixedRate = 1296000000) // 15일마다 실행 (15일 = 1296000000 milliseconds)
 	public void selectAndSaveMoives() {
 
-		System.out.println("저장");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		LocalDate today = LocalDate.now();
 //          LocalDate releaseDts = today.plusDays(30); // 오늘로부터 15일 뒤
@@ -60,14 +59,14 @@ public class ScheduledTasks {
 //          LocalDate releaseDte = today.minusDays(1); // 어제
 
 		// 오늘로부터 4개월 전
-		LocalDate releaseDts = today.minusMonths(4);
+		LocalDate releaseDts = today.minusMonths(3);
 		// 오늘로부터 한 달 뒤
-		LocalDate releaseDte = today.plusMonths(2);
+		LocalDate releaseDte = today.plusMonths(1);
 
 		String releaseDtsStr = releaseDts.format(formatter);
 		String releaseDteStr = releaseDte.format(formatter); 
-
-//          adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr); 
+		
+//        adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr); 
  
 //      adminService.selectAndSaveMovies("20240807", "20240807");
 
@@ -76,7 +75,6 @@ public class ScheduledTasks {
 	@Scheduled(fixedRate = 604800000) // 7일마다 실행 (15일 = 1296000000 milliseconds)
 	public void updateMoviesRank() {
 
-		System.out.println("랭킹저장");
 
 		// 일주일마다 랭킹 초기화
 //		adminService.resetMovieRank();
@@ -88,7 +86,7 @@ public class ScheduledTasks {
 
 		String targetDtStr = targetDt.format(formatter); 
 
-		adminService.updateMoviesRank(targetDtStr); 
+//		adminService.updateMoviesRank(targetDtStr); 
 
 	}
 

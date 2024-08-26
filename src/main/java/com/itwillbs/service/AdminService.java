@@ -130,15 +130,12 @@ public class AdminService {
 			adminDTO.setRating(movie.getRating());
 			adminDTO.setReleaseDateStr(movie.getReleaseDate());
 			adminDTO.setPosterUrl(movie.getPosterUrl());
-
 			adminDTO.setStillUrl(movie.getStillUrl());
 			adminDTO.setVodUrl(movie.getVodUrl());
-
-			adminDTO.setAudiAcc(movie.getAudiAcc());
 			adminDTO.setThemeSong(movie.getThemeSong());
 			adminDTO.setSoundtrack(movie.getSoundtrack());
-			adminDTO.setAwards1(movie.getAwards1());
-
+			
+//			System.out.println(adminDTO);
 			processMovie(adminDTO);
 			
 		}
@@ -161,7 +158,7 @@ public class AdminService {
 			adminDTOList.add(adminDTO);
 		}
 		
-		System.out.println(adminDTOList);
+//		System.out.println(adminDTOList);
 		adminDAO.updateMovieRank(adminDTOList);
 
 	}

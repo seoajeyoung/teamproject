@@ -81,10 +81,8 @@ public class KMDBApiService {
                         movieResponse.setRating(ratings[0]);
                     }
                     
-                    movieResponse.setAudiAcc(resultNode.path("stat").path("audiAcc").asText());
                     movieResponse.setThemeSong(resultNode.path("themeSong").asText());
                     movieResponse.setSoundtrack(resultNode.path("soundtrack").asText());
-                    movieResponse.setAwards1(resultNode.path("Awards1").asText());
                     
                     // actorNm의 경우 여러명이기 때문에 actors 노드의 actor 배열을 찾고 
                     StringBuilder actorNames = new StringBuilder();
@@ -108,6 +106,7 @@ public class KMDBApiService {
             e.printStackTrace();
         }
         
+//        System.out.println(movieResponses);
         return movieResponses;
     }
 }

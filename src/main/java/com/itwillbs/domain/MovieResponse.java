@@ -21,6 +21,13 @@ public class MovieResponse {
     private String movieNm;
 	private String rank;
 	
+	
+	
+
+	@Override
+	public String toString() {
+		return "MovieResponse [title=" + title + "]";
+	}
 
 	public String getMovieNm() {
 		return movieNm;
