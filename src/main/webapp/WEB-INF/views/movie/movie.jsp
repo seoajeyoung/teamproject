@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>movie</title>
-
 <link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
@@ -270,7 +269,7 @@ $(document).on('click', '.btn-close', function() {
                 <label for="chk_nowshow">현재 상영작만 보기</label>                
             </div>
             <label for="order_type" class="hidden">정렬</label>
-            <select id="order_type" name="order-type">
+            <select id="order_type" name="order-type" style="border: 1px solid #b4b3aa;">
 				<option title="현재 선택됨" selected="selected" value="SORTRATE">예매율순</option>
                 <option value="SORTLIKED">평점순</option>
                 <option value="SORTRANK">랭킹순</option>
@@ -440,6 +439,4 @@ $(function() {
 </script>
 </div>
 </body>
-<link href="${pageContext.request.contextPath}/resources/css/inquiry/customer.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/inquiry/giftstore.css" rel="stylesheet">
 </html>

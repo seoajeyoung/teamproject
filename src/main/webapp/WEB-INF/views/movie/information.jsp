@@ -752,7 +752,7 @@ $(document).on('click', '.review_page>a', function() {
 					    <div class="box-contents">
 					        <ul class="writerinfo">
 					            <li class="writer-name">
-								 \${review.MEMBER_ID}
+								 \${review.MEM_ID}
 					            </li>
 					            <li class="writer-etc">
 					                <span class="day">\${review.REVIEW_DATE}</span>
@@ -1215,7 +1215,7 @@ $(document).on('click', '.link-reviewwrite', function() {
 														<span class="profile-mask"></span>
 													</span>
 												</div>
-												<span class="round red on"><span class="position"><em class="see">\${result.MEMBER_ID}</em></span></span>
+												<span class="round red on"><span class="position"><em class="see">\${result.MEM_ID}</em></span></span>
 												<span class="writer-name" id="regUserName"></span>
 											</div>
 										</div>

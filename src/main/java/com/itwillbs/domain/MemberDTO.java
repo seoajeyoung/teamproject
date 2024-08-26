@@ -28,8 +28,11 @@ public class MemberDTO {
 	private String point_history;
 	private String member_sns; // sns 로그인 유무
 	
+	
+	
 	// 더 추가될 수 있음
 	
+
 	// 기본 생성자
 	public MemberDTO() {
 		
@@ -54,17 +57,13 @@ public class MemberDTO {
 
     }
 
+	
+    
+    
+
 	@Override
 	public String toString() {
-		return "MemberDTO [member_num=" + member_num + ", member_id=" + member_id + ", member_pass=" + member_pass
-				+ ", member_name=" + member_name + ", member_nickname=" + member_nickname + ", member_gender="
-				+ member_gender + ", member_phone=" + member_phone + ", member_input=" + member_input + ", member_out="
-				+ member_out + ", member_respite=" + member_respite + ", member_status=" + member_status
-				+ ", member_address=" + member_address + ", member_admin=" + member_admin + ", member_grade="
-				+ member_grade + ", member_birth=" + member_birth + ", member_email=" + member_email
-				+ ", point_currentP=" + point_currentP + ", point_cumulativeP=" + point_cumulativeP + ", sPoint="
-				+ sPoint + ", point_detail=" + point_detail + ", point_date=" + point_date + ", point_history="
-				+ point_history + ", member_sns=" + member_sns + "]";
+		return "MemberDTO [member_id=" + member_id + ", member_pass=" + member_pass + "]";
 	}
 
 	public String getMember_id() {
