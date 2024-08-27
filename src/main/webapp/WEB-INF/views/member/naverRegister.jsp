@@ -12,7 +12,8 @@
 <body>
 
 	<jsp:include page="/WEB-INF/views/ticket/top.jsp" />
-	<form id="naverRegister" action="${pageContext.request.contextPath}/member/naverRegisterPro" method="post">
+	<form id="naverRegister" action="${pageContext.request.contextPath}/member/naverRegisterPro" method="post" style="position: relative;
+    top: 82px;">
 		<div class="leadtext">처음 네이버 로그인을 통해 OSTicket을 이용하시는 경우 사이트에서
 			사용할 닉네임을 만들어야 합니다.</div>
 

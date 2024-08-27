@@ -13,7 +13,7 @@
 	<div id="findPassContainer">
 		<div id="findPassText">
 			<c:if test="${not empty tempPassword}">
-       		입시로 발급된 비밀번호는 <span id="tempPassword">${tempPassword}</span> 입니다.
+       		임시로 발급된 비밀번호는 <span id="tempPassword">${tempPassword}</span> 입니다.
      	</c:if>
 		</div>
 

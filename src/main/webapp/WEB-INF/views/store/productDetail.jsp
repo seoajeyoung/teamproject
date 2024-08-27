@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +34,8 @@
 		let formattedTotalPrice = totalPrice.toLocaleString('en'); // 천 단위 구분 기호 추가
 
 		// 총 가격 업데이트
-		totalPriceSpan.textContent = formattedTotalPrice;
-		document.querySelector('.com_product_total_price').textContent = formattedTotalPrice;
+		totalPriceSpan.textContent = formattedTotalPrice + '원';
+		document.querySelector('.com_product_total_price').textContent = formattedTotalPrice + '원';
 	}
 
 	function addToCart(event, member_num, st_num) {
@@ -93,12 +94,12 @@
 		<div class='category_product_detail_contents'>
 			<div class='category_product_detail_contents_img_wrap'>
 				<ul class='bxslider'>
-					<li><img src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name }"></li>
+					<li><img src="${pageContext.request.contextPath}/resources/img/upload/${storeDTO.st_picture}" alt="${storeDTO.st_name }"></li>
 				</ul>
 			</div>
 			<div class='category_product_detail_contents_wrap'>
 				<p class='category_product_detail_sale_price_wrap'>
-					<span class="store_deatail_sale_price" id="spnSalePrice">${storeDTO.st_price }원</span>
+					<span class="store_deatail_sale_price" id="spnSalePrice"><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</span>
 				</p>
 				<dl class='category_product_detail_add_info'>
 					<dt>상품구성</dt>
@@ -115,11 +116,11 @@
 						<a href="#none" onclick="adjustQuantity(-1);" class="com_btn_minus">-</a>
 						<span class='com_form_count com_form_count0'>1</span>
 						<a href="#none" onclick="adjustQuantity(1);" class="com_btn_plus">+</a>
-						<span class='com_total_price' id='spantotalprice' data-price='${storeDTO.st_price}'>${storeDTO.st_price}</span>
+						<span class='com_total_price' id='spantotalprice' data-price='${storeDTO.st_price}'><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</span>
 					</div>
 					<div class='category_product_detail_total_price'>
 						<p class='com_form_total_price'>
-							총 구매금액<span class='com_total_price0 com_product_total_price'>${storeDTO.st_price}원</span>
+							총 구매금액<span class='com_total_price0 com_product_total_price'><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</span>
 						</p>
 					</div>
 				</div>
@@ -133,9 +134,11 @@
         				 장바구니에 추가
    						</a>
 				</div>
+				
 			</div>
+			<p class='category_product_detail_txtbox'>${storeDTO.st_detail }</p>
+		
 		</div>
-		<p class='category_product_detail_txtbox'>${storeDTO.st_detail }</p>
 		
 </body>
 </html>

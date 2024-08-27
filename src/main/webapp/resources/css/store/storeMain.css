@@ -83,11 +83,13 @@ img {
 .productList li h4 {
     font-size: 16px;
     margin: 10px 0 5px;
+    color: black;
 }
 
 .productList li p {
-    font-size: 14px;
-    color: #666;
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
 }
 
 .productList li span.price {
