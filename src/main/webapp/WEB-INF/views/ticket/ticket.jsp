@@ -180,7 +180,6 @@
 							<div class="col-body" style="height: 565px;">
 								<!-- 시간선택 -->
 								<div class="time-option">
-									<span class="morning">모닝</span><span class="night">심야</span>
 								</div>
 								<div class="placeholder">영화, 극장, 날짜를 선택해주세요.</div>
 								<div class="time-list nano has-scrollbar">
