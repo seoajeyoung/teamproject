@@ -68,7 +68,7 @@
 				</ul>
 				<div class="view_area">
 					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${inquiryDTO.IQ_DETAIL}</b><br>
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${inquiryDTO.IQ_PICTURE}" width="200">
+					<img alt="" src="${pageContext.request.contextPath}/resources/img/${inquiryDTO.IQ_PICTURE}" width="200">
 					</span></p>
 				</div>
 				
