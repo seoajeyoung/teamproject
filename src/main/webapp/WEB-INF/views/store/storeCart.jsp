@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -303,7 +305,7 @@
 									style="border-bottom: 2px solid #9d9d9d;">
 									<td class="st_name"><span> ${item.st_name}</span></td>
 									<td class="st_price">
-										<span>${item.st_price}원</span><br>
+										<span><fmt:formatNumber value="${item.st_price}" type="number" groupingUsed="true"/>원</span><br>
 									</td>
 									<td>
 									<span><button type="button" class="quantity-decrease">-</button> 
@@ -315,7 +317,7 @@
 <%-- 										<input type="hidden" name="member_num" class="member_num" value="${item.member_num}"> --%>
 											<button type="button" class="quantity-increase">+</button>
 											<button type="button" class="apply-changes">적용</button></span></td>
-									<td class="product_total_price">${item.st_price * item.cart_quantity}원</td>
+									<td class="product_total_price"><fmt:formatNumber value="${item.st_price * item.cart_quantity}" type="number" groupingUsed="true"/>원</td>
 									
 									<td><button type="button" onclick="removeFromCart(${item.cart_num})">삭제</button>
 									</td>
