@@ -46,7 +46,7 @@
 	<update id="saveNaverNickname"> <!-- 네이버로 가져온 데이터에 닉네임 추가 -->
 		UPDATE MEMBERS
 		SET MEM_NICKNAME = #{member_nickname}
-		WHERE MEM_ID = #{member_id}
+		WHERE MEM_NUM = #{member_num}
 	</update>
 
 	<select id="findId" resultType="com.itwillbs.domain.MemberDTO"> <!-- 이름과 생년월일 맞는 아이디 조회 -->

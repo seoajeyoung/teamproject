@@ -7,7 +7,8 @@
 
 	<select id="getMemberInfo"
 		resultType="com.itwillbs.domain.MemberDTO"> <!-- 회원정보 조회 -->
-		SELECT MEM_ID AS member_id, MEM_NAME AS member_name, MEM_NICKNAME AS member_nickname, MEM_PHONE AS member_phone 
+		SELECT MEM_ID AS member_id, MEM_NAME AS member_name, MEM_NICKNAME AS
+		member_nickname, MEM_PHONE AS member_phone
 		FROM MEMBERS
 		WHERE MEM_NUM = #{member_num}
 	</select>
@@ -27,16 +28,19 @@
 
 	<select id="productCategory"
 		resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
-		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture, ST_PRICE AS st_price
+		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture,
+		ST_PRICE AS st_price
 		FROM STORE
 		WHERE ST_TYPE = #{category}
-		ORDER BY ST_NUM DESC
+		ORDER BY
+		ST_NUM DESC
 	</select>
 
 	<select id="getProductByNum"
-		resultType="com.itwillbs.domain.StoreDTO"> <!-- 카테고리에 해당하는 모든 상품 조회 -->
-		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture, 
-			ST_PRICE AS st_price, ST_CONST AS st_const, ST_PERIOD AS st_period
+		resultType="com.itwillbs.domain.StoreDTO"> <!-- 상품번호에 해당하는 상품정보 조회 -->
+		SELECT ST_NUM AS st_num, ST_NAME AS st_name, ST_PICTURE AS st_picture,
+		ST_PRICE AS st_price, ST_CONST AS st_const, ST_PERIOD AS st_period,
+		ST_DETAIL AS st_detail
 		FROM STORE
 		WHERE ST_NUM = #{st_num}
 	</select>
@@ -52,8 +56,8 @@
 	<!-- 특정 사용자(member_num으로 식별)의 특정 상품(st_num) 장바구니 항목 조회 (중복 체크용) -->
 	<select id="getUserCart"
 		resultType="com.itwillbs.domain.CartDTO">
-		SELECT CART_NUM AS cart_num, ST_NUM AS st_num, ST_PRICE AS st_price,
-		 MEM_NUM AS member_num, CART_QUANTITY AS cart_quantity, CART_DATE AS cart_date
+		SELECT CART_NUM AS cart_num, ST_NUM AS st_num,
+		MEM_NUM AS member_num, CART_QUANTITY AS cart_quantity, CART_DATE AS cart_date
 		FROM CART
 		WHERE MEM_NUM = #{member_num} AND ST_NUM =
 		#{st_num}
@@ -71,14 +75,18 @@
 	<!-- 장바구니 조회 -->
 	<select id="getCartItem"
 		resultType="com.itwillbs.domain.CartDTO">
-		SELECT c.CART_NUM AS cart_num, c.MEM_NUM AS member_num, c.ST_NUM AS st_num, c.CART_QUANTITY AS cart_quantity,
-		c.CART_DATE AS cart_date,
+		SELECT c.CART_NUM AS cart_num, c.MEM_NUM AS member_num,
+		c.ST_NUM AS st_num, c.CART_QUANTITY AS cart_quantity,
+		c.CART_DATE AS
+		cart_date,
 		s.ST_NAME AS st_name, s.ST_PRICE AS st_price
 		FROM CART c
-		JOIN STORE s ON c.ST_NUM =
+		JOIN
+		STORE s ON c.ST_NUM =
 		s.ST_NUM
 		WHERE c.MEM_NUM = #{member_num}
-		ORDER BY c.CART_DATE DESC
+		ORDER BY
+		c.CART_DATE DESC
 	</select>
 
 	<!-- 장바구니 상품 삭제 -->
@@ -113,7 +121,8 @@
 	<!-- 대분류코드 조회 -->
 	<select id="getCodeList"
 		resultType="com.itwillbs.domain.CodeDTO">
-		SELECT CODE_NUM AS code_num, CODE_ID AS code_id, CODE_VALUE AS code_value 
+		SELECT CODE_NUM AS code_num, CODE_ID AS code_id, CODE_VALUE
+		AS code_value
 		FROM CODES
 
 	</select>
@@ -121,8 +130,10 @@
 	<!-- 상세분류코드 조회 -->
 	<select id="getCodeDetail"
 		resultType="com.itwillbs.domain.CodeDetailDTO">
-		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS code_id, ct.CODE_VALUE AS code_value,
-		cd.DETAIL_CODE AS detail_code, cd.DETAIL_VALUE AS detail_value
+		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS
+		code_id, ct.CODE_VALUE AS code_value,
+		cd.DETAIL_CODE AS detail_code,
+		cd.DETAIL_VALUE AS detail_value
 		FROM CODEDETAIL cd
 		JOIN CODES ct ON
 		cd.CODE_NUM = ct.CODE_NUM
@@ -159,14 +170,16 @@
 		SELECT COUNT(*)
 		FROM
 		CODEDETAIL
-		WHERE CODE_NUM = #{code_num} AND DETAIL_CODE = #{detail_code}
+		WHERE CODE_NUM = #{code_num} AND DETAIL_CODE =
+		#{detail_code}
 	</select>
 
 	<select id="countDetailValue" resultType="int">
 		SELECT COUNT(*)
 		FROM
 		CODEDETAIL
-		WHERE CODE_NUM = #{code_num} AND DETAIL_VALUE = #{detail_value}
+		WHERE CODE_NUM = #{code_num} AND DETAIL_VALUE =
+		#{detail_value}
 	</select>
 
 	<!-- ====================================== -->
@@ -174,8 +187,10 @@
 	<!-- 메뉴값 가져오기 위함 -->
 	<select id="getCategories" parameterType="string"
 		resultType="com.itwillbs.domain.CodeDetailDTO">
-		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS code_id, ct.CODE_VALUE AS code_value,
-		cd.DETAIL_CODE AS detail_code, cd.DETAIL_VALUE AS detail_value
+		SELECT cd.DETAIL_CODE_NUM AS detail_code_num, ct.CODE_ID AS
+		code_id, ct.CODE_VALUE AS code_value,
+		cd.DETAIL_CODE AS detail_code,
+		cd.DETAIL_VALUE AS detail_value
 		FROM CODEDETAIL cd
 		JOIN CODES ct ON
 		cd.CODE_NUM = ct.CODE_NUM
@@ -195,8 +210,9 @@
 		FROM CART c
 		JOIN STORE s ON
 		s.ST_NUM = c.ST_NUM
-		WHERE c.CART_NUM = #{cart_num}),
-		null,
+		WHERE c.CART_NUM =
+		#{cart_num}),
+		NOW(),
 		#{cart_num},
 		#{member_num},
 		#{st_num},
@@ -217,6 +233,35 @@
 		WHERE
 		CART_NUM = #{cart_num}
 	</update>
+
+
+	<!-- 채현 메인페이지 패키지 -->
+	<select id="mainPackage"
+		resultType="com.itwillbs.domain.StoreDTO">
+		SELECT ST_NUM
+		, ST_NAME
+		, ST_PRICE
+		, ST_PICTURE
+		, ST_CONST
+		, ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN
+		FROM STORE
+		WHERE ST_TYPE = "패키지"
+		ORDER BY RN DESC
+		LIMIT 3
+	</select>
+	<!-- 채현 메인페이지 영화관람권 -->
+	<select id="giftcon" resultType="com.itwillbs.domain.StoreDTO">
+		SELECT ST_NUM
+		, ST_NAME
+		, ST_PRICE
+		, ST_PICTURE
+		, ST_CONST
+		, ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN
+		FROM STORE
+		WHERE ST_TYPE = "영화관람권"
+		ORDER BY RN DESC
+		LIMIT 3
+	</select>
 
 
 </mapper>

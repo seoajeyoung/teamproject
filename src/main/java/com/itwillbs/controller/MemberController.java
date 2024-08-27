@@ -162,7 +162,6 @@ public class MemberController {
 			
 			MemberDTO memberNum = memberService.getMemberNum(memberDTO.getMember_id()); // 네이버에서 받아온 정보로 member_num 얻기 위함
 			
-			
 			if (memberNum != null) {
 	            String member_num = memberNum.getMember_num();
 	            session.setAttribute("member_num", member_num);
@@ -189,10 +188,10 @@ public class MemberController {
 			memberDTO.setMember_sns("T"); // 첫 네이버 로그인 시에만 설정
 	        memberService.registerMember(memberDTO);
 	        Map<String, String> params = memberService.getNaverMemberNum(memberDTO.getMember_id());
-	        session.setAttribute("member_num", params.get("MEM_NUM"));
+	        session.setAttribute("member_num", String.valueOf(params.get("member_num")) );
 		        
 		    // session에 사용자 정보 저장
-			session.setAttribute("userInfo", userInfoMap);
+//			session.setAttribute("userInfo", userInfoMap);
 			model.addAttribute("memberDTO", memberDTO);
 
 			return "redirect:/member/naverRegister"; // 회원가입 완료 페이지로 이동
@@ -234,7 +233,7 @@ public class MemberController {
     public String naverRegister(HttpSession session, Model model) {
         String member_id = (String) session.getAttribute("member_id");
         String member_num = (String) session.getAttribute("member_num");
-        MemberDTO memberDTO = memberService.getMemberId(member_id); // 세션에 정보들 저장
+        MemberDTO memberDTO = memberService.getMemberId(member_id); 
 
         if (memberDTO == null) {
             return "redirect:/error"; // 회원 정보가 없으면 에러 페이지로 이동 (버그 방지)

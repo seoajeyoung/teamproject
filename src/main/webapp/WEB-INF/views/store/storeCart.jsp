@@ -161,7 +161,7 @@
                 payment_total_price: rsp.paid_amount,
                 st_num: window.st_num, // 상품 번호 배열
                 cart_quantity: window.cart_quantity, // 수량 배열
-                member_num: "${memberDTO.member_num}", // 회원 번호
+                member_num: "${sessionScope.member_num}", // 회원 번호
                 cart_num: window.cart_num
             }),
             success: function(response) {
@@ -312,6 +312,7 @@
 											style="text-align: center; font-size: 20px;"> 
 										<input type="hidden" name="st_num" class="st_num" value="${item.st_num}"> 
 										<input type="hidden" name="cart_num" class="cart_num" value="${item.cart_num}">
+<%-- 										<input type="hidden" name="member_num" class="member_num" value="${item.member_num}"> --%>
 											<button type="button" class="quantity-increase">+</button>
 											<button type="button" class="apply-changes">적용</button></span></td>
 									<td class="product_total_price">${item.st_price * item.cart_quantity}원</td>
@@ -324,7 +325,7 @@
 
 						<c:if test="${empty cartItemList}">
 							<tr>
-								<td colspan="7" align="center" style="padding: 30px;">장바구니에
+								<td colspan="7" align="center" style="padding: 30px; font-size: 19px;">장바구니에
 									상품이 없습니다.</td>
 							</tr>
 						</c:if>
@@ -336,8 +337,6 @@
 			<div class="">
 				<div class="store_subject">주문자 정보확인</div>
 				<div class="store_member_info">
-					<!-- 이름과 휴대전화 번호는 자동 저장 -->
-					<!-- 이름 중간 *, 번호 중간 네자리 * 처리 -->
 					<section>
 						<span><b>이름</b> 
 						<input type="text" value="${memberDTO.member_name }" readonly="readonly"></span> 
@@ -358,7 +357,7 @@
 				<div class="store_subject" onclick="passTriger()">총 결제금액</div>
 				<div class="store_payment_line">
 					<section>
-						<span id="totalPriceDisplay" style="font-size: 30px">0원</span>
+						<span id="totalPriceDisplay" style="font-size: 30px; color:red;">0원</span>
 					</section>
 				</div>
 			</div>

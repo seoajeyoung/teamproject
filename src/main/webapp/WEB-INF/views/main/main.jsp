@@ -647,73 +647,36 @@ function setListFocus(swiper, selector) {
                         <li>
                             <dl class="giftcon_list">
                                 <dt>패키지<a href=" ${pageContext.request.contextPath}/store/productCategory?category=패키지" alt="패키지" class="btn_more">더보기</a></dt>
-                               
+                             
+                               <c:forEach var="packages" items="${packagelist}">
                                 <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100439">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/17223927893220.jpg" alt="<10 라이브즈> 얼리버드 관람권"></div>
+                                    <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${packages.st_num}">
+                                        <div class="img_wrap" data-scale="false"><img src="${packages.st_picture}" alt="패키지"></div>
                                         <div class="giftcon_info_wrap">
-                                            <span>&lt;10 라이브즈&gt; 얼리버드 관람권</span>
-                                            <strong>14,000원</strong>
+                                            <span>${packages.st_name}</span>
+                                            <strong>${packages.st_price}</strong>
                                         </div>
                                     </a>
                                 </dd>
-                                
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100430">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/17170520996180.jpg" alt="우리 패키지"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>우리 패키지</span>
-                                            <strong>62,000원</strong>
-                                        </div>
-                                    </a>
-                                </dd>
-                            
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100429">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/17170513228970.jpg" alt="나랑 너 패키지"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>나랑 너 패키지</span>
-                                            <strong>35,000원</strong>
-                                        </div>
-                                    </a>
-                                </dd>
-                               
+                                </c:forEach>
                             </dl>
                         </li>
+
                         <li>
                             <dl class="giftcon_list">
                                 <dt>영화관람권<a href="${pageContext.request.contextPath}/store/productCategory?category=영화관람권" alt="영화관람권" class="btn_more">더보기</a></dt>
                                
+                               <c:forEach var="giftcon" items="${giftconliset}">
                                 <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100341">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16777513183750.jpg" alt="CGV 영화관람권"></div>
+                                    <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${giftcon.st_num}">
+                                        <div class="img_wrap" data-scale="false"><img src="${giftcon.st_picture}" alt="영화관람권"></div>
                                         <div class="giftcon_info_wrap">
-                                            <span>CGV 영화관람권</span>
-                                            <strong>13,000원</strong>
+                                            <span>${giftcon.st_name}</span>
+                                            <strong>${giftcon.st_price}</strong>
                                         </div>
                                     </a>
                                 </dd>
-                            
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100254">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16104445886810.jpg" alt="IMAX 영화관람권"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>IMAX 영화관람권</span>
-                                            <strong>18,000원</strong>
-                                        </div>
-                                    </a>
-                                </dd>
-                            
-                                <dd>
-                                    <a href="/culture-event/popcorn-store/product-detail.aspx?GG_NO=100255">
-                                        <div class="img_wrap" data-scale="false"><img src="https://img.cgv.co.kr/GiftStore/Product/Pc/List/16105061088530.jpg" alt="4DX 영화관람권"></div>
-                                        <div class="giftcon_info_wrap">
-                                            <span>4DX 영화관람권</span>
-                                            <strong>19,000원</strong>
-                                        </div>
-                                    </a>
-                                </dd>
-                               
+                                </c:forEach>
                             </dl>
                         </li>
                         
@@ -843,7 +806,7 @@ function setListFocus(swiper, selector) {
     //}       
 
     //oms 
-    if ("http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=36641&menu=006" == "" || "" == "") { error_specialDiscountData(); }
+//     if ("http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=36641&menu=006" == "" || "" == "") { error_specialDiscountData(); }
 
     //배너이미지가 깨질경우 oms등록 안보이게 처리
     function error_specialDiscountData() {
