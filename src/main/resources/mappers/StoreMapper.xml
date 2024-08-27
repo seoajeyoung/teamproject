@@ -240,7 +240,7 @@
 		resultType="com.itwillbs.domain.StoreDTO">
 		SELECT ST_NUM
 		, ST_NAME
-		, ST_PRICE
+		, FORMAT(ST_PRICE, 0) AS ST_PRICE
 		, ST_PICTURE
 		, ST_CONST
 		, ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN
@@ -253,7 +253,7 @@
 	<select id="giftcon" resultType="com.itwillbs.domain.StoreDTO">
 		SELECT ST_NUM
 		, ST_NAME
-		, ST_PRICE
+		, FORMAT(ST_PRICE, 0) AS ST_PRICE
 		, ST_PICTURE
 		, ST_CONST
 		, ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN

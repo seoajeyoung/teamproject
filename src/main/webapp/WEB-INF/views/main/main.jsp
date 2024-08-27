@@ -45,6 +45,7 @@
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.dotdotdot.min.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/silverlight_link.js"></script>
 	<script src="https://img.cgv.co.kr/R2014/js/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+	
 
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/phototicket/phototicket.css">
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/slick.css">
@@ -53,6 +54,10 @@
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/icheck/login.timer.js"></script>
     <script src="https://img.cgv.co.kr/R2014/js/icheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/R2014/js/icheck/iCheck.css">
+    
+    <!-- 홈페이지 CSS 일원화로 인한 반영 20220721 -->
+    <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/resource_pc/css/cgv.min.css">
+    <script type="text/javascript" src="https://img.cgv.co.kr/resource_pc/js/cgvUi.js"></script>
 
 
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/swiper.min.js"></script>
@@ -365,114 +370,6 @@ function setListFocus(swiper, selector) {
     });
 }
     </script>
-
-
-    <!--/각페이지 Header End--> 
-    <script type="text/javascript">
-        //<![CDATA[
-        _TRK_CP = "/홈";
-
-        app.config('staticDomain', 'https://img.cgv.co.kr/R2014/')
-            .config('imageDomain', 'https://img.cgv.co.kr')
-            .config('isLogin', 'False');
-
-        
-        // AD FLOAT
-        // 암호화 할 문자열과 키값(상수값)을 매개변수로 받는다.
-        function EncryptAD(str, key) {
-            output = new String;
-            Temp = new Array();
-            TextSize = str.length;
-            for (i = 0; i < TextSize; i++) {
-                // key 값을 원하는 대로 연산을 한다
-                output += String.fromCharCode(str.charCodeAt(i) + parseInt(key) + 123 + i);
-            }
-            return output;
-        }
-        // 복호화
-        // 암호화 된 문자열과 키값(상수값)을 매개변수로 받는다.
-        function DecryptAD(str, key) {
-            output = new String;
-            Temp = new Array();
-            TextSize = str.length;
-            for (i = 0; i < TextSize; i++) {
-                // 암호화시 사용한 연산과 같아야 한다.
-                output += String.fromCharCode(str.charCodeAt(i) - (parseInt(key) + 123 + i));
-            }
-
-            return output;
-        }
-
-        function getCookieVal(offset) {
-            var endstr = document.cookie.indexOf(";", offset);
-            if (endstr == -1) endstr = document.cookie.length;
-            return unescape(document.cookie.substring(offset, endstr));
-        }
-        function GetCookieAd(name) {
-            var arg = name + "=";
-            var alen = arg.length;
-            var clen = document.cookie.length;
-            var i = 0;
-            while (i < clen) { //while open
-                var j = i + alen;
-                if (document.cookie.substring(i, j) == arg)
-                    return getCookieVal(j);
-                i = document.cookie.indexOf(" ", i) + 1;
-                if (i == 0) break;
-            } //while close
-            return null;
-        }
-        function setCookieAD(name, value, expiredays) {
-            var todayDate = new Date();
-            todayDate.setTime(todayDate.getTime() + (expiredays * 24 * 60 * 60 * 1000));
-            document.cookie = name + "=" + escape(value) + "; expires=" + todayDate.toGMTString() + "; path=/; domain=cgv.co.kr";
-        }
-        function CloseAD() {
-            var AdUrl = window.location.href;
-            var ArrAdUrl = AdUrl.split("/");
-
-            var CurCookieName = 'CgvPopAd-' + ArrAdUrl[3];
-            var CurCookieUrl = GetCookieAd(CurCookieName);
-            var CookieUrl = ArrAdUrl[3];
-
-            CookieUrl = EncryptAD(CookieUrl, "15442280");
-            setCookieAD(CurCookieName, CookieUrl, '1');
-            $(document).find('#ad_float1').hide();
-        }
-//         function OpenAD() {
-//             var AdUrl = window.location.href;
-//             var ArrAdUrl = AdUrl.split("/");
-//             var CookieUrl = ArrAdUrl[3];
-//             var CurCookieName = 'CgvPopAd-' + ArrAdUrl[3];
-//             var CurCookieUrl = GetCookieAd(CurCookieName);
-
-//             if (CurCookieUrl == null) {
-//                 CurCookieUrl = "";
-//             }
-//             else {
-//                 CurCookieUrl = DecryptAD(CurCookieUrl, "15442280");
-//             }
-
-//             if (CurCookieUrl.indexOf(CookieUrl) != -1) {
-//                 $(document).find('#ad_float1').hide();
-//             }
-
-            //section.cgv.co.kr 매거진 체크
-//             var magazineckurl = GetCookieAd("CgvPopAd-magazine");
-//             if (magazineckurl != null) {
-//                 var magazineck = DecryptAD(magazineckurl, "15442280");
-//                 if (magazineck != null && magazineck == "magazine") {
-//                     //값이있는경우 표시하지않음
-//                     $(document).find('#ad_float1').hide();
-//                 }
-//             }
-//         }
-       
-
-        //]]>
-    </script>
-    
-
     
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014//js/system/system.packed.js"></script>
 
@@ -526,12 +423,12 @@ function setListFocus(swiper, selector) {
                     <div class="video_wrap">
                         
                     <video autoplay="" muted="">
-                        <source src="https://adimg.cgv.co.kr/images/202407/LandofHappiness/LandofHappiness_1080x608.mp4" type="video/mp4">
+                        <source src="https://adimg.cgv.co.kr/images/202408/bluelock/0806_bluelock_1080x608.mp4" type="video/mp4">
                         이 브라우저는 Video 태그를 지원하지 않습니다. (Your browser does not support the video tag.)
                     </video>
                     
-                        <strong id="ctl00_PlaceHolderContent_AD_MOVIE_NM" class="movieSelection_title">행복의 나라</strong>
-                        <span id="ctl00_PlaceHolderContent_AD_DESCRIPTION_NM" class="movieSelection_txt">조정석의 눈물, 관객 심장 정조준!<br>8월 14일 극장 대개봉</span>
+                        <strong id="ctl00_PlaceHolderContent_AD_MOVIE_NM" class="movieSelection_title">극장판 블루 록 -에피소드 나기-</strong>
+                        <span id="ctl00_PlaceHolderContent_AD_DESCRIPTION_NM" class="movieSelection_txt">축구천재 각성하다!<br>8월개봉예정</span>
                         <div class="movieSelection_video_controller_wrap">
 <!--                             <a href="http://ad.cgv.co.kr/click/CGV/CGV_201401/main@MovieSelection2021?ads_id%3d51848%26creative_id%3d78732%26click_id%3d99646%26content_series%3d%26event%3d" id="ctl00_PlaceHolderContent_AD_CLIP_DETAIL_URL" class="btn_movieSelection_detailView">상세보기</a> -->
                             
@@ -654,7 +551,7 @@ function setListFocus(swiper, selector) {
                                         <div class="img_wrap" data-scale="false"><img src="${packages.st_picture}" alt="패키지"></div>
                                         <div class="giftcon_info_wrap">
                                             <span>${packages.st_name}</span>
-                                            <strong>${packages.st_price}</strong>
+                                            <strong>${packages.st_price}원</strong>
                                         </div>
                                     </a>
                                 </dd>
@@ -672,7 +569,7 @@ function setListFocus(swiper, selector) {
                                         <div class="img_wrap" data-scale="false"><img src="${giftcon.st_picture}" alt="영화관람권"></div>
                                         <div class="giftcon_info_wrap">
                                             <span>${giftcon.st_name}</span>
-                                            <strong>${giftcon.st_price}</strong>
+                                            <strong>${giftcon.st_price}원</strong>
                                         </div>
                                     </a>
                                 </dd>
@@ -740,7 +637,7 @@ function setListFocus(swiper, selector) {
                                 <dl class="client_list">
                                     <dt><strong>고객센터</strong></dt>
                                     <dd>
-                                        <strong>1544-1122</strong>
+                                        <strong>051-803-0909</strong>
                                         <span>고객센터 운영시간 (평일 09:00~18:00)
                                             <p>업무시간 외 자동응답 안내 가능합니다.</p>
                                         </span>
@@ -749,7 +646,6 @@ function setListFocus(swiper, selector) {
                                 <div class="client_btn_wrap" id="client_btn_wrap">
                                     <a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스</a>
                                     <a href="${pageContext.request.contextPath}/inquiry/write">1:1 문의</a>
-                                    <!--<a href="http://www.cgv.co.kr/support/lost/default.aspx">분실물 문의</a>//-->
                                     <a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문</a>
                                 </div>
                             </div>
@@ -782,232 +678,14 @@ function setListFocus(swiper, selector) {
 </script>
 
 <script type="text/javascript">
-    //<![CDATA[
-     //CGV 공지 팝업 주석처리
-    //function getCookie(name) {
-    //    var nameOfCookie = name + "=";
-    //    var x = 0;
-    //    while (x <= document.cookie.length) {
-    //        var y = (x + nameOfCookie.length);
-    //        if (document.cookie.substring(x, y) == nameOfCookie) {
-    //            if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
-    //                endOfCookie = document.cookie.length;
-    //            return unescape(document.cookie.substring(y, endOfCookie));
-    //        }
-    //        x = document.cookie.indexOf(" ", x) + 1;
-    //        if (x == 0)
-    //            break;
-    //    }
-    //    return "";
-    //}    
-    //if (getCookie("cgv_notice") != "done") {
-    //    var spcwin = window.open('/popup/1411_personal_popup_1107_v2.html', 'cgv_notice', "height=414,width=280,menubar=no,scrollbars=no,resizeable=no,toolbar=no,left=355,top=100")
-    //    spcwin.focus();        
-    //}       
 
-    //oms 
-//     if ("http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=36641&menu=006" == "" || "" == "") { error_specialDiscountData(); }
-
-    //배너이미지가 깨질경우 oms등록 안보이게 처리
+    배너이미지가 깨질경우 oms등록 안보이게 처리
     function error_specialDiscountData() {
         $(".noticeClient_banner_list > .swiper-wrapper > .swiper-slide:eq(0)").hide();
         $(".btn_noticeClientBannerControl").click();
         $(".btn_noticeClientBannerControl").hide(); //시작중지 버튼
     }
 
-    (function ($) {
-        $(function () {
-            var popupData = { 'List': []}; //cgv 공지사항
-            var userPopupData= []; //고객개인화 처리
-
-            function getCookie(cName) {
-                cName = cName + '=';
-                var cookieData = document.cookie;
-                var start = cookieData.indexOf(cName);
-                var cValue = '';
-                if (start != -1) {
-                    start += cName.length;
-                    var end = cookieData.indexOf(';', start);
-                    if (end == -1) end = cookieData.length;
-                    cValue = cookieData.substring(start, end);
-                }
-                return unescape(cValue);
-            }
-
-            function setCookie(name, value, expiredays) {
-                var todayDate = new Date();
-                todayDate.setDate(todayDate.getDate() + expiredays);
-                document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-            }
-
-            function setCookie_Main(name, value) {
-                var todayDate = new Date();
-
-                todayDate.setSeconds(59);
-                todayDate.setMinutes(59);
-                todayDate.setHours(23);
-
-                document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-            }
-
-            function openPopup() {
-                var cookie = getCookie("mainpopup");
-
-                if (!popupData || !popupData.List || popupData.List.length < 1 || cookie == "true")
-                    return;
-
-                /* 전체 template */
-                var $std = $('.skipnaiv'),
-				options = {
-				    '$target': $std,
-				    'html': $("#temp_popup").tmpl(popupData)
-				};
-                app.instWin.add(options);
-                /* 위치잡는 스크립트 */
-                //var offsetLeft = $('#contaniner').offset().left;
-                //$std.next('.layer-wrap').css('left', offsetLeft + 30);
-
-                /* 슬라이더 */
-                var popsliderOptions = {
-                    //2014.09.15 디마팀 방재현님 요청으로 2초로 (수정 default : 4초), 이지용님 요청으로 3초로 재수정
-                    'term'      : 3000,
-                    'effect': 'none',
-                    'auto': true,
-                    callback: function (_index) {
-                        $('.noti-num strong').text(_index + 1);
-                    }
-                };
-                $('#mainNoticeSlider').visualMotion(popsliderOptions);
-            }
-
-            openPopup();
-
-            //layer 팝업공지 닫기클릭
-            $('#open_today').on('click', function () {
-                var isChecked = $("#open_today").is(":checked");
-
-                if (isChecked) {
-                    setCookie_Main("mainpopup", "true");
-
-                    $('.layer-wrap').remove();
-                }
-
-            });
-
-            function OpenSystemPopup() {
-                if (userPopupData && userPopupData.length > 0) {
-                    for (var i=0;i<userPopupData.length;i++) {
-                        var item = userPopupData[i];
-                        var popupName = item['CookieName'];
-
-                        if (getCookie(popupName) == 'done') { return; }
-
-                        var option = 'width=' + item['Width'] + ',height=' + item['Height'] + ',toolbar=no,scrollbars=no,status=0,top=' + item['Y'] + ',left=' + item['X'];
-                        var url = item['IsUrl'] == 'n' ? '/user/popup/personal-system.aspx?idx=' + item['IDX'] : item['Contents'];
-
-                        var userPopup = window.open(url, popupName, option);
-                        userPopup.focus();
-                    }
-                }
-            }
-            var uAgent = navigator.userAgent;  
-            
-            if( uAgent.indexOf("NT 5.1") != -1 ){           
-                $.fn.openPopup('pop_supportOS');
-            }else if (uAgent.indexOf("MSIE 6") > 0 || uAgent.indexOf("MSIE 7") > 0 || uAgent.indexOf("MSIE 8") > 0 ){       
-                $.fn.openPopup('pop_supportBrower');  // IE버전     
-            }
-         
-            OpenSystemPopup();
-
-            /*******************************
-            //메인 GA 에널리스틱스 로그 - myilsan 20220113
-            *******************************/
-            //현재상영작,상영예정작 tab이동
-            $(".movieChartBeScreen_btn_wrap > .tabBtn_wrap > h3 > a").on({
-                click: function() {
-                    gaEventLog('PC_메인', this.text, '');
-                }
-            });
-            $("#btn_allView_Movie").on({
-                click: function () {
-
-                    var action = $(".movieChartBeScreen_btn_wrap > .tabBtn_wrap > h3 > .active")[0].innerText;
-                     gaEventLog('PC_메인', action +" 더보기", '');
-                }
-            });
-            $("#btn_allView_Event").on({
-                click: function () {
-                     gaEventLog('PC_메인', "이벤트 더보기", '');
-                }
-            });
-            $("#btn_allView_Special").on({
-                click: function () {
-                     gaEventLog('PC_메인', "특별관 더보기", '');
-                }
-            });
-
-            //기프트 카드 더보기
-//             $(".giftcon_list > dt > a").on({
-//                 click: function () {
-//                     var action = $(this).attr('alt');
-//                     gaEventLog('PC_메인', action + " 더보기", '');
-//                 }
-//             });
-            //공지사항 더보기
-            $("#notice_more").on({
-                click: function () {
-                    gaEventLog('PC_메인', '공지사항_더보기', '');
-                }
-            });
-
-            //기프트 카드 상품선택
-            $(".giftcon_list > dd > a").on({
-                click: function () {
-                    var label = $(this).find('.giftcon_info_wrap > span')[0].innerText;
-                    gaEventLog('PC_메인', "상품상세", label);
-                }
-            });
-            //공지사항 클릭
-            $(".notice_wrap > .btn_link").on({
-                click: function () {
-                    gaEventLog('PC_메인', '공지사항', '');
-                }
-            });
-            //FAQ, 1:1문의, 분실물 문의, 대관/단체 문의 클릭
-            $("#client_btn_wrap >  a").on({
-                click: function () {
-                    gaEventLog('PC_메인', this.text, '');
-                }
-            });
-            //하단배너 1
-            $("#bannerType1").on({
-                click: function () {
-                    gaEventLog('PC_메인', '하단배너1', '');
-                }
-            });
-            //하단 iframe 클릭 체크 로직 - 짜증나 ㅋㅋ
-            var iframeObject = { adIframeMouseOver: false }
-            $("#Branding").bind({
-                mouseover: function () {
-                    iframeObject.adIframeMouseOver = true;
-                }
-            });
-            $("#Branding").bind({
-                mouseout: function () {
-                    iframeObject.adIframeMouseOver = false;
-                }
-            });
-            $(window).blur(function () {
-                if (iframeObject.adIframeMouseOver) {
-                    gaEventLog('PC_메인', '하단배너2', '');
-                }
-            });
-            // end - 하단 iframe 클릭 체크 로직 - 짜증나 ㅋㅋ
-            
-        });
-    })(jQuery);
-//]]>
 </script>
 
 
