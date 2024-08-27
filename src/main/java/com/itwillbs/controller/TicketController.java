@@ -65,7 +65,6 @@ public class TicketController {
 
 		model.addAttribute(param);
 
-
 		Integer selectnowcount = ticketService.selectnowcount(param);
 
 		int seCount = Integer.parseInt(param.get("se_count"));
@@ -73,7 +72,6 @@ public class TicketController {
 		int nowCount = seCount - selectnowcount;
 
 		model.addAttribute("nowCount", nowCount);
-
 		return "ticket/결제TEST";
 	}
 

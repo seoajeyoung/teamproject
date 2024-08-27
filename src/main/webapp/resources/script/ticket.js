@@ -411,6 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 현재 시간 가져오기
             var now = new Date();
+            var nowTime = now.getTime(); 
             var nowDay = now.getDate();
             var nowHours = now.getHours().toString().padStart(2, '0');
             var nowMinutes = now.getMinutes().toString().padStart(2, '0');
@@ -429,10 +430,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 $.each(mtime, function(index, time) {
                     if (time.TH_NUMBER === thNumber) {
-                        var showTime = time.SC_TIME;
-
+                        var showTime = new Date(`${fullDate} ${time.SC_TIME}`);
+						var showTimeMs = showTime.getTime();
                         // 현재 시간이 상영 시간보다 늦은 경우, 해당 <li> 태그를 숨기기
-                        if (nowDay > selectDate || (nowDay === selectDate && nowTimeStr > showTime)) {
+                        if (nowTime > showTimeMs) {
                             return; // 해당 시간에 맞는 <li> 태그를 건너뛰기
                         }
 
@@ -459,9 +460,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         종료 ${time.SC_TIME_END}
                                     </div>
                                 </span>
-                                <span class="count">
-                                   ${nowcount}석 <!-- NOW_COUNT 값이 여기 들어감 -->
-                                </span>
                                 <span class="sreader mod"></span>
                             </a>
                         </li>`;
@@ -486,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             );
-
+			debugger;
             updatetruetime();
         },
     });
@@ -773,7 +771,6 @@ document.addEventListener('DOMContentLoaded', function() {
                    '&MovieRating=' + MovieRating +
                    '&MovieUrl=' + encodeURIComponent(MovieUrl);
                    ;
-      debugger;           
     // 모든 값이 유효한 경우
         var member_num = $('#member_num').data('member-num');
         var member_birth = $('#member_birth').data('member-birth');
