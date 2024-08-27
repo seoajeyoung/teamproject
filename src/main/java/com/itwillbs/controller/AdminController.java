@@ -419,7 +419,6 @@ public class AdminController {
 		}
 		
 		adminService.insertSchedule(params);
-		
 		adminService.insertScreenTime(params);
 
 		return "redirect:/admin/movie/movieschedule";
@@ -431,7 +430,7 @@ public class AdminController {
 		// SCREEN 테이블에서 관련된 데이터를 삭제
 		adminService.deleteScreenByCINum(ciNum);
 		// CINEMA 테이블에서 관련된 데이터를 삭제
-		adminService.deleteCinemaByCINum(ciNum);
+//		adminService.deleteCinemaByCINum(ciNum);
 	}
 
 // ===========================================================
@@ -452,29 +451,19 @@ public class AdminController {
 
 //// ===========================================================
 
-	@RequestMapping(value = "/movie/findRegionEng", method = RequestMethod.POST)
-	@ResponseBody
-	public List<AdminDTO> getfindAll(@RequestParam("TH_REGION") String region) {
-		return adminService.getfindAll(region);
-	}
 
 	@PostMapping("/movie/theaterinsertPro")
 	public String insertTheater(@RequestParam("RegionT") String RegionT,
-			@RequestParam("TH_REGIONEngT") String REGIONEngT, @RequestParam("NameT") String NameT,
-			@RequestParam("TH_NAMEEngT") String NAMEEngT, @RequestParam("TH_ADDRT") String ADDRT,
+			@RequestParam("NameT") String NameT,
+			@RequestParam("TH_ADDRT") String ADDRT,
 			@RequestParam("CI_NT") String CI_NT) {
 
-		int THNum = new Random().nextInt(1000000);
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", RegionT);
-		params.put("TH_REGIONEng", REGIONEngT);
 		params.put("TH_NAME", NameT);
-		params.put("TH_NAMEEng", NAMEEngT);
 		params.put("TH_ADDR", ADDRT);
 		params.put("TH_NUMBER", CI_NT);
-		params.put("TH_NUM", THNum);
-		params.put("TH_ORDER", THNum);
 
 		adminService.insertTheater(params);
 
@@ -513,11 +502,10 @@ public class AdminController {
 
 	@PostMapping("/store/check-store-details")
 	@ResponseBody
-	public Map<String, Boolean> checkStoreDetails(@RequestParam("ST_NUM") String ST_NUM,
+	public Map<String, Boolean> checkStoreDetails(
 			@RequestParam("ST_NAME") String ST_NAME, @RequestParam("ST_DETAIL") String ST_DETAIL) {
 
 		Map<String, String> storeDetails = new HashMap<>();
-		storeDetails.put("ST_NUM", ST_NUM);
 		storeDetails.put("ST_NAME", ST_NAME);
 		storeDetails.put("ST_DETAIL", ST_DETAIL);
 

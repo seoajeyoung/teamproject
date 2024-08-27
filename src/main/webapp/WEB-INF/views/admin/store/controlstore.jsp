@@ -55,7 +55,6 @@
 					function() {
 						function checkStoreDetails() {
 							var storeDetails = {
-								ST_NUM : $('#ST_NUM').val(),
 								ST_NAME : $('#ST_NAME').val(),
 								ST_DETAIL : $('#ST_DETAIL').val()
 							};
@@ -71,18 +70,6 @@
 										data : storeDetails,
 										success : function(response) {
 											console.log("Response:", response);
-											// ST_NUM 검사
-											if (storeDetails.ST_NUM === "") {
-												$('#numCheckMessage').text(''); // 빈칸일 때는 아무것도 표시하지 않음
-											} else if (response.numExists) {
-												$('#numCheckMessage').text(
-														'이미 사용중인 상품코드입니다.')
-														.css('color', 'red');
-											} else {
-												$('#numCheckMessage').text(
-														'사용가능한 상품코드입니다.').css(
-														'color', 'green');
-											}
 
 											// ST_NAME 검사
 											if (storeDetails.ST_NAME === "") {
@@ -114,7 +101,7 @@
 									});
 						}
 
-						$('#ST_NUM, #ST_NAME, #ST_DETAIL').on('blur',
+						$('#ST_NAME, #ST_DETAIL').on('blur',
 								checkStoreDetails);
 
 						$('#typeList').change(
@@ -262,22 +249,16 @@
 									<table class="table schedule-bordered" id="dataTable1"
 										width="100%" cellspacing="0">
 										<tr>
-											<th>상품번호</th>
-											<td><input type="text" id="ST_NUM" name="ST_NUM"
+											<th>상품이름</th>
+											<td><input type="text" id="ST_NAME" name="ST_NAME"
 												style="margin-right: 5px;"> <span
-												id="numCheckMessage"></span></td>
+												id="nameCheckMessage"></span></td>
 											<th style="width: 526px;">상품이미지 <label for="file-upload"
 												class="custom-file-upload"
 												style="padding-top: 0px; padding-bottom: 0px; border-bottom-width: 0px; border-top-width: 0px; height: 25px;">
 													첨부하기 </label> <input id="file-upload" type="file"
 												name="store_picture" style="display: none;"></th>
 										</tr>
-										<tr>
-											<th>상품이름</th>
-											<td><input type="text" id="ST_NAME" name="ST_NAME"
-												style="margin-right: 5px;"> <span
-												id="nameCheckMessage"></span></td>
-											<td rowspan="8" id="image-preview"></td>
 										<tr>
 											<th>상품타입</th>
 											<td><input type="text" id="ST_TYPE" name="ST_TYPE">
@@ -288,6 +269,7 @@
 														<option value="${list.ST_TYPE}">${list.ST_TYPE}</option>
 													</c:forEach>
 											</select></td>
+											<td rowspan="8" id="image-preview"></td>
 										</tr>
 										<tr>
 											<th>상품구성</th>

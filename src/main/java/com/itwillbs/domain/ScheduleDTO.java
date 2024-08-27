@@ -9,9 +9,18 @@ public class ScheduleDTO {
     private String SC_TIME;
     private String SC_TIME_END;
     private String CI_NUM;
+    private String SC_NUM;
     
+    
+    public String getSC_NUM() {
+		return SC_NUM;
+	}
 
-    public String getCI_NUM() {
+	public void setSC_NUM(String setSC_NUM) {
+		this.SC_NUM = setSC_NUM;
+	}
+
+	public String getCI_NUM() {
 		return CI_NUM;
 	}
 

@@ -343,8 +343,7 @@
 	<select id="getScheduleList"
 		resultType="com.itwillbs.domain.ScheduleDTO">
 		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
-		S.SC_TIME, C.CI_NUM,
-		S.SC_TIME_END
+		S.SC_TIME, S.SC_TIME_END, C.CI_NUM, S.SC_NUM
 		FROM THEATER T
 		JOIN CINEMA C ON
 		T.TH_NUM = C.TH_NUM
@@ -367,8 +366,6 @@
 		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = DATE_FORMAT(#{runningDts}, '%Y-%m-%d')
 	</select>
 
-	
-
 	<!-- SCREEN 테이블에서 삭제 -->
 	<delete id="deleteScreenByCINum" parameterType="int">
 		DELETE FROM
@@ -380,8 +377,6 @@
 		DELETE FROM
 		CINEMA WHERE CI_NUM = #{CI_NUM};
 	</delete>
-
-
 
 	<select id="getBranchList" parameterType="map"
 		resultType="com.itwillbs.domain.AdminDTO">
@@ -444,8 +439,6 @@
 	<select id="checkStoreDetails" parameterType="map"
 		resultType="map" useCache="false">
 		SELECT EXISTS(SELECT 1 FROM STORE WHERE
-		ST_NUM = #{ST_NUM}) AS numExists,
-		EXISTS(SELECT 1 FROM STORE WHERE
 		ST_NAME = #{ST_NAME}) AS nameExists,
 		EXISTS(SELECT 1 FROM STORE WHERE
 		ST_DETAIL = #{ST_DETAIL}) AS
