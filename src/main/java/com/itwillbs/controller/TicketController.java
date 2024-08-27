@@ -97,7 +97,6 @@ public class TicketController {
 		param.put("type", type);
 
 		List<Map<String, Object>> movies = ticketService.selectMovieList(param);
-
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<List<Map<String, Object>>>(movies,
 				HttpStatus.OK);
 

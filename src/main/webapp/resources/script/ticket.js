@@ -484,7 +484,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             );
-			debugger;
             updatetruetime();
         },
     });
@@ -734,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     $moviePosterImg.css('display', 'inline');
     $('.info.movie .placeholder').css('display', 'none');
-}
+	}
 
     //좌석 버튼 선택 버튼 클릭 이벤트  @click@
      $(document).off('click', '#tnb_step_btn_right').on('click', '#tnb_step_btn_right', function(event) {

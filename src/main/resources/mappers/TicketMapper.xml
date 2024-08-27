@@ -18,7 +18,7 @@
 		,
 		rating,
 		`rank`,
-		posterUrl
+		SUBSTRING_INDEX(posterUrl, '|', 1) AS posterUrl 
 		FROM MOVIE
 		ORDER BY ${ORDER}
 	</select>
