@@ -60,9 +60,11 @@
 		D:\workspace_sts\SpringProject2\src\main\webapp\resources\upload => \ 특수기능 
 		=> 모양 \ 지정 D:\workspace_sts\SpringProject2\src\main\webapp\resources\upload -->
 <!-- 	TODO 경로수정하기	value="C:\\Users\\ITWILL\\git\\teamproject\\src\\main\\webapp\\resources\\upload" -->
+<!-- 			value="C:\\Users\\ITWILL\\git\\teamproject\\src\\main\\webapp\\resources\\img"> -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
-			value="C:\\Users\\ITWILL\\git\\teamproject\\src\\main\\webapp\\resources\\img"></beans:constructor-arg>
+			value="/usr/local/tomcat/webapps/teamproject/resources/img/">
+			</beans:constructor-arg>
 	</beans:bean>
 
 
