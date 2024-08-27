@@ -1,6 +1,9 @@
+<%@page import="com.itwillbs.domain.MovieDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +69,7 @@ function deleteMovie(movieNum) {
 
 <body id="page-top">
 
+
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
@@ -94,15 +98,13 @@ function deleteMovie(movieNum) {
 
 					<!-- DataTales -->
 					<div class="card shadow mb-4">
-
 						<div class="card-body">
 							<div class="table-responsive">
 								<table class="table table-infoboard" id="dataTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th colspan="4">${movieDTO.title} 상세정보</th>
-											<!-- 											<th colspan="2">영화 포스터</th> -->
+											<th colspan="5">${movieDTO.title}상세정보</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -110,54 +112,46 @@ function deleteMovie(movieNum) {
 											<th>영화코드</th>
 											<td style="width: 536px;">${movieDTO.MOVIE_NUM}</td>
 											<th>영화제목</th>
-											<td>${movieDTO.title}</td>
-											<!-- 											<td colspan="2" rowspan="6"> -->
-											<!-- 												포스터 <img -->
-											<%-- 												src="${pageContext.request.contextPath}/resources/img/${movieDTO.MOVIE_NUM}.jpg" --%>
-											<!-- 												onerror="errorImage(this)" width="300"> -->
-											<!-- 											</td> -->
+											<td style="width: 536px;">${movieDTO.title}</td>
+											<th>영화 포스터</th>
 										</tr>
 										<tr>
-											<th>영문제목</th>
-											<td>${movieDTO.titleEng}</td>
 											<th>감독</th>
 											<td>${movieDTO.direcotrNm}</td>
+											<th>장르</th>
+											<td>${movieDTO.genre}</td>
+											<td rowspan="10"
+												style="padding-top: 0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px; height: 402px; width: 402px;"><img
+												src="${fn:split(movieDTO.posterUrl, '\\|')[0]}" alt="영화 포스터"
+												style="width: 100%; height: 100%; object-fit: cover;">
+											</td>
 										</tr>
 										<tr>
 											<th>배우</th>
-											<td>${movieDTO.actorNm}</td>
-											<th>장르</th>
-											<td>${movieDTO.genre}</td>
+											<td colspan="3">${movieDTO.actorNm}</td>
+										</tr>
+										<tr>
+											<th>개봉일자</th>
+											<td colspan="3">${movieDTO.releaseDate}</td>
 										</tr>
 										<tr>
 											<th>상영등급</th>
 											<td>${movieDTO.rating}</td>
-											<th>런닝타임</th>
+											<th>런타임</th>
 											<td>${movieDTO.runtime}분</td>
 										</tr>
-										<tr>
-											<th>누적관객수</th>
-											<td>${movieDTO.audiAcc}</td>
-											<th>개봉일자</th>
-											<td>${movieDTO.releaseDate}</td>
-										</tr>
-										<tr>
-											<th>상영일자</th>
-											<td>${movieDTO.releaseDts}</td>
-											<th>종영일자</th>
-											<td>${movieDTO.releaseDte}</td>
-										</tr>
+
 										<tr>
 											<th>주제곡</th>
-											<td colspan="4">${movieDTO.themsSong}</td>
+											<td colspan="3">${movieDTO.themeSong}</td>
 										</tr>
 										<tr>
 											<th>삽입곡</th>
-											<td colspan="4">${movieDTO.soundtrack}</td>
+											<td colspan="3">${movieDTO.soundtrack}</td>
 										</tr>
 										<tr>
 											<th>줄거리</th>
-											<td colspan="4">${movieDTO.plot}</td>
+											<td colspan="3">${movieDTO.plot}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -165,9 +159,10 @@ function deleteMovie(movieNum) {
 								<div class="button-container" style="text-align: right;">
 									<a
 										href="${pageContext.request.contextPath}/admin/movie/movieupdate?MOVIE_NUM=${movieDTO.MOVIE_NUM}"
-										class="btn btn-success btn-user" style="font-weight:bold;">영화정보수정</a>
+										class="btn btn-success btn-user" style="font-weight: bold;">영화정보수정</a>
 									<button type="button" class="btn btn-danger btn-user"
-										onclick="deleteMovie(${movieDTO.MOVIE_NUM})" style="font-weight:bold;">영화정보삭제</button>
+										onclick="deleteMovie(${movieDTO.MOVIE_NUM})"
+										style="font-weight: bold;">영화정보삭제</button>
 								</div>
 
 							</div>

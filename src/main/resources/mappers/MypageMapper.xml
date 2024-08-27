@@ -6,45 +6,48 @@
 
 	<select id="getMyInfo"
 		resultType="com.itwillbs.domain.MypageDTO">
-		SELECT * FROM MEMBERS
-		WHERE member_id = #{id}
+		select M.*, P.*
+		from MEMBERS M
+		left join POINT P ON
+		M.MEM_NUM
+		= P.MEM_NUM
+		where M.MEM_ID = #{id};
 	</select>
 
 	<select id="getPointByMemberNum"
 		resultType="com.itwillbs.domain.MypageDTO">
 		SELECT *
 		FROM POINT
-		WHERE member_num = #{member_num}
+		WHERE MEM_NUM = #{memberNum}
 	</select>
 
 	<select id="getPasswordByMemberId" resultType="String"
 		parameterType="String">
-		SELECT member_pass
+		SELECT MEM_PASS
 		FROM MEMBERS
-		WHERE member_id = #{id}
+		WHERE MEM_ID = #{id}
 	</select>
 
 	<update id="updateMypage"
 		parameterType="com.itwillbs.domain.MypageDTO">
 		UPDATE MEMBERS
 		SET
-		member_name = #{member_name},
-		member_pass = #{member_pass},
-		member_gender = #{member_gender},
-		member_phone = #{member_phone},
-		member_email = #{member_email},
-		member_address = #{member_address}
-		WHERE member_id = #{member_id}
+		MEM_NAME = #{MEM_NAME},
+		MEM_PASS = #{MEM_PASS},
+		MEM_GENDER = #{MEM_GENDER},
+		MEM_PHONE = #{MEM_PHONE},
+		MEM_EMAIL = #{MEM_EMAIL}
+		WHERE MEM_ID = #{MEM_ID}
 	</update>
 
 	<update id="updateMystatus" parameterType="String">
 		update MEMBERS
 		set
-		member_status = '탈퇴유예',
-		member_respite = CURRENT_TIMESTAMP,
-		member_out =
+		MEM_STATUS = '탈퇴유예',
+		MEM_RESPITE = CURRENT_TIMESTAMP,
+		MEM_OUT =
 		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6 MONTH)
-		where member_id = #{id}
+		where MEM_ID = #{id}
 	</update>
 
 	<select id="getMyBookingList"
@@ -56,7 +59,7 @@
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
 		TP.TP_TIME,
-		M.member_id,
+		M.MEM_ID,
 		S.SC_TIME,
 		S.SC_TIME_END,
 		T.TH_NAME,
@@ -66,8 +69,8 @@
 		FROM
 		TICKETPAYMENT TP
 		JOIN
-		MEMBERS M ON TP.member_num
-		= M.member_num
+		MEMBERS M ON TP.MEM_NUM
+		= M.MEM_NUM
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
@@ -80,7 +83,7 @@
 		C.MOVIE_NUM =
 		MV.MOVIE_NUM
 		WHERE
-		M.member_id =
+		M.MEM_ID =
 		#{memberId}
 		<if test="pageDTO.search != null and pageDTO.search != ''">
 			AND (
@@ -111,7 +114,7 @@
 		TP.TP_TYPE,
 		TP.TP_PAYMENT,
 		TP.TP_TIME,
-		M.member_id,
+		M.MEM_ID,
 		S.SC_TIME,
 		S.SC_TIME_END,
 		T.TH_NAME,
@@ -122,7 +125,7 @@
 		TICKETPAYMENT TP
 		JOIN
 		MEMBERS M ON
-		TP.member_num = M.member_num
+		TP.MEM_NUM = M.MEM_NUM
 		JOIN
 		SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN
@@ -139,21 +142,21 @@
 
 	<select id="getMemberNumByMemberId"
 		resultType="java.lang.Integer">
-		SELECT member_num FROM MEMBERS WHERE member_id = #{id}
+		SELECT MEM_NUM FROM MEMBERS WHERE MEM_ID = #{id}
 	</select>
 
 	<select id="getBoardCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM TICKETPAYMENT TP
-		JOIN MEMBERS M ON TP.member_num =
-		M.member_num
+		JOIN MEMBERS M ON TP.MEM_NUM =
+		M.MEM_NUM
 		JOIN SCREEN S ON TP.SC_NUM = S.SC_NUM
 		JOIN CINEMA C ON
 		S.CI_NUM = C.CI_NUM
 		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
 		JOIN MOVIE MV
 		ON C.MOVIE_NUM = MV.MOVIE_NUM
-		WHERE M.member_num = #{memberNum}
+		WHERE M.MEM_NUM = #{memberNum}
 		<if test="pageDTO.search != null and pageDTO.search != ''">
 			AND (
 			TP.TP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
@@ -174,29 +177,29 @@
 	<select id="getMyStorePaymentList"
 		resultType="com.itwillbs.domain.MypageDTO">
 		SELECT
-		SP.sp_num,
-		SP.payment_total_price,
-		SP.payment_date,
+		SP.SP_NUM,
+		SP.PRODUCT_TOTAL_PRICE,
+		SP.PAYMENT_DATE,
 		S.ST_NAME,
 		S.ST_TYPE,
 		S.ST_CONST
 		FROM
 		STOREPAYMENT SP
 		JOIN
-		STORE S ON SP.st_num =
+		STORE S ON SP.ST_NUM =
 		S.ST_NUM
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON SP.MEM_NUM = M.MEM_NUM
 		WHERE
-		M.member_id
+		M.MEM_ID
 		= #{memberId}
 		<if test="pageDTO.search != null and pageDTO.search != ''">
 			AND (
-			SP.sp_num LIKE CONCAT('%', #{pageDTO.search}, '%')
+			SP.SP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR
-			SP.payment_total_price LIKE CONCAT('%', #{pageDTO.search}, '%')
+			SP.PRODUCT_TOTAL_PRICE LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR
-			SP.payment_date LIKE CONCAT('%', #{pageDTO.search}, '%')
+			SP.PAYMENT_DATE LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR S.ST_NAME
 			LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR S.ST_TYPE LIKE CONCAT('%',
@@ -206,21 +209,21 @@
 			)
 		</if>
 		ORDER BY
-		SP.sp_num DESC
+		SP.SP_NUM DESC
 		LIMIT #{pageDTO.startRow}, #{pageDTO.pageSize}
 	</select>
 
 	<select id="getStoreBoardCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM STOREPAYMENT SP
-		JOIN STORE S ON SP.st_num = S.ST_NUM
-		JOIN MEMBERS M ON SP.member_num = M.member_num
-		WHERE M.member_id = #{memberId}
+		JOIN STORE S ON SP.ST_NUM = S.ST_NUM
+		JOIN MEMBERS M ON SP.MEM_NUM = M.MEM_NUM
+		WHERE M.MEM_ID = #{memberId}
 		<if test="pageDTO.search != null and pageDTO.search != ''">
 			AND (
-			SP.sp_num LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR SP.payment_total_price LIKE CONCAT('%', #{pageDTO.search}, '%')
-			OR SP.payment_date LIKE CONCAT('%', #{pageDTO.search}, '%')
+			SP.SP_NUM LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR SP.PRODUCT_TOTAL_PRICE LIKE CONCAT('%', #{pageDTO.search}, '%')
+			OR SP.PAYMENT_DATE LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR S.ST_NAME LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR S.ST_TYPE LIKE CONCAT('%', #{pageDTO.search}, '%')
 			OR S.ST_CONST LIKE CONCAT('%', #{pageDTO.search}, '%')
@@ -231,21 +234,21 @@
 	<select id="getMyStorePaymentInfo"
 		resultType="com.itwillbs.domain.MypageDTO">
 		SELECT
-		SP.sp_num,
-		SP.payment_total_price,
-		SP.payment_date,
+		SP.SP_NUM,
+		SP.PRODUCT_TOTAL_PRICE,
+		SP.PAYMENT_DATE,
 		S.ST_NAME,
 		S.ST_TYPE,
 		S.ST_CONST
 		FROM
 		STOREPAYMENT SP
 		JOIN
-		STORE S ON SP.st_num =
+		STORE S ON SP.ST_NUM =
 		S.ST_NUM
 		JOIN
-		MEMBERS M ON SP.member_num = M.member_num
+		MEMBERS M ON SP.MEM_NUM = M.MEM_NUM
 		WHERE
-		SP.sp_num = #{sp_num}
+		SP.SP_NUM = #{sp_num}
 	</select>
 
 

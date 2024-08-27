@@ -90,64 +90,61 @@
 										<tbody>
 											<tr>
 												<th class="column-header">회원번호</th>
-												<td><input type="hidden" name="member_num"
-													value="${memberDTO.member_num}">${memberDTO.member_num}</td>
+												<td><input type="hidden" name="MEM_NUM"
+													value="${adminDTO.MEM_NUM}">${adminDTO.MEM_NUM}</td>
 												<th class="column-header" style="width: 286px;">회원ID</th>
-												<td><input type="text" name="member_id"
-													value="${memberDTO.member_id}" readonly></td>
+												<td><input type="text" name="MEM_ID"
+													value="${adminDTO.MEM_ID}" readonly></td>
 											</tr>
 											<tr>
 												<th class="column-header">비밀번호</th>
-												<td><input type="password" name="member_pass"
-													value="${memberDTO.member_pass}"></td>
+												<td><input type="password" name="MEM_PASS"
+													value="${adminDTO.MEM_PASS}"></td>
 												<th class="column-header">이름</th>
-												<td><input type="text" name="member_name"
-													value="${memberDTO.member_name }"></td>
+												<td><input type="text" name="MEM_NAME"
+													value="${adminDTO.MEM_NAME }"></td>
 											</tr>
 											<tr>
 												<th class="column-header">전화번호</th>
-												<td><input type="text" name="member_phone"
-													value="${memberDTO.member_phone }"></td>
-												<th class="column-header">이메일</th>
-												<td><input type="text" name="member_email"
-													value="${memberDTO.member_email}"></td>
+												<td><input type="text" name="MEM_PHONE"
+													value="${adminDTO.MEM_PHONE }"></td>
+												<th class="column-header">회원등급</th>
+												<td>${adminDTO.MEM_GRADE}</td>
 											</tr>
 											<tr>
-												<th class="column-header">주소</th>
-												<td><input type="text" name="member_address"
-													value="${memberDTO.member_address}"></td>
-												<th class="column-header">회원등급</th>
-												<td>${memberDTO.member_grade}</td>
+												<th class="column-header">이메일</th>
+												<td colspan="3"><input type="text" name="MEM_EMAIL"
+													value="${adminDTO.MEM_EMAIL}"></td>
 											</tr>
 											<tr>
 												<th class="column-header">보유포인트</th>
-												<td>${memberDTO.point_currentP}</td>
+												<td>${adminDTO.PO_CURP}  점</td>
 												<th class="column-header">누적포인트</th>
-												<td>${memberDTO.point_cumulativeP}</td>
+												<td>${adminDTO.PO_CUMP}  점</td>
 											</tr>
 											<tr>
 												<th class="column-header">지급할포인트</th>
 												<td colspan="3"><input type="text" name="sPoint"
-													value="0"></td>
+													value="0"> 점</td>
 											</tr>
 											<tr>
 												<th class="column-header">지급사유</th>
 												<td colspan="3"><select id="detailList"
-													name="point_detail">
+													name="DE_DETAIL">
 														<option value="">지급사유를 선택하세요</option>
 														<c:forEach var="list" items="${detailList}">
-															<option value="${list.point_detail}">${list.point_detail}</option>
+															<option value="${list.DE_DETAIL}">${list.DE_DETAIL}</option>
 														</c:forEach>
 												</select></td>
 											</tr>
 											<tr>
 												<th class="column-header">포인트지급기록</th>
-												<td colspan="3"><pre>${memberDTO.point_history}</pre></td>
+												<td colspan="3"><pre>${adminDTO.PO_HIS}</pre></td>
 											</tr>
 										</tbody>
 									</table>
 									<button type="submit" class="btn btn-success btn-user"
-										style="float: right; font-weight: bold;" >수정완료</button>
+										style="float: right; font-weight: bold;">수정완료</button>
 								</form>
 							</div>
 						</div>

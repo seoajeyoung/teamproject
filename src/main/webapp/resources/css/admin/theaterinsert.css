@@ -14,7 +14,7 @@
 
 
 .theater-bordered th {
-	width: 15%; /*각 th 요소에 적절한 너비 지정*/
+/* 	width: 15%; 각 th 요소에 적절한 너비 지정 */
 	text-align: center !important; /*수평 중앙 정렬*/
     vertical-align: middle !important; /*수직 중앙 정렬*/
     background-color: #f8f9fa; /*배경색을 약간 구분되게 설정*/
@@ -39,7 +39,7 @@ input[type="text"] {
 }
 
 .theater-bordered2 th {
-	width: 15%; /*각 th 요소에 적절한 너비 지정*/
+/* 	width: 15%; 각 th 요소에 적절한 너비 지정 */
 	text-align: center !important; /*수평 중앙 정렬*/
     vertical-align: middle !important; /*수직 중앙 정렬*/
     background-color: #f8f9fa; /*배경색을 약간 구분되게 설정*/

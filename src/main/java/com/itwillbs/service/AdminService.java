@@ -55,7 +55,7 @@ public class AdminService {
 
 	// 포인트지급항목
 
-	public List<MemberDTO> getDetailList() {
+	public List<AdminDTO> getDetailList() {
 
 		return adminDAO.getDetailList();
 	}
@@ -63,30 +63,35 @@ public class AdminService {
 // ===========================================================	
 
 	// 회원정보수정
-	public void updateMember(MemberDTO memberDTO) {
+	public void updateMember(AdminDTO adminDTO) {
 
-		adminDAO.updateMember(memberDTO);
+		adminDAO.updateMember(adminDTO);
+	}
+	
+	public void insertPoint(String MEM_NUM) {
+		adminDAO.insertPoint(MEM_NUM);
+		
 	}
 
 	// 포인트지급,차감
-	public void updatePoint(MemberDTO memberDTO) {
+	public void updatePoint(AdminDTO adminDTO) {
 
-		adminDAO.updatePoint(memberDTO);
+		adminDAO.updatePoint(adminDTO);
 	}
 
 	// 포인트지급,차감 내역
-	public void updatePointHistory(String member_num, String pointDetail, int sPoint) {
+	public void updatePointHistory(String MEM_NUM, String DE_DETAIL, int sPoint) {
 
-		adminDAO.updatePointHistory(member_num, pointDetail, sPoint);
+		adminDAO.updatePointHistory(MEM_NUM, DE_DETAIL, sPoint);
 	}
 
 // ===========================================================
 
 	// 회원탈퇴(6개월 유예)
 
-	public void respiteMember(MemberDTO memberDTO) {
+	public void respiteMember(AdminDTO adminDTO) {
 
-		adminDAO.respiteMember(memberDTO);
+		adminDAO.respiteMember(adminDTO);
 
 	}
 
@@ -94,10 +99,18 @@ public class AdminService {
 
 	// 회원정보복구
 
-	public void restoreMember(MemberDTO memberDTO) {
+	public void restoreMember(AdminDTO adminDTO) {
 
-		adminDAO.restoreMember(memberDTO);
+		adminDAO.restoreMember(adminDTO);
 	}
+	
+// ===========================================================
+	
+	public void realDeleteMember() {
+		adminDAO.realDeleteMember();
+		
+	}
+
 
 // ===========================================================
 
@@ -135,7 +148,6 @@ public class AdminService {
 			adminDTO.setThemeSong(movie.getThemeSong());
 			adminDTO.setSoundtrack(movie.getSoundtrack());
 			
-//			System.out.println(adminDTO);
 			processMovie(adminDTO);
 			
 		}
@@ -158,7 +170,6 @@ public class AdminService {
 			adminDTOList.add(adminDTO);
 		}
 		
-//		System.out.println(adminDTOList);
 		adminDAO.updateMovieRank(adminDTOList);
 
 	}
@@ -167,12 +178,12 @@ public class AdminService {
 		if (adminDTO.isReleaseDateValid()) {
 			if (!adminDAO.checkMovieExists(adminDTO.getTitle()) && adminDTO.getPosterUrl().trim().length() > 0 && adminDTO.getRating().trim().length() > 0) {
 				adminDAO.saveMovie(adminDTO);
-				System.out.println("저장된 영화 제목: " + adminDTO.getTitle());
+//				System.out.println("저장된 영화 제목: " + adminDTO.getTitle());
 			} else {
-				System.out.println("저장 안 된 영화 제목: " + adminDTO.getTitle() + " / PosterUrl: " + adminDTO.getPosterUrl() + " / Rating: " + adminDTO.getRating());
+//				System.out.println("저장 안 된 영화 제목: " + adminDTO.getTitle() + " / PosterUrl: " + adminDTO.getPosterUrl() + " / Rating: " + adminDTO.getRating());
 			}
 		} else {
-			System.out.println("잘못된 날짜 형식의 영화제목과 형식: " + adminDTO.getTitle() + ", " + adminDTO.getReleaseDateStr());
+//			System.out.println("잘못된 날짜 형식의 영화제목과 형식: " + adminDTO.getTitle() + ", " + adminDTO.getReleaseDateStr());
 		}
 	}
 
@@ -186,10 +197,10 @@ public class AdminService {
 	}
 
 	// 영화 상세정보
-	public MovieDTO getMovieInfo(int movienum) {
-		return adminDAO.getMovieInfo(movienum);
+	public MovieDTO getMovieInfo(String MOVIE_NUM) {
+		return adminDAO.getMovieInfo(MOVIE_NUM);
 	}
-
+	
 	// 영화 정보 수정
 	public void movieupdate(MovieDTO movieDTO) {
 
@@ -265,20 +276,20 @@ public class AdminService {
 		return adminDAO.getScheduleList();
 	}
 
-	public void deleteScreenByCINum(int ciNum) {
-		adminDAO.deleteScreenByCINum(ciNum);
+	public void deleteScreenByTime(Map<String, Object> params) {
+	    adminDAO.deleteScreenByTime(params);
 	}
 
-	public void deleteCinemaByCINum(int ciNum) {
-		adminDAO.deleteCinemaByCINum(ciNum);
-	}
+//	public void deleteCinemaByCINum(int ciNum) {
+//		adminDAO.deleteCinemaByCINum(ciNum);
+//	}
 
 	public List<AdminDTO> getBranchList() {
 		return adminDAO.getBranchList();
 	}
 
-	public List<AdminDTO> getfindAll(String region) {
-		List<AdminDTO> findAllList = adminDAO.getfindAll(region);
+	public List<AdminDTO> getfindAll(String TH_REGION) {
+		List<AdminDTO> findAllList = adminDAO.getfindAll(TH_REGION);
 		return findAllList;
 	}
 
@@ -342,8 +353,8 @@ public class AdminService {
 		return adminDAO.getStorePaymentlist();
 	}
 
-	public AdminDTO getPaymentinfo(String sp_num) {
-		return adminDAO.getPaymentinfo(sp_num);
+	public AdminDTO getPaymentinfo(String SP_NUM) {
+		return adminDAO.getPaymentinfo(SP_NUM);
 	}
 
 	// =========================================================================================
@@ -435,6 +446,9 @@ public class AdminService {
 	public List<AdminDTO> getTheaterSalesDataForMonth(YearMonth endMonth) {
 		return adminDAO.getTheaterSalesDataForMonth(endMonth);
 	}
+
+	
+	
 
 	
 

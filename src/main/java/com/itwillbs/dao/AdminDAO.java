@@ -53,7 +53,7 @@ public class AdminDAO {
 
 	// 포인트지급항목
 
-	public List<MemberDTO> getDetailList() {
+	public List<AdminDTO> getDetailList() {
 
 		return sqlSession.selectList(namespace + ".getDetailList");
 	}
@@ -61,23 +61,30 @@ public class AdminDAO {
 // ===========================================================================
 
 	// 회원정보수정
-	public void updateMember(MemberDTO memberDTO) {
+	public void updateMember(AdminDTO adminDTO) {
 
-		sqlSession.update(namespace + ".updateMember", memberDTO);
+		sqlSession.update(namespace + ".updateMember", adminDTO);
 	}
+	
+	public void insertPoint(String MEM_NUM) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("MEM_NUM", MEM_NUM);
+
+		sqlSession.insert(namespace + ".insertPoint", params);
+	}		
 
 	// 포인트 지급,차감
-	public void updatePoint(MemberDTO memberDTO) {
+	public void updatePoint(AdminDTO adminDTO) {
 
-		sqlSession.update(namespace + ".updatePoint", memberDTO);
+		sqlSession.update(namespace + ".updatePoint", adminDTO);
 	}
 
 	// 포인트 지급,차감 내역
-	public void updatePointHistory(String member_num, String pointDetail, int sPoint) {
+	public void updatePointHistory(String MEM_NUM, String DE_DETAIL, int sPoint) {
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("member_num", member_num);
-		params.put("point_detail", pointDetail);
+		params.put("MEM_NUM", MEM_NUM);
+		params.put("DE_DETAIL", DE_DETAIL);
 		params.put("sPoint", sPoint);
 
 		sqlSession.update(namespace + ".updatePointHistory", params);
@@ -86,21 +93,28 @@ public class AdminDAO {
 // ===========================================================================
 
 	// 회원탈퇴(6개월 유예)
-	public void respiteMember(MemberDTO memberDTO) {
+	public void respiteMember(AdminDTO adminDTO) {
 
-		sqlSession.update(namespace + ".respiteMember", memberDTO);
+		sqlSession.update(namespace + ".respiteMember", adminDTO);
 	}
 
 // ===========================================================================
 
 	// 회원정보복구
 
-	public void restoreMember(MemberDTO memberDTO) {
+	public void restoreMember(AdminDTO adminDTO) {
 
-		sqlSession.update(namespace + ".restoreMember", memberDTO);
+		sqlSession.update(namespace + ".restoreMember", adminDTO);
 	}
 
 // ===========================================================================
+	
+	public void realDeleteMember() {
+		sqlSession.delete(namespace + ".realDeleteMember");
+	}
+	
+// ===========================================================================
+
 
 	// 이메일리스트
 
@@ -139,12 +153,11 @@ public class AdminDAO {
 
 	// 영화상세정보
 
-	public MovieDTO getMovieInfo(int movienum) {
-		return sqlSession.selectOne(namespace + ".getMovieInfo", movienum);
+	public MovieDTO getMovieInfo(String MOVIE_NUM) {
+		return sqlSession.selectOne(namespace + ".getMovieInfo", MOVIE_NUM);
 	}
 
 	// 영화 정보 수정
-
 	public void movieupdate(MovieDTO movieDTO) {
 
 		sqlSession.update(namespace + ".movieupdate", movieDTO);
@@ -176,7 +189,6 @@ public class AdminDAO {
 	public List<Map<String, String>> getMovieNameList(Map<String, Object> params) {
 		return sqlSession.selectList("getMovieNameList", params);
 	}
-
 
 	// 런타임 찾기
 	public String findRuntime(String movie) {
@@ -217,14 +229,13 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + ".getScheduleList");
 	}
 
-	public void deleteScreenByCINum(int ciNum) {
-		sqlSession.delete(namespace + ".deleteScreenByCINum", ciNum);
-
+	public void deleteScreenByTime(Map<String, Object> params) {
+		sqlSession.delete(namespace + ".deleteScreenByTime", params);
 	}
 
-	public void deleteCinemaByCINum(int ciNum) {
-		sqlSession.delete(namespace + ".deleteCinemaByCINum", ciNum);
-	}
+//	public void deleteCinemaByCINum(int ciNum) {
+//		sqlSession.delete(namespace + ".deleteCinemaByCINum", ciNum);
+//	}
 
 	public List<AdminDTO> getBranchList() {
 		return sqlSession.selectList(namespace + ".getBranchList");
@@ -340,8 +351,8 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + ".getStorePaymentlist");
 	}
 
-	public AdminDTO getPaymentinfo(String sp_num) {
-		return sqlSession.selectOne(namespace + ".getPaymentinfo", sp_num);
+	public AdminDTO getPaymentinfo(String SP_NUM) {
+		return sqlSession.selectOne(namespace + ".getPaymentinfo", SP_NUM);
 	}
 
 	// =========================================================================================
@@ -446,5 +457,10 @@ public class AdminDAO {
 		params.put("endMonth", endMonth.atEndOfMonth()); // 종료 월의 마지막 날
 		return sqlSession.selectList(namespace + ".getTheaterSalesDataForMonth", params);
 	}
+
+	
+	
+
+	
 
 }

@@ -31,6 +31,9 @@ public class AdminDTO {
 	private int PO_CUMP;
 	private int sPoint;
 	private String PO_HIS;
+	private String DE_DETAIL;
+	
+	
 	
 	
 	
@@ -39,6 +42,20 @@ public class AdminDTO {
 	// ===========================================================================================================================
 	
 	
+
+	@Override
+	public String toString() {
+		return "AdminDTO [MEM_NUM=" + MEM_NUM + ", PO_CURP=" + PO_CURP + ", PO_CUMP=" + PO_CUMP + ", sPoint=" + sPoint
+				+ "]";
+	}
+
+	public String getDE_DETAIL() {
+		return DE_DETAIL;
+	}
+
+	public void setDE_DETAIL(String DE_DETAIL) {
+		this.DE_DETAIL = DE_DETAIL;
+	}
 
 	public String getMEM_NUM() {
 		return MEM_NUM;
@@ -243,10 +260,8 @@ public class AdminDTO {
 	private String posterUrl;
 	private String stillUrl;
 	private String vodUrl;
-	private String audiAcc;
 	private String themeSong;
 	private String soundtrack;
-	private String Awards1;
 	private Date releaseDte;
 	private String movieNm;
 	private String rank;
@@ -300,6 +315,7 @@ public class AdminDTO {
 	}
 
 	private String releaseDateStr; // JSON에서 받은 날짜 문자열
+	
 	private Date releaseDate; // 유효성 검사를 통과한 날짜
 
 	public String getTitle() {
@@ -411,13 +427,7 @@ public class AdminDTO {
 		this.posterUrl = posterUrl;
 	}
 
-	public String getAudiAcc() {
-		return audiAcc;
-	}
-
-	public void setAudiAcc(String audiAcc) {
-		this.audiAcc = audiAcc;
-	}
+	
 
 	public String getThemeSong() {
 		return themeSong;
@@ -435,13 +445,6 @@ public class AdminDTO {
 		this.soundtrack = soundtrack;
 	}
 
-	public String getAwards1() {
-		return Awards1;
-	}
-
-	public void setAwards1(String Awards1) {
-		this.Awards1 = Awards1;
-	}
 
 	// ===========================================================================================================================
 
@@ -587,7 +590,6 @@ public class AdminDTO {
 //===========================================================================================================================
 
 	private String TP_SEAT;
-	private String member_id;
 	private String SC_TIME;
 	private String SC_TIME_END;
 	private String TP_NUM;
@@ -653,13 +655,6 @@ public class AdminDTO {
 		this.SC_TIME_END = SC_TIME_END;
 	}
 
-	public String getMember_id() {
-		return member_id;
-	}
-
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
-	}
 
 	public String getTP_SEAT() {
 		return TP_SEAT;
@@ -671,9 +666,9 @@ public class AdminDTO {
 
 //===========================================================================================================================	
 
-	private String sp_num;
-	private String payment_total_price;
-	private String payment_date;
+	private String SP_NUM;
+	private String PRODUCT_TOTAL_PRICE;
+	private String PAYMENT_DATE;
 	private String ST_CONST;
 	private String ST_PERIOD;
 
@@ -685,28 +680,30 @@ public class AdminDTO {
 		this.ST_PERIOD = ST_PERIOD;
 	}
 
-	public String getSp_num() {
-		return sp_num;
+	
+
+	public String getSP_NUM() {
+		return SP_NUM;
 	}
 
-	public void setSp_num(String sp_num) {
-		this.sp_num = sp_num;
+	public void setSP_NUM(String SP_NUM) {
+		this.SP_NUM = SP_NUM;
 	}
 
-	public String getPayment_total_price() {
-		return payment_total_price;
+	public String getPRODUCT_TOTAL_PRICE() {
+		return PRODUCT_TOTAL_PRICE;
 	}
 
-	public void setPayment_total_price(String payment_total_price) {
-		this.payment_total_price = payment_total_price;
+	public void setPRODUCT_TOTAL_PRICE(String PRODUCT_TOTAL_PRICE) {
+		this.PRODUCT_TOTAL_PRICE = PRODUCT_TOTAL_PRICE;
 	}
 
-	public String getPayment_date() {
-		return payment_date;
+	public String getPAYMENT_DATE() {
+		return PAYMENT_DATE;
 	}
 
-	public void setPayment_date(String payment_date) {
-		this.payment_date = payment_date;
+	public void setPAYMENT_DATE(String PAYMENT_DATE) {
+		this.PAYMENT_DATE = PAYMENT_DATE;
 	}
 
 	public String getST_CONST() {
@@ -815,13 +812,6 @@ public class AdminDTO {
 		this.AGE_GROUP_COUNT = AGE_GROUP_COUNT;
 	}
 
-	@Override
-	public String toString() {
-		return "AdminDTO [MEM_NUM=" + MEM_NUM + ", MEM_ID=" + MEM_ID + ", MEM_PASS=" + MEM_PASS + ", MEM_NAME="
-				+ MEM_NAME + ", MEM_NICKNAME=" + MEM_NICKNAME + ", MEM_GENDER=" + MEM_GENDER + ", MEM_PHONE="
-				+ MEM_PHONE + ", MEM_INPUT=" + MEM_INPUT + ", MEM_RESPITE=" + MEM_RESPITE + ", MEM_OUT=" + MEM_OUT
-				+ "]";
-	}
 
 	
 

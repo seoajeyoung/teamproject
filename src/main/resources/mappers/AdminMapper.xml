@@ -36,58 +36,71 @@
 
 	<!-- ====================================================================================== -->
 
+	<insert id="insertPoint" parameterType="map">
+		INSERT INTO POINT (MEM_NUM)
+		SELECT #{MEM_NUM}
+		FROM DUAL
+		WHERE NOT EXISTS (
+		SELECT 1
+		FROM POINT
+		WHERE MEM_NUM = #{MEM_NUM}
+		)
+	</insert>
+
+	<!-- ====================================================================================== -->
 	<!-- 회원정보수정 -->
 	<update id="updateMember">
 		update MEMBERS set
-		MEM_PASS = #{member_pass},
-		MEM_NAME
-		= #{member_name},
-		MEM_PHONE = #{member_phone},
-		MEM_EMAIL =
-		#{member_email},
+		MEM_PASS = #{MEM_PASS},
+		MEM_NAME =
+		#{MEM_NAME},
+		MEM_PHONE = #{MEM_PHONE},
+		MEM_EMAIL = #{MEM_EMAIL},
 		MEM_GRADE =
 		CASE
-		WHEN (select
-		point_cumulativeP from
-		POINT where MEM_NUM =
-		#{member_num}) >= 50000
-		THEN 'Red Carpet(SVIP)'
-		WHEN (select point_cumulativeP from POINT where MEM_NUM =
-		#{member_num}) >= 30000 THEN 'Gold Seat(VVIP)'
-		ELSE 'Silver
-		Ticket(VIP)'
+		WHEN (select PO_CUMP from POINT where MEM_NUM =
+		#{MEM_NUM}) >= 50000 THEN
+		'Red Carpet(SVIP)'
+		WHEN (select PO_CUMP from
+		POINT where MEM_NUM = #{MEM_NUM}) >= 30000 THEN
+		'Gold Seat(VVIP)'
+		WHEN
+		(select PO_CUMP from POINT where MEM_NUM = #{MEM_NUM}) >= 5000 THEN
+		'Silver Ticket(VIP)'
+		WHEN (select PO_CUMP from POINT where MEM_NUM =
+		#{MEM_NUM}) >= 0 THEN
+		'White Ticket(N)'
+		ELSE 'No Ticket'
 		END
-		where MEM_NUM =
-		#{member_num}
+		where MEM_NUM
+		= #{MEM_NUM}
 	</update>
 
 
 	<!-- 포인트지급,차감 -->
 	<update id="updatePoint">
-		update POINT set point_currentP =
-		GREATEST(point_currentP + #{sPoint}, 0),
-		point_cumulativeP = CASE
-		WHEN
-		#{sPoint} >= 0 THEN point_cumulativeP + #{sPoint}
-		ELSE
-		point_cumulativeP
-		END
-		where MEM_NUM = #{member_num}
+		update POINT set PO_CURP =
+		GREATEST(PO_CURP + #{sPoint}, 0),
+		PO_CUMP = CASE
+		WHEN #{sPoint} >= 0 THEN PO_CUMP + #{sPoint}
+		ELSE PO_CUMP END
+		where MEM_NUM = #{MEM_NUM}
 	</update>
 
 	<!-- 포인트지급,차감 내역 -->
 	<update id="updatePointHistory">
 		update POINT set PO_HIS =
-		CONCAT(IFNULL(point_history, ''),
+		CONCAT(IFNULL(PO_HIS, ''),
 		case
-		WHEN LENGTH(IFNULL(point_history,
+		WHEN LENGTH(IFNULL(PO_HIS,
 		'')) > 0 THEN CHAR(10) -- 줄바꿈 추가
 		ELSE ''
 		END,
 		DATE_FORMAT(NOW(),
-		'%Y-%m-%d %H:%i'), ' / 지급(차감)된 포인트: ', #{sPoint}, ' / ',
-		#{point_detail})
-		where MEM_NUM = #{member_num}
+		'%Y-%m-%d %H:%i'), ' / 지급(차감)된 포인트: ',
+		#{sPoint}, ' / ',
+		#{DE_DETAIL})
+		where MEM_NUM = #{MEM_NUM}
 	</update>
 
 	<!-- ====================================================================================== -->
@@ -102,7 +115,7 @@
 		DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 6
 		MONTH)
 		where MEM_NUM =
-		#{member_num}
+		#{MEM_NUM}
 	</update>
 
 	<!-- ====================================================================================== -->
@@ -115,12 +128,19 @@
 		NULL,
 		MEM_OUT = NULL
 		where MEM_NUM =
-		#{member_num}
+		#{MEM_NUM}
 	</update>
 
 	<!-- status 값 나중에 default = '회원' -->
 
 	<!-- ====================================================================================== -->
+	
+	<delete id="realDeleteMember">
+		DELETE FROM MEMBERS WHERE MEM_STATUS = '탈퇴유예' AND MEM_OUT <![CDATA[<=]]> NOW()
+	</delete>
+	
+	<!-- ====================================================================================== -->
+	
 
 	<!-- 이메일리스트 -->
 
@@ -194,15 +214,13 @@
 	</select>
 
 	<!-- 영화 상세정보 -->
-	<select id="getMovieInfo"
-		resultType="com.itwillbs.domain.MovieDTO"
-		parameterType="java.lang.Integer">
+	<select id="getMovieInfo" parameterType="string" resultType="com.itwillbs.domain.MovieDTO">
 		SELECT MOVIE_NUM, title, titleEng, direcotrNm, actorNm,
 		nation, genre,
 		releaseDate, posterUrl, plot, runtime, rating,
 		soundtrack, themeSong
 		FROM MOVIE m
-		Where MOVIE_NUM = #{movienum}
+		Where MOVIE_NUM = #{MOVIE_NUM}
 	</select>
 
 	<!-- 영화정보 업데이트 -->
@@ -213,14 +231,11 @@
 		#{titleEng},
 		direcotrNm = #{direcotrNm},
 		actorNm = #{actorNm},
-		genre =
-		#{genre},
+		genre = #{genre},
 		rating = #{rating},
-		runtime = #{runtime},,
-		posterUrl =
-		#{posterUrl},
+		runtime = #{runtime},
 		releaseDate = #{releaseDate},
-		themsSong = #{themsSong},
+		themeSong = #{themeSong},
 		soundtrack = #{soundtrack},
 		plot = #{plot}
 		where MOVIE_NUM =
@@ -345,7 +360,8 @@
 		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
 		S.SC_TIME, S.SC_TIME_END, C.CI_NUM, S.SC_NUM
 		FROM THEATER T
-		JOIN CINEMA C ON
+		JOIN CINEMA
+		C ON
 		T.TH_NUM = C.TH_NUM
 		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
 		JOIN
@@ -357,26 +373,34 @@
 		SELECT T.TH_REGION, T.TH_NAME, T.TH_NUMBER, M.TITLE,
 		S.SC_TIME, S.SC_TIME_END
 		FROM THEATER T
-		JOIN CINEMA C ON T.TH_NUM = C.TH_NUM
+		JOIN CINEMA C ON T.TH_NUM =
+		C.TH_NUM
 		JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
+		JOIN SCREEN S ON
+		C.CI_NUM = S.CI_NUM
 		WHERE T.TH_REGION = #{TH_REGION}
-		AND T.TH_NAME = #{TH_NAME}
+		AND T.TH_NAME =
+		#{TH_NAME}
 		AND T.TH_NUMBER = #{TH_NUMBER}
-		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = DATE_FORMAT(#{runningDts}, '%Y-%m-%d')
+		AND DATE_FORMAT(S.SC_TIME,
+		'%Y-%m-%d') = DATE_FORMAT(#{runningDts}, '%Y-%m-%d')
 	</select>
 
-	<!-- SCREEN 테이블에서 삭제 -->
-	<delete id="deleteScreenByCINum" parameterType="int">
-		DELETE FROM
-		SCREEN WHERE CI_NUM = #{CI_NUM};
+	<!-- SCREEN 테이블에서 SC_TIME과 SC_TIME_END 기준으로 삭제 -->
+	<delete id="deleteScreenByTime" parameterType="map">
+		DELETE FROM SCREEN
+		WHERE CI_NUM = #{CI_NUM}
+		AND SC_TIME = #{SC_TIME}
+		AND SC_TIME_END =
+		#{SC_TIME_END};
 	</delete>
 
+
 	<!-- CINEMA 테이블에서 삭제 -->
-	<delete id="deleteCinemaByCINum" parameterType="int">
-		DELETE FROM
-		CINEMA WHERE CI_NUM = #{CI_NUM};
-	</delete>
+	<!-- <delete id="deleteCinemaByCINum" parameterType="int"> -->
+	<!-- DELETE FROM -->
+	<!-- CINEMA WHERE CI_NUM = #{CI_NUM}; -->
+	<!-- </delete> -->
 
 	<select id="getBranchList" parameterType="map"
 		resultType="com.itwillbs.domain.AdminDTO">
@@ -393,19 +417,18 @@
 		ON T.TH_NUM = C.TH_NUM;
 	</select>
 
-	<!-- 영문지역명 찾기 -->
 	<select id="getfindAll" parameterType="String"
 		resultType="com.itwillbs.domain.AdminDTO">
-		<!-- SELECT DISTINCT -->
-		<!-- T.TH_REGION, -->
-		<!-- T.TH_NAME, -->
-		<!-- T.TH_ADDR, -->
-		<!-- T.TH_NUMBER -->
-		<!-- FROM -->
-		<!-- THEATER T -->
-		<!-- LEFT JOIN -->
-		<!-- CINEMA C -->
-		<!-- ON T.TH_NUM = C.TH_NUM; -->
+		SELECT DISTINCT
+		T.TH_REGION,
+		T.TH_NAME,
+		T.TH_ADDR,
+		T.TH_NUMBER
+		FROM
+		THEATER T
+		LEFT JOIN
+		CINEMA C
+		ON T.TH_NUM = C.TH_NUM;
 	</select>
 
 	<insert id="insertTheater" parameterType="map">
@@ -434,7 +457,6 @@
 		DELETE FROM THEATER
 		WHERE TH_NUM = #{TH_NUM};
 	</delete>
-
 
 	<select id="checkStoreDetails" parameterType="map"
 		resultType="map" useCache="false">

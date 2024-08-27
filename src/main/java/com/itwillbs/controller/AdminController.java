@@ -75,61 +75,61 @@ public class AdminController {
 			@RequestParam(value = "start_month", required = false) String startMonthStr,
 			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
 		// 오늘 날짜 계산
-//		LocalDate today = LocalDate.now();
-//
-//		// 어제 날짜 계산
-//		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
-//		LocalDate startDate = (startDateStr != null) ? LocalDate.parse(startDateStr) : endDate.minusDays(6);
-//		LocalDate yesterday = LocalDate.now().minusDays(1);
-//		LocalDateTime startOfDay = yesterday.atStartOfDay();
-//		LocalDateTime endOfDay = startOfDay.plusDays(1);
-//
-//		// 현재 날짜를 기준으로 이번 달을 구함
-//		YearMonth currentMonth = YearMonth.now();
-//
-//		// 이번 달의 첫날 (예: 2024-08-01 00:00)
-//		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
-//
-//		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
-//		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
-//
-//		// 요청된 기간의 일별 매출 데이터를 가져옴
-//		List<AdminDTO> weekSalesData = adminService.getAllSalesDataForWeek(startDate, endDate);
-//
-//		// 월별 매출 데이터를 위한 날짜 처리
-//		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
-//		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
-//
-//		// 요청된 기간의 월별 매출 데이터를 가져옴
-//		List<AdminDTO> monthSalesData = adminService.getAllSalesDataForMonth(startMonth, endMonth);
-//
-//		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
-//		model.addAttribute("weekSalesData", weekSalesData);
-//		model.addAttribute("monthSalesData", monthSalesData);
-//
-//		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
-//		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
-//
-//		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-//		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
-//		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
-//
-//		model.addAttribute("formattedSales", formattedSales);
-//		model.addAttribute("adminDTO", yesterdaySalesData);
-//
-//		model.addAttribute("formattedMonthSales", formattedMonthSales);
-//		model.addAttribute("adminDTO2", oneMonthlySalesData);
-//
-//		try {
-//			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-//			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
-//			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
-//
-//			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
-//			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		LocalDate today = LocalDate.now();
+
+		// 어제 날짜 계산
+		LocalDate endDate = (endDateStr != null) ? LocalDate.parse(endDateStr) : today.minusDays(1);
+		LocalDate startDate = (startDateStr != null) ? LocalDate.parse(startDateStr) : endDate.minusDays(6);
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		LocalDateTime startOfDay = yesterday.atStartOfDay();
+		LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+		// 현재 날짜를 기준으로 이번 달을 구함
+		YearMonth currentMonth = YearMonth.now();
+
+		// 이번 달의 첫날 (예: 2024-08-01 00:00)
+		LocalDateTime startOfMonth = currentMonth.atDay(1).atStartOfDay();
+
+		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
+		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+
+		// 요청된 기간의 일별 매출 데이터를 가져옴
+		List<AdminDTO> weekSalesData = adminService.getAllSalesDataForWeek(startDate, endDate);
+
+		// 월별 매출 데이터를 위한 날짜 처리
+		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
+		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
+
+		// 요청된 기간의 월별 매출 데이터를 가져옴
+		List<AdminDTO> monthSalesData = adminService.getAllSalesDataForMonth(startMonth, endMonth);
+
+		// 데이터를 모델에 추가하여 JSP에서 사용할 수 있게 설정
+		model.addAttribute("weekSalesData", weekSalesData);
+		model.addAttribute("monthSalesData", monthSalesData);
+
+		AdminDTO yesterdaySalesData = adminService.getAllSalesDataForYesterday(startOfDay, endOfDay);
+		AdminDTO oneMonthlySalesData = adminService.getAllSalesDataForOneMonth(startOfMonth, endOfMonth);
+
+		NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+		String formattedSales = numberFormat.format(yesterdaySalesData.getALL_TOTALSALES()) + " 원";
+		String formattedMonthSales = numberFormat.format(oneMonthlySalesData.getALL_TOTALSALES()) + " 원";
+
+		model.addAttribute("formattedSales", formattedSales);
+		model.addAttribute("adminDTO", yesterdaySalesData);
+
+		model.addAttribute("formattedMonthSales", formattedMonthSales);
+		model.addAttribute("adminDTO2", oneMonthlySalesData);
+
+		try {
+			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
+
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "/admin/member/index";
 	}
@@ -155,9 +155,7 @@ public class AdminController {
 	public String info(AdminDTO adminDTO, Model model) {
 
 		AdminDTO adminDTO2 = adminService.getMemberInfo(adminDTO.getMEM_NUM());
-		System.out.println(adminDTO2);
 		model.addAttribute("adminDTO", adminDTO2);
-		
 
 		return "/admin/member/info";
 	}
@@ -173,7 +171,7 @@ public class AdminController {
 
 		model.addAttribute("adminDTO", adminDTO2);
 
-		List<MemberDTO> detailList = adminService.getDetailList();
+		List<AdminDTO> detailList = adminService.getDetailList();
 		model.addAttribute("detailList", detailList);
 
 		return "/admin/member/update";
@@ -184,14 +182,15 @@ public class AdminController {
 	// 회원정보수정 updatePro
 
 	@PostMapping("/member/updatePro")
-	public String updatePro(MemberDTO memberDTO, @RequestParam("point_detail") String pointDetail,
+	public String updatePro(AdminDTO adminDTO, @RequestParam("DE_DETAIL") String DE_DETAIL,
 			@RequestParam("sPoint") int sPoint, RedirectAttributes redirectAttributes) {
 
-		adminService.updatePoint(memberDTO);
-		adminService.updatePointHistory(memberDTO.getMember_num(), pointDetail, sPoint);
-		adminService.updateMember(memberDTO);
+		adminService.insertPoint(adminDTO.getMEM_NUM());
+		adminService.updatePoint(adminDTO);
+		adminService.updatePointHistory(adminDTO.getMEM_NUM(), DE_DETAIL, sPoint);
+		adminService.updateMember(adminDTO);
 
-		redirectAttributes.addAttribute("member_num", memberDTO.getMember_num());
+		redirectAttributes.addAttribute("MEM_NUM", adminDTO.getMEM_NUM());
 		return "redirect:/admin/member/info";
 	}
 
@@ -200,7 +199,7 @@ public class AdminController {
 	// 회원탈퇴/복구 페이지 이동
 
 	@GetMapping("/member/memberdelete")
-	public String delete(MemberDTO memberDTO, Model model) {
+	public String delete(AdminDTO adminDTO, Model model) {
 
 //		MemberDTO memberDTO2 = adminService.getMemberInfo(memberDTO.getMember_num());
 //		model.addAttribute("memberDTO", memberDTO2);
@@ -213,11 +212,11 @@ public class AdminController {
 	// 회원탈퇴(6개월 유예)
 
 	@PostMapping("/member/memberRespitePro")
-	public String respitePro(MemberDTO memberDTO) {
+	public String respitePro(AdminDTO adminDTO) {
 
-		adminService.respiteMember(memberDTO);
+		adminService.respiteMember(adminDTO);
 
-		return "redirect:/admin/member/info?member_num=" + memberDTO.getMember_num();
+		return "redirect:/admin/member/info?MEM_NUM=" + adminDTO.getMEM_NUM();
 	}
 
 // ===========================================================
@@ -225,11 +224,11 @@ public class AdminController {
 	// 회원정보복구
 
 	@PostMapping("/member/memberRestorePro")
-	public String deletePro(MemberDTO memberDTO) {
+	public String deletePro(AdminDTO adminDTO) {
 
-		adminService.restoreMember(memberDTO);
+		adminService.restoreMember(adminDTO);
 
-		return "redirect:/admin/member/info?member_num=" + memberDTO.getMember_num();
+		return "redirect:/admin/member/info?MEM_NUM=" + adminDTO.getMEM_NUM();
 	}
 
 // ===========================================================    
@@ -282,30 +281,25 @@ public class AdminController {
 	@GetMapping("/movie/movieinfo")
 	public String movieinfo(MovieDTO movieDTO, Model model) {
 
-		int movienum = Integer.parseInt(movieDTO.getMOVIE_NUM());
-		MovieDTO movieDTO2 = adminService.getMovieInfo(movienum);
+		MovieDTO movieDTO2 = adminService.getMovieInfo(movieDTO.getMOVIE_NUM());
 
 		model.addAttribute("movieDTO", movieDTO2);
 
 		return "/admin/movie/movieinfo";
 	}
-	
-	
 
 // ===========================================================
 
 	// 영화정보수정
 
 	@GetMapping("/movie/movieupdate")
-	public String mupdate(@RequestParam("MOVIE_NUM") int movienum, Model model) {
+	public String mupdate(MovieDTO movieDTO, Model model) {
 
-		MovieDTO movieDTO2 = adminService.getMovieInfo(movienum);
+		MovieDTO movieDTO2 = adminService.getMovieInfo(movieDTO.getMOVIE_NUM());
 		model.addAttribute("movieDTO", movieDTO2);
 
 		return "/admin/movie/movieupdate";
 	}
-	
-	
 
 // ===========================================================
 
@@ -377,15 +371,12 @@ public class AdminController {
 
 		return adminService.getMovieNameList(params);
 	}
-	
 
 	// 겹치는 일정 검색
 	@RequestMapping(value = "/movie/getSchedule", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ScheduleDTO> getSchedule(
-			@RequestParam String TH_REGION, 
-			@RequestParam String TH_NAME,
-			@RequestParam String TH_NUMBER, 
+	public List<ScheduleDTO> getSchedule(@RequestParam String TH_REGION, @RequestParam String TH_NAME,
+			@RequestParam String TH_NUMBER,
 			@RequestParam("runningDts") @DateTimeFormat(pattern = "yyyy-MM-dd") Date runningDts) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", TH_REGION);
@@ -417,7 +408,7 @@ public class AdminController {
 		if (existingRuntime == null || existingRuntime.isEmpty()) {
 			adminService.updateRuntime(params);
 		}
-		
+
 		adminService.insertSchedule(params);
 		adminService.insertScreenTime(params);
 
@@ -426,12 +417,26 @@ public class AdminController {
 
 	@PostMapping("/movie/deleteSchedule")
 	@ResponseBody
-	public void deleteSchedule(@RequestParam("CI_NUM") int ciNum) {
+	public void deleteSchedule(@RequestParam("CI_NUM") int ciNum, @RequestParam("SC_TIME") String scTime,
+			@RequestParam("SC_TIME_END") String scTimeEnd) {
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("CI_NUM", ciNum);
+		params.put("SC_TIME", scTime);
+		params.put("SC_TIME_END", scTimeEnd);
+
 		// SCREEN 테이블에서 관련된 데이터를 삭제
-		adminService.deleteScreenByCINum(ciNum);
-		// CINEMA 테이블에서 관련된 데이터를 삭제
-//		adminService.deleteCinemaByCINum(ciNum);
+		adminService.deleteScreenByTime(params);
 	}
+
+//	@PostMapping("/movie/deleteSchedule")
+//	@ResponseBody
+//	public void deleteSchedule(@RequestParam("CI_NUM") int ciNum) {
+	// SCREEN 테이블에서 관련된 데이터를 삭제
+//		adminService.deleteScreenByCINum(ciNum);
+	// CINEMA 테이블에서 관련된 데이터를 삭제
+//		adminService.deleteCinemaByCINum(ciNum);
+//	}
 
 // ===========================================================
 
@@ -451,13 +456,18 @@ public class AdminController {
 
 //// ===========================================================
 
+	@RequestMapping(value = "/movie/getfindAll", method = RequestMethod.POST)
+	@ResponseBody
+	public List<AdminDTO> getfindAll(@RequestParam String TH_REGION) {
+
+		return adminService.getfindAll(TH_REGION);
+	}
+
+////===========================================================
 
 	@PostMapping("/movie/theaterinsertPro")
-	public String insertTheater(@RequestParam("RegionT") String RegionT,
-			@RequestParam("NameT") String NameT,
-			@RequestParam("TH_ADDRT") String ADDRT,
-			@RequestParam("CI_NT") String CI_NT) {
-
+	public String insertTheater(@RequestParam("RegionT") String RegionT, @RequestParam("NameT") String NameT,
+			@RequestParam("TH_ADDRT") String ADDRT, @RequestParam("CI_NT") String CI_NT) {
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("TH_REGION", RegionT);
@@ -502,8 +512,8 @@ public class AdminController {
 
 	@PostMapping("/store/check-store-details")
 	@ResponseBody
-	public Map<String, Boolean> checkStoreDetails(
-			@RequestParam("ST_NAME") String ST_NAME, @RequestParam("ST_DETAIL") String ST_DETAIL) {
+	public Map<String, Boolean> checkStoreDetails(@RequestParam("ST_NAME") String ST_NAME,
+			@RequestParam("ST_DETAIL") String ST_DETAIL) {
 
 		Map<String, String> storeDetails = new HashMap<>();
 		storeDetails.put("ST_NAME", ST_NAME);
@@ -518,9 +528,11 @@ public class AdminController {
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
 
-		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
-		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
-//		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 이미지 업로드 가능하면
+//		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
+//		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
+		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 
+		//이미지 업로드 가능하면
+		
 
 		AdminDTO adminDTO = new AdminDTO();
 		adminDTO.setST_NUM(request.getParameter("ST_NUM"));
@@ -603,26 +615,11 @@ public class AdminController {
 	@GetMapping("/store/paymentinfo")
 	public String paymentinfo(AdminDTO adminDTO, Model model) {
 
-		AdminDTO adminDTO2 = adminService.getPaymentinfo(adminDTO.getSp_num());
+		AdminDTO adminDTO2 = adminService.getPaymentinfo(adminDTO.getSP_NUM());
 
 		model.addAttribute("adminDTO", adminDTO2);
 
 		return "/admin/store/paymentinfo";
-	}
-
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-
-		// 로그아웃 처리
-		session.invalidate();
-
-		return "redirect:/main/main";
-	}
-
-	@GetMapping("/member/indextest")
-	public String indextest() {
-
-		return "/admin/member/indextest";
 	}
 
 	// =================================================================================================
@@ -899,8 +896,7 @@ public class AdminController {
 	// =================================================================================================
 
 	@GetMapping("/statistics/theatersales")
-	public String theaterStatistics(
-			@RequestParam(value = "end_date", required = false) String endDateStr,
+	public String theaterStatistics(@RequestParam(value = "end_date", required = false) String endDateStr,
 			@RequestParam(value = "end_month", required = false) String endMonthStr, Model model) {
 		// 오늘 날짜 계산
 		LocalDate today = LocalDate.now();
@@ -934,5 +930,14 @@ public class AdminController {
 
 		// JSP 페이지로 리턴
 		return "/admin/statistics/theatersales";
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+
+		// 로그아웃 처리
+		session.invalidate();
+
+		return "redirect:/main/main";
 	}
 }

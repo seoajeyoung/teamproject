@@ -127,7 +127,7 @@
 													<td style="padding-top: 20px;">
 														<div class="input_group"
 															style="display: flex; justify-content: center; align-items: center;">
-															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.member_name}</span>
+															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.MEM_NAME}</span>
 														</div>
 													</td>
 												</tr>
@@ -140,22 +140,22 @@
 												<tr>
 													<th scope="row">회원등급</th>
 													<td style="padding-top: 20px; padding-left: 0px; padding-right: 0px;"><span
-														id="mbr_id_area">${mypageDTO.member_grade}</span></td>
+														id="mbr_id_area">${mypageDTO.MEM_GRADE}</span></td>
 												</tr>
 												
 												<tr>
 													<th scope="row">현재 포인트</th>
-													<td style="padding-top: 20px;"><span id="mbr_point_currentP_area">${point.point_currentP}점</span></td>
+													<td style="padding-top: 20px;"><span id="mbr_point_currentP_area">${mypageDTO.PO_CURP}점</span></td>
 												</tr>
 												
 												<tr>
 													<th scope="row">누적 포인트</th>
-													<td style="padding-top: 20px;"><span id="mbr_point_cumulativeP_area">${point.point_cumulativeP}점</span></td>
+													<td style="padding-top: 20px;"><span id="mbr_point_cumulativeP_area">${mypageDTO.PO_CUMP}점</span></td>
 												</tr>
 												
 												<tr>
 													<th scope="row">포인트 적립내역</th>
-													<td style="padding-top: 20px; padding-left: 90px;"><pre style="text-align: left;"><span id="mbr_point_history_area">${point.point_history}</span></pre></td>
+													<td style="padding-top: 20px; padding-left: 150px;"><pre style="text-align: left;"><span id="mbr_point_history_area">${mypageDTO.PO_HIS}</span></pre></td>
 												</tr>
 												
 											</tbody>

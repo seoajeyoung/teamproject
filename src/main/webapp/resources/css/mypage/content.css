@@ -175,7 +175,7 @@
 .mycgv-info-wrap .sect-person-info > .box-contents > .person-info > button[type='button']#go_edit_page{margin-top:10px}
 /* .mycgv-info-wrap .sect-person-info > .box-contents > .grade-info {} */
 .mycgv-info-wrap .sect-person-info > .box-contents > .grade-info > p {margin-bottom:14px; color:#342929; font-weight:300; font-size:25px; line-height:25px;}
-.mycgv-info-wrap .sect-person-info > .box-contents > .grade-info > p > [class^='txt'] {text-decoration:underline;}
+/* .mycgv-info-wrap .sect-person-info > .box-contents > .grade-info > p > [class^='txt'] {text-decoration:underline;} */
 .mycgv-info-wrap .sect-person-info > .box-contents > .grade-info > p.desc1 {font-size:14px;letter-spacing:0px;}
 .mycgv-info-wrap .grade-info .btn_user_grade {background: url(../images/common/arr_grade.png) no-repeat 100% 7px;color: #000;font-weight: bold;padding: 0 10px 0 0;line-height: 24px}
 .mycgv-info-wrap .sect-person-info > .box-contents > .grade-info .round + .round,

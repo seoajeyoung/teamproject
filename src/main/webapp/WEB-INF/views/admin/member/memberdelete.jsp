@@ -81,12 +81,12 @@
 											<div
 												class="text-xs font-weight-bold text-danger text-uppercase mb-1">
 												탈퇴(유예)</div>
-											<div class="h5 mb-2 font-weight-bold text-gray-800 mb-4">${memberDTO.member_id}
+											<div class="h5 mb-2 font-weight-bold text-gray-800 mb-4">${adminDTO.MEM_ID}
 												회원탈퇴(6개월 유예) 하시겠습니까?</div>
 										</div>
 									</div>
-									<input type="hidden" name="member_num"
-										value="${memberDTO.member_num}">
+									<input type="hidden" name="MEM_NUM"
+										value="${adminDTO.MEM_NUM}">
 									<button type="button" class="btn btn-light btn-icon-split"
 										onclick="confirmRespite()">
 										<span class="icon text-gray-600"> <i
@@ -110,12 +110,12 @@
 											<div
 												class="text-xs font-weight-bold text-success text-uppercase mb-1">
 												유예복구</div>
-											<div class="h5 mb-2 font-weight-bold text-gray-800 mb-4">${memberDTO.member_id}
+											<div class="h5 mb-2 font-weight-bold text-gray-800 mb-4">${adminDTO.MEM_ID}
 												유예복구를 하시겠습니까?</div>
 										</div>
 									</div>
-									<input type="hidden" name="member_num"
-										value="${memberDTO.member_num}">
+									<input type="hidden" name="MEM_NUM"
+										value="${adminDTO.MEM_NUM}">
 									<button type="button" class="btn btn-light btn-icon-split"
 										onclick="confirmRestore()">
 										<span class="icon text-gray-600"> <i

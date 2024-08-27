@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,13 +42,13 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
 	rel="stylesheet">
 <script>
-function confirmRespite() {
-    if (confirm("회원정보는 6개월 후 완전 파기됩니다. 정말 탈퇴하시겠습니까?")) {
-        document.getElementById('respiteForm').submit();
-    }
-    // 취소를 누르면 아무 일도 일어나지 않음
-}
-</script>	
+	function confirmRespite() {
+		if (confirm("회원정보는 6개월 후 완전 파기됩니다. 정말 탈퇴하시겠습니까?")) {
+			document.getElementById('respiteForm').submit();
+		}
+		// 취소를 누르면 아무 일도 일어나지 않음
+	}
+</script>
 </head>
 
 <body>
@@ -81,7 +84,8 @@ function confirmRespite() {
 										결제 내역<i></i>
 								</a></li>
 								<li class=""><a
-									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의 선호 영화<i></i>
+									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의
+										선호 영화<i></i>
 								</a></li>
 								<li class=""><a
 									href="${pageContext.request.contextPath}/inquiry/often"
@@ -139,7 +143,7 @@ function confirmRespite() {
 													<td style="padding-top: 20px;">
 														<div class="input_group"
 															style="display: flex; justify-content: center; align-items: center;">
-															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.member_name}</span>
+															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.MEM_NAME}</span>
 														</div>
 													</td>
 												</tr>
@@ -152,20 +156,26 @@ function confirmRespite() {
 												<tr class="input">
 													<th scope="row"><label for="birth_yy">생년월일</label></th>
 													<td style="padding-top: 20px;"><span class="w120 "
-														data-skin="form"> <fmt:formatDate
-																value="${member_birth}" pattern="yyyy년 MM월 dd일" />
+														data-skin="form"> <c:set var="birthYear"
+																value="${fn:substring(mypageDTO.MEM_BIRTH, 0, 4)}" /> <c:set
+																var="birthMonth"
+																value="${fn:substring(mypageDTO.MEM_BIRTH, 4, 6)}" /> <c:set
+																var="birthDay"
+																value="${fn:substring(mypageDTO.MEM_BIRTH, 6, 8)}" />
+
+															${birthYear}년 ${birthMonth}월 ${birthDay}일
 													</span></td>
 												</tr>
 												<tr>
 													<th scope="row">성별</th>
-													<td style="padding-top: 20px;"><span id="mbr_id_area">${mypageDTO.member_gender}</span></td>
+													<td style="padding-top: 20px;"><span id="mbr_id_area">${mypageDTO.MEM_GENDER}</span></td>
 												</tr>
 												<tr class="input">
 													<th scope="row" style="padding-top: 27px;"><label
 														for="mob_no_1">휴대전화번호</label></th>
 													<td style="padding-top: 27px;">
 														<div>
-															<span class="input w100 phon_write" id="mobileNoInfo">${mypageDTO.member_phone}</span>
+															<span class="input w100 phon_write" id="mobileNoInfo">${mypageDTO.MEM_PHONE}</span>
 														</div>
 													</td>
 												</tr>
@@ -173,27 +183,19 @@ function confirmRespite() {
 													<th scope="row"><label for="email_addr1">이메일</label></th>
 													<td style="padding-top: 20px;">
 														<div class="email_write" style="width: 560px;">
-															${mypageDTO.member_email}</div>
+															${mypageDTO.MEM_EMAIL}</div>
 													</td>
-												</tr>
-
-												<tr>
-													<th scope="row">주소</th>
-													<td style="padding-top: 20px;"><span id="mbr_id_area">${mypageDTO.member_address}</span></td>
 												</tr>
 												<tr>
 													<th scope="row">가입날짜</th>
-													<td style="padding-top: 20px;"><span id="mbr_id_area">${mypageDTO.member_input}</span></td>
+													<td style="padding-top: 20px;"><span id="mbr_id_area"><fmt:formatDate
+																value="${mypageDTO.MEM_INPUT}" pattern="yyyy년 MM월 dd일" /></span></td>
 												</tr>
 												<tr>
 													<th scope="row">회원등급</th>
-													<td style="padding-top: 20px; padding-right: 0px;"><span
-														id="mbr_id_area">${mypageDTO.member_grade}</span><a
-														href="${pageContext.request.contextPath}/mypage/mypoint"
-														class="btn btn_sm" style="margin-left: 15px;"><span
-															class="arr">포인트내역</span></a></td>
+													<td style="padding-top: 20px; padding-right: 0px; padding-left: 0px;"><span
+														id="mbr_id_area">${mypageDTO.MEM_GRADE}</span></td>
 												</tr>
-
 											</tbody>
 										</table>
 										<!-- 										<div class="btn_sec btn_center"> -->
@@ -202,10 +204,17 @@ function confirmRespite() {
 										<!-- 	
 																			</div> -->
 										<br>
+										<div style="float: left;">
+											<a href="${pageContext.request.contextPath}/mypage/mypoint"
+												class="btn btn_sm" style="margin-left: 15px;"><span
+												class="arr">포인트내역</span></a>
+										</div>
 										<div style="float: right;">
-										<form id="respiteForm" action="${pageContext.request.contextPath}/mypage/mydelete" method="post">
+											<form id="respiteForm"
+												action="${pageContext.request.contextPath}/mypage/mydelete"
+												method="post">
 												<input type="hidden" name="member_id"
-													value="${mypageDTO.member_id}">
+													value="${mypageDTO.MEM_ID}">
 												<button type="button" class="btn btn_sm"
 													onclick="confirmRespite()">
 													<span class="arr">회원탈퇴</span>

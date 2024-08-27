@@ -101,8 +101,7 @@
 									});
 						}
 
-						$('#ST_NAME, #ST_DETAIL').on('blur',
-								checkStoreDetails);
+						$('#ST_NAME, #ST_DETAIL').on('blur', checkStoreDetails);
 
 						$('#typeList').change(
 								function() {
@@ -134,6 +133,8 @@
 													imgElement.src = e.target.result;
 													imgElement.style.maxWidth = '100%'; // 이미지의 최대 너비를 <td>에 맞춤
 													imgElement.style.height = 'auto'; // 높이를 자동으로 조절
+													imgElement.style.display = 'block'; // block 요소로 설정하여 중앙 정렬 가능하게 함
+													imgElement.style.margin = 'auto'; // 자동으로 중앙 정렬
 
 													// 기존의 이미지 미리보기를 제거하고 새로 추가
 													var imagePreview = document
@@ -290,8 +291,8 @@
 											<th rowspan="6">상품설명</th>
 											<td rowspan="6"><textarea id="ST_DETAIL"
 													name="ST_DETAIL" rows="10" cols="50"
-													style="margin-right: 5px; width: 812px;"></textarea><br> <span
-												id="detailCheckMessage"></span></td>
+													style="margin-right: 5px; width: 812px;"></textarea><br>
+												<span id="detailCheckMessage"></span></td>
 										</tr>
 									</table>
 									<div class="button-container">

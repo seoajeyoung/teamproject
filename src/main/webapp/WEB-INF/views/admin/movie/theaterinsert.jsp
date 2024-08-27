@@ -56,7 +56,6 @@
             }
             
             $('#NameT').val('').prop('readonly', false);
-            $('#TH_NAMEEngT').val('').prop('readonly', false);
             $('#TH_ADDRT').val('').prop('readonly', false);
             $('#CI_NT').val('').prop('readonly', false);
             $('#cinemaList').empty().append('<option value="">상영관 선택</option>');
@@ -64,7 +63,7 @@
             
             if (selectedRegion) {
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/admin/movie/findRegionEng',
+                    url: '${pageContext.request.contextPath}/admin/movie/getfindAll',
                     type: 'POST',
                     data: { TH_REGION: selectedRegion },
                     beforeSend: function(xhr) {
@@ -72,9 +71,6 @@
                     },
                     success: function(response) {
                         console.log("Response from server: ", response);
-                        var thRegionEng = response.find(function(item) {
-                            return item.th_REGION === selectedRegion && item.th_REGIONEng !== null;
-                        });
 
                         // 중복 제거를 위한 Set 사용
                         var theaterNames = new Set();
@@ -142,7 +138,6 @@
                                 }
                             } else {
                                 $('#NameT').val('').prop('readonly', false);
-                                $('#TH_NAMEEngT').val('').prop('readonly', false);
                                 $('#TH_ADDRT').val('').prop('readonly', false);
                                 $('#CI_NT').val('').prop('readonly', false);
                                 $('#cinemaList').empty().append('<option value="">상영관 선택</option>');
@@ -154,22 +149,11 @@
                     }
                 });
             } else {
-                $('#TH_REGIONEngT').val('').prop('readonly', false);
                 $('#theaterList').empty().append('<option value="">지점 선택</option>');
                 $('#NameT').val('').prop('readonly', false);
-                $('#TH_NAMEEngT').val('').prop('readonly', false);
                 $('#TH_ADDRT').val('').prop('readonly', false);
                 $('#CI_NT').val('').prop('readonly', false);
                 $('#cinemaList').empty().append('<option value="">상영관 선택</option>');
-            }
-        });
-
-        // Focus 및 Blur 이벤트 핸들러 합치기
-        $('#TH_REGIONEngT, #TH_NAMEEngT').on('focus blur', function(event) {
-            if (event.type === 'focus' && $(this).val() === '영문명을 입력하세요') {
-                $(this).val('');
-            } else if (event.type === 'blur' && $(this).val().trim() === '') {
-                $(this).val('영문명을 입력하세요');
             }
         });
 
@@ -200,16 +184,12 @@
     function enableEdit(thNum) {
         // 각 셀의 내용을 <input type="text">로 변경
         var region = document.getElementById('region' + thNum);
-        var regionEng = document.getElementById('regionEng' + thNum);
         var name = document.getElementById('name' + thNum);
-        var nameEng = document.getElementById('nameEng' + thNum);
         var addr = document.getElementById('addr' + thNum);
         var cinema = document.getElementById('cinema' + thNum);
         
         region.innerHTML = '<input type="text" value="' + region.textContent + '">';
-        regionEng.innerHTML = '<input type="text" value="' + regionEng.textContent + '">';
         name.innerHTML = '<input type="text" value="' + name.textContent + '">';
-        nameEng.innerHTML = '<input type="text" value="' + nameEng.textContent + '">';
         addr.innerHTML = '<textarea rows="1" cols="30">' + addr.textContent + '</textarea>';
         cinema.innerHTML = '<input type="text" value="' + cinema.textContent + '">';
 
@@ -222,9 +202,7 @@
     function saveRow(thNum) {
         // 수정된 내용을 다시 텍스트로 변환
         var region = document.querySelector('#region' + thNum + ' input').value;
-        var regionEng = document.querySelector('#regionEng' + thNum + ' input').value;
         var name = document.querySelector('#name' + thNum + ' input').value;
-        var nameEng = document.querySelector('#nameEng' + thNum + ' input').value;
         var addr = document.querySelector('#addr' + thNum + ' textarea').value;
         var cinema = document.querySelector('#cinema' + thNum + ' input').value;
 
@@ -232,9 +210,7 @@
         var params = {
             TH_NUM: thNum,
             TH_REGION: region,
-            TH_REGIONEng: regionEng,
             TH_NAME: name,
-            TH_NAMEEng: nameEng,
             TH_ADDR: addr,
             TH_NUMBER: cinema
         };
@@ -312,38 +288,33 @@
 										<tbody>
 											<tr>
 												<th>지역</th>
-												<th>지역영문명</th>
 												<th>지점명</th>
-												<th>지점영문명</th>
 												<th>지점주소</th>
 												<th>상영관</th>
 											</tr>
 											<tr>
 												<td><input type="text" id="RegionT" name="RegionT"
-													value="" style="margin-right: 3px; text-align: center !important;"><select
+													value=""
+													style="margin-right: 3px; text-align: center !important;"><select
 													id="regionList" name="TH_REGION" style="padding-top: 1px;">
 														<option value="">지역 선택</option>
 														<c:forEach var="list" items="${regionList}">
 															<option value="${list.TH_REGION}">${list.TH_REGION}</option>
 														</c:forEach>
 												</select></td>
-												<td id="TD_REGIONEng"><input type="text"
-													id="TH_REGIONEngT" name="TH_REGIONEngT" value="" style="text-align: center !important;"></td>
-												<td><input type="text" id="NameT" name="NameT" value="" style="text-align: center !important;">
-													<select id="theaterList" name="TH_NAME"
-													style="padding-top: 1px; ">
+												<td><input type="text" id="NameT" name="NameT" value=""
+													style="text-align: center !important;"> <select
+													id="theaterList" name="TH_NAME" style="padding-top: 1px;">
 														<option value="">지점 선택</option>
 												</select></td>
-												<td id="TD_NAMEEng"><input type="text" id="TH_NAMEEngT"
-													name="TH_NAMEEngT" value="" style="text-align: center !important;"></td>
-
-												<td><textarea id="TH_ADDRT" name="TH_ADDRT" value=""
-														rows="1" cols="30" style="text-align: center !important;"></textarea> <!-- 												<input type="text" id="TH_ADDRT" name="TH_ADDRT" value=""> -->
+												<td style="width: 726px;"><textarea id="TH_ADDRT"
+														name="TH_ADDRT" value="" rows="1" cols="30"
+														style="text-align: center !important;width: 672px;"></textarea>
 												</td>
 
-												<td><input type="text" id="CI_NT" name="CI_NT" value="" style="text-align: center !important;">
-													<select id="cinemaList" name="CI_NUMBER"
-													style="padding-top: 1px;">
+												<td><input type="text" id="CI_NT" name="CI_NT" value=""
+													style="text-align: center !important;"> <select
+													id="cinemaList" name="CI_NUMBER" style="padding-top: 1px;">
 														<option value="">상영관 선택</option>
 												</select></td>
 											</tr>
@@ -392,9 +363,7 @@
 											<thead>
 												<tr>
 													<th>지역</th>
-													<th>지역영문명</th>
 													<th>지점명</th>
-													<th>지점영문명</th>
 													<th>지점주소</th>
 													<th>상영관</th>
 													<th>수정/삭제</th>
@@ -403,12 +372,10 @@
 											<tbody>
 												<c:forEach var="adminDTO" items="${branchList}">
 													<tr id="row${adminDTO.TH_NUM}">
-														<td id="region${adminDTO.TH_NUM}">${adminDTO.TH_REGION}</td>
-														<td id="regionEng${adminDTO.TH_NUM}">${adminDTO.TH_REGIONEng}</td>
+														<td id="region${adminDTO.TH_NUM}" style="width: 200px;">${adminDTO.TH_REGION}</td>
 														<td id="name${adminDTO.TH_NUM}">${adminDTO.TH_NAME}</td>
-														<td id="nameEng${adminDTO.TH_NUM}">${adminDTO.TH_NAMEEng}</td>
-														<td id="addr${adminDTO.TH_NUM}">${adminDTO.TH_ADDR}</td>
-														<td id="cinema${adminDTO.TH_NUM}">${adminDTO.TH_NUMBER}</td>
+														<td id="addr${adminDTO.TH_NUM}" style="width: 700px;">${adminDTO.TH_ADDR}</td>
+														<td id="cinema${adminDTO.TH_NUM}" style="width: 200px;">${adminDTO.TH_NUMBER}</td>
 														<td>
 															<button type="button"
 																class="btn btn-danger btn-user same-size1"
@@ -456,9 +423,7 @@
         $('form').on('submit', function(event) {
             // 각 입력 필드 가져오기
             var regionT = $('#RegionT');
-            var thRegionEngT = $('#TH_REGIONEngT');
             var nameT = $('#NameT');
-            var thNameEngT = $('#TH_NAMEEngT');
             var thAddrT = $('#TH_ADDRT');
             var ciNT = $('#CI_NT');
 
@@ -470,30 +435,10 @@
                 return false;
             }
 
-            if (!thRegionEngT.val()) {
-                alert('지역 영문명을 입력해주세요.');
-                thRegionEngT.focus();
-                event.preventDefault(); // 폼 제출 막기
-                return false;
-            }
 
             if (!nameT.val()) {
                 alert('지점명을 입력해주세요.');
                 nameT.focus();
-                event.preventDefault(); // 폼 제출 막기
-                return false;
-            }
-
-            if (!thNameEngT.val()) {
-                alert('지점 영문명을 입력해주세요.');
-                thNameEngT.focus();
-                event.preventDefault(); // 폼 제출 막기
-                return false;
-            }
-
-            if (!thAddrT.val()) {
-                alert('지점 주소를 입력해주세요.');
-                thAddrT.focus();
                 event.preventDefault(); // 폼 제출 막기
                 return false;
             }
