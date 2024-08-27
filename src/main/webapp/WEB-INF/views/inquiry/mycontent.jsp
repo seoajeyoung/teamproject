@@ -67,7 +67,7 @@
 				</ul>
 				<div class="view_area">
 					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.IQ_DETAIL}</b></span></p><br>
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/${content.IQ_PICTURE}" width="200">
+					<img alt="" src="${pageContext.request.contextPath}/resources/img/${content.IQ_PICTURE}" width="200">
 				</div>
 				<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/update?num=${content.IQ_NUM}')" class="round inblack" >
 				<span>글수정</span></button>

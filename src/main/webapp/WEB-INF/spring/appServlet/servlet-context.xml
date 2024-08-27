@@ -62,7 +62,7 @@
 <!-- 	TODO 경로수정하기	value="C:\\Users\\ITWILL\\git\\teamproject\\src\\main\\webapp\\resources\\upload" -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
-			value="C:\\Users\\ITWILL\\Desktop\\upload"></beans:constructor-arg>
+			value="C:\\Users\\ITWILL\\git\\teamproject\\src\\main\\webapp\\resources\\img"></beans:constructor-arg>
 	</beans:bean>
 
 

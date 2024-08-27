@@ -92,7 +92,7 @@ public class InquiryController {
 	@GetMapping("/me")//나의문의내역 = >  내가 문의한 글 전부 보이게
 	public String me(HttpServletRequest request, HttpSession session, Model model) {
 
-		int MEM_NUM = (Integer)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		// 한 화면에 보여줄 글 개수 설정
 		int pageSize = 10;
 
@@ -179,7 +179,7 @@ public class InquiryController {
 	public String myconcent(@RequestParam(value = "search", required = false) String search, InquiryDTO inquiryDTO, HttpSession session, Model model) {
 		
 		String IQ_NUM = inquiryDTO.getIQ_NUM();
-		int MEM_NUM = (Integer)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 	    params.put("IQ_NUM", IQ_NUM);
@@ -217,7 +217,7 @@ public class InquiryController {
 	
 	@PostMapping("/writePro") //문의 작성
 	public String writePro(HttpServletRequest request, MultipartFile IQ_PICTURE, RedirectAttributes redirectAttributes, HttpSession session) throws Exception {
-		int MEM_NUM = (Integer)session.getAttribute("member_num");
+		String MEM_NUM = (String)session.getAttribute("member_num");
 		
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + IQ_PICTURE.getOriginalFilename();
