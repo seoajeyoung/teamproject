@@ -81,8 +81,10 @@ public class TicketController {
 	public String ticketpayment(HttpSession session, Model model) {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("member_num", (String) session.getAttribute("member_num"));
+		
 		Map<String, String> selectmember = ticketService.selectmember(param);
-
+		
+		
 		model.addAttribute("selectmember", selectmember);
 
 		return "ticket/ticketpayment";
@@ -296,7 +298,7 @@ public class TicketController {
 		int checkseat = ticketService.checkseat(request);
 
 		request.put("member_num", session.getAttribute("member_num"));
-
+		
 		if (checkseat == 0) {
 
 			ticketService.insertticketpayment(request);

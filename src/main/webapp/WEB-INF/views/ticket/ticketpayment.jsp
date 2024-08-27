@@ -76,8 +76,8 @@ var tp_num = "${param.tp_num}";
 						<!-- 이름과 휴대전화 번호는 자동 저장 -->
 						<!-- 이름 중간 *, 번호 중간 네자리 * 처리 -->
 						<section>
-							<span><b>이름</b> <input type="text" value="${selectmember.member_name}" readonly="readonly"></span>
-							<span><b>휴대전화 번호</b> <input type="text" value="${selectmember.member_phone}" readonly="readonly"></span>
+							<span><b>이름</b> <input type="text" value="${selectmember.MEM_NAME}" readonly="readonly"></span>
+							<span><b>휴대전화 번호</b> <input type="text" value="${selectmember.MEM_PHONE}" readonly="readonly"></span>
 						</section>
 					</div>
 				</div>

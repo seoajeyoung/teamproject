@@ -234,6 +234,8 @@ $(document).ready(function() {
 
     // 저장 버튼 클릭 시, tbody 안의 모든 td 요소의 텍스트 값과 클래스 이름을 가져옴
     $('#btn-save').on('click', function() {
+    	seatData.length = 0;
+    
     	var count = 0; 
         $('#seat-table tbody tr').each(function() {
             var row = [];

@@ -504,8 +504,7 @@
 	<select id="selectmember" resultType="map" parameterType="map">
 		SELECT
 		MEM_NAME , MEM_PHONE FROM MEMBERS
-		WHERE MEM_NUM =
-		#{member_num}
+		WHERE MEM_NUM = #{member_num}
 	</select>
 
 	<select id="selectticketpayment" resultType="map"

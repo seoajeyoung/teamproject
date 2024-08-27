@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var topPosition =0;
 	var MovieRating ='';
 	var MovieUrl = '';
+	var ratingtext = '';
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
     var isSelected = false;	// 영화 클릭하고 예매 페이지 왓을때 자동 클릭
     
@@ -140,8 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             success: function(data) {
                 var movieListHtml = '';
                 $.each(data, function(index, movie) {
-                	var ratingText = getRatingText(movie.rating);
-                	debugger;
+                	 ratingText = getRatingText(movie.rating);
                     movieListHtml +=
                         `<li data-index="${movie.MOVIE_NUM}"  data-post-url="${movie.posterUrl}">
                             <a href="#"  title="${movie.title}" alt="${movie.title}">
@@ -152,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </li>`;
                 });
                 $('#movie').html(movieListHtml);
-                debugger;
                 TH_REGION(); // 극장 호출
                 movieupdateScrollbar();
             },
@@ -286,6 +285,10 @@ document.addEventListener('DOMContentLoaded', function() {
         switch (rating) {
             case "12세이상관람가":
                 return '12';
+            case "12세관람가":
+                return '12';
+            case "15세관람가":
+                return '15';        
             case "15세이상관람가":
                 return '15';
             case "18세관람가(청소년관람불가)":
@@ -673,6 +676,9 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         var currentMovie = $(this);
 	    var movieli = currentMovie.closest('li');
+	    ratingtext = parseInt(currentMovie.find('i.cgvIcon').text().trim(),10);
+	  
+	    
 
 	    if (movieli.css('opacity') == 0.25) {
         	 if (confirm("선택한 영화에 원하시는 상영스케줄이 없습니다.\n계속하시겠습니까? (선택한 날짜 및 극장이 해제됩니다.)")) {
@@ -765,11 +771,24 @@ document.addEventListener('DOMContentLoaded', function() {
                    '&now_count=' + now_count + 
                    '&selectRegionName=' + selectRegionName + 
                    '&MovieRating=' + MovieRating +
-                   '&MovieUrl=' + MovieUrl
+                   '&MovieUrl=' + encodeURIComponent(MovieUrl);
                    ;
-
+      debugger;           
     // 모든 값이 유효한 경우
-       var member_num = $('#member_num').data('memberNum');
+        var member_num = $('#member_num').data('member-num');
+        var member_birth = $('#member_birth').data('member-birth');
+         if (typeof member_birth === 'number') {
+      		  member_birth = member_birth.toString();
+   		 }
+   		var mem_year = parseInt(member_birth.substring(0, 4), 10);  
+        var currentyear = new Date().getFullYear();
+	    var age = currentyear - mem_year;	
+	    if (age < ratingtext) {
+        alert(ratingtext + "세 이상 관람 가능한 영화입니다.");
+        return;
+    	}
+		
+        
         if (!member_num) {	
          var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
         	 if (confirmLogin) {

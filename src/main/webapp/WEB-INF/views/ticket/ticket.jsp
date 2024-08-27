@@ -21,7 +21,8 @@
 <jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <!-- 채현메인 모델값 --> 
 <div id="movie-data" data-movie-num="${movieNum}"></div>
- <div id="member_num" data-member-num="${member_num}"></div>
+<div id="member_num" data-member-num="${member_num}"></div>
+<div id="member_birth" data-member-birth="${member_birth}"></div>
 	<a name="t"></a>
 	<div id="wrap" oncontextmenu="return false" ondragstart="return false"
 		onselectstart="return false">
