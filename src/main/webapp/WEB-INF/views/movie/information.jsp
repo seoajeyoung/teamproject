@@ -1043,7 +1043,6 @@ $(document).on('click', '.btn-close', function() {
 
 // 평점 작성 버튼 클릭
 $(document).on('click', '.link-gradewrite', function() {
-	debugger;
 	if(memberId == null || memberId == "") {
 		alert('비회원은 평점 작성 불가');
 		return;

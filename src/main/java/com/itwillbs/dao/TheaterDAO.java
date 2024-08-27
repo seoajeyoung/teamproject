@@ -24,13 +24,17 @@ public class TheaterDAO {
 		return sqlSession.selectList(namespace + "getRegionList");
 	}
 	
-	public List<TheaterDTO> getAreaList() {
-		return sqlSession.selectList(namespace + "getAreaList");
+	public List<Map<String, Object>> getAreaList(Map<String, String> rMap) {
+		return sqlSession.selectList(namespace + "getAreaList", rMap);
 	}
 	
 	// 선호하는 극장
 	public String getfavTheater(String MEM_ID) {
 		return sqlSession.selectOne(namespace+"getfavTheater", MEM_ID);
+	}
+	
+	public void updateFavTheater(Map<String, Object> rMap) {
+		sqlSession.update(namespace+"updateFavTheater", rMap);
 	}
 	
 	

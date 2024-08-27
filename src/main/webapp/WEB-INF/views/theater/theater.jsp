@@ -6,13 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>theater</title>
-<link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/movie/eggupdate.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/movie/preegg.css" rel="stylesheet">
+
 <link href="${pageContext.request.contextPath}/resources/css/movie/common.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/layout.css" rel="stylesheet">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +28,8 @@
 </style>
 </head>
 <body>
+<input id="sessionId" type="hidden" value="${sessionScope.member_id}">
+
 <jsp:include page="../ticket/top.jsp" />
 	<!-- Contaniner -->
 	<div id="contaniner" class=""><!-- 벽돌 배경이미지 사용 시 class="bg-bricks" 적용 / 배경이미지가 없을 경우 class 삭제  -->
@@ -44,111 +42,336 @@
         <div class="sect-favorite">
             <h4 style="z-index: 999; font-size: 24px; color: white; font-weight: 900; top: 20px;"><i id="fav_theater">자주가는 극장</i></h4>
             <ul id="favoriteTheaters">
-				<li><a href="#"><span>1</span></a>${favTh.get(0)}</li>
-				<li><a href="#"><span>2</span></a>${favTh.get(1)}</li>
-				<li><a href="#"><span>3</span></a>${favTh.get(2)}</li>
-				<li><a href="#"><span>4</span></a>${favTh.get(3)}</li>
-				<li><a href="#"><span>5</span></a>${favTh.get(4)}</li>
+	           	<c:forEach begin="0" end="4" varStatus="Status">
+	           	<c:set var="favTH" value="${Status.index < favTheater.size() ? favTheater.get(Status.index) : ''}" />
+					<li>
+						<a href="javascript:void(0)" data-th="${favTH}">
+							<span>${Status.count}</span>
+							<em>
+								${favTH}
+							</em>
+						</a>
+					</li>
+				</c:forEach>
             </ul>
             <button id="btn_set_my_favorite" type="button" title="새창">자주가는 극장 설정</button>
         </div>
+        
 <script type="text/javascript">
+let sessionId;
+
+$(function() {
+	$('#favoriteTheaters a').on('click', function() {
+		document.getElementById('wrapEvent').scrollIntoView({ behavior: 'smooth' });
+        var dataTh = $(this).data('th');
+        $('.sect-city li').removeClass('on');
+        
+        $('.area-link').trigger('click', dataTh);
+	});
+});
+
+
 
 </script>
         <div class="sect-city" style="display: flex; height: auto">
 	        <ul>
-	        <c:set var="forCount" value="0" />
-			<c:set var="endCount" value="0"/>
 			<c:forEach var="region" items="${regionList}">
 				<li>
-				<a href="#" class="region">${region.TH_REGION}</a>
-					<div class="area" style="top:80px;">
-						<ul id="ulcontent">
-							<!-- DB에서 가져온걸로 foreach -->
-							<c:set var="endCount" value="${endCount + region.COUNT}" />
-							 <c:forEach var="area" items="${areaList}" begin="${forCount}" end="${endCount - 1}">
-	                            <li style="display: none;">
-	                                <a href="#" class="area-link" title="${area.th_name}">
-	                                    ${area.th_name}
-	                                    <span hidden="hidden">${area.th_num}</span>
-	                                    <input type="hidden" value="${area.th_addr}">
-	                                </a>
-	                            </li>
-	                        </c:forEach>
-						</ul>
-					</div>
+					<a href="javascript:void(0)" class="region">${region.TH_REGION}</a>
 				</li>
-				<c:set var="forCount" value="${region.COUNT}" />
 			</c:forEach>
 	        </ul>
+	        <div class="area" style="position:absolute; top: 220px;">
+				<ul id="ulcontent">
+				</ul>
+			</div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$(function() {
+	sessionId = $('#sessionId').val();
+	$('#btn_set_my_favorite').on('click', function() {
+		if(sessionId == null || sessionId == '') {
+			alert('로그인 후 이용해주세요')
+			return;
+		}
+		
+		var regionList = $('.region').map(function() {
+		    return $(this).text();
+		}).get();
+		
+		
+		var text = `
+			<div class="layer-wrap" style="margin-top: -253px; margin-left: -320px; position: fixed;">
+		    <div class="popwrap" style="width:633px;">
+		        <h1>자주 가는 극장 설정</h1>
+		        <div class="pop-contents fav-cgv">
+		        <!-- Contents Addon -->
+		            <div class="sect-cgv-control">
+		                <h2 class="hidden">선호하는 지역 및 영화관 선택</h2>
+		                <p>영화관을 선택하여 등록해주세요. <strong>최대 5개까지</strong> 등록하실 수 있습니다.</p>
+		                <p>
+		                    <select id="select_region" name="" title="자주가는 지역선택">                        
+		                    	<option value="" selected="selected">지역선택</option>
+		                    </select>	
+		                    <select id="select_theater" name="" title="자주가는 CGV선택">                        
+		                    	<option value="" selected="selected">극장선택</option>
+	                    	</select> 
+		                    <button id="btn_add_favorite_theater" type="button" class="round inblack on"><span>선호하는 극장 추가</span></button>
+		                </p>
+		            </div>
+		            <div class="sect-favorite-control">
+		                <h2><strong>${sessionScope.member_id}</strong>님이 자주 가는 극장</h2>
+		                <div class="theater-choice">
+		                    <ul>
+		                    </ul>
+		                </div>
+		            </div>
+					<div class="set-btn fix-width">
+		                <button type="button" id="btnCancel" class="round gray"><span>취소</span></button>
+		                <button type="submit" id="btnSave" class="round inred"><span>등록하기</span></button> 
+		            </div>
+	
+		        <!-- //Contents Addon -->
+		        </div>
+		        <button id="btn_close" type="button" class="btn-close">자주가는 극장 팝업 닫기</button>
+		    </div>
+		</div>
+		`
+		$('body').append(text);
+		
+		regionList.forEach(function(list) {
+			$('#select_region').append(`<option value="\${list}">\${list}</option>`);
+		})
+		
+		
+ 		var favth = regionList = $('#favoriteTheaters').find('em').map(function() {
+ 		    return $(this).text();
+ 		}).get();
+		
+		for(var i = 0; i < 5; i++) {
+			var myTheater = favth[i] != null ? favth[i] : '';
+			
+			$('.theater-choice>ul').append(`
+				<li class="none" style="margin:5px;">
+                    <div class="box-polaroid">
+                        <div class="box-inner">
+                            <div class="theater" style="font-size:13px; text-align: center;">\${myTheater}</div>
+                            <button type="button" data-theater="\${myTheater}" style="background: #e2e2e0 url(https://img.cgv.co.kr/R2014/images/common/ico/ico_close.png) no-repeat 6px 50%;">삭제</button>
+                        </div>
+                    </div>
+                </li>
+			`);
+		}
+		
+	});
+});
+
+$(document).on('click', '.box-inner>button', function() {
+	var thList = $('.box-inner>button').not($(this)).map(function() {
+        return $(this).data('theater'); // data-theater 속성 값 가져오기
+    }).get();
+	
+	var deleteTh = thList.join(',');
+	
+	$.ajax({
+		type : 'POST',
+		url : "${pageContext.request.contextPath}/theater/myFavTheater",
+		data : {'DELETE_TH': deleteTh , "MEM_ID":sessionId},
+		success: function(result) {
+			$('.theater-choice>ul').html('');
+			for(var i = 0; i < 5; i++) {
+				var myTheater = thList[i] != null ? thList[i] : '';
+				$('.theater-choice>ul').append(`
+					<li class="none" style="margin:5px;">
+	                    <div class="box-polaroid">
+	                        <div class="box-inner">
+	                            <div class="theater" style="font-size:13px; text-align: center;">\${myTheater}</div>
+	                            <button type="button" data-theater="\${myTheater}" style="background: #e2e2e0 url(https://img.cgv.co.kr/R2014/images/common/ico/ico_close.png) no-repeat 6px 50%;">삭제</button>
+	                        </div>
+	                    </div>
+	                </li>
+				`);
+			}
+			
+		},
+		error: function(e) {
+			
+		}
+	});
+});
+
+let selectRegion;
+
+$(document).on('change', '#select_region', function() {
+	selectRegion = $('#select_region').val();
+	$.ajax({
+		type : 'get',
+		url : "${pageContext.request.contextPath}/theater/getArea",
+		data : {'TH_REGION': selectRegion},
+		dataType: 'json',
+		success: function(areaList) {
+			$('#select_theater').html(`<option value="" selected="selected">극장선택</option>`);
+			areaList.forEach(function(area) {
+				$('#select_theater').append(`<option value="\${area.TH_NAME}">\${area.TH_NAME}</option>`)
+			});
+		},
+		error: function() {
+			alert('오류')
+		}
+	});//ajax 종료	
+});
+
+$(document).on('click', '#btn_add_favorite_theater', function() {
+	var selectArea = $('#select_theater').val();
+	
+	$.ajax({
+		type : 'post',
+		url : "${pageContext.request.contextPath}/theater/myFavTheater",
+		data : {'MEM_ID':sessionId, 'TH_NAME': selectArea},
+		success: function() {
+			var currtheater = $('.box-inner>.theater').filter(function() {
+		        return $(this).text().trim() != '';
+		    })
+		    .map(function() {
+		        return $(this).text().trim();
+		    })
+		    .get();
+			
+			$('.theater-choice>ul').html('');
+			
+			currtheater.push(selectArea);
+			
+			var setTheater = new Set(currtheater);
+			currtheater = Array.from(setTheater);
+			for(var i = 0; i < 5; i++) {
+				var myTheater = currtheater[i] != null ? currtheater[i] : '';
+				$('.theater-choice>ul').append(`
+					<li class="none" style="margin:5px;">
+	                    <div class="box-polaroid">
+	                        <div class="box-inner">
+	                            <div class="theater" style="font-size:13px; text-align: center;">\${myTheater}</div>
+	                            <button type="button" data-theater="\${myTheater}" style="background: #e2e2e0 url(https://img.cgv.co.kr/R2014/images/common/ico/ico_close.png) no-repeat 6px 50%;">삭제</button>
+	                        </div>
+	                    </div>
+	                </li>
+				`);
+			}
+			
+		},
+		error: function(e) {
+			if(e.responseText == "sizeOver") {
+				alert('등록 할 수 있는 최대개수 초과')
+			} else if(e.responseText == "notUpdate"){
+				alert('이미 등록된 극장입니다');	
+			}
+		}
+	});
+});	
+
+
+
+let region;
+$(function() {
+	$('.region').on('click', function() {
+		region = $(this).text();
+		$('.sect-city li').removeClass();
+		$(this).parent('li').addClass('on');
+		
+		
+		
+		$.ajax({
+			type : 'get',
+			url : "${pageContext.request.contextPath}/theater/getArea",
+			data : {'TH_REGION': region},
+			dataType: 'json',
+			success: function(areaList) {
+				$('#ulcontent').html('');
+				
+				areaList.forEach(function(area) {
+					var text = `
+						<li>
+		                    <a style="padding: 0 5px;" href="javascript:void(0);" class="area-link" title="\${area.TH_NAME}">
+			                    \${area.TH_NAME}
+			                    <span hidden="hidden">\${area.TH_NUM}</span>
+			                    <input type="hidden" value="\${area.TH_ADDR}">
+			                </a>
+			            </li>
+			            `
+		            
+					$('#ulcontent').append(text);	
+				});
+				
+				$('.area-link:first').trigger('click');
+			},
+			error: function() {
+				alert('오류')
+			}
+		});
+	});
+})
+
+</script>
+
 <!-- 실컨텐츠 시작 -->
 <script type="text/javascript">
 var addr;
 var thName;
 var thNum;
-$(function() {
-	$('.region').on('click', function() {
-		$('.sect-city li').removeClass();
-		$('#ulcontent li').hide();
-		$(this).parent('li').addClass('on').find('#ulcontent li').show();
-		$('.area-link:visible:first').trigger('click');
-	});
+//특정 극장 클릭시
+$(document).on('click', '.area-link', function(event, eventText) {
+	thNum = $(this).find('span').text();
 	
-	//특정 극장 클릭시
-	$('.area-link').on('click', function() {
-		thNum = $(this).find('span').text();
+	if(eventText == null) {
 		thName = $(this).attr('title');
-		
-		$('.sect-showtimes>ul').html('')
-		$('.theater-tit span').text(thName + '점');
-		
-		addr = $(this).find('input').val();
-		$('.title>span').text(addr);
-		
-		$.ajax({
-			type: 'GET',
-			url: '${pageContext.request.contextPath}/theater/runningDate',
-		    data: {'TH_NAME': thName},
-		    datatype: 'JSON',
-		    success: function(result) {
-// 		    	if(result.length == 0) {
-// 	    			$('.slider').remove();
-// 	    			return;	
-// 	    		};
-				$('.item').html('');
-				result.forEach(function(resultDate) {
-		    		var date = resultDate.DATE.split('-');
-		    		var dayWeek = resultDate.dayWeek
-		    		var text = `		
-	                    <li>
-	                    <div class="day">
-	                        <a href="javascript:void(0)" title="현재 선택">
-	                        	<input type="hidden" value="\${resultDate.DATE}">
-	                            <span>\${date[1]}월</span> 
-	                            <em>\${dayWeek}</em>
-	                            <strong>\${date[2]}</strong>
-	                        </a>
-	                    </div>
-	                	</li>`;
- 	              	$('.item').append(text);
-				});
-		    	
-              	$('.day').eq(0).find('a').trigger('click');
-		    },
-		    error: function(error) {
-		    	debugger;
-			}
-		});// ajax 끝
-	});
+	} else {
+		thName = eventText;
+	}
 	
-// 	$('.region:first'	).trigger('click');
+	
+	$('.sect-showtimes>ul').html('')
+	$('.theater-tit span').text(thName + '점');
+	
+	addr = $(this).find('input').val();
+	$('.title>span').text(addr);
+	
+	$.ajax({
+		type: 'GET',
+		url: '${pageContext.request.contextPath}/theater/runningDate',
+	    data: {'TH_NAME': thName},
+	    datatype: 'JSON',
+	    success: function(result) {
+			$('.item').html('');
+			result.forEach(function(resultDate, index) {
+	    		var date = resultDate.DATE.split('-');
+	    		var dayWeek = resultDate.dayWeek
+	    		var text = `		
+                    <li style="margin-top: 15px">
+                    <div class="day">
+                        <a href="javascript:void(0)" title="현재 선택">
+                        	<input type="hidden" value="\${resultDate.DATE}">
+                            <span>\${date[1]}월</span> 
+                            <em>\${dayWeek}</em>
+                            <strong>\${date[2]}</strong>
+                        </a>
+                    </div>
+                	</li>`;
+              	$('.item').append(text);
+              	if(index >= 8) $('.day:last').hide();
+			});
+			$('.day:visible').eq(0).find('a').trigger('click');
+	    },
+	    error: function(error) {
+	    	
+		}
+	});// ajax 끝
+	
+	
 });
 </script>
 <div class="wrap-theater">
-    <h3><img src="https://img.cgv.co.kr/R2014/images/title/h3_theater.gif" alt="THEATER"></h3>
+    <h3 id="wrapEvent"><img src="https://img.cgv.co.kr/R2014/images/title/h3_theater.gif" alt="THEATER"></h3>
     <div class="sect-theater ">
         <h4 class="theater-tit"><span></span></h4>
         <a href="/support/lease/default.aspx" class="round inred btn_lease"><span style="padding:0 14px;">단체/대관문의</span></a>
@@ -193,8 +416,8 @@ $(function() {
 <!-- Showtimes Start -->
 <div class="showtimes-wrap">
         <div class="sect-schedule">
-            <div id="slider" class="slider" style="width: 640px;">
-				<div class="item-wrap on">
+            <div id="slider" class="slider" style="width: 100%; padding:0; height: 100%">
+				<div class="item-wrap on" style="height: 100%;">
 					<ul class="item" style="width: 800px; height: 111px;">
 					</ul>
 				</div>
@@ -202,7 +425,9 @@ $(function() {
                	<button type="button" class="btn-next">다음 날자보기</button>
                	<div class="descri-info theater" style="display: block;">
 				    <ul>
-				        <li><a href="javascript:void(0)" id="viewgrade" class="viewgrade">관람등급 안내</a></li>
+				        <li>
+				        	<a href="javascript:void(0)" id="viewgrade" class="viewgrade">관람등급 안내</a>
+			        	</li>
 				    </ul>
 				</div>
 			</div>
@@ -217,24 +442,27 @@ $(function() {
 $(document).on('click', '.day>a', function() {
 	$('.day').parent('li').removeClass();
 	$(this).parents('li').addClass('on');
+	
 	var scDate = $(this).find('input').val();
+	
 		$.ajax({
 			type: 'GET',
 			url: '${pageContext.request.contextPath}/theater/runningMovie',
-		    data: {'TH_NUM': thNum, 'SC_DATE': scDate},
+		    data: {'TH_NAME': thName, 'DATE': scDate, 'TH_REGION':region},
 		    datatype: 'JSON',
 		    success: function(result) {
-// 		    	$('.sect-showtimes>ul').html('')
 		    	var pre;
+		    	$('.sect-showtimes>ul').html('');
+		    	
 		    	result.forEach(function(scList, index) {
 		    		if(index == 0 || pre.MOVIE_NUM != scList.MOVIE_NUM) {
-		    			var rating = scList.RATING === '전체' ? 'all' :
-		    						 scList.RATING > 18 ? 18 : scList.RATING;
+		    			var rating = scList.RATING.substr(0, 2);
+		    			rating = rating == '전체' 	? 'All' 	:
+		    					 rating == '청소' 	? 18 		:
+		    					 rating == '미정' 	? 'Notyet' 	:
+		    					 rating > 18		? 18 		: rating;
+		    					 
 			            // 받아온 날자값 변환    		
-			            var d = new Date(scList.DATE)
-			            var date = d.getFullYear() + '.' +  (d.getMonth()+1) + '.' + d.getDate();
-			            
-			            
 			            var rDate = scList.D_DAY <= 0 ? '상영중' : '예매중';
 			            
 			    		var text = `
@@ -242,15 +470,16 @@ $(document).on('click', '.day>a', function() {
 		 		    	<div class="col-times">
 		 		    		<div class="info-movie">
 		 		    			<i class="cgvIcon etc age\${rating}">\${rating}</i>
-		 		    			<a href="#" target="_parent">
-								<strong>\${scList.TITLE}</strong></a>
+		 		    			<a href="${pageContext.request.contextPath}/movie/information?num=\${scList.MOVIE_NUM}" target="_parent">
+									<strong>\${scList.TITLE}</strong>
+								</a>
 		 		    			<span class="round">
 		 		    				<em>\${rDate}</em>
 		 		    			</span>
 		 		    			<span class="round">
 		 		    				<em>${D_DAY > 0 ? D_DAY : null}</em>
 		 		    			</span>
-								<i>\${scList.GENRE}</i> / <i>\${scList.RUNTIME}</i> / <i>\${date} 개봉</i>
+								<i>\${scList.GENRE}</i> / <i>\${scList.RUNTIME}분</i> / <i>\${scList.RELEASEDATE} 개봉</i>
 		 		    		</div>
 		 		    	</div>
 		 		    	</li>
@@ -264,15 +493,12 @@ $(document).on('click', '.day>a', function() {
 						}
 		    		};
 		    		
-		    		var d = new Date(scList.DATE)
-		            var date = d.getHours(); + ':' +  d.getMinutes();
-		    		
-		    		var text = ` <div class="type-hall">
+		    		var text = `<div class="type-hall">
 	    							<div class="info-hall">
 		 		    					<ul>
 		 		    						<li>2D</li>
 		 		    						<li>\${scList.TH_NUMBER}</li>
-		 		    						<li>총 158석</li>
+		 		    						<li>총 \${scList.SEAT_COUNT}석</li>
 		 		    					</ul>
 	  		    					<div class="info-timetable">
 		                                <ul>
@@ -281,20 +507,14 @@ $(document).on('click', '.day>a', function() {
 	  		    				</div>
 	  		    				</div>`
 	  		    				
-	  		    	if(index != 0 && scList.MOVIE_NUM != pre.MOVIE_NUM) rNum += 1;
 		  		    if(index == 0 || scList.MOVIE_NUM != pre.MOVIE_NUM || scList.TH_NUMBER != pre.TH_NUMBER) {
 		  		    	$('.col-times:last').append(text);
 		  		    }
-		            
 		    		
 		    		// 상영시작시각 변환
-		    		var s = new Date(scList.SC_TIME);
-		    		var scTime = s.getHours() + ":" + s.getMinutes();
-		    		
-		    		
-		    		var timeTable = `<li>
-						    		    <a href="#" target="_top">
-							    	        <em>\${scTime}</em>
+		    		var timeTable = `<li style="padding: 5px 0 0;">
+						    		    <a href="${pageContext.request.contextPath}/ticket?num=\${scList.MOVIE_NUM}" target="">
+							    	        <em>\${scList.SC_TIME}</em>
 							    	        <span class="txt-lightblue">
 							    	            <span class="hidden">잔여좌석</span>113석
 							    	        </span>
@@ -328,27 +548,20 @@ $(function() {
 	//이전날짜
 	$('.btn-prev').on('click', function() {
 		if($('.day:first').is(':visible')) return;
-		var class_On = $('.item .on');
-		var index = $('.item li').index(class_On);
-		var num = (index / pageSize) - 1 < 0 ? 0 : (index / pageSize) - 1;  
-		pageCount(num);
+		$('.day:visible:last').hide();
+		var firstIndex = 	$('.day').index($('.day:visible:first'));
+		$('.day').eq(firstIndex - 1).show();
 		
-		$('.day').parent('li').removeClass();
-		firstPage()
 	});
 	
 	//다음 페이지
 	$('.btn-next').on('click', function() {
 		if($('.day:last').is(':visible')) return;
 		
-		var class_On = $('.item .on');
-		var index = $('.item li').index(class_On);
-		var num = (index / pageSize) + 1;
-		//>  ? return : (index / pageSize) + 1;  
-		pageCount(num);
+		$('.day:visible:first').hide();
+		var lastIndex =	$('.day').index($('.day:visible:last'));
 		
-		$('.day').parent('li').removeClass();
-		firstPage()
+		$('.day').eq(lastIndex + 1).show();
 	});
 	
 });
@@ -604,4 +817,9 @@ $(document).on('click', '.btn-close', function() {
 });
 </script>
 </head>
+<link href="${pageContext.request.contextPath}/resources/css/movie/reset.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/module.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/eggupdate.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/preegg.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel="stylesheet">
  </html>

@@ -6,27 +6,28 @@
 	
 	<!-- 극장 가져오기 지역 -->
 	<select id="getRegionList" resultType="java.util.HashMap">
-		SELECT TH_REGION, COUNT(DISTINCT TH_NAME) AS 'COUNT'
+		SELECT DISTINCT TH_REGION
 		FROM (
-		  SELECT TH_NUM, TH_REGION, TH_NAME
-		  FROM THEATER
-		  ORDER BY TH_NUM
-		) AS T
-		GROUP BY TH_REGION
-		order by TH_REGION DESC;
+		    SELECT TH_REGION
+		    FROM THEATER
+		    ORDER BY TH_NUM
+		) AS T;
     </select>
         
-	<select id="getAreaList" resultType="com.itwillbs.domain.TheaterDTO">
+	<select id="getAreaList" resultType="java.util.HashMap">
 		SELECT *
 		FROM (SELECT TH_NUM
 				  , TH_NAME
 				  , TH_REGION
 				  , TH_ADDR
-   				  , ROW_NUMBER() OVER (PARTITION BY TH_NAME, TH_REGION ORDER BY TH_NUM) AS RN
-	          FROM THEATER) AS T
-		WHERE RN = 1
+				  , ROW_NUMBER() OVER (PARTITION BY TH_NAME, TH_REGION ORDER BY TH_NUM) AS RN
+			  FROM THEATER) AS T
+		WHERE T.RN = 1
+		AND TH_REGION = #{TH_REGION}
 		ORDER BY TH_NUM;
 	</select>
+	
+<!-- 	자주가는 극장 -->
 	<select id="getfavTheater" resultType="java.lang.String">
 		SELECT FAV_THEATER
 		FROM MEMBERS
@@ -34,6 +35,15 @@
 						 FROM MEMBERS
 		                 WHERE MEM_ID = #{MEM_ID});
 	</select>
+	
+<!-- 	자주가는 극장 저장 -->
+	<update id="updateFavTheater">
+		UPDATE MEMBERS
+		SET FAV_THEATER = #{FAV_THEATER}
+		WHERE MEM_ID = #{MEM_ID}
+	</update>
+	
+	
 	
 	
 	
@@ -63,36 +73,41 @@
 						 FROM THEATER
 		                 WHERE TH_NAME = #{TH_NAME})
 	    </if>
+	    ORDER BY DATE_FORMAT(S.SC_TIME, '%Y-%m-%d');
 	</select>
 <!--  -->	
 	
 	<!-- 특정 극장의 특정일에 상영하는 모든 영화 리스트 -->
 	<select id="getRunningMovie" resultType="map">
-		SELECT S.CI_NUM AS CI_NUM
-			, C.TH_NUM AS TH_NUM  
-			, C.MOVIE_NUM AS MOVIE_NUM
-			, T.TH_NUMBER AS TH_NUMBER
-			, S.ROW AS "ROW"
-			, S.COL AS "COL"
-			, DATE_FORMAT(S.SC_TIME, '%Y-%m-%d/%H:%i:%s') AS SC_TIME
-			, DATE_FORMAT(S.SC_TIME_END, '%Y-%m-%d/%H:%i:%s') AS SC_TIME_END
-			, M.TITLE AS TITLE
-			, M.RUNTIME AS RUNTIME
-			, LEFT(M.RATING, 2) AS RATING
-			, M.GENRE AS GENRE
-			, M.RELEASEDATE AS "DATE"
-			, ((M.RELEASEDATE - CURRENT_DATE())) AS D_DAY
-		FROM CINEMA C
-		JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
-		LEFT JOIN MOVIE M ON C.MOVIE_NUM = M.MOVIE_NUM
-		JOIN THEATER T ON C.TH_NUM = T.TH_NUM
-		WHERE C.TH_NUM IN (SELECT TH_NUM
-							FROM THEATER
-							WHERE TH_NAME = (SELECT TH_NAME
-											 FROM THEATER
-											 WHERE TH_NUM = #{TH_NUM}))
-		AND DATE_FORMAT(S.SC_TIME, '%Y-%m-%d') = #{SC_DATE}
-		ORDER BY M.RELEASEDATE, C.MOVIE_NUM;
+		SELECT S.SC_NUM
+			, DATE_FORMAT(S.SC_TIME, '%H:%i') AS SC_TIME
+		    , DATE_FORMAT(S.SC_TIME_END, '%H:%i') AS SC_TIME_END
+		    , C.CI_NUM
+		    , T.TH_NUM
+		    , T.TH_NUMBER
+		    , M.MOVIE_NUM
+		    , M.TITLE
+		    , M.TITLEENG
+		    , M.GENRE
+		    , DATE_FORMAT(M.RELEASEDATE, '%Y.%m.%d') AS RELEASEDATE
+		    , M.RUNTIME
+		    , M.RATING
+		    , DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
+	        , (SELECT SE_COUNT
+		       FROM MSEAT MS
+		       WHERE T.TH_NUM = MS.TH_NUM
+		       LIMIT 1) AS SEAT_COUNT
+		    
+		       
+		FROM SCREEN S
+		JOIN CINEMA C ON S.CI_NUM = C.CI_NUM
+		JOIN MOVIE M ON M.MOVIE_NUM = C.MOVIE_NUM
+		JOIN THEATER T ON T.TH_NUM = C.TH_NUM
+		WHERE T.TH_NUM IN (SELECT TH_NUM
+						   FROM THEATER
+		                   WHERE TH_NAME = #{TH_NAME}
+		                   AND TH_REGION = #{TH_REGION})
+		AND date_format(S.SC_TIME, '%Y-%m-%d') = #{DATE};
 	</select>
 	
 	
