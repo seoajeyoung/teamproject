@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var MovieUrl = '';
 	var ratingtext = '';
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
-    var isSelected = false;	// 영화 클릭하고 예매 페이지 왓을때 자동 클릭
+    var isSelected = false;	// 영화 클릭하고 예매 페이지 왔을때 자동 클릭 // 채현
     
     
     // 영어 버튼 눌렀을때 클릭 이벤트 

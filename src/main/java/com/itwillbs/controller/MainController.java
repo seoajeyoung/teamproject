@@ -37,12 +37,14 @@ import com.itwillbs.domain.MovieDTO;
 import com.itwillbs.domain.NewsDTO;
 import com.itwillbs.domain.OfteniqDTO;
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.StoreDTO;
 import com.itwillbs.service.AnswerService;
 import com.itwillbs.service.InquiryService;
 import com.itwillbs.service.MainService;
 import com.itwillbs.service.MovieService;
 import com.itwillbs.service.NewsService;
 import com.itwillbs.service.OfteniqService;
+import com.itwillbs.service.StoreService;
 import com.mysql.cj.Session;
 import com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream;
 
@@ -59,14 +61,25 @@ public class MainController {
 	@GetMapping("/main")//고객센터 메인
 	public String main(Model model) {
 		
+		//무비차트
 		List<MovieDTO> movieList = mainService.getMovie();
 		model.addAttribute("movieList", movieList);
 		
+		//상영예정작
 		List<Map<String, Object>> upcomingMovies = mainService.getMovie3();
 		model.addAttribute("upcomingMovies", upcomingMovies);
 		
+		//공지사항
 		Map<String, Object> newNews = newsService.getNewNews();
 		model.addAttribute("newNews", newNews);
+		
+		//패키지
+		List<StoreDTO> packagelist = mainService.mainPackage();
+		model.addAttribute("packagelist", packagelist);
+		
+		//영화관람권
+		List<StoreDTO> giftconliset = mainService.giftcon();
+		model.addAttribute("giftconliset", giftconliset);
 		
 		return "main/main";
 	}

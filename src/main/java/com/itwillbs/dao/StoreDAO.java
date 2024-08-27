@@ -196,6 +196,15 @@ public class StoreDAO {
         sqlSession.update(namespace + ".updateCartQuantity", params);
 	
 	}
+
+//	채현 메인페이지
+	public List<StoreDTO> mainPackage() {//패키지
+		return sqlSession.selectList(namespace + ".mainPackage");
+	}
+
+	public List<StoreDTO> giftcon() {//영화관람권
+		return sqlSession.selectList(namespace + ".giftcon");
+	}
 	
 	
 }

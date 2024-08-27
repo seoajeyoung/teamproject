@@ -217,6 +217,34 @@
 		WHERE
 		CART_NUM = #{cart_num}
 	</update>
+	
+	
+<!-- 	채현 메인페이지 패키지 -->
+	<select id="mainPackage" resultType="com.itwillbs.domain.StoreDTO">
+		SELECT ST_NUM
+			 , ST_NAME
+			 , ST_PRICE
+			 , ST_PICTURE
+			 , ST_CONST
+			 , ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN
+		  FROM STORE	 
+	     WHERE ST_TYPE = "패키지"
+	  ORDER BY RN DESC
+		 LIMIT 3
+	</select>
+<!-- 	채현 메인페이지 영화관람권 -->	
+	<select id="giftcon" resultType="com.itwillbs.domain.StoreDTO">
+		SELECT ST_NUM
+			 , ST_NAME
+			 , ST_PRICE
+			 , ST_PICTURE
+			 , ST_CONST
+			 , ROW_NUMBER() OVER(ORDER BY CAST(ST_NUM AS UNSIGNED)) AS RN
+		  FROM STORE	 
+	     WHERE ST_TYPE = "영화관람권"
+	  ORDER BY RN DESC
+		 LIMIT 3
+	</select>
 
 
 </mapper>
