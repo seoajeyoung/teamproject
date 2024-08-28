@@ -806,26 +806,26 @@ public class AdminController {
 
 	// =================================================================================================
 
-//	@RequestMapping(value = "/statistics/allWeekSalesSearch", method = RequestMethod.GET)
-//	@ResponseBody
-//	public List<AdminDTO> getAllSalesDataForWeek(@RequestParam("start_date") String startDateStr,
-//			@RequestParam("end_date") String endDateStr) {
-//		LocalDate startDate = LocalDate.parse(startDateStr);
-//		LocalDate endDate = LocalDate.parse(endDateStr);
-//
-//		return adminService.getAllSalesDataForWeek(startDate, endDate);
-//	}
-//
-//	@RequestMapping(value = "/statistics/allMonthSalesSearch", method = RequestMethod.GET)
-//	@ResponseBody
-//	public List<AdminDTO> getAllSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
-//			@RequestParam("end_date") String endMonthStr) {
-//		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
-//		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
-//		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
-//
-//		return adminService.getAllSalesDataForMonth(startMonth, endMonth);
-//	}
+	@RequestMapping(value = "/statistics/allWeekSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getAllSalesDataForWeek(@RequestParam("start_date") String startDateStr,
+			@RequestParam("end_date") String endDateStr) {
+		LocalDate startDate = LocalDate.parse(startDateStr);
+		LocalDate endDate = LocalDate.parse(endDateStr);
+
+		return adminService.getAllSalesDataForWeek(startDate, endDate);
+	}
+
+	@RequestMapping(value = "/statistics/allMonthSalesSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<AdminDTO> getAllSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
+			@RequestParam("end_date") String endMonthStr) {
+		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+
+		return adminService.getAllSalesDataForMonth(startMonth, endMonth);
+	}
 
 	// =================================================================================================
 

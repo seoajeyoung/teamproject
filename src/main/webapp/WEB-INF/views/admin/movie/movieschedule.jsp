@@ -277,6 +277,10 @@ $(function() {
         });
 
         if (selectedTime < businessStart || selectedTime > businessEnd - runtimeMs) {
+        	 console.log(selectedTime);
+        	 console.log(businessStart);
+        	 console.log(businessEnd);
+        	 console.log(runtimeMs);
             timeMessage = "등록가능한 시간이 아닙니다.\n영업시간은 08:30부터 익일 00:30까지입니다.";
             alert(timeMessage);
             possibleTimesField.val(timeMessage);
