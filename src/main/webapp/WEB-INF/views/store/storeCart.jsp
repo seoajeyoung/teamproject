@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>장바구니</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ticket/payment.css">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -136,7 +137,7 @@
             pay_method: "card",   // 결제 수단
             merchant_uid: merchantUid,   // 생성된 주문번호
             name: window.st_name,  // 상품명
-            //amount: window.product_total_price, // 결제 금액
+//             amount: window.product_total_price, // 결제 금액
             amount: 100, // 결제 금액
             buyer_email: "${memberDTO.member_email}", // 사용자 이메일
             buyer_name: "${memberDTO.member_name}",   // 사용자명
