@@ -23,24 +23,24 @@
 <link href="${pageContext.request.contextPath}/resources/css/inquiry/reset.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/script/top.js"></script>
-<script src="${pageContext.request.contextPath}/resources/script/ticket.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/script/ticket.js"></script> --%>
   <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/common.css">
     
     <link rel="stylesheet" media="all" type="text/css" href="https://img.cgv.co.kr/R2014/css/eggupdate.css">
     <link rel="stylesheet" media="print" type="text/css" href="https://img.cgv.co.kr/R2014/css/print.css">    
     <link rel="stylesheet" type="text/css" href="https://img.cgv.co.kr/R2014/js/jquery.ui/smoothness/jquery-ui-1.10.4.custom.min.css">
     
-    <script type="text/javascript" src="/common/js/extraTheaters.js"></script>
-    <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.config.js"></script>
+<!--     <script type="text/javascript" src="/common/js/extraTheaters.js"></script> -->
+<!--     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.config.js"></script> -->
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.tmpl.min.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.validate.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.paging.min.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.ui/jquery-ui-1.10.4.custom.min.js"></script>
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.utils.js"></script>
-    <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.utils.js"></script>
+<!--     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.utils.js"></script> -->
 	<script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.utils.pageing.js"></script>
-    <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.init.js"></script>
+<!--     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/app.init.js"></script> -->
 
     <!--[if lte IE 9]><script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.placeholder.js"></script><![endif]-->
     <script type="text/javascript" src="https://img.cgv.co.kr/R2014/js/jquery.plugin/jquery.dotdotdot.min.js"></script>
@@ -73,7 +73,34 @@
   
 <script type="text/javascript">
      $(document).ready(function(){
-        	
+    	 	
+	    	 var movieSelectionVideoObj = $('.video_wrap video')[0];
+	
+	         $('.video_wrap video').on({
+	             ended:function(){
+	                 $('.btn_movieSelection_playStop').removeClass('active');
+	             }
+	         })
+    	 	 $('.btn_movieSelection_playStop').on('click', function(){
+    	 		
+    	 		 if(movieSelectionVideoObj.paused){
+                     movieSelectionVideoObj.play();
+                     $(this).addClass('active');
+                 }else{
+                     movieSelectionVideoObj.pause();
+                     $(this).removeClass('active');
+                 }
+    	 	 });
+	         $('.btn_movieSelection_soundOnOff').on('click', function(){
+	        	 if(movieSelectionVideoObj.muted){
+                     movieSelectionVideoObj.muted = false;
+                     $(this).addClass('active');
+                 }else{
+                     movieSelectionVideoObj.muted = true;
+                     $(this).removeClass('active');
+                 }
+	         });
+	         
         	$('.tabBtn_wrap a').on('click', function(e) {
                 e.preventDefault(); // 링크 클릭 시 페이지 이동 방지
 
@@ -233,41 +260,6 @@
                     $('.specialHall_link').attr('href', target.href) // 링크 주소 넣을 곳
                     $('.specialHall_link img').attr('src', arrimgUrl[idx]);
                     $('.specialHall_link img').attr('alt', $(target).children('strong').text());
-                }
-            });
-
-            var movieSelectionVideoObj = $('.video_wrap video')[0];
-
-            $('.video_wrap video').on({
-                ended:function(){
-                    $('.btn_movieSelection_playStop').removeClass('active');
-                }
-            })
-            // movieSelectionVideoObj.onended = function(){
-                
-            // }
-
-            $('.btn_movieSelection_playStop').on({
-                click:function(){
-                    if(movieSelectionVideoObj.paused){
-                        movieSelectionVideoObj.play();
-                        $(this).addClass('active');
-                    }else{
-                        movieSelectionVideoObj.pause();
-                        $(this).removeClass('active');
-                    }
-                }
-            });
-
-            $('.btn_movieSelection_soundOnOff').on({
-                click:function(){
-                    if(movieSelectionVideoObj.muted){
-                        movieSelectionVideoObj.muted = false;
-                        $(this).addClass('active');
-                    }else{
-                        movieSelectionVideoObj.muted = true;
-                        $(this).removeClass('active');
-                    }
                 }
             });
 
@@ -651,7 +643,7 @@ function setListFocus(swiper, selector) {
                             <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
                                 <div class="swiper-slide swiper-slide-active" id="divSpecialDiscountData" style="display: none;">
                                     <a id="bannerType1" href="http://www.cgv.co.kr/culture-event/event/detailViewUnited.aspx?seq=36641&amp;menu=006">
-                                        <img src="about:blank" alt="카카오페이카드" onerror="onerror=null;javacript:;error_specialDiscountData();">
+                                        <img src="about:blank" alt="카카오페이카드" onerror="onerror=null;javacript:;error_specialDiscountData(); ">
                                     </a>
                                 </div>
                                
@@ -671,12 +663,12 @@ function setListFocus(swiper, selector) {
 
 <script type="text/javascript">
 
-    배너이미지가 깨질경우 oms등록 안보이게 처리
-    function error_specialDiscountData() {
-        $(".noticeClient_banner_list > .swiper-wrapper > .swiper-slide:eq(0)").hide();
-        $(".btn_noticeClientBannerControl").click();
-        $(".btn_noticeClientBannerControl").hide(); //시작중지 버튼
-    }
+//     배너이미지가 깨질경우 oms등록 안보이게 처리
+//     function error_specialDiscountData() {
+//         $(".noticeClient_banner_list > .swiper-wrapper > .swiper-slide:eq(0)").hide();
+//         $(".btn_noticeClientBannerControl").click();
+//         $(".btn_noticeClientBannerControl").hide(); //시작중지 버튼
+//     }
 
 </script>
 
@@ -800,7 +792,7 @@ function setListFocus(swiper, selector) {
 
             <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@Popicon" width="154" height="182" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" allowtransparency="true" id="ad_float1" style="display: none;"></iframe>
         </div>
-        <script type="text/javascript">            OpenAD();</script>
+        <script type="text/javascript">            /* OpenAD(); */</script>
         <!-- //Float Ad -->
 	</footer>
 	<!-- E Footer -->

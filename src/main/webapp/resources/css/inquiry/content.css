@@ -2200,9 +2200,9 @@ div.scrollbox {overflow-y:auto;}
 }*/
 .movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_detailView{display:block; padding:5px 30px 5px 18px; font-size:14px; color:#343434; line-height:1.429em; background:rgba(255, 255, 255, 0.8) url('https://img.cgv.co.kr/R2014/images/common/ico/arrowR_8x13.png') calc(100% - 11px) center/8px 13px scroll no-repeat; border-radius:15px}
 .movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/play.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
-.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop.active{background:transparent url('./../images/main/ico/pause.png') center/18px scroll no-repeat;}
+.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_playStop.active{background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/pause.png') center/18px scroll no-repeat;}
 .movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff{display:block; margin-left:10px; width:28px; height:28px; font-size:0; background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/soundOff.png') center/18px scroll no-repeat; border:1px solid #979797; border-radius:50%}
-.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff.active{background:transparent url('./../images/main/ico/soundOn.png') center/18px scroll no-repeat;}
+.movieSelection_wrap .contents .movieSelection_video_controller_wrap .btn_movieSelection_soundOnOff.active{background:transparent url('https://img.cgv.co.kr/R2014/images/main/ico/soundOn.png') center/18px scroll no-repeat;}
 
 /* S > 무비차트 | 상영예정작 */
 .movieChartBeScreen_wrap{clear:none; float:none; overflow:hidden; position:relative}
@@ -2220,7 +2220,7 @@ div.scrollbox {overflow-y:auto;}
 	.movieChartBeScreen_btn_wrap .tabBtn_wrap h3 ~ h3:before{content:''; display:block; position:absolute; left:-16px; top:50%; width:1px; height:14px; margin-top:-7px; background-color:#d8d8d8}
 	.movieChartBeScreen_btn_wrap .tabBtn_wrap h3 a{font-weight:400; font-size:26px; color:#666; line-height:1.423em}
 	.movieChartBeScreen_btn_wrap .tabBtn_wrap h3 a.active{font-weight:700; color:#222}
-	.movieChartBeScreen_btn_wrap .btn_allView{padding:4px 32px 4px 15px; font-size:14px; color:#222; line-height:1.429em; background:transparent url('./../images/common/ico/arrowR_8x13.png') calc(100% - 7px) center/8px 13px scroll no-repeat; border:1px solid #e2e2e2; border-radius:15px; box-shadow:1px 1px 1px 0 rgba(0, 0, 0, 0.05)}	
+	.movieChartBeScreen_btn_wrap .btn_allView{padding:4px 32px 4px 15px; font-size:14px; color:#222; line-height:1.429em; background:transparent url('https://img.cgv.co.kr/R2014/images/common/ico/arrowR_8x13.png') calc(100% - 7px) center/8px 13px scroll no-repeat; border:1px solid #e2e2e2; border-radius:15px; box-shadow:1px 1px 1px 0 rgba(0, 0, 0, 0.05)}	
 
 /* S > EVENT */
 .event_wrap{overflow:hidden; position:relative; padding:60px 0 6px}

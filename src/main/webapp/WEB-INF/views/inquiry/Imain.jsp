@@ -160,6 +160,10 @@
                 location.href = "/support/faq/default.aspx?searchtext=" + escape($(this).html());
                 //return false;
             });
+            
+            $('.c_box email_inquiry a').on('click', function(){
+            	debugger;
+            });
 
 
         });
