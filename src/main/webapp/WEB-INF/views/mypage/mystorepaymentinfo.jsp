@@ -71,7 +71,7 @@
 										정보<i></i>
 								</a></li>
 								<li class=""><a
-									href="${pageContext.request.contextPath}/mypage/mypayment">나의
+									href="${pageContext.request.contextPath}/movie/myMovie">나의
 										결제내역<i></i>
 								</a></li>
 								<li class=""><a
