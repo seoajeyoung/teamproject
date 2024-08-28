@@ -26,7 +26,7 @@
         <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '패키지'}">
                 <li>
-                    <img class="productImage" src="/usr/local/tomcat/webapps/teamproject/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
+                    <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
                     <h4>${storeDTO.st_name }</h4>
                     <p class="price"><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</p>
                 </li>
@@ -43,7 +43,7 @@
         <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '영화관람권'}">
                 <li>
-                    <img class="productImage" src="/usr/local/tomcat/webapps/teamproject/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
+                    <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
                     <h4>${storeDTO.st_name }</h4>
                     <p class="price"><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</p>
                 </li>
@@ -60,7 +60,7 @@
         <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${storeDTO.st_num}"><div class=productWrap>
             <c:if test="${storeDTO.st_type == '팝콘'}">
                 <li>
-                    <img class="productImage" src="/usr/local/tomcat/webapps/teamproject/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
+                    <img class="productImage" src="${pageContext.request.contextPath}/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name}" />
                     <h4>${storeDTO.st_name }</h4>
                     <p class="price"><fmt:formatNumber value="${storeDTO.st_price}" type="number" groupingUsed="true"/>원</p>
                 </li>
