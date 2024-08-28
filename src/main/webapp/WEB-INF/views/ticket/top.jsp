@@ -17,17 +17,6 @@
 <script
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="${pageContext.request.contextPath}/resources/script/top.js"></script>
- <style>
-        .sidebar-brand-text {
-            font-size: 30px;
-            color: red;
-            margin-left: 5px !important;
-            font-family: 'Montserrat', sans-serif !important;
-            margin-right: 7px !important;
-            text-decoration: none; /* 링크의 밑줄 제거 */
-            cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 표시 */
-        }
-    </style>
 </head>
 <body>
 
@@ -37,10 +26,15 @@
 		<div class="header_content">
 			<div class="contents">
 				<h1 onclick="">
-				   <a href="${pageContext.request.contextPath}/main/main" class="sidebar-brand-text mx-3">OSTicket</a>
-<!-- 					<a href="/"><img -->
-<%-- 						src="${pageContext.request.contextPath}/main/main" alt="CGV"></a><span>DEEP --%>
-<!-- 						DIVE SPACE</span> -->
+					<a href="${pageContext.request.contextPath}/main/main"
+					class="sidebar-brand-text mx-3" style="font-size: 30px !important;
+					color: red !important; margin-left: 5px !important; font-family:
+					'Montserrat', sans-serif !important; margin-right: 7px !important;
+					text-decoration: none !important; cursor: pointer !important;
+					font-weight: normal !important;"> OSTicket</a>
+					<!-- 					<a href="/"><img -->
+					<%-- 						src="${pageContext.request.contextPath}/main/main" alt="CGV"></a><span>DEEP --%>
+					<!-- 						DIVE SPACE</span> -->
 				</h1>
 				<c:choose>
 					<c:when test="${sessionScope.member_num == '1'}">
@@ -64,7 +58,7 @@
 							<li><a
 								href="${pageContext.request.contextPath}/mypage/mymain"><img
 									src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png"
-									alt="MY CGV"><span>MY CGV</span></a></li>
+									alt="MY CGV"><span>MY OST</span></a></li>
 							<li><a
 								href="${pageContext.request.contextPath}/inquiry/Imain"><img
 									src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png"
@@ -124,12 +118,14 @@
 						<dl class="nav_overMenu" style="display: none;">
 							<dt>
 								<h2>
-									<a href="${pageContext.request.contextPath}/theater/theater" tabindex="-1">극장</a>
+									<a href="${pageContext.request.contextPath}/theater/theater"
+										tabindex="-1">극장</a>
 								</h2>
 							</dt>
 							<dd>
 								<h3>
-									<a href="${pageContext.request.contextPath}/theater/theater">OST TICKET 극장</a>
+									<a href="${pageContext.request.contextPath}/theater/theater">OST
+										TICKET 극장</a>
 								</h3>
 							</dd>
 						</dl>
@@ -141,7 +137,8 @@
 						<dl class="nav_overMenu" style="display: none;">
 							<dt>
 								<h2>
-									<a href="${pageContext.request.contextPath}/ticket" tabindex="-1">예매</a>
+									<a href="${pageContext.request.contextPath}/ticket"
+										tabindex="-1">예매</a>
 								</h2>
 							</dt>
 							<dd>
@@ -149,7 +146,7 @@
 									<a href="${pageContext.request.contextPath}/ticket">빠른예매</a>
 								</h3>
 							</dd>
-							
+
 						</dl>
 					</li>
 					<li>
@@ -159,7 +156,8 @@
 						<dl class="nav_overMenu" style="display: none;">
 							<dt>
 								<h2>
-									<a href="${pageContext.request.contextPath}/store/storeMain" tabindex="-1">스토어</a>
+									<a href="${pageContext.request.contextPath}/store/storeMain"
+										tabindex="-1">스토어</a>
 								</h2>
 							</dt>
 
