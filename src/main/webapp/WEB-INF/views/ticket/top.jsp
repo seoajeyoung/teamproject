@@ -64,7 +64,7 @@
 							<li><a
 								href="${pageContext.request.contextPath}/mypage/mymain"><img
 									src="https://img.cgv.co.kr/R2014/images/common/ico/loginMember.png"
-									alt="MY CGV"><span>MY CGV</span></a></li>
+									alt="MY CGV"><span>MY OST</span></a></li>
 							<li><a
 								href="${pageContext.request.contextPath}/inquiry/Imain"><img
 									src="https://img.cgv.co.kr/R2014/images/common/ico/loginCustomer.png"

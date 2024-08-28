@@ -70,8 +70,6 @@ public class ScheduledTasks {
 		
 //        adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr); 
  
-//      adminService.selectAndSaveMovies("20240807", "20240807");
-
 	} 
 
 	@Scheduled(fixedRate = 604800000) // 7일마다 실행 (15일 = 1296000000 milliseconds)

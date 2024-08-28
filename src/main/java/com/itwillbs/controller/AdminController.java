@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -122,10 +123,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>());
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -678,10 +679,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>());
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -768,10 +769,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>() );
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -804,26 +805,26 @@ public class AdminController {
 
 	// =================================================================================================
 
-	@RequestMapping(value = "/statistics/allWeekSalesSearch", method = RequestMethod.GET)
-	@ResponseBody
-	public List<AdminDTO> getAllSalesDataForWeek(@RequestParam("start_date") String startDateStr,
-			@RequestParam("end_date") String endDateStr) {
-		LocalDate startDate = LocalDate.parse(startDateStr);
-		LocalDate endDate = LocalDate.parse(endDateStr);
-
-		return adminService.getAllSalesDataForWeek(startDate, endDate);
-	}
-
-	@RequestMapping(value = "/statistics/allMonthSalesSearch", method = RequestMethod.GET)
-	@ResponseBody
-	public List<AdminDTO> getAllSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
-			@RequestParam("end_date") String endMonthStr) {
-		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
-		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
-		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
-
-		return adminService.getAllSalesDataForMonth(startMonth, endMonth);
-	}
+//	@RequestMapping(value = "/statistics/allWeekSalesSearch", method = RequestMethod.GET)
+//	@ResponseBody
+//	public List<AdminDTO> getAllSalesDataForWeek(@RequestParam("start_date") String startDateStr,
+//			@RequestParam("end_date") String endDateStr) {
+//		LocalDate startDate = LocalDate.parse(startDateStr);
+//		LocalDate endDate = LocalDate.parse(endDateStr);
+//
+//		return adminService.getAllSalesDataForWeek(startDate, endDate);
+//	}
+//
+//	@RequestMapping(value = "/statistics/allMonthSalesSearch", method = RequestMethod.GET)
+//	@ResponseBody
+//	public List<AdminDTO> getAllSalesDataForMonth(@RequestParam("start_date") String startMonthStr,
+//			@RequestParam("end_date") String endMonthStr) {
+//		// URL에서 전달받은 날짜를 'YYYY-MM' 형식으로 변경하여 YearMonth로 파싱합니다.
+//		YearMonth startMonth = YearMonth.parse(startMonthStr.substring(0, 7)); // '2024-02-01' -> '2024-02'
+//		YearMonth endMonth = YearMonth.parse(endMonthStr.substring(0, 7)); // '2024-07-01' -> '2024-07'
+//
+//		return adminService.getAllSalesDataForMonth(startMonth, endMonth);
+//	}
 
 	// =================================================================================================
 
@@ -870,8 +871,8 @@ public class AdminController {
 		model.addAttribute("adminDTO2", oneMonthlySalesData);
 
 		try {
-			String monthMemberJoinDataJson = new ObjectMapper().writeValueAsString(monthMemberJoinData);
-			String getMembersByAgeGroupDataJson = new ObjectMapper().writeValueAsString(getMembersByAgeGroupData);
+			String monthMemberJoinDataJson = new ObjectMapper().writeValueAsString(monthMemberJoinData != null ? monthMemberJoinData : new ArrayList<>());
+			String getMembersByAgeGroupDataJson = new ObjectMapper().writeValueAsString(getMembersByAgeGroupData != null ? getMembersByAgeGroupData : new ArrayList<>());
 			model.addAttribute("monthMemberJoinDataJson", monthMemberJoinDataJson);
 			model.addAttribute("getMembersByAgeGroupDataJson", getMembersByAgeGroupDataJson);
 		} catch (Exception e) {
@@ -919,10 +920,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>());
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
