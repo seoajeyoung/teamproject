@@ -179,7 +179,23 @@ loadSeats();
 			return;
 		}
 		
-		
+		 $.ajax({
+        url: '/teamproject/SEATCHECK', 
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            seseat: selectsenum
+        }),
+        success: function(response) {
+            if (response.status === "unavailable") {
+                alert("선택하신 좌석 중 일부가 이미 예매되었습니다. 좌석을 다시 선택해 주세요.");
+                location.reload();
+            } else {
+                // 좌석이 사용 가능할 때 두 번째 AJAX 요청 실행
+                seatpayment();
+            }
+        }
+    	});
 		
 		
 		var categoryPrices = {
@@ -188,7 +204,6 @@ loadSeats();
         '경로': 5000,
         '우대': 3000
     };
-
     var summary = [];
 	payment = [];
     for (var category in selectedPerCategory) {
@@ -248,6 +263,7 @@ loadSeats();
                 window.location.href = `/teamproject/ticketpayment?${queryParams}`;
             	} else {
                	 alert(response.message);
+               	 location.reload();
            		 }
             },
         });
