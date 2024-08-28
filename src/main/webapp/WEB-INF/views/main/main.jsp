@@ -536,7 +536,7 @@ function setListFocus(swiper, selector) {
                                <c:forEach var="packages" items="${packagelist}">
                                 <dd>
                                     <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${packages.st_num}">
-                                        <div class="img_wrap" data-scale="false"><img src="${packages.st_picture}" alt="패키지"></div>
+                                        <div class="img_wrap" data-scale="false"><img src="${pageContext.request.contextPath}/resources/img/${packages.st_picture}" alt="패키지"></div>
                                         <div class="giftcon_info_wrap">
                                             <span>${packages.st_name}</span>
                                             <strong>${packages.st_price}원</strong>
@@ -554,7 +554,7 @@ function setListFocus(swiper, selector) {
                                <c:forEach var="giftcon" items="${giftconliset}">
                                 <dd>
                                     <a href="${pageContext.request.contextPath}/store/productDetail?st_num=${giftcon.st_num}">
-                                        <div class="img_wrap" data-scale="false"><img src="${giftcon.st_picture}" alt="영화관람권"></div>
+                                        <div class="img_wrap" data-scale="false"><img src="${pageContext.request.contextPath}/resources/img/${giftcon.st_picture}" alt="영화관람권"></div>
                                         <div class="giftcon_info_wrap">
                                             <span>${giftcon.st_name}</span>
                                             <strong>${giftcon.st_price}원</strong>
