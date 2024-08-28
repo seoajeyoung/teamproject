@@ -568,9 +568,10 @@ public class AdminController {
 		UUID uuid = UUID.randomUUID();
 		String file = uuid.toString() + "_" + store_picture.getOriginalFilename();
 
-		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
-		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
-//		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 이미지 업로드 가능하면
+//		String desktopPath = "C:\\Users\\ITWILL\\Desktop\\upload";
+//		FileCopyUtils.copy(store_picture.getBytes(), new File(desktopPath, file));
+		FileCopyUtils.copy(store_picture.getBytes(), new File(uploadPath, file)); 
+		// 이미지 업로드 가능하면
 
 		adminDTO.setST_PICTURE(file);
 		adminService.updateStore(adminDTO);
