@@ -380,19 +380,7 @@ function setListFocus(swiper, selector) {
     <a href="/reserve/show-times/" id="">예매하기 바로가기</a>
 </div>
 <div id="cgvwrap">
-    
-    
-    <div class="cgv-ad-wrap" id="cgv_main_ad">
-        <div id="TopBarWrapper" class="sect-head-ad">
-            <div class="top_extend_ad_wrap">
-                <div class="adreduce" id="adReduce">                    
-                    <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/main@TopBar_EX" width="100%" height="80" title="" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" name="TopBanner" id="TopBanner"></iframe>
-                </div> 
-                <div class="adextend" id="adExtend"></div>
-            </div><!-- //.top_extend_ad_wrap -->
-        </div>    
-    </div>    
-	
+   
       <!-- S Header
         Description
         - class 'nav' 에 class 'active' 추가시 서브메뉴노출
