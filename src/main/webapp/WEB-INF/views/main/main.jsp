@@ -380,7 +380,7 @@ function setListFocus(swiper, selector) {
     <a href="/reserve/show-times/" id="">예매하기 바로가기</a>
 </div>
 <div id="cgvwrap">
-   
+    
       <!-- S Header
         Description
         - class 'nav' 에 class 'active' 추가시 서브메뉴노출
