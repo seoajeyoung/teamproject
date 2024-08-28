@@ -542,7 +542,7 @@
 			, SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
 			, PLOT
 			, RUNTIME
-			, if(LEFT(RATING, 2) = "전체", "All", LEFT(RATING, 2)) RATING
+			, IF(LEFT(RATING, 2) = '전체', 'All', IF(LEFT(RATING, 2) = '청소', '18', LEFT(RATING, 2))) AS RATING
 			, THEMESONG
 			, SOUNDTRACK
 			, m.RANK AS 'RANK'

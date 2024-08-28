@@ -93,7 +93,7 @@
 								<li class="stit_area"><span>등록일<em
 										class="regist_day">${inquiryDTO.IQ_DATE_FORMAT}<span><em
 												class="regist_day"></em></span></em></span> <span class="check_tit_area">닉네임<em
-										class="check_num">${inquiryDTO.MEMBER_NICKNAME}</em></span></li>
+										class="check_num">${inquiryDTO.MEM_NICKNAME}</em></span></li>
 							</ul>
 							<div class="view_area">
 								<p></p>

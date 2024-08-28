@@ -7,7 +7,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -459,7 +460,10 @@ function setListFocus(swiper, selector) {
 								<div class="img_wrap" data-scale="false" tabindex="0">
 									<img src="${movie.posterUrl}" alt="${movie.title}" onerror="errorImage(this)">
 									<div class="movieAgeLimit_wrap">
-										<i class="cgvIcon etc age${movie.rating}">${movie.rating}</i>
+<!-- 									관람등급 수정 -->
+										<c:set var="setRating" value="${fn:substring(movie.rating, 0, 2)}" />
+            						    <i class="cgvIcon etc age${setRating == '전체' ? 'All' : setRating == '청소' ? 18 	: setRating}">${movie.rating}</i>
+<%-- 										<i class="cgvIcon etc age${movie.rating}">${movie.rating}</i> --%>
 										<div class='dDay_wrap'><span>
 										</span></div>
 									</div>
