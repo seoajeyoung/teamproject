@@ -25,7 +25,7 @@ public class KobisApiService {
 		String url = String.format("%s&targetDt=%s", Kobis_API_URL, targetDt);
 
 		// 올바른 API url인지 확인
-		System.out.println("URL : " + url);
+//		System.out.println("URL : " + url);
 
 		try {
 			// RestTemplate을 사용하여 지정된 URL로 GET 요청

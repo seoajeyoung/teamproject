@@ -37,12 +37,14 @@
 	<!-- ====================================================================================== -->
 
 	<insert id="insertPoint" parameterType="map">
-		INSERT INTO POINT (MEM_NUM)
+		INSERT INTO POINT
+		(MEM_NUM)
 		SELECT #{MEM_NUM}
 		FROM DUAL
 		WHERE NOT EXISTS (
 		SELECT 1
-		FROM POINT
+		FROM
+		POINT
 		WHERE MEM_NUM = #{MEM_NUM}
 		)
 	</insert>
@@ -80,9 +82,11 @@
 	<!-- 포인트지급,차감 -->
 	<update id="updatePoint">
 		update POINT set PO_CURP =
-		GREATEST(PO_CURP + #{sPoint}, 0),
+		GREATEST(PO_CURP +
+		#{sPoint}, 0),
 		PO_CUMP = CASE
-		WHEN #{sPoint} >= 0 THEN PO_CUMP + #{sPoint}
+		WHEN #{sPoint} >= 0 THEN PO_CUMP +
+		#{sPoint}
 		ELSE PO_CUMP END
 		where MEM_NUM = #{MEM_NUM}
 	</update>
@@ -134,13 +138,14 @@
 	<!-- status 값 나중에 default = '회원' -->
 
 	<!-- ====================================================================================== -->
-	
+
 	<delete id="realDeleteMember">
-		DELETE FROM MEMBERS WHERE MEM_STATUS = '탈퇴유예' AND MEM_OUT <![CDATA[<=]]> NOW()
+		DELETE FROM MEMBERS WHERE MEM_STATUS = '탈퇴유예' AND MEM_OUT <![CDATA[<=]]>
+		NOW()
 	</delete>
-	
+
 	<!-- ====================================================================================== -->
-	
+
 
 	<!-- 이메일리스트 -->
 
@@ -214,7 +219,8 @@
 	</select>
 
 	<!-- 영화 상세정보 -->
-	<select id="getMovieInfo" parameterType="string" resultType="com.itwillbs.domain.MovieDTO">
+	<select id="getMovieInfo" parameterType="string"
+		resultType="com.itwillbs.domain.MovieDTO">
 		SELECT MOVIE_NUM, title, titleEng, direcotrNm, actorNm,
 		nation, genre,
 		releaseDate, posterUrl, plot, runtime, rating,
@@ -231,10 +237,12 @@
 		#{titleEng},
 		direcotrNm = #{direcotrNm},
 		actorNm = #{actorNm},
-		genre = #{genre},
+		genre =
+		#{genre},
 		rating = #{rating},
 		runtime = #{runtime},
-		releaseDate = #{releaseDate},
+		releaseDate =
+		#{releaseDate},
 		themeSong = #{themeSong},
 		soundtrack = #{soundtrack},
 		plot = #{plot}
@@ -663,9 +671,11 @@
 	<insert id="insertDailyTotalSales">
 		INSERT INTO REVENUE (SALES_DATE, STORE_TOTALSALES,
 		MOVIE_TOTALSALES, ALL_TOTALSALES)
-		VALUES (#{yesterday},
-		#{storeTotalSales}, #{movieTotalSales}, #{storeTotalSales} +
-		#{movieTotalSales})
+		SELECT #{yesterday}, #{storeTotalSales}, #{movieTotalSales},
+		#{storeTotalSales} + #{movieTotalSales}
+		WHERE NOT EXISTS (
+		SELECT 1 FROM REVENUE WHERE SALES_DATE = #{yesterday}
+		);
 	</insert>
 
 
