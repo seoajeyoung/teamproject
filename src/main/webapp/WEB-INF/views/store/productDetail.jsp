@@ -94,7 +94,7 @@
 		<div class='category_product_detail_contents'>
 			<div class='category_product_detail_contents_img_wrap'>
 				<ul class='bxslider'>
-					<li><img src="${pageContext.request.contextPath}/resources/img/upload/${storeDTO.st_picture}" alt="${storeDTO.st_name }"></li>
+					<li><img src="/usr/local/tomcat/webapps/teamproject/resources/img/${storeDTO.st_picture}" alt="${storeDTO.st_name }"></li>
 				</ul>
 			</div>
 			<div class='category_product_detail_contents_wrap'>
