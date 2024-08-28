@@ -498,7 +498,7 @@ $(document).on('click', '.day>a', function() {
 		 		    					<ul>
 		 		    						<li>2D</li>
 		 		    						<li>\${scList.TH_NUMBER}</li>
-		 		    						<li>총 \${scList.SEAT_COUNT}석</li>
+		 		    						<li>총 \${scList.SE_COUNT}석</li>
 		 		    					</ul>
 	  		    					<div class="info-timetable">
 		                                <ul>

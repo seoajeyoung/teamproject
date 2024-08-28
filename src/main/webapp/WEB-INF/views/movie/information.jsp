@@ -28,6 +28,7 @@ function chart() {
 	let charm = $('#charm')[0].getContext('2d');
 	var cStr = $('#charm').attr('data-charm');
 	let charmData = JSON.parse(cStr);
+	
 	const charmChart = new Chart(charm, {
 		 type: 'radar',
 		    data: {
@@ -110,11 +111,10 @@ function chart() {
 		        }
 		    }
 	});
-};
-
-
-
-$(function() {
+	
+	
+	
+	// 연령 차트
 	let num = $('.gender_graph').find('span:hidden').text().split(',');
 	/* 성별 그래프 */
 	var data = {
@@ -141,11 +141,8 @@ $(function() {
 	
 	/* 연령 그래프 */
 	$('.bar').each(function() {
-		$(this).css('height', $(this).find($('.percent')).text() + '%');
-// 		var height = $(this).height() + 10;
-// 		var height2 = $(this).height() + 5;
-// 		$(this).find($('.age')).css('top', height + 'px');
-// 		$(this).find($('.percent')).css('bottom', height2 + 'px');
+		var percent = $(this).find('.percent').text() * 0.8;
+		$(this).css('height', percent + "%");
 	});
 	
 	$('.bar').on('transitionend', function() {
@@ -158,7 +155,11 @@ $(function() {
 		});
 	});
 	/* 연령 그래프 끝 */
-});
+	
+};
+
+
+
 
 function pointChart() {
 	$.ajax({
@@ -244,7 +245,6 @@ function pointChart() {
 <body>
 <jsp:include page="../ticket/top.jsp" />
 <!-- 세션 아이디 임시 저장 -->
-<input type="hidden" class="sessionId" value="${sessionScope.member_id}">
 
 
 		<!-- Contents Area -->
@@ -260,32 +260,32 @@ function pointChart() {
     //-->
 
 <div class="sect-base-movie">
-    <h3><strong>${movieDTO.title}</strong>기본정보</h3>
+    <h3><strong>${movieDTO.TITLE}</strong>기본정보</h3>
     <div class="box-image">
-        <a href="${movieDTO.posterUrl}" title="포스터 크게 보기 새창" target="_blank">
+        <a href="${movieDTO.POSTERURL}" title="포스터 크게 보기 새창" target="_blank">
             <span class="thumb-image"> 
-                <img class="poster" src="${movieDTO.posterUrl}" alt="${movieDTO.title} 새창">
+                <img class="poster" src="${movieDTO.POSTERURL}" alt="${movieDTO.TITLE} 새창">
                 <span class="ico-posterdetail">포스터 크게 보기</span>
-                <c:set var="setRating" value="${fn:substring(movieDTO.rating, 0, 2)}" />
-                <i class="cgvIcon etc age${setRating == '전체' ? 'All' : setRating == '청소' ? 18 	: setRating}">${movieDTO.rating}</i>
+                <c:set var="setRating" value="${fn:substring(movieDTO.RATING, 0, 2)}" />
+                <i class="cgvIcon etc age${setRating == '전체' ? 'All' : setRating == '청소' ? 18 	: setRating}">${movieDTO.RATING}</i>
             </span> 
         </a> 
     </div>
     <div class="box-contents">
         <div class="movieTitle title"> 
-            <strong id="movieTitle" data-Title="${movieDTO.title}">${movieDTO.title}</strong>
-            <c:if test="${movieDTO.dDay != null}">
+            <strong id="movieTitle" data-Title="${movieDTO.TITLE}">${movieDTO.TITLE}</strong>
+            <c:if test="${movieDTO.SHOW == 'SHOWMOVIE'}">
             <c:choose>
-	            <c:when test="${movieDTO.dDay > 0}">
+	            <c:when test="${movieDTO.D_DAY > 0}">
 		            <em class="round brown"><span>예매중</span></em>
-		            <em class="round red"><span>D-${movieDTO.dDay}</span></em>
+		            <em class="round red"><span>D-${movieDTO.D_DAY}</span></em>
 	            </c:when>
 	            <c:otherwise>
 	            	<em class="round lightblue"><span>현재상영중</span></em>
 	            </c:otherwise>
             </c:choose>
             </c:if>
-            <p>${movieDTO.titleEng}</p>
+            <p>${movieDTO.TITLEENG}</p>
         </div>
         <div class="score"> 
             <strong class="percent">예매율&nbsp;<span>14.6%</span></strong>
@@ -299,30 +299,28 @@ function pointChart() {
             <dl>
                 <dt>감독 :&nbsp;</dt>
                 <dd>
-					<a href="">${movieDTO.direcotrNm}</a>                    
+					<span>${movieDTO.DIRECOTRNM}</span>                    
                 </dd>
 
                 <dt>&nbsp;/ 배우 :&nbsp;</dt>
                 <dd class="on">
                 	<!-- 배우페이지를 별개로 설계하게 된다면 주소를 따로 지정할 방법이 필요해서 for문으로 반복 삽입 -->
-<%--                 	<c:forEach var="actor" items="${actorList}" varStatus="index"> --%>
-                		<a href="">${movieDTO.actorNm}
-<%-- 	                		<c:if test="${!index.last}"> --%>
-<!-- 	                        	,&nbsp; -->
-<%-- 	                        </c:if> --%>
-                        </a>
-<%--                     </c:forEach> --%>
+                		<span>${movieDTO.ACTORNM}</span>
                 </dd>
                 <dt>장르&nbsp;:&nbsp;</dt> 
                 <!-- 동일한 장르로 영화를 찾아줄 페이지를 설계하게 된다면 위처럼 forEach문 사용 -->
-                <dd class="genre">${movieDTO.genre}</dd>
+                <dd class="genre">${movieDTO.GENRE}</dd>
                 <dt>&nbsp;/ 기본 정보 :&nbsp;</dt>
                 <!-- 2023.04.27 영화상세 등급 표기 수정--> 
                 <!--<dd class="on">18,&nbsp;상영시간,&nbsp;국가</dd>-->
-                <dd class="on">${!empty movieDTO.rating ? movieDTO.rating : '연령등급미정'},
-                &nbsp;${movieDTO.runtime}분,&nbsp;${movieDTO.nation}</dd>
+                <dd class="on">${!empty movieDTO.RATING ? movieDTO.RATING : '연령등급미정'},
+                &nbsp;${movieDTO.RUNTIME}분,&nbsp;${movieDTO.NATION}</dd>
                 <dt>개봉 :&nbsp;</dt>
-                <dd class="on releaseDate">${movieDTO.releaseDate}</dd>
+                <dd class="on releaseDate">${movieDTO.RELEASEDATE}</dd>
+                <c:if test="${movieDTO.SOUNDTRACK != null}">
+	                <dt>OST : </dt>
+	                <dd>${movieDTO.SOUNDTRACK}</dd>
+                </c:if>
             </dl>
         </div>
 <!-- 	프리에그 -> 찜 기능? -->
@@ -492,7 +490,19 @@ $(function() {
                     	<strong>성별 예매 분포</strong>
 						<canvas id="gender" style="display: block;" width="400" height="200"></canvas>
 <!-- 						<span hidden="gender">남, 여</span> -->
-						<span hidden="">66.7, 33.3</span>
+						<c:choose>
+							<c:when test="${chartData.MALE != null && chartData.FEMALE != null}">
+								<span hidden="">
+									${chartData.MALE != null ? chartData.MALE : 0},
+									${chartData.FEMALE != null ? chartData.FEMALE : 0}
+								</span>
+							</c:when>
+							<c:otherwise>
+								<p style="font-size: 18px; font-style: italic; position: relative; bottom: 195px; left: 20px; background-color: white;">
+									현재 영화를 예매한 회원이 없습니다.
+								</p>	
+							</c:otherwise>
+						</c:choose>
                     </li>
                     <li class="age_grapth" style="width: 50%; height: 270px;">
                         <strong>연령별 예매 분포</strong>
@@ -501,23 +511,23 @@ $(function() {
                         <div style="width: 100%; height: 200px; padding: 0; display: flex; justify-content: center; align-items: flex-end;">
 							<div class="bar" style="background-color: #3A3735; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
 								<span class="age">10대</span>
-								<span class="percent">10.5</span>
+								<span class="percent">${chartData.AGE10S != null ? chartData.AGE10S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #A8684C; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
 								<span class="age">20대</span>
-								<span class="percent">20</span>
+								<span class="percent">${chartData.AGE20S != null ? chartData.AGE20S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #173F3F; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
 								<span class="age">30대</span>
-								<span class="percent">30</span>
+								<span class="percent">${chartData.AGE30S != null ? chartData.AGE30S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #808080; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
 								<span class="age">40대</span>
-								<span class="percent">30</span>
+								<span class="percent">${chartData.AGE40S != null ? chartData.AGE40S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #80565A; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
-								<span class="age">50대</span>
-								<span class="percent">20</span>
+								<span class="age">50세이상</span>
+								<span class="percent">${chartData.AGE50SPLUS != null ? chartData.AGE50SPLUS : 0}</span>
 							</div>
 						</div>
                     </li> 
@@ -540,7 +550,7 @@ $(function() {
             <div id="ctl00_PlaceHolderContent_Section_Trailer" class="sect-trailer">
                 <div class="heading">
 					<h4>트레일러</h4>
-					<span id="ctl00_PlaceHolderContent_TrailerTotalCount" class="count">2건</span>
+					<span id="ctl00_PlaceHolderContent_TrailerTotalCount" class="count">${trailerTeaser.size()}건</span>
 					<a class="link-more linkTrailer" href="javascript:void(0);">더보기</a>
 				</div>
                 <ul>
@@ -560,7 +570,7 @@ $(function() {
                         <div class="box-contents">
                             <a href="javascript:void(0)" title="새창" class="movie_player_popup">
                                 <strong class="title">
-                                    <span class="ico-trailer hd">HD</span>${movieDTO.title} 예고편
+                                    <span class="ico-trailer hd">HD</span>${movieDTO.TITLE}
                                 </strong>
                             </a>
                             <span class="txt-info"></span>
@@ -620,10 +630,10 @@ $(function() {
                 <div class="slider-wrap">
                     <div class="slider" id="still_motion">
 						<!-- 배열로 분리해서 갯수만큼? -->
-						<c:forEach var="stillcutUrl" items="${stillcutUrl}" varStatus="Status">
+						<c:forEach var="cutImg" items="${stillcutUrl}" varStatus="Status">
 							<div class="item-wrap" style=""> <!--  ${Status.index != 0 ? 'display:none;' : ''}} -->
 	                            <div class="item" style="width: 800px; height: 450px; text-align: center;">
-									<img alt="${movieDTO.title}" onerror="this.src='${stillcutUrl}.jpeg';" src="${stillcutUrl}.jpg" style="min-width:260px; max-width: 90%; height: 100%;">
+									<img alt="${movieDTO.title}" onerror="this.src='${cutImg}.jpeg';" src="${cutImg}.jpg" style="min-width:260px; max-width: 90%; height: 100%;">
 	                            </div>
 	                        </div>
                         </c:forEach>
@@ -645,7 +655,9 @@ $(function() {
             <div class="sect-grade" id="sect-grade">   
 <!--                 preegg.css 연관 UI -->
                 <div class="movie_grade">
-                    <a class="info" id="goldenEggAlert" href="javascript:void(0);"><img src="https://img.cgv.co.kr/R2014/images/common/ico/ico-question-mark.png" alt="?"></a>
+<!--                     <a class="info" id="goldenEggAlert" href="javascript:void(0);"> -->
+<!-- 	                    <img src="https://img.cgv.co.kr/R2014/images/common/ico/ico-question-mark.png" alt="?"> -->
+<!-- 					</a> -->
 <!--                     <div class="egg_point"> -->
 <!--                         영화요약문구 --> 
 <!--                         <div class="title"><br><strong></strong></div> -->
@@ -767,7 +779,6 @@ $(document).on('click', '.review_page>a', function() {
 					                </span>
 					            </li>
 					            <li class="point_notify">
-					                <a href="javascript:void (0);" class="btn_notify">스포일러, 욕설/비방 신고</a>
 					                <div class="notify_wrap">
 					                    <ul>
 					                        <li><a href="javascript:return false;" class="ico_spoiler"><span>스포일러 신고</span></a></li>
@@ -953,7 +964,7 @@ $(document).on('click', '.imgSect .item:visible', function() {
 		`);
 	});
 	
-	$('#sliderBox img').attr('style', '');
+	$('#sliderBox img').attr('style', 'vertical-align: middle;');
 	$('#sliderBox .item').eq(clickImg).show();
 // 	$('.item-wrap').eq(clickImg).find('.item').show();
 	
@@ -1047,10 +1058,16 @@ $(document).on('click', '.link-gradewrite', function() {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
+	if($('#reviewCk').val() == "notShowChecked") {
+		alert('평점은 7일 이내에 관람 기록이 있는 회원만 작성 가능합니다.')
+		return;
+	}
+	
 	var title = $('.movieTitle>strong').text();
 	
-	var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
-					<div class="popup-general">
+	var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed; height: 410px;" tabindex="0">
+				<div class="layer-contents on-shadow" style="width:710px; height: 410px;">
+					<div class="popup-general" style="height: 410px;">
 					<div class="popwrap">
 						<h1>평점작성</h1>
 						<div class="pop-contents write-mygrade">
@@ -1194,6 +1211,10 @@ $(document).on('click', '.set-btn>button', function() {
 
 var reviewNum;
 $(document).on('click', '.link-reviewwrite', function() {
+	if(memberId == null || memberId.trim() == "") {
+		alert('로그인 후 이용해주세요')
+		return;
+	}
 	
 	$.ajax({
 		type: 'GET',
@@ -1202,9 +1223,9 @@ $(document).on('click', '.link-reviewwrite', function() {
 		success: function(result) {
 			reviewNum = result.REVIEW_NUM;
 			var title = $("#movieTitle").data("title");
-			
-			var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
-							<div class="popup-general">
+			var text = `<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed; height: 410px;" tabindex="0">
+							<div class="layer-contents on-shadow" style="width:710px; height: 410px;">
+							<div class="popup-general" style="height: 410px;">
 							<div class="popwrap">
 								<h1>평점작성</h1>
 								<div class="pop-contents write-mygrade">
@@ -1224,12 +1245,12 @@ $(document).on('click', '.link-reviewwrite', function() {
 										</div>
 			
 										<div class="textbox">
-											<textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280"></textarea>
+											<textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280">\${result.REVIEW_CONTENT}</textarea>
 										</div>
 			
 										<div class="footbox">
 											<div class="rbox">
-												<span class="count"><strong id="text_count">${result.REVIEW_CONTENT.length}</strong>/280(byte)</span>
+												<span class="count"><strong id="text_count">\${result.REVIEW_CONTENT.length}</strong>/280(byte)</span>
 												<button type="button" class="round red on" id="regUpBtn"><span>작성완료!</span></button>
 											</div>
 										</div>
@@ -1239,11 +1260,12 @@ $(document).on('click', '.link-reviewwrite', function() {
 							</div>
 						</div>
 					</div>`
-			$('body').append(text);		
+			$('body').append(text);
+			
+					
 		},
 		error: function(e, a, b, c) {
-			debugger;
-			if(e.error != null) {
+			if(e.responseJSON.error == "noReview") {
 				alert('해당 영화에 작성한 리뷰가 없습니다')
 			} else {
 				alert('오류 발생');
@@ -1272,5 +1294,10 @@ $(document).on('click', '#regUpBtn', function() {
 	$('.btn-close').trigger('click');
 });
 </script>
+
+
+<input type="hidden" class="sessionId" value="${sessionScope.member_id}">
+<input type="hidden" id="reviewCk" value="${REVIEWCHECK}">
+
 </body>
 </html>

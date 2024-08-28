@@ -40,10 +40,6 @@ let movieNum;
 $(function() {
 	var url = new URLSearchParams(window.location.search);
 	movieNum = url.get("MOVIE_NUM");
-	
-	
-	
-	
 	$('.regionLink').on('click', function() {
 		thRegion = $(this).text();
 
@@ -85,7 +81,7 @@ $(function() {
 });
 $(document).on('click', '.day>a', function() {
 	var currDate = $(this).find('input').val();
-	
+	debugger;
 	$.ajax({
 		type: 'get',
 		url: '${pageContext.request.contextPath}/movie/thMovies',
@@ -114,7 +110,7 @@ $(document).on('click', '.day>a', function() {
 		                            <ul>
 		                                <li>2D</li>                                
 		                                <li><span class='screentype'>\${thList.TH_NUMBER}</span></li>
-		                                <li>총 30석</li>
+		                                <li>총 \${thList.SE_COUNT}석</li>
 		                            </ul>
 		                        </div>
 		                    </div>

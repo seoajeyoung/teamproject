@@ -93,20 +93,16 @@
 		    , M.RUNTIME
 		    , M.RATING
 		    , DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
-	        , (SELECT SE_COUNT
-		       FROM MSEAT MS
-		       WHERE T.TH_NUM = MS.TH_NUM
-		       LIMIT 1) AS SEAT_COUNT
-		    
-		       
+	        , M.SE_COUNT
 		FROM SCREEN S
 		JOIN CINEMA C ON S.CI_NUM = C.CI_NUM
 		JOIN MOVIE M ON M.MOVIE_NUM = C.MOVIE_NUM
 		JOIN THEATER T ON T.TH_NUM = C.TH_NUM
+		JOIN (SELECT DISTINCT TH_NUM, SE_COUNT
+			  FROM MSEAT) M ON T.TH_NUM = M.TH_NUM
 		WHERE T.TH_NUM IN (SELECT TH_NUM
 						   FROM THEATER
-		                   WHERE TH_NAME = #{TH_NAME}
-		                   AND TH_REGION = #{TH_REGION})
+		                   WHERE TH_NAME = #{TH_NAME})
 		AND date_format(S.SC_TIME, '%Y-%m-%d') = #{DATE};
 	</select>
 	

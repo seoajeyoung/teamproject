@@ -61,21 +61,18 @@ public class MovieController implements WebMvcConfigurer {
 		return relMovie;
 	}
 	
-	
-	
 //	상영예정 영화
 	@GetMapping("/upcomingMovies")
 	@ResponseBody
-	public Map<String, List<Map<String, String>>> upcomingMovies() {
-		List<Map<String, String>> movieList = movieService.getUpcomingMovies();
-		List<Map<String, String>> Top3List = movieService.getTop3();
-		Map<String, List<Map<String, String>>> list = new HashMap<String, List<Map<String, String>>>();
+	public Map<String, List<Map<String, Object>>> upcomingMovies() {
+		List<Map<String, Object>> movieList = movieService.getUpcomingMovies();
+		List<Map<String, Object>> Top3List = movieService.getTop3();
+		Map<String, List<Map<String, Object>>> list = new HashMap<String, List<Map<String, Object>>>();
 		list.put("movieDTO", movieList);
 		list.put("Top3List", Top3List);
 		
 		return list;
 	}
-	
 	
 	// 무비차트 정렬
 	@GetMapping("/sortMovies")
@@ -91,24 +88,22 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/information")
 	public String information(@RequestParam("num") int num, Model model, HttpSession session) {
 		// 영화정보
-		MovieDTO movieDTO = movieService.movieInfo(num);
+		Map<String, Object> movieDTO = movieService.movieInfo(num);
 		if(movieDTO == null) {
 			return "/movie/back";
 		}
-		
-		//리뷰 페이지 수 구하기
-		
+		//리뷰 페이지 수
 		int maxCount = movieService.getMaxPage(num);
 		int endPage = maxCount / pageSize + (maxCount % pageSize > 0 ? 1 : 0);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("MOVIE_NUM", num);
-		List<Map<String, Object>> relMovie = movieService.getRelMovies(map);
+		// 맵에
+		Map<String, Object> rMap = new HashMap<String, Object>();
+		rMap.put("MOVIE_NUM", num);
+		List<Map<String, Object>> relMovie = movieService.getRelMovies(rMap);
 
 		// 스틸컷
-		String stillcut = movieDTO.getStillUrl();
+		String stillcut = (String)movieDTO.get("STILLURL");
 		String[] stillcutSp;
-		
+		// 배열로 분리
 		if(stillcut != null && stillcut.contains(",")) {
 			stillcutSp = stillcut.split(",");
 		} else if(stillcut != null) {
@@ -118,7 +113,6 @@ public class MovieController implements WebMvcConfigurer {
 		}
 		
 		ArrayList<String> stillcutUrl = new ArrayList<String>();
-		
 		if(stillcutSp.length != 0 && !stillcutSp[0].trim().equals("")) {
 			for(String str : stillcutSp) {
 				int index1 = str.indexOf("copy/");
@@ -130,9 +124,10 @@ public class MovieController implements WebMvcConfigurer {
 				stillcutUrl.add(url);
 			}
 		}
-		//트레일러
-		
-		String vod = movieDTO.getVodUrl() != null ? movieDTO.getVodUrl().trim() : "";
+
+		//트레일러 영상 url
+		String vod = (String)movieDTO.get("VODURL");
+		vod = vod != null ? vod.trim() : "";
 		String[] vodUrl;
 		if(vod != null && vod.trim().contains(",")) {
 			vodUrl = vod.split(",");
@@ -143,6 +138,7 @@ public class MovieController implements WebMvcConfigurer {
 		}
 
 		
+		// 트레일러 이미지
 		ArrayList<String> trailerTeaser = new ArrayList<String>();
 		if(vodUrl.length != 0 && !vodUrl[0].trim().equals("")) {
 			for(String str : vodUrl) {
@@ -154,18 +150,27 @@ public class MovieController implements WebMvcConfigurer {
 			}
 		}
 		
+		
+		// 성비, 연령 차트
+		Map<String, Object> chartData = movieService.getChartData(num);
+		
+		System.out.println(chartData);
 		model.addAttribute("movieDTO", movieDTO);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("relMovie", relMovie);
 		model.addAttribute("movieTrailer", vodUrl);
 		model.addAttribute("trailerTeaser", trailerTeaser);
 		model.addAttribute("stillcutUrl", stillcutUrl);
+		model.addAttribute("chartData", chartData);
 		
+		//id가 있을때 찜목록 검색해서 해당영화의 상세페이지 찜 여부와 관람여부를 확인
 		String id = (String)session.getAttribute("member_id");
 		if(id != null) {
-			map.put("MEMBER_ID", id);
-			String bookmark = movieService.getBookmark(map) ? "favor" : "hate";
+			rMap.put("MEMBER_ID", id);
+			String bookmark = movieService.getBookmark(rMap) ? "favor" : "hate";
 			model.addAttribute("BOOKMARK", bookmark);
+			String showCheck = movieService.getShowCheck(rMap) ? "showChecked" : "notShowChecked";
+			model.addAttribute("REVIEWCHECK", showCheck);
 		}
 		
 		return "/movie/information";
@@ -213,7 +218,6 @@ public class MovieController implements WebMvcConfigurer {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(chartMap);
 		}
 	}
-	
 	
 	
 	// =============================== 리뷰 ======================================
@@ -266,10 +270,13 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/getMemberReview")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getMemberReview(@RequestParam Map<String, Object> rMap) {
-		boolean check = movieService.reUserCheck(rMap);
+		boolean check = movieService.getReviewUser(rMap);
+		System.out.println(rMap);
+		
 		Map<String, Object> review = new HashMap<String,Object>();
 		if(check) {
 			ArrayList<Map<String, Object>> list = movieService.getReview(rMap);
+			System.out.println(list);
 			review = list.get(0);
 			return ResponseEntity.status(HttpStatus.OK).body(review);
 		} else {
@@ -311,6 +318,7 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/ifTime")
 	public String ifTime(@RequestParam Map<String, String> rMap, Model model) {
 		List<Map<String, String>> region = movieService.getMovieSchedule(rMap);
+		System.out.println(rMap);
 		model.addAttribute("region", region);
 		return "/movie/ifTime";
 	}

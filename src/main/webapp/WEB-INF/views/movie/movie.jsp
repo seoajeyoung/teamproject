@@ -374,7 +374,7 @@ $(function() {
 					                        </a>
 					
 					                        <div class="score">
-						                            <strong class="percent">예매율<span>17.8%</span></strong>
+						                            <strong class="percent">예매율<span>\${top3.RATE}%</span></strong>
 					                        </div>
 					
 					                        <span class="txt-info">
@@ -390,8 +390,7 @@ $(function() {
 									</div>    
 								</li>
 						`;
-						debugger;
-								$('#ol-movie-chart').append(text);
+						$('#ol-movie-chart').append(text);
 				}); // top3.forEach
 				
 				movieDTO.forEach(function(movieDTO, index) {
@@ -410,7 +409,7 @@ $(function() {
 				                            <strong class="title">\${movieDTO.TITLE}</strong>
 				                        </a>
 				                        <div class="score">
-				                            <strong class="percent">예매율<span>17.8%</span></strong>
+				                            <strong class="percent">예매율<span>\${movieDTO.RATE}%</span></strong>
 				                        </div>
 			
 				                        <span class="txt-info">

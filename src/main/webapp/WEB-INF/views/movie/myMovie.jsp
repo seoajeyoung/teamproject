@@ -79,13 +79,12 @@
             <div class="inner-contents-profile">
                 <div class="box-image">
                 	<div class="thumb-image">
-                        <img src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif" alt="김동희님 프로필 사진" onerror="errorImage(this, {type:'profile'})">
+                        <img src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif">
                         <span class="profile-mask"></span>
                     </div>
-                     <!-- 등급종류 클래스 : vip, rvip, vvip -->
                 </div>
                 <div class="box-contents">
-	        		<strong>${sessionScope.id}</strong>
+	        		<strong>${sessionScope.member_id}</strong>
 		        </div>
             </div>
         </div>
@@ -104,7 +103,7 @@
         <div class="box-round-inner">
             <div class="inner-contents-log">	
                 <a href="javascript:void(0);" data-label="watched">
-                    <em>1</em>
+                    <em>${count.CHECKEDMOVIE}</em>
                     <strong>내가 본 영화</strong>
                 </a>
             </div>
@@ -192,7 +191,8 @@ $(function() {
 								 `
 						$('.btn-del:last').addClass('review_del');		 
 					} else if(label == 'watched') {
-						test2; = `<b>관람일: ${movieDTO.SAVEDDATE}</b>
+						text2 = `<b>관람일: \${movieDTO.SAVEDDATE} / \${movieDTO.COUNTSEAT}석</b>`
+						$('.btn-del').remove();
 					}
 					$('.title:last').append(text2);	
 				});
