@@ -104,7 +104,7 @@
 										<c:forEach var="list" items="${bookingList}">
 											<tr>
 												<td>${list.TP_NUM }</td>
-												<td>${list.member_id }</td>
+												<td>${list.MEM_ID }</td>
 												<td>${list.title }</td>
 												<td>${list.TH_REGION}/${list.TH_NAME}/${list.TH_NUMBER}</td>
 												<td>${list.TP_SEAT }</td>

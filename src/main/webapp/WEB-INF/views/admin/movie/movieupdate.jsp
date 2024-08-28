@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,71 +91,65 @@
 										cellspacing="0">
 										<thead>
 											<tr>
-												<th colspan="9">${movieDTO.title}상세정보</th>
+												<th colspan="5">${movieDTO.title} 상세정보</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<th style="width: 265px;">영화코드</th>
-												<td colspan="7">${movieDTO.MOVIE_NUM}</td>
-												<!-- 												<th>영화포스터<br>[첨부하기]버튼생성 -->
-												<!-- 												</th> -->
+												<td colspan="3">${movieDTO.MOVIE_NUM}</td>
+												<th style="width: 300px;">영화 포스터</th>
 											</tr>
 											<tr>
 												<th>영화제목</th>
-												<td colspan="2" style="width: 265px;"><input
-													type="text" name="title" value="${movieDTO.title}"></td>
+												<td style="width: 379px;"><input type="text"
+													name="title" value="${movieDTO.title}"></td>
 												<th style="width: 265px;">영문제목</th>
-												<td colspan="4"><input type="text" name="titleEng"
+												<td><input type="text" name="titleEng"
 													value="${movieDTO.titleEng}"></td>
+												<td rowspan="6" style="text-align: center; vertical-align: middle;"><img
+													src="${fn:split(movieDTO.posterUrl, '\\|')[0]}"
+													alt="영화 포스터"
+													style="width: 100%; height: 100%; object-fit: cover;"></td>
 											</tr>
 											<tr>
 												<th>감독</th>
-												<td colspan="2"><input type="text" name="direcotrNm"
+												<td><input type="text" name="direcotrNm"
 													value="${movieDTO.direcotrNm}"></td>
 												<th>배우</th>
-												<td colspan="3"><input type="text" name="actorNm"
+												<td><input type="text" name="actorNm"
 													value="${movieDTO.actorNm}"></td>
 											</tr>
 											<tr>
 												<th>장르</th>
-												<td colspan="2"><input type="text" name="genre"
+												<td><input type="text" name="genre"
 													value="${movieDTO.genre}"></td>
 												<th>상영등급</th>
-												<td colspan="3"><input type="text" name="rating"
+												<td><input type="text" name="rating"
 													value="${movieDTO.rating}"></td>
 											</tr>
 											<tr>
-												<th>런닝타임</th>
-												<td colspan="2"><input type="text" name="runtime"
+												<th>런타임</th>
+												<td><input type="text" name="runtime"
 													value="${movieDTO.runtime}"></td>
-												<th>누적관객수</th>
-												<td colspan="3"><input type="text" name="audiAcc"
-													value="${movieDTO.audiAcc}"></td>
-											</tr>
-											<tr>
 												<th>등록일자</th>
-												<td colspan="2"><input type="date" name="releaseDate"
+												<td><input type="date" name="releaseDate"
 													value="${movieDTO.releaseDate}"></td>
-												<th>상영일자</th>
-												<td style="width: 222px;"><input type="date"
-													name="releaseDts" value="${movieDTO.releaseDts}"></td>
-												<th style="width: 265px;">종영일자</th>
-												<td style="width: 222px;"><input type="date"
-													name="releaseDte" value="${movieDTO.releaseDte}"></td>
 											</tr>
 											<tr>
 												<th>주제곡</th>
-												<td colspan="6"><textarea name="themsSong" style="width: 100%;">${movieDTO.themsSong}</textarea></td>
+												<td colspan="3" style="height: 72px;"><textarea
+														name="themeSong" style="width: 100%; height: 100%;">${movieDTO.themeSong}</textarea></td>
 											</tr>
 											<tr>
 												<th>삽입곡</th>
-												<td colspan="6"><textarea name="soundtrack" style="width: 100%;">${movieDTO.soundtrack}</textarea></td>
+												<td colspan="3" style="height: 72px;"><textarea
+														name="soundtrack" style="width: 100%; height: 100%;">${movieDTO.soundtrack}</textarea></td>
 											</tr>
 											<tr>
 												<th>줄거리</th>
-												<td colspan="8"><textarea name="plot"
-														style="width: 100%;">${movieDTO.plot}</textarea></td>
+												<td colspan="5"><textarea name="plot"
+														style="width: 100%; height: 100%;">${movieDTO.plot}</textarea></td>
 											</tr>
 										</tbody>
 									</table>

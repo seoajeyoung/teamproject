@@ -300,7 +300,7 @@
  LEFT JOIN ANSWER A
 		ON I.IQ_NUM = A.IQ_NUM
 	 WHERE I.IQ_TYPE LIKE '%F%'
- 	 ORDER BY CAST(IQ_NUM AS UNSIGNED) DESC
+ 	 ORDER BY CAST(I.IQ_NUM AS UNSIGNED) DESC
 		 LIMIT #{startRow}, #{pageSize}
 	</select>
 <!-- 	나의문의내역 관리자 카운트 (비밀글만) -->

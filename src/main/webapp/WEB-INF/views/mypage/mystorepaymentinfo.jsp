@@ -130,7 +130,7 @@
 													<td style="padding-top: 20px;">
 														<div class="input_group"
 															style="display: flex; justify-content: center; align-items: center;">
-															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.sp_num}</span>
+															<span id="hg_nm_area" style="width: 560px;">${mypageDTO.SP_NUM}</span>
 														</div>
 													</td>
 												</tr>
@@ -155,7 +155,7 @@
 														for="mob_no_1">상품가격</label></th>
 													<td style="padding-top: 20px;">
 														<div>
-															<span class="input w100 phon_write" id="">${mypageDTO.payment_total_price}원</span>
+															<span class="input w100 phon_write" id="">${mypageDTO.PRODUCT_TOTAL_PRICE}원</span>
 														</div>
 													</td>
 												</tr>
@@ -163,7 +163,7 @@
 													<th scope="row">결제시간</th>
 													<td style="padding-top: 20px;">
 														<div class="" style="width: 560px;">
-															${mypageDTO.payment_date}</div>
+															${mypageDTO.PAYMENT_DATE}</div>
 													</td>
 												</tr>
 											</tbody>

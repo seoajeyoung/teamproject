@@ -4,141 +4,141 @@ import java.sql.Timestamp;
 
 public class MypageDTO {
 	
-	private String member_num;
-	private String member_id;
-	private String member_pass;
-	private String member_name;
-	private String member_nickname;
-	private String member_gender;
-	private String member_phone;
-	private Timestamp member_input;
-	private Timestamp member_out;
-	private Timestamp member_respite;
-	private String member_status;
-	private String member_address;
-	private String member_admin;
-	private String member_grade;
-	private String member_birth;
-	private String member_email;
-	private int point_currentP;
-	private int point_cumulativeP;
+	private String MEM_NUM;
+	private String MEM_ID;
+	private String MEM_PASS;
+	private String MEM_NAME;
+	private String MEM_NICKNAME;
+	private String MEM_GENDER;
+	private String MEM_PHONE;
+	private Timestamp MEM_INPUT;
+	private Timestamp MEM_RESPITE;
+	private Timestamp MEM_OUT;
+	private String MEM_STATUS;
+	private String MEM_ADMIN;
+	private String MEM_GRADE;
+	private String MEM_BIRTH;
+	private String MEM_EMAIL;
+	private String MEM_SNS;
+	
+	
+	private int PO_CURP;
+	private int PO_CUMP;
 	private int sPoint;
-	private String point_detail;
+	private String PO_HIS;
 	private Timestamp point_date;
-	private String point_history;
-	private String member_sns;
+	
+	
 	
 	// ================================================================
 	
-	
-	
-	public String getMember_num() {
-		return member_num;
+	public String getMEM_NUM() {
+		return MEM_NUM;
 	}
-	public void setMember_num(String member_num) {
-		this.member_num = member_num;
+	public void setMEM_NUM(String MEM_NUM) {
+		this.MEM_NUM = MEM_NUM;
 	}
-	public String getMember_id() {
-		return member_id;
+	public String getMEM_ID() {
+		return MEM_ID;
 	}
-	public void setMember_id(String member_id) {
-		this.member_id = member_id;
+	public void setMEM_ID(String MEM_ID) {
+		this.MEM_ID = MEM_ID;
 	}
-	public String getMember_pass() {
-		return member_pass;
+	public String getMEM_PASS() {
+		return MEM_PASS;
 	}
-	public void setMember_pass(String member_pass) {
-		this.member_pass = member_pass;
+	public void setMEM_PASS(String MEM_PASS) {
+		this.MEM_PASS = MEM_PASS;
 	}
-	public String getMember_name() {
-		return member_name;
+	public String getMEM_NAME() {
+		return MEM_NAME;
 	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
+	public void setMEM_NAME(String MEM_NAME) {
+		this.MEM_NAME = MEM_NAME;
 	}
-	public String getMember_nickname() {
-		return member_nickname;
+	public String getMEM_NICKNAME() {
+		return MEM_NICKNAME;
 	}
-	public void setMember_nickname(String member_nickname) {
-		this.member_nickname = member_nickname;
+	public void setMEM_NICKNAME(String MEM_NICKNAME) {
+		this.MEM_NICKNAME = MEM_NICKNAME;
 	}
-	public String getMember_gender() {
-		return member_gender;
+	public String getMEM_GENDER() {
+		return MEM_GENDER;
 	}
-	public void setMember_gender(String member_gender) {
-		this.member_gender = member_gender;
+	public void setMEM_GENDER(String MEM_GENDER) {
+		this.MEM_GENDER = MEM_GENDER;
 	}
-	public String getMember_phone() {
-		return member_phone;
+	public String getMEM_PHONE() {
+		return MEM_PHONE;
 	}
-	public void setMember_phone(String member_phone) {
-		this.member_phone = member_phone;
+	public void setMEM_PHONE(String MEM_PHONE) {
+		this.MEM_PHONE = MEM_PHONE;
 	}
-	public Timestamp getMember_input() {
-		return member_input;
+	public Timestamp getMEM_INPUT() {
+		return MEM_INPUT;
 	}
-	public void setMember_input(Timestamp member_input) {
-		this.member_input = member_input;
+	public void setMEM_INPUT(Timestamp MEM_INPUT) {
+		this.MEM_INPUT = MEM_INPUT;
 	}
-	public Timestamp getMember_out() {
-		return member_out;
+	public Timestamp getMEM_RESPITE() {
+		return MEM_RESPITE;
 	}
-	public void setMember_out(Timestamp member_out) {
-		this.member_out = member_out;
+	public void setMEM_RESPITE(Timestamp MEM_RESPITE) {
+		this.MEM_RESPITE = MEM_RESPITE;
 	}
-	public Timestamp getMember_respite() {
-		return member_respite;
+	public Timestamp getMEM_OUT() {
+		return MEM_OUT;
 	}
-	public void setMember_respite(Timestamp member_respite) {
-		this.member_respite = member_respite;
+	public void setMEM_OUT(Timestamp MEM_OUT) {
+		this.MEM_OUT = MEM_OUT;
 	}
-	public String getMember_status() {
-		return member_status;
+	public String getMEM_STATUS() {
+		return MEM_STATUS;
 	}
-	public void setMember_status(String member_status) {
-		this.member_status = member_status;
+	public void setMEM_STATUS(String MEM_STATUS) {
+		this.MEM_STATUS = MEM_STATUS;
 	}
-	public String getMember_address() {
-		return member_address;
+	public String getMEM_ADMIN() {
+		return MEM_ADMIN;
 	}
-	public void setMember_address(String member_address) {
-		this.member_address = member_address;
+	public void setMEM_ADMIN(String MEM_ADMIN) {
+		this.MEM_ADMIN = MEM_ADMIN;
 	}
-	public String getMember_admin() {
-		return member_admin;
+	public String getMEM_GRADE() {
+		return MEM_GRADE;
 	}
-	public void setMember_admin(String member_admin) {
-		this.member_admin = member_admin;
+	public void setMEM_GRADE(String MEM_GRADE) {
+		this.MEM_GRADE = MEM_GRADE;
 	}
-	public String getMember_grade() {
-		return member_grade;
+	public String getMEM_BIRTH() {
+		return MEM_BIRTH;
 	}
-	public void setMember_grade(String member_grade) {
-		this.member_grade = member_grade;
+	public void setMEM_BIRTH(String MEM_BIRTH) {
+		this.MEM_BIRTH = MEM_BIRTH;
 	}
-	public String getMember_birth() {
-		return member_birth;
+	public String getMEM_EMAIL() {
+		return MEM_EMAIL;
 	}
-	public void setMember_birth(String member_birth) {
-		this.member_birth = member_birth;
+	public void setMEM_EMAIL(String MEM_EMAIL) {
+		this.MEM_EMAIL = MEM_EMAIL;
 	}
-	public String getMember_email() {
-		return member_email;
+	public String getMEM_SNS() {
+		return MEM_SNS;
 	}
-	public void setMember_email(String member_email) {
-		this.member_email = member_email;
+	public void setMEM_SNS(String MEM_SNS) {
+		this.MEM_SNS = MEM_SNS;
 	}
-	public int getPoint_currentP() {
-		return point_currentP;
+	public int getPO_CURP() {
+		return PO_CURP;
 	}
-	public void setPoint_currentP(int point_currentP) {
-		this.point_currentP = point_currentP;
+	public void setPO_CURP(int PO_CURP) {
+		this.PO_CURP = PO_CURP;
 	}
-	public int getPoint_cumulativeP() {
-		return point_cumulativeP;
+	public int getPO_CUMP() {
+		return PO_CUMP;
 	}
-	public void setPoint_cumulativeP(int point_cumulativeP) {
-		this.point_cumulativeP = point_cumulativeP;
+	public void setPO_CUMP(int PO_CUMP) {
+		this.PO_CUMP = PO_CUMP;
 	}
 	public int getsPoint() {
 		return sPoint;
@@ -146,11 +146,11 @@ public class MypageDTO {
 	public void setsPoint(int sPoint) {
 		this.sPoint = sPoint;
 	}
-	public String getPoint_detail() {
-		return point_detail;
+	public String getPO_HIS() {
+		return PO_HIS;
 	}
-	public void setPoint_detail(String point_detail) {
-		this.point_detail = point_detail;
+	public void setPO_HIS(String PO_HIS) {
+		this.PO_HIS = PO_HIS;
 	}
 	public Timestamp getPoint_date() {
 		return point_date;
@@ -158,31 +158,11 @@ public class MypageDTO {
 	public void setPoint_date(Timestamp point_date) {
 		this.point_date = point_date;
 	}
-	public String getPoint_history() {
-		return point_history;
-	}
-	public void setPoint_history(String point_history) {
-		this.point_history = point_history;
-	}
-	public String getMember_sns() {
-		return member_sns;
-	}
-	public void setMember_sns(String member_sns) {
-		this.member_sns = member_sns;
-	}
 	
-	@Override
-	public String toString() {
-		return "MypageDTO [member_num=" + member_num + ", member_id=" + member_id + ", member_pass=" + member_pass
-				+ ", member_name=" + member_name + ", member_nickname=" + member_nickname + ", member_gender="
-				+ member_gender + ", member_phone=" + member_phone + ", member_input=" + member_input + ", member_out="
-				+ member_out + ", member_respite=" + member_respite + ", member_status=" + member_status
-				+ ", member_address=" + member_address + ", member_admin=" + member_admin + ", member_grade="
-				+ member_grade + ", member_birth=" + member_birth + ", member_email=" + member_email
-				+ ", point_currentP=" + point_currentP + ", point_cumulativeP=" + point_cumulativeP + ", sPoint="
-				+ sPoint + ", point_detail=" + point_detail + ", point_date=" + point_date + ", point_history="
-				+ point_history + ", member_sns=" + member_sns + "]";
-	}
+	
+	
+	
+	
 	
 	// ===========================================================================================================================	
 	
@@ -277,30 +257,31 @@ public class MypageDTO {
 	
 	// ================================================================
 	
-	private String sp_num;
-	private String payment_total_price;
-	private String payment_date;
+	private String SP_NUM;
+	private String PRODUCT_TOTAL_PRICE;
+	private String PAYMENT_DATE;
 	private String ST_NAME;
 	private String ST_TYPE;
 	private String ST_CONST;
-
-	public String getSp_num() {
-		return sp_num;
+	
+	
+	public String getSP_NUM() {
+		return SP_NUM;
 	}
-	public void setSp_num(String sp_num) {
-		this.sp_num = sp_num;
+	public void setSP_NUM(String SP_NUM) {
+		this.SP_NUM = SP_NUM;
 	}
-	public String getPayment_total_price() {
-		return payment_total_price;
+	public String getPRODUCT_TOTAL_PRICE() {
+		return PRODUCT_TOTAL_PRICE;
 	}
-	public void setPayment_total_price(String payment_total_price) {
-		this.payment_total_price = payment_total_price;
+	public void setPRODUCT_TOTAL_PRICE(String PRODUCT_TOTAL_PRICE) {
+		this.PRODUCT_TOTAL_PRICE = PRODUCT_TOTAL_PRICE;
 	}
-	public String getPayment_date() {
-		return payment_date;
+	public String getPAYMENT_DATE() {
+		return PAYMENT_DATE;
 	}
-	public void setPayment_date(String payment_date) {
-		this.payment_date = payment_date;
+	public void setPAYMENT_DATE(String PAYMENT_DATE) {
+		this.PAYMENT_DATE = PAYMENT_DATE;
 	}
 	public String getST_NAME() {
 		return ST_NAME;

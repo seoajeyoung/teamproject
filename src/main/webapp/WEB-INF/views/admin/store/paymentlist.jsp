@@ -101,13 +101,13 @@
 									<tbody>
 										<c:forEach var="list" items="${storePaymentList}">
 											<tr>
-												<td>${list.sp_num }</td>
-												<td>${list.member_id }</td>
+												<td>${list.SP_NUM }</td>
+												<td>${list.MEM_ID }</td>
 												<td>${list.ST_NAME }</td>
 												<td>${list.ST_TYPE}</td>
-												<td>${list.payment_date }</td>
+												<td>${list.PAYMENT_DATE }</td>
 												<td><a
-													href="${pageContext.request.contextPath}/admin/store/paymentinfo?sp_num=${list.sp_num}"
+													href="${pageContext.request.contextPath}/admin/store/paymentinfo?SP_NUM=${list.SP_NUM}"
 													class="btn btn-detailinfo btn-user btn-block"
 													style="font-size: 16px !important;">상세정보확인</a></td>
 											</tr>

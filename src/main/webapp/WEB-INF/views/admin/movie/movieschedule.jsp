@@ -330,11 +330,18 @@ $(function() {
 </script>
 <script>
 function deleteRow(ciNum) {
+    var scTime = document.getElementById('scTime' + ciNum).innerText;
+    var scTimeEnd = document.getElementById('scTimeEnd' + ciNum).innerText;
+
     if (confirm('정말 삭제하시겠습니까?')) {
         $.ajax({
-            url: '${pageContext.request.contextPath}/admin/movie/deleteSchedule', // 서버의 삭제 엔드포인트
+            url: '${pageContext.request.contextPath}/admin/movie/deleteSchedule',
             type: 'POST',
-            data: { CI_NUM: ciNum }, // 전달할 데이터
+            data: {
+                CI_NUM: ciNum, 
+                SC_TIME: scTime, 
+                SC_TIME_END: scTimeEnd 
+            }, // SC_TIME과 SC_TIME_END 전달
             success: function(response) {
                 alert('삭제 완료!');
                 location.reload(); // 페이지를 새로고침하여 변경 내용을 반영

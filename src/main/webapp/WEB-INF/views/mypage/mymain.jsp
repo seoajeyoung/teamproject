@@ -108,22 +108,21 @@
 								<div class="box-image">
 									<span class="thumb-image"> <img
 										src="https://img.cgv.co.kr/MyCGV/Profile/2015/0713/kis0726_053122_M.jpg"
-										alt="김우석                                            님 프로필 사진"
 										onerror="errorImage(this, {'type':'profile'})"> <span
 										class="profile-mask"></span>
 									</span>
 								</div>
 								<div class="box-contents newtype" style="width: 520px;">
 									<div class="person-info">
-										<strong>${mypageDTO.member_name}님</strong> <em>${sessionScope.member_id}</em>
-										<span>닉네임 : ${mypageDTO.member_nickname} </span>
+										<strong>${mypageDTO.MEM_NAME}님</strong> <em>${sessionScope.member_id}</em>
+										<span>닉네임 : ${mypageDTO.MEM_NICKNAME} </span>
 									</div>
 									<div class="grade-info">
 
 										<p
 											style="margin-bottom: 4px; color: #342929; font-family: 'NanumBarunGothicBold', '맑은 고딕', '돋움', Dotum, sans-serif; font-size: 20px; line-height: 20px;">
 
-											고객님은 <strong class="txt-purple">${mypageDTO.member_grade}</strong>
+											고객님은 <strong class="txt-purple">${mypageDTO.MEM_GRADE}</strong>
 											입니다.
 
 										</p>
@@ -142,8 +141,8 @@
 									<br> <br>
 									<ul>
 
-										<li><strong>OSTicket 할인쿠폰</strong>개</li>
-										<li><strong>영화관람권</strong>개</li>
+										<li><strong>OSTicket 할인쿠폰 </strong><span style="font-weight: bold;">0 개</span> </li>
+										<li><strong>영화관람권</strong><span style="font-weight: bold;">0 개</span> </li>
 									</ul>
 								</div>
 
@@ -152,13 +151,13 @@
 									<h3>OSTicket POINT</h3>
 									<ul>
 										<li><strong>OSTicket 사용가능 포인트</strong> <span><em
-												class="txt-maroon">${point.point_currentP}</em> 점</span></li>
+												class="txt-maroon">${point.PO_CURP}</em> 점</span></li>
 									</ul>
 									<!-- 2022.11.15 VIP 1차 개편 관련 수정-->
 									<div class="myCgv_content">
 										<h3>VIP 점수</h3>
 										<ul>
-											<li><strong>VIP 누적 포인트 </strong> <span>${point.point_cumulativeP}점</span></li>
+											<li><strong>VIP 누적 포인트 </strong> <span>${point.PO_CUMP}점</span></li>
 										</ul>
 									</div>
 

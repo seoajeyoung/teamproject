@@ -82,15 +82,15 @@
 									<tbody>
 										<tr>
 											<th>결제번호</th>
-											<td style="width: 556px;">${adminDTO.sp_num}</td>
+											<td style="width: 556px;">${adminDTO.SP_NUM}</td>
 											<th>회원ID</th>
-											<td>${adminDTO.member_id}</td>
+											<td>${adminDTO.MEM_ID}</td>
 										</tr>
 										<tr>
 											<th>결제가격</th>
-											<td>${adminDTO.payment_total_price}원</td>
+											<td>${adminDTO.PRODUCT_TOTAL_PRICE} 원</td>
 											<th>결제시간</th>
-											<td>${adminDTO.payment_date}</td>
+											<td>${adminDTO.PAYMENT_DATE}</td>
 										</tr>
 										<tr>
 											<th>상품명</th>

@@ -44,8 +44,6 @@ public class MovieController implements WebMvcConfigurer {
 	// 영화 차트 
 	@GetMapping("/movie")
 	public String moviePost(Model model, HttpSession session) {
-//		List<MovieDTO> movieList = movieService.getMovie();
-//		model.addAttribute("movieList", movieList);
 		return "/movie/movie";
 	}
 	
@@ -177,7 +175,8 @@ public class MovieController implements WebMvcConfigurer {
 	@PostMapping("/bookmark")
 	@ResponseBody
 	public ResponseEntity<String> bookmark(@RequestParam Map<String, Object> rMap) {
-		String id = (String)rMap.get("member_id");
+		String id = (String)rMap.get("MEMBER_ID");
+		
 		if(id == null || id.trim().equals("")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nullId");
 		
 		

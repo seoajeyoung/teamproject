@@ -203,7 +203,9 @@
 	<!-- 찜한 정보 삭제 -->
 	<delete id="deleteBookmark">
 		DELETE FROM BOOKMARK
-		WHERE MEM_ID = #{MEMBER_ID}
+		WHERE MEM_NUM = (SELECT MEM_NUM
+						FROM MEMBERS
+						WHERE MEM_ID = #{MEMBER_ID})
 		AND MOVIE_NUM = #{MOVIE_NUM}
 	</delete>
 	
@@ -330,22 +332,23 @@
 	
 	<!-- 리뷰 -->
 	<select id="getReview" resultType="java.util.LinkedHashMap" parameterType="map">
-		select REVIEW_NUM
+		SELECT REVIEW_NUM
 			, MOVIE_NUM
-			, MEM_ID
+			, MEM_NUM
 			, DATE_FORMAT(REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
 			, REVIEW_CONTENT
 			, RECOMMEND
-		FROM REVIEW
+		    , (SELECT MEM_ID
+			   FROM MEMBERS M
+		       WHERE M.MEM_NUM = R.MEM_NUM) AS MEM_ID 
+		FROM REVIEW R
 		WHERE 1=1
-		
 		<if test="MEM_ID != null and MOVIE_NUM != null">
-		AND MEM_ID = (SELECT MEM_NUM
+		AND MEM_NUM = (SELECT MEM_NUM
 					  FROM MEMBERS
 					  WHERE MEM_ID = #{MEMBER_ID})
 		AND MOVIE_NUM = #{MOVIE_NUM}
 		</if>
-		
 		<if test="MEM_ID == null and MOVIE_NUM != null"> 
 		AND MOVIE_NUM = #{MOVIE_NUM}
         <choose>
@@ -393,7 +396,7 @@
 	
 	<!-- 리뷰 추천유저 정보 저장 -->
 	<insert id="reUserinsert">
-		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEM_ID)
+		INSERT INTO RECOMMEND_CHECK(REVIEW_NUM, MEM_NUM)
 		VALUES(#{REVIEW_NUM}, (SELECT MEM_NUM
 							   FROM MEMBERS
 							   WHERE MEM_ID = #{MEMBER_ID}))

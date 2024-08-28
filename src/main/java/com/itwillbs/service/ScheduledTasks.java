@@ -32,8 +32,10 @@ public class ScheduledTasks {
 	}
 
 	// 1분마다 실행되는 작업
-	@Scheduled(fixedRate = 600000000) // 60000 밀리초 == 1분 / 나중에 24시간 (86400000)으로 설정하기
+	@Scheduled(fixedRate = 86400000) // 60000 밀리초 == 1분 / 나중에 24시간 (86400000)으로 설정하기
 	public void deleteExpiredMembers() {
+		
+		adminService.realDeleteMember();
 
 		// 1. 먼저 POINT 테이블에서 관련 레코드 삭제
 //        String deletePointsSql = "DELETE FROM POINT WHERE member_num IN (SELECT member_num FROM MEMBERS WHERE member_status = '탈퇴유예' AND member_out <= NOW())";
@@ -43,7 +45,7 @@ public class ScheduledTasks {
 //        String deleteMembersSql = "DELETE FROM MEMBERS WHERE member_status = '탈퇴유예' AND member_out <= NOW()";
 //        int membersDeleted = jdbcTemplate.update(deleteMembersSql);
 
-		System.out.println("스케줄 실행");
+//		System.out.println("스케줄 실행");
 	}
 
 	@Scheduled(fixedRate = 1296000000) // 15일마다 실행 (15일 = 1296000000 milliseconds)
@@ -68,8 +70,6 @@ public class ScheduledTasks {
 		
 //        adminService.selectAndSaveMovies(releaseDtsStr, releaseDteStr); 
  
-//      adminService.selectAndSaveMovies("20240807", "20240807");
-
 	} 
 
 	@Scheduled(fixedRate = 604800000) // 7일마다 실행 (15일 = 1296000000 milliseconds)
@@ -96,7 +96,7 @@ public class ScheduledTasks {
 //    	String deleteMoiveScheduleSql = "DELETE FROM SCREEN WHERE SC_TIME_END < DATE_SUB(CURDATE(), INTERVAL 3 DAY)";
 //    	int deleteMoiveSchedule = jdbcTemplate.update(deleteMoiveScheduleSql);
 
-		System.out.println("일정지난 스케쥴 삭제");
+//		System.out.println("일정지난 스케쥴 삭제");
 	}
 
 	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
@@ -116,9 +116,9 @@ public class ScheduledTasks {
         int movieTotalSales = adminService.getMovieSalesSumByDate(startOfDay, endOfDay);
 		// 어제의 매출 합계와 날짜를 테이블에 삽입
         
-        System.out.println("S: " + storeTotalSales);
-        System.out.println("M: " + movieTotalSales);
-        System.out.println("A: " + (storeTotalSales+movieTotalSales));
+//        System.out.println("S: " + storeTotalSales);
+//        System.out.println("M: " + movieTotalSales);
+//        System.out.println("A: " + (storeTotalSales+movieTotalSales));
         
 //        adminService.insertDailyTotalSales(yesterday, storeTotalSales, movieTotalSales); 
         

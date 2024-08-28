@@ -25,10 +25,6 @@ public class MypageService {
 		return mypageDAO.getPointByMemberNum(memberNum);
 	}
 
-//	public boolean checkPassword(String id, String originalPwd) {
-//        String storedPassword = mypageDAO.getPasswordByMemberId(id);
-//        return storedPassword != null && storedPassword.equals(originalPwd);
-//    }
 
 	public boolean checkPassword(String memberId, String originalPwd) {
 		String storedPassword = mypageDAO.getPasswordByMemberId(memberId);

@@ -84,7 +84,7 @@
 											<th colspan="2">예매번호</th>
 											<td colspan="4">${adminDTO.TP_NUM}</td>
 											<th>회원ID</th>
-											<td colspan="3">${adminDTO.member_id}</td>
+											<td colspan="3">${adminDTO.MEM_ID}</td>
 										</tr>
 										<tr>
 											<th colspan="2">영화명</th>

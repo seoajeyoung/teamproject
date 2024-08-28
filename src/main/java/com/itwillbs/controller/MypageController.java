@@ -43,8 +43,8 @@ public class MypageController {
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
 		model.addAttribute("mypageDTO", mypageDTO);
 
-		// 멤버num을 참조하는 포인트 테이블의 포인트 가져오기
-		String memberNum = mypageDTO.getMember_num();
+//		 멤버num을 참조하는 포인트 테이블의 포인트 가져오기
+		String memberNum = mypageDTO.getMEM_NUM();
 		MypageDTO mypageDTO2 = mypageService.getPointByMemberNum(memberNum);
 		model.addAttribute("point", mypageDTO2);
 
@@ -58,9 +58,9 @@ public class MypageController {
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
 		model.addAttribute("mypageDTO", mypageDTO);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date birthDate = dateFormat.parse(mypageDTO.getMember_birth());
-		model.addAttribute("member_birth", birthDate);
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		Date birthDate = dateFormat.parse(mypageDTO.getMEM_BIRTH());
+//		model.addAttribute("member_birth", birthDate);
 
 		return "/mypage/myinfo";
 	}
@@ -72,9 +72,9 @@ public class MypageController {
 		MypageDTO mypageDTO = mypageService.getMyInfo(id);
 		model.addAttribute("mypageDTO", mypageDTO);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date birthDate = dateFormat.parse(mypageDTO.getMember_birth());
-		model.addAttribute("member_birth", birthDate);
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		Date birthDate = dateFormat.parse(mypageDTO.getMember_birth());
+//		model.addAttribute("member_birth", birthDate);
 
 		return "/mypage/myupdate";
 	}
@@ -101,7 +101,7 @@ public class MypageController {
 
 	@PostMapping("/mypage/mydelete")
 	public String myDelete(@RequestParam("member_id") String id, HttpSession session) {
-
+		
 		mypageService.updateMystatus(id);
 		session.invalidate();
 
@@ -116,9 +116,9 @@ public class MypageController {
 		model.addAttribute("mypageDTO", mypageDTO);
 
 		// 멤버num을 참조하는 포인트 테이블의 포인트 가져오기
-		String memberNum = mypageDTO.getMember_num();
-		MypageDTO mypageDTO2 = mypageService.getPointByMemberNum(memberNum);
-		model.addAttribute("point", mypageDTO2);
+//		String memberNum = mypageDTO.getMember_num();
+//		MypageDTO mypageDTO2 = mypageService.getPointByMemberNum(memberNum);
+//		model.addAttribute("point", mypageDTO2);
 
 		return "/mypage/mypoint";
 	}
@@ -250,7 +250,7 @@ public class MypageController {
 	@GetMapping("/mystorepaymentinfo")
 	public String mystorepaymentinfo(MypageDTO mypageDTO, Model model) {
 
-		MypageDTO mypageDTO2 = mypageService.getMyStorePaymentInfo(mypageDTO.getSp_num());
+		MypageDTO mypageDTO2 = mypageService.getMyStorePaymentInfo(mypageDTO.getSP_NUM());
 
 		model.addAttribute("mypageDTO", mypageDTO2);
 

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,7 +128,7 @@
 										<form
 											action="${pageContext.request.contextPath}/mypage/myupdatePro"
 											method="post">
-											<input type="hidden" name="member_id"
+											<input type="hidden" name="MEM_ID"
 												value="${sessionScope.member_id}">
 											<table>
 												<colgroup>
@@ -140,8 +142,8 @@
 														<th scope="row">이름</th>
 														<td style="padding-top: 20px;"><span
 															class="input_txt w330" style="padding-right: 100px;">
-																<input type="text" id="name" name="member_name"
-																class="text" value="${mypageDTO.member_name}">
+																<input type="text" id="name" name="MEM_NAME"
+																class="text" value="${mypageDTO.MEM_NAME}">
 														</span></td>
 													</tr>
 													<tr>
@@ -152,7 +154,7 @@
 													<tr>
 														<th scope="row">비밀번호</th>
 														<td style="padding-top: 18px;"><span
-															class="input_txt w330" style="padding-right: 100px;">
+															class="input_txt w330" style="padding-right: 100px; margin-bottom: 10px;">
 																<input type="password" id="originalpwd"
 																name="originalpwd" class="text"
 																placeholder="비밀번호를 입력해주세요." title="비밀번호" maxlength="20">
@@ -162,8 +164,8 @@
 														<th scope="row" style="padding-top: 30px;">비밀번호 변경</th>
 														<td style="padding-top: 18px;"><span
 															class="input_txt w330"
-															style="padding-right: 100px; margin-bottom: 5px;">
-																<input type="password" id="changepwd" name="member_pass"
+															style="padding-right: 100px; margin-bottom: 10px;">
+																<input type="password" id="changepwd" name="MEM_PASS"
 																class="text" placeholder="변경할 비밀번호를 입력해주세요."
 																title="비밀번호" maxlength="20">
 														</span><br> <span class="passhint"
@@ -174,7 +176,7 @@
 														<th scope="row" style="padding-top: 39px;">비밀번호 확인</th>
 														<td style="padding-top: 18px; padding-bottom: 10px;"><span
 															class="input_txt w330"
-															style="padding-right: 100px; margin-bottom: 5px;">
+															style="padding-right: 100px; margin-bottom: 10px;">
 																<input type="password" id="changepwdcheck"
 																name="member_passcheck" class="text"
 																placeholder="변경할 비밀번호를 확인해주세요." title="비밀번호"
@@ -187,28 +189,35 @@
 													<tr class="input">
 														<th scope="row"><label for="birth_yy">생년월일</label></th>
 														<td style="padding-top: 20px; padding-right: 120px;"><span
-															class="w120 " data-skin="form"> <fmt:formatDate
-																	value="${member_birth}" pattern="yyyy년 MM월 dd일" />
+															class="w120 " data-skin="form"> <c:set
+																	var="birthYear"
+																	value="${fn:substring(mypageDTO.MEM_BIRTH, 0, 4)}" />
+																<c:set var="birthMonth"
+																	value="${fn:substring(mypageDTO.MEM_BIRTH, 4, 6)}" />
+																<c:set var="birthDay"
+																	value="${fn:substring(mypageDTO.MEM_BIRTH, 6, 8)}" />
+
+																${birthYear}년 ${birthMonth}월 ${birthDay}일
 														</span></td>
 													</tr>
 													<tr>
 														<th scope="row">성별</th>
 														<td style="padding-top: 20px; padding-right: 140px;">
 															<div class="reg_content radio_area">
-																<c:if test="${mypageDTO.member_gender eq '남' }">
+																<c:if test="${mypageDTO.MEM_GENDER eq '남' }">
 																	<input type="radio" class="css-radio" id="mmm_lbl"
-																		name="member_gender" value="남" checked>
+																		name="MEM_GENDER" value="남" checked>
 																	<label for="mmm_lbl">남</label>
 																	<input type="radio" class="css-radio" id="www_lbl"
-																		name="member_gender" value="여">
+																		name="MEM_GENDER" value="여">
 																	<label for="www_lbl">여</label>
 																</c:if>
-																<c:if test="${mypageDTO.member_gender eq '여' }">
+																<c:if test="${mypageDTO.MEM_GENDER eq '여' }">
 																	<input type="radio" class="css-radio" id="mmm_lbl"
-																		name="member_gender" value="남">
+																		name="MEM_GENDER" value="남">
 																	<label for="mmm_lbl">남</label>
 																	<input type="radio" class="css-radio" id="www_lbl"
-																		name="member_gender" value="여" checked>
+																		name="MEM_GENDER" value="여" checked>
 																	<label for="www_lbl">여</label>
 																</c:if>
 															</div>
@@ -222,8 +231,8 @@
 															<div>
 																<span class="input_txt w100 phon_write"
 																	style="padding-right: 100px;" id="mobileNoInfo"><input
-																	type="text" id="phone" class="text" name="member_phone"
-																	value="${mypageDTO.member_phone}"></span>
+																	type="text" id="phone" class="text" name="MEM_PHONE"
+																	value="${mypageDTO.MEM_PHONE}"></span>
 															</div>
 														</td>
 													</tr>
@@ -244,19 +253,10 @@
 																	<option value="gmail.com">gmail.com</option>
 																	<option value="daum.net">daum.net</option>
 																</select>
-															</div> <input type="hidden" name="member_email"
+															</div> <input type="hidden" name="MEM_EMAIL"
 															id="completeEmail">
 
 														</td>
-													</tr>
-													<tr>
-														<th scope="row">주소</th>
-														<td style="padding-top: 20px;"><span
-															class="input_txt w100 phon_write"
-															style="padding-right: 100px;" id="mobileNoInfo"><input
-																type="text" id="address" class="text"
-																name="member_address"
-																value="${mypageDTO.member_address}"></span>
 													</tr>
 												</tbody>
 											</table>
@@ -285,7 +285,7 @@
 	<script>
 	// JavaScript로 이메일 분리 및 입력 필드에 채우기
 	document.addEventListener("DOMContentLoaded", function() {
-		var email = "${mypageDTO.member_email}";
+		var email = "${mypageDTO.MEM_EMAIL}";
 
 		// 이메일을 @ 기준으로 분리
 		var emailParts = email.split("@");
