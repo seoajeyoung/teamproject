@@ -254,7 +254,7 @@
 																	<option value="daum.net">daum.net</option>
 																</select>
 															</div> <input type="hidden" name="MEM_EMAIL"
-															id="completeEmail">
+																	id="completeEmail">
 
 														</td>
 													</tr>

@@ -183,11 +183,9 @@
 
 	<update id="resetMovieRank"
 		parameterType="com.itwillbs.domain.AdminDTO">
-
 		UPDATE MOVIE m
 		SET m.rank = null
 		WHERE m.rank is not null;
-
 	</update>
 
 
@@ -207,8 +205,7 @@
 		t1.rank = t2.rank;
 	</update>
 
-
-
+	
 	<!-- ====================================================================================== -->
 
 	<!-- 영화목록 -->
