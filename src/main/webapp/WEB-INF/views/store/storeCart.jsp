@@ -137,8 +137,8 @@
             pay_method: "card",   // 결제 수단
             merchant_uid: merchantUid,   // 생성된 주문번호
             name: window.st_name,  // 상품명
-//             amount: window.product_total_price, // 결제 금액
-            amount: 100, // 결제 금액
+            amount: window.product_total_price, // 결제 금액
+//             amount: 100, // 결제 금액
             buyer_email: "${memberDTO.member_email}", // 사용자 이메일
             buyer_name: "${memberDTO.member_name}",   // 사용자명
             buyer_tel: "${memberDTO.member_phone}" // 사용자 전화번호
