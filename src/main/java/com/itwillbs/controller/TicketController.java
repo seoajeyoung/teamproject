@@ -293,7 +293,7 @@ public class TicketController {
 	public ResponseEntity<Map<String, Object>> SEATPAYMENT(@RequestBody Map<String, Object> request,
 			HttpSession session) {
 		int checkseat = ticketService.checkseat(request);
-
+		
 		request.put("member_num", session.getAttribute("member_num"));
 		
 		if (checkseat == 0) {
@@ -325,6 +325,7 @@ public class TicketController {
 		}
 	}
 
+	
 	@PostMapping("/DELETESEAT") // 결제화면에서 이전누르면 전에 선택한 좌석 지우는 맵핑
 	public void DELETESEAT(@RequestBody Map<String, Object> request) {
 

@@ -165,47 +165,31 @@ loadSeats();
 });
     
     // 결제하기 버튼 클릭 이벤트함수
-     $('#tnb_step_btn_right').on('click', function(event) {
-        event.preventDefault(); 
+$('#tnb_step_btn_right').on('click', function(event) {
+    event.preventDefault(); 
 
-
-        if ( selectsenum.length < totalSelected) {
-            alert(`선택한 인원(${totalSelected}명)만큼 좌석을 선택해주세요.`);
-            return;
-        }
-		
-		if(totalSelected == 0 ){
-			alert(`좌석을 선택하셔야 합니다.`);
-			return;
-		}
-		
-		 $.ajax({
-        url: '/teamproject/SEATCHECK', 
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            seseat: selectsenum
-        }),
-        success: function(response) {
-            if (response.status === "unavailable") {
-                alert("선택하신 좌석 중 일부가 이미 예매되었습니다. 좌석을 다시 선택해 주세요.");
-                location.reload();
-            } else {
-                // 좌석이 사용 가능할 때 두 번째 AJAX 요청 실행
-                seatpayment();
-            }
-        }
-    	});
-		
-		
-		var categoryPrices = {
+    if (selectsenum.length < totalSelected) {
+        alert(`선택한 인원(${totalSelected}명)만큼 좌석을 선택해주세요.`);
+        return;
+    }
+	
+	if(totalSelected == 0 ){
+		alert(`좌석을 선택하셔야 합니다.`);
+		return;
+	}
+	
+	var categoryPrices = {
         '일반': 10000,
         '청소년': 7000,
         '경로': 5000,
         '우대': 3000
     };
     var summary = [];
-	payment = [];
+	var payment = [];
+    var totalPrice = 0;
+    var count;
+    var categoryname;
+
     for (var category in selectedPerCategory) {
         if (selectedPerCategory.hasOwnProperty(category)) {
             count = selectedPerCategory[category];
@@ -214,20 +198,25 @@ loadSeats();
             totalPrice += categoryTotal;
             categoryname = category;
             
-             for (var i = 0; i < count; i++) {
-             
-             	payment.push([category, price]);
-             }
+            for (var i = 0; i < count; i++) {
+                payment.push([category, price]);
+            }
             
             summary.push(`${category} ${price} * ${count} = ${categoryTotal}`);
         }
     }
+
+    if (selectsenum.length !== payment.length) {
+        alert("선택한 인원과 좌석의 수가 맞지 않습니다.");
+        return;
+    }
+
     // Confirm 대화상자 표시
     var confirmMessage = `선택된 좌석:\n${selectsenum.join(', ')}\n\n`;
     confirmMessage += `인원 및 가격:\n${summary.join('\n')}\n\n`;
     confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
-    debugger;
-        if (confirm(confirmMessage)) {
+    
+    if (confirm(confirmMessage)) {
         // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
         $.ajax({
             url: '/teamproject/SEATPAYMENT', 
@@ -266,12 +255,20 @@ loadSeats();
                	 location.reload();
            		 }
             },
+            error: function(xhr) {
+                // 서버가 에러 상태를 반환했을 때 처리
+                var response = JSON.parse(xhr.responseText);
+                alert(response.message);
+                location.reload();
+                
+            }
         });
     } else {
     	totalPrice = 0;
         return;
     }
-    });
+});
+
     
     
     
