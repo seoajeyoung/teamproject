@@ -31,8 +31,8 @@ public class ScheduledTasks {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// 1분마다 실행되는 작업
-	@Scheduled(fixedRate = 86400000) // 60000 밀리초 == 1분 / 나중에 24시간 (86400000)으로 설정하기
+	// 매일 자정에 자동 탈퇴
+	@Scheduled(cron = "0 0 0 * * ?") 
 	public void deleteExpiredMembers() {
 		
 		adminService.realDeleteMember();
@@ -88,10 +88,11 @@ public class ScheduledTasks {
 
 //		System.out.println("일정지난 스케쥴 삭제");
 	}
-
-	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
+	
 	// (cron = "0 0 0 * * ?")
 	// (fixedRate = 86400000)
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
+	
 	public void insertSales() {
 
 		// 어제 날짜 계산 (오늘 날짜에서 하루를 뺌)
@@ -104,13 +105,15 @@ public class ScheduledTasks {
 //		 어제의 매출 합계를 계산
         int storeTotalSales = adminService.getStoreSalesSumByDate(startOfDay, endOfDay);
         int movieTotalSales = adminService.getMovieSalesSumByDate(startOfDay, endOfDay);
+        
 		// 어제의 매출 합계와 날짜를 테이블에 삽입
+//        adminService.insertDailyTotalSales(yesterday, storeTotalSales, movieTotalSales); 
         
 //        System.out.println("S: " + storeTotalSales);
 //        System.out.println("M: " + movieTotalSales);
 //        System.out.println("A: " + (storeTotalSales+movieTotalSales));
         
-//        adminService.insertDailyTotalSales(yesterday, storeTotalSales, movieTotalSales); 
+
 //        
 	} 
 

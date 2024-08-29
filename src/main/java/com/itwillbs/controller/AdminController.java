@@ -936,7 +936,7 @@ public class AdminController {
 		// JSP 페이지로 리턴
 		return "/admin/statistics/theatersales";
 	}
-
+	// =================================================================================================
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 
@@ -945,4 +945,8 @@ public class AdminController {
 
 		return "redirect:/main/main";
 	}
+	
+	// =================================================================================================
+	
+	
 }
