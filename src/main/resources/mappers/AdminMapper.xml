@@ -127,7 +127,7 @@
 	<!-- 회원정보복구 -->
 
 	<update id="restoreMember">
-		update MEMBERS set MEM_STATUS = '회원',
+		update MEMBERS set MEM_STATUS = NULL,
 		MEM_RESPITE =
 		NULL,
 		MEM_OUT = NULL
