@@ -71,7 +71,6 @@ private TheaterService theaterService;
 	@ResponseBody
 	public List<Map<String, Object>> runningMovie(@RequestParam Map<String, String> rMap) {
 		List<Map<String, Object>> list = theaterService.getRunningMovie(rMap);
-		System.out.println(list);
 		return list;
 	}
 	

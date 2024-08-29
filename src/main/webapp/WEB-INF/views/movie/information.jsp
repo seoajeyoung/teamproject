@@ -288,7 +288,7 @@ function pointChart() {
             <p>${movieDTO.TITLEENG}</p>
         </div>
         <div class="score"> 
-            <strong class="percent">예매율&nbsp;<span>14.6%</span></strong>
+            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE}%</span></strong>
             <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 -->            
 <!--             <div class="egg-gage small"> -->
 <!-- 		    	<span class="sprite_preegg default"></span> -->
@@ -916,9 +916,9 @@ $(document).on('click', '.sortTab>a', function() {
     <div class="ad-partner01">
     	<iframe src="${pageContext.request.contextPath}/movie/ad" width="160" height="300" title="영화광고-명탐정 코난: 100만 달러의 펜타그램" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="M_Rectangle" id="M_Rectangle"></iframe>
     </div>
-    <div class="ad-external01">
-        <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@C_Rectangle" width="160" height="300" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="C_Rectangle" id="C_Rectangle"></iframe>
-    </div>
+<!--     <div class="ad-external01"> -->
+<!--         <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@C_Rectangle" width="160" height="300" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="C_Rectangle" id="C_Rectangle"></iframe> -->
+<!--     </div> -->
 </div>
 
 </div>

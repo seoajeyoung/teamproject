@@ -85,10 +85,8 @@ public class MovieService {
 	}
 	// 관람여부 확인
 	public boolean getShowCheck(Map<String, Object> rMap) {
-		boolean check = movieDAO.getShowCheck(rMap) == 1 ? true : false;
-		return check;
+		return movieDAO.getShowCheck(rMap) != null ? movieDAO.getShowCheck(rMap) : false;
 	}
-	
 	
 	
 	// 북마크(찜하기)기록 검색

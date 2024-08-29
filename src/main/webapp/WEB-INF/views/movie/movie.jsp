@@ -49,12 +49,12 @@ function fontbold() {
 
 //리스트 제한
 function movieLimit() {
-	$(".chart-box:visible").each(function(i) {
+	$(".box_movie:visible").each(function(i) {
 		if(i >= 20) $(this).hide();	
 	});	// each
 }
 
-
+let notShow;
 $(function() {
 	// ready
 	startPage();
@@ -66,8 +66,21 @@ $(function() {
 	$("#chk_nowshow").change(function() {
 		// #chk_nowshow 현재 상영작만 보기 체크박스 체크 여부에 따라 DB에서 받아온 데이터를 class에 .notShow로 적용된
 		// 데이터를 숨길지 말지 판별
-		let showChange = 
-			$("#chk_nowshow").is(':checked') ? $('.NOTSHOW').hide() : $('.NOTSHOW').show();
+		
+		var checkedBox = $("#chk_nowshow").is(':checked');
+		
+		notShow = $('.NOTSHOW').length;
+		if(checkedBox) {
+			for(var i = 0; i < notShow; i++) {
+				$('.box_movie:hidden').not('.NOTSHOW').eq(0).show();
+			}
+		} else {
+			for(var i = 0; i < notShow; i++) {
+				$('.box_movie:hidden').eq(0).show();
+			}
+		}
+		
+		let showChange = checkedBox ? $('.NOTSHOW').hide() : $('.NOTSHOW').show();
 		startPage();
 		movieLimit();
 		fontbold();
@@ -75,7 +88,7 @@ $(function() {
 	
 // 	// 더보기 버튼 클릭 이벤트
 	$(".btn-more-fontbold").click(function() {
-		$('.chart-box').show();
+		var showMo = $("#chk_nowshow").is(':checked') ? $('.box_movie').not('.NOTSHOW').show() : $('.box_movie').show();
 		fontbold();
 	});
 	
@@ -100,7 +113,7 @@ $(function() {
                 	}
                 	
                 	$('#ol-movie-chart').append(`
-						<li class="\${movieDTO.SHOW} chart-box">
+						<li class="\${movieDTO.SHOW} chart-box box_movie">
                             <div class="box-image">
                                 <strong class="rank"></strong>
                                 <a href="${pageContext.request.contextPath}/movie/information?num=\${movieDTO.MOVIE_NUM}">
@@ -137,7 +150,7 @@ $(function() {
                                     </strong>
                                 </span>
                                 <span class="like"> 
-                                    <a class="link-reservation" href="${pageContext.request.contextPath}/ticket?num=${movieDTO.MOVIE_NUM}">예매하기</a>
+                                    <a class="link-reservation" href="${pageContext.request.contextPath}/ticket?num=\${movieDTO.MOVIE_NUM}">예매하기</a>
                                 </span>
                             </div>    
                         </li>
@@ -168,6 +181,11 @@ $(function() {
     		url: "${pageContext.request.contextPath}/movie/favorMovie",
             dataType: 'json',
             success: function(result) {
+            	if(result == null || result.length == 0) {
+            		alert('찜한 영화가 없어 추천이 불가능합니다.');
+            		return
+            	}
+            	
             	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
             		<div class="layer-wrap stillcut-viewer" style="margin-top: -253px; margin-left: -490px; position: fixed; height: 400px">
         			<div class="layer-contents" style="height:400px;">
@@ -185,7 +203,7 @@ $(function() {
 				       		        <div class="item" style="background:none;">
 				       				<div class="img_wrap" style="width: 300px; height:350px; display: flex; align-items: center; justify-content: center;">
 				       					<a href="${pageContext.request.contextPath}/movie/information?num=\${relMovie.MOVIE_NUM}" style="position: relative">
-					    				<img src="\${relMovie.POSTERURL}" alt=" 사일런트 나잇" style="position: relative">
+					    				<img src="\${relMovie.POSTERURL}" style="position: relative; width:210px; height:300px;">
 					    					<i class="cgvIcon etc age${relMovie.RATING}" style="position:absolute; left: 5px; top: 5px;">18</i>
 					    				</a>
 					    			</div>
@@ -270,7 +288,7 @@ $(document).on('click', '.btn-close', function() {
             </div>
             <label for="order_type" class="hidden">정렬</label>
             <select id="order_type" name="order-type" style="border: 1px solid #b4b3aa;">
-				<option title="현재 선택됨" selected="selected" value="SORTRATE">예매율순</option>
+				<option value="SORTRATE" selected="selected">예매율순</option>
                 <option value="SORTLIKED">평점순</option>
                 <option value="SORTRANK">랭킹순</option>
             </select>

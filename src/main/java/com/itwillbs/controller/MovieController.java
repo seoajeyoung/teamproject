@@ -50,12 +50,11 @@ public class MovieController implements WebMvcConfigurer {
 	@PostMapping("/favorMovie")
 	@ResponseBody
 	public List<Map<String, Object>> favorMovie(HttpSession session) {
-		String id = (String)session.getAttribute("member_id");
+		String num = (String)session.getAttribute("member_num");
 		List<Map<String, Object>> relMovie = new ArrayList<Map<String,Object>>();
-		if(id != null) {
+		if(num != null) {
 			Map<String, Object> rMap = new HashMap<String, Object>();
-			
-			rMap.put("MEMBER_ID", id);
+			rMap.put("MEMBER_NUM", num);
 			relMovie = movieService.getRelMovies(rMap);
 		}
 		return relMovie;
@@ -154,7 +153,6 @@ public class MovieController implements WebMvcConfigurer {
 		// 성비, 연령 차트
 		Map<String, Object> chartData = movieService.getChartData(num);
 		
-		System.out.println(chartData);
 		model.addAttribute("movieDTO", movieDTO);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("relMovie", relMovie);
@@ -271,12 +269,10 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getMemberReview(@RequestParam Map<String, Object> rMap) {
 		boolean check = movieService.getReviewUser(rMap);
-		System.out.println(rMap);
 		
 		Map<String, Object> review = new HashMap<String,Object>();
 		if(check) {
 			ArrayList<Map<String, Object>> list = movieService.getReview(rMap);
-			System.out.println(list);
 			review = list.get(0);
 			return ResponseEntity.status(HttpStatus.OK).body(review);
 		} else {
@@ -296,10 +292,9 @@ public class MovieController implements WebMvcConfigurer {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("notOK"); 
 		}
 	}
-	//
+	// 리뷰 삭제
 	@PostMapping("/deleteReview")
 	public ResponseEntity<String> deleteReview(@RequestParam Map<String, Object> rMap) {
-		System.out.println("리뷰삭제");
 		rMap.get("REVIEW_NUM");
 		boolean result = movieService.deleteReview(rMap);
 		if(result) {
@@ -318,7 +313,6 @@ public class MovieController implements WebMvcConfigurer {
 	@GetMapping("/ifTime")
 	public String ifTime(@RequestParam Map<String, String> rMap, Model model) {
 		List<Map<String, String>> region = movieService.getMovieSchedule(rMap);
-		System.out.println(rMap);
 		model.addAttribute("region", region);
 		return "/movie/ifTime";
 	}
@@ -359,8 +353,6 @@ public class MovieController implements WebMvcConfigurer {
 		String id = (String)session.getAttribute("member_id");
 		rMap.put("MEMBER_ID", id);
 		List<Map<String, Object>> list = movieService.getMyMovieList(rMap);
-		System.out.println(rMap);
-		System.out.println(list);
 		return list;
 	}
 	
