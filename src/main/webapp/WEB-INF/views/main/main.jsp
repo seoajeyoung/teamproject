@@ -518,7 +518,7 @@ function setListFocus(swiper, selector) {
 
                 </div>
             </div>
-<!-- E > 무비차트 | 상영예정작 -->
+<!-- E > 무비차트 | 상영예정작 --> 
 
 <!-- S > 기프트콘 노출 -->
             <div class="giftcon_wrap">
