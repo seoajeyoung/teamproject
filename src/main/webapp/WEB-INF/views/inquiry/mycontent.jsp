@@ -69,6 +69,17 @@
 					<p></p><p style="line-height: 1.8;"><span style="font-family: arial;"><b>${content.IQ_DETAIL}</b></span></p><br>
 					<img alt="" src="${pageContext.request.contextPath}/resources/img/${content.IQ_PICTURE}" width="200">
 				</div>
+				<!-- 답글 -->
+				<tbody>
+					<tr>
+						<th scope="row"><label for="inp_textbox">답변 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
+						<td colspan="3">
+							<textarea cols="60" rows="5" id="inp_textbox" name="AS_DETAIL" class="inp_txtbox01" style="height: 94px !important;" placeholder="답글달기" readonly>${content.AS_DETAIL}
+							</textarea>
+						</td>
+					</tr>
+				</tbody>
+				
 				<div class="customer_btn"><button type="button" onclick="redirectToUpdatePage('${pageContext.request.contextPath}/inquiry/update?num=${content.IQ_NUM}')" class="round inblack" >
 				<span>글수정</span></button>
 				<button type="button" onclick="confirmDelete('${pageContext.request.contextPath}/inquiry/delete?num=${content.IQ_NUM}')" class="round inblack" ><span>

@@ -58,24 +58,24 @@
 	</select>
 	
 	<!-- 상영전 영화 날짜 분류 -->
-	<select id="getReleseDate" resultType="java.util.LinkedHashMap">
-		SELECT CONCAT(RELEASEDATE, 
-		           CASE DAYOFWEEK(RELEASEDATE)
-		               WHEN 1 THEN '(일)'
-		               WHEN 2 THEN '(월)'
-		               WHEN 3 THEN '(화)'
-		               WHEN 4 THEN '(수)'
-		               WHEN 5 THEN '(목)'
-		               WHEN 6 THEN '(금)'
-		               WHEN 7 THEN '(토)'
-		           END
-		    ) AS rDate
-			, CAST(COUNT(*) AS CHAR) AS 'COUNT'
-		FROM MOVIE
-		WHERE CURRENT_DATE() &lt; RELEASEDATE
-		GROUP BY RELEASEDATE
-		ORDER BY RELEASEDATE
-	</select>
+<!-- 	<select id="getReleseDate" resultType="java.util.LinkedHashMap"> -->
+<!-- 		SELECT CONCAT(RELEASEDATE,  -->
+<!-- 		           CASE DAYOFWEEK(RELEASEDATE) -->
+<!-- 		               WHEN 1 THEN '(일)' -->
+<!-- 		               WHEN 2 THEN '(월)' -->
+<!-- 		               WHEN 3 THEN '(화)' -->
+<!-- 		               WHEN 4 THEN '(수)' -->
+<!-- 		               WHEN 5 THEN '(목)' -->
+<!-- 		               WHEN 6 THEN '(금)' -->
+<!-- 		               WHEN 7 THEN '(토)' -->
+<!-- 		           END -->
+<!-- 		    ) AS rDate -->
+<!-- 			, CAST(COUNT(*) AS CHAR) AS 'COUNT' -->
+<!-- 		FROM MOVIE -->
+<!-- 		WHERE CURRENT_DATE() &lt; RELEASEDATE -->
+<!-- 		GROUP BY RELEASEDATE -->
+<!-- 		ORDER BY RELEASEDATE -->
+<!-- 	</select> -->
 	
 	<!-- 상영전 영화 top 3 -->
 	<select id="getTop3" resultType="map">
@@ -90,15 +90,16 @@
 			, DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
 			, ROUND(SUM(IF(T.SC_NUM IS NOT NULL, 1, 0)) / (SELECT COUNT(*) FROM TICKETPAYMENT) * 100, 1) AS RATE
 			, SUM(DISTINCT R.MOVIE_LIKED) AS MOVIE_LIKED
+			, RANK() OVER (ORDER BY IFNULL(M.RANK, 999)) AS "RANKING"
 		FROM MOVIE M
 		LEFT OUTER JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
 		LEFT OUTER JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
 		LEFT OUTER JOIN TICKETPAYMENT T ON S.SC_NUM = T.SC_NUM
 		LEFT OUTER JOIN REVIEW R ON M.MOVIE_NUM = R.MOVIE_NUM
-		WHERE M.RANK &lt;= 3
+		WHERE RANKING &lt;= 3
 		AND M.RANK IS NOT NULL
 		GROUP BY M.MOVIE_NUM
-		ORDER BY M.RANK 
+		ORDER BY RANKING
 	</select>
 	
 	
@@ -115,9 +116,10 @@
 			, M.RUNTIME
 			, M.RATING
 			, DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
-			, IF(CURRENT_DATE() > M.RELEASEDATE, 'SHOWMOVIE', 'NOTSHOW') AS "SHOW"
+			, IF(CURRENT_DATE() >= M.RELEASEDATE, 'SHOWMOVIE', 'NOTSHOW') AS "SHOW"
 			, ROUND(SUM(IF(T.SC_NUM IS NOT NULL, 1, 0)) / (SELECT COUNT(*) FROM TICKETPAYMENT) * 100, 1) AS RATE
 			, SUM(DISTINCT R.MOVIE_LIKED) AS MOVIE_LIKED
+			, RANK() OVER (ORDER BY IFNULL(M.RANK, 999)) AS "RANKING"
 		FROM MOVIE M
 		LEFT OUTER JOIN CINEMA C ON M.MOVIE_NUM = C.MOVIE_NUM
 		LEFT OUTER JOIN SCREEN S ON C.CI_NUM = S.CI_NUM
@@ -133,7 +135,7 @@
 			ORDER BY SUM(IFNULL(R.MOVIE_LIKED, 0)) DESC
 		</when>
 		<when test="SORTSTR == 'SORTRANK'">
-			ORDER BY M.RANK
+			ORDER BY RANKING
 		</when>
 		</choose>
 	</select>
@@ -169,8 +171,12 @@
 	    HAVING M.MOVIE_NUM = #{MOVIE_NUM};
 	</select>
 	
-	<select id="getShowCheck" resultType="java.lang.Integer">
-		SELECT IF(DATEDIFF(CURRENT_DATE(), S.SC_TIME) BETWEEN 0 AND 7, 1, 0) AS CEHCK
+	<select id="getShowCheck" resultType="java.lang.Boolean">
+		SELECT IF(DATEDIFF(CURRENT_DATE(), S.SC_TIME) BETWEEN 0 AND 7, true, false) AS CEHCK
+			, S.SC_NUM
+		    , C.CI_NUM
+		    , T.MEM_NUM
+		    , T.TP_TIME
 		FROM (SELECT *
 	  		  FROM SCREEN
       		  ORDER BY SC_TIME DESC) S
@@ -182,8 +188,9 @@
 						   FROM MEMBERS
 		                   WHERE MEM_ID = #{MEMBER_ID})
 		AND C.MOVIE_NUM = #{MOVIE_NUM} 
-		GROUP BY SC_TIME
-		LIMIT 1;
+		GROUP BY S.SC_NUM , C.CI_NUM , T.MEM_NUM, T.TP_TIME
+        ORDER BY T.TP_TIME DESC
+        LIMIT 1;
 	</select>
 	
 	<!-- 영화 찜하기전 검색 기능 -->
@@ -240,6 +247,7 @@
 		JOIN MEMBERS M
 		ON T.MEM_NUM = M.MEM_NUM
 		WHERE C.MOVIE_NUM = #{MOVIE_NUM}
+		AND M.MEM_NUM &lt;&gt; 1
 		GROUP BY C.MOVIE_NUM
 	</select>
 	
@@ -273,24 +281,22 @@
 		    , DATEDIFF(M.RELEASEDATE, CURRENT_DATE()) AS D_DAY
 		FROM MOVIE M
 		WHERE POSTERURL IS NOT NULL
-		<if test="MOVITE_NUM != NULL">
-		AND MOVIE_NUM &lt;&gt; #{MOVIE_NUM}
-		</if>
         AND POSTERURL &lt;&gt; ""
         <choose>
 	        <when test="MOVIE_NUM != null">
+	        AND MOVIE_NUM &lt;&gt; #{MOVIE_NUM}
 	        AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
 			        		  FROM MOVIE
 			        		  WHERE MOVIE_NUM = #{MOVIE_NUM})
 	        ORDER BY M.RANK
 	        LIMIT 6
 	        </when>
-	        <when test="MEM_ID != null">
+	        <when test="MEMBER_NUM != null">
 			AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
 							  FROM MOVIE
 							  WHERE MOVIE_NUM IN (SELECT MOVIE_NUM
 											      FROM BOOKMARK
-												  WHERE MEM_ID = #{MEMBER_ID})
+												  WHERE MEM_NUM = #{MEMBER_NUM})
 							  GROUP BY GENRE
 							  ORDER BY COUNT(GENRE) DESC
 					   		  limit 1)
@@ -303,8 +309,8 @@
 	
 	
 	<!-- 리뷰 검색 -->
-	<select id="getReviewUser" resultType="String">
-		SELECT REVIEW_NUM, REVIEW_CONTENT
+	<select id="getReviewUser" resultType="java.lang.Boolean">
+		SELECT IF(REVIEW_NUM IS NOT NULL, true, false)
 		FROM REVIEW
 		WHERE MOVIE_NUM = #{MOVIE_NUM}
 		AND MEM_NUM = (SELECT MEM_NUM

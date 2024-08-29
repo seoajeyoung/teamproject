@@ -69,7 +69,7 @@ public class MovieDAO {
 	public Map<String, Object> getChartData(int MOVIE_NUM) {
 		return sqlsession.selectOne("movieMapper.getChartData", MOVIE_NUM);
 	}
-	public Integer getShowCheck(Map<String, Object> rMap) {
+	public Boolean getShowCheck(Map<String, Object> rMap) {
 		return sqlsession.selectOne("movieMapper.getShowCheck", rMap);
 	}
 	
@@ -108,7 +108,7 @@ public class MovieDAO {
 	
 	
 	//리뷰 작성한 유저 검색
-	public String getReviewUser(Map<String, Object> data) {
+	public Boolean getReviewUser(Map<String, Object> data) {
 		return sqlsession.selectOne("movieMapper.getReviewUser", data);
 	}
 	//평점(리뷰) 저장
@@ -121,7 +121,6 @@ public class MovieDAO {
 	}
 	// 리뷰
 	public ArrayList<Map<String, Object>> getReview(Map<String, Object> rMap) {
-		System.out.println("getReview rMap:" + rMap);
 		ArrayList<Map<String, Object>> reviewList =
 				(ArrayList)sqlsession.selectList("movieMapper.getReview", rMap); 
 		return reviewList;

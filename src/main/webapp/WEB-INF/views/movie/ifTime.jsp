@@ -20,7 +20,7 @@
 
 <body class="" marginwidth="0" marginheight="0" style="background-color: rgb(255, 255, 255); height: 2000px;">
 <!-- Contents Start -->
-<div class="showtimes-wrap" style="display: block; height: 2000px;">
+<div class="showtimes-wrap" style="display: block;">
     <div class="sect-city">
         <ul>
         <c:if test="${region != null && !empty region}">
@@ -67,7 +67,6 @@ $(function() {
 					
 					$('.item').append(text);
 					
-					
 					$('.day:first>a').trigger('click');
 				});
 			},
@@ -80,8 +79,11 @@ $(function() {
 	$('.regionLink:first').trigger('click');
 });
 $(document).on('click', '.day>a', function() {
+	$('.day').parent('li').removeClass('on');
+	$(this).parents('li').addClass('on');
+	
+	
 	var currDate = $(this).find('input').val();
-	debugger;
 	$.ajax({
 		type: 'get',
 		url: '${pageContext.request.contextPath}/movie/thMovies',
@@ -124,7 +126,7 @@ $(document).on('click', '.day>a', function() {
 				
 				$('.info-timetable:last>ul').append(`
 							<li>
-							  <a href="">
+							  <a href="${pageContext.request.contextPath}/ticket?num=\${movieNum}" target="_balnk">
 							    <em>\${thList.SC_TIME}</em>
 							    <span class="txt-lightblue">
 							      <span class="hidden">잔여좌석</span>24석
@@ -154,13 +156,14 @@ $(document).on('click', '.day>a', function() {
 		</div>
     </div>
     <div class="sect-guide">
-        <div class="descri-timezone">
-            <ul>
-                <li><span class="early">모닝</span></li>
-                <li><span class="midnight">심야</span></li>
-            </ul>
-            <p>* 시간을 클릭하시면 빠른 예매를 하실 수 있습니다.</p>
-        </div>
+	    * 입장 지연에 따른 관람불편을 최소화하고자 영화는 약 10분 후에 시작됩니다. 관람 에티켓을 위한 사전 입장 부탁드립니다.
+<!--         <div class="descri-timezone"> -->
+<!--             <ul> -->
+<!--                 <li><span class="early">모닝</span></li> -->
+<!--                 <li><span class="midnight">심야</span></li> -->
+<!--             </ul> -->
+<!--             <p>* 시간을 클릭하시면 빠른 예매를 하실 수 있습니다.</p> -->
+<!--         </div> -->
     </div>
 
 
@@ -169,12 +172,9 @@ $(document).on('click', '.day>a', function() {
         	<!-- 스크립트로 데이터 추가 -->
         </ul>
     </div>
-    <p class="info-noti">* 입장 지연에 따른 관람불편을 최소화하고자 영화는 약 10분 후에 시작됩니다. 관람 에티켓을 위한 사전 입장 부탁드립니다.</p>
+    <p class="info-noti"></p>
 </div>
 <script type="text/javascript">
-// $(document).on('click', '.day>a', function() {
-	
-// });
 </script>
 
 <!--/ Contents End -->

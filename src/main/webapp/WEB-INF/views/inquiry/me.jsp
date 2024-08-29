@@ -196,7 +196,14 @@ $(function(){
 			alert("로그인이 필요합니다.");
         	event.preventDefault();
 		}
-    });	
+    });
+	
+	$('.ico_oder.email_i + a').on('click', function(){
+		if(!isLoggedIn){
+			alert("로그인이 필요합니다.");
+        	event.preventDefault();
+		}
+    });
 		
      function Search() {
 			debugger;

@@ -288,7 +288,7 @@ function pointChart() {
             <p>${movieDTO.TITLEENG}</p>
         </div>
         <div class="score"> 
-            <strong class="percent">예매율&nbsp;<span>14.6%</span></strong>
+            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE}%</span></strong>
             <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 -->            
 <!--             <div class="egg-gage small"> -->
 <!-- 		    	<span class="sprite_preegg default"></span> -->
@@ -475,7 +475,10 @@ $(function() {
 	});
 	
 	$(".runningTime").on('click', function() {
-		var text2 =`<iframe id="ifrm_movie_time_table" src="${pageContext.request.contextPath}/movie/ifTime?MOVIE_NUM=\${movieNum}" title="" width="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="min-height: 100px; height: 6000px;"></iframe>`;
+		$('.day').parent('li').removeClass('on');
+		$(this).parents('li').addClass('on');
+		
+		var text2 =`<iframe id="ifrm_movie_time_table" src="${pageContext.request.contextPath}/movie/ifTime?MOVIE_NUM=\${movieNum}" title="" width="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="min-height: 100px; height: 1500px;"></iframe>`;
 		
 		$('.col-detail>*').not('.tab-menu').remove();
 		$('.col-detail').append(text2);
@@ -916,9 +919,9 @@ $(document).on('click', '.sortTab>a', function() {
     <div class="ad-partner01">
     	<iframe src="${pageContext.request.contextPath}/movie/ad" width="160" height="300" title="영화광고-명탐정 코난: 100만 달러의 펜타그램" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="M_Rectangle" id="M_Rectangle"></iframe>
     </div>
-    <div class="ad-external01">
-        <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@C_Rectangle" width="160" height="300" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="C_Rectangle" id="C_Rectangle"></iframe>
-    </div>
+<!--     <div class="ad-external01"> -->
+<!--         <iframe src="http://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@C_Rectangle" width="160" height="300" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="C_Rectangle" id="C_Rectangle"></iframe> -->
+<!--     </div> -->
 </div>
 
 </div>
@@ -1058,10 +1061,22 @@ $(document).on('click', '.link-gradewrite', function() {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
-	if($('#reviewCk').val() == "notShowChecked") {
+	debugger;
+	let reviewUser
+	if($('#reviewCk').val() == "alReview") {
+		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
+	} else if($('#reviewCk').val() == "notShowChecked") {
 		alert('평점은 7일 이내에 관람 기록이 있는 회원만 작성 가능합니다.')
 		return;
 	}
+	
+	if(reviewUser) {
+		$('.link-reviewwrite').trigger('click');
+		return;	
+	} else {
+		return;
+	}
+	
 	
 	var title = $('.movieTitle>strong').text();
 	
@@ -1092,7 +1107,7 @@ $(document).on('click', '.link-gradewrite', function() {
 												<span class="egg-icon good">
 													<input type="radio" name="likeornot" id="likeornot1-1" value="true">
 												</span>
-												<span class="txt">좋았어요~^^</span>
+												<span class="txt">좋았어요! 추천합니다.</span>
 											</label>
 										</div>
 									</div>
@@ -1102,20 +1117,20 @@ $(document).on('click', '.link-gradewrite', function() {
 												<span class="egg-icon">
 													<input type="radio" name="likeornot" id="likeornot1-2" value="false">
 												</span>
-												<span class="txt">흠~좀 별로였어요;;;</span>
+												<span class="txt">좀 아쉬워요.</span>
 											</label>
 										</div>
 									</div>
 								</div>
 		
 								<div class="textbox">
-			                        <textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280" placeholder="운영원칙에 어긋나는 게시물로 판단되는 글은 제재 조치를 받을 수 있습니다."></textarea>
+			                        <textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="200" placeholder="운영원칙에 어긋나는 게시물로 판단되는 글은 제재 조치를 받을 수 있습니다."></textarea>
 								</div>
 		
 								<div class="footbox">
 									<div class="rbox">
-										<span class="count"><strong id="text_count">0</strong>/280(byte)</span>
-										<button type="button" class="round red on" id="regBtn"><span>작성완료!</span></button>
+										<span class="count"><strong id="text_count">0</strong>/200(byte)</span>
+										<button type="button" class="round red on" id="regBtn"><span>계속</span></button>
 									</div>
 								</div>
 		
@@ -1227,7 +1242,7 @@ $(document).on('click', '.link-reviewwrite', function() {
 							<div class="layer-contents on-shadow" style="width:710px; height: 410px;">
 							<div class="popup-general" style="height: 410px;">
 							<div class="popwrap">
-								<h1>평점작성</h1>
+								<h1>평점수정</h1>
 								<div class="pop-contents write-mygrade">
 									<div class="mygrade-cont">
 										<div class="movietit"><strong id="regTitle">\${title}</strong></div>

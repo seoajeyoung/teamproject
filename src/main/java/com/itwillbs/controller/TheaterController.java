@@ -32,7 +32,6 @@ public class TheaterController {
 @Inject
 private TheaterService theaterService;
 
-
 	@GetMapping("/theater")
     public String theaterPage(Model model, HttpSession session) {
 	 	//지역 조회
@@ -62,6 +61,7 @@ private TheaterService theaterService;
 	@GetMapping("/runningDate")
 	@ResponseBody
 	public List<Map<String, String>> runningDate(@RequestParam Map<String, String> rMap) {
+		// thName 전달
 		List<Map<String, String>> date = theaterService.getRunningDate(rMap);
 		return date;
 	}
@@ -71,7 +71,6 @@ private TheaterService theaterService;
 	@ResponseBody
 	public List<Map<String, Object>> runningMovie(@RequestParam Map<String, String> rMap) {
 		List<Map<String, Object>> list = theaterService.getRunningMovie(rMap);
-		System.out.println(list);
 		return list;
 	}
 	

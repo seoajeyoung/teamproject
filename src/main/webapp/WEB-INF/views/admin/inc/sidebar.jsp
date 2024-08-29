@@ -112,7 +112,7 @@
 						href="${pageContext.request.contextPath}/admin/movie/bookinglist"
 						style="font-size: 15px;">영화 예매 목록</a> <a class="collapse-item"
 						href="${pageContext.request.contextPath}/modal"
-						style="font-size: 15px;">극장 좌석 관리</a>
+						style="font-size: 15px;">극장 좌석 및 인원 관리</a>
 				</div>
 			</div></li>
 

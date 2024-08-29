@@ -41,7 +41,6 @@ public class TheaterDAO {
 	//ajax로 해당 극장의 모든 영화 상영일만 중복없이 받아오기
 	public List<Map<String, String>> getRunningDate(Map<String, String> rMap) {
 		List<Map<String, String>> list = sqlSession.selectList(namespace + "getRunningDate", rMap);
-		System.out.println(list);
 		return list; 
 	}
 	

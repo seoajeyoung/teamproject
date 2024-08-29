@@ -629,7 +629,7 @@ function setListFocus(swiper, selector) {
                                 </dl>
                                 <div class="client_btn_wrap" id="client_btn_wrap">
                                     <a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스</a>
-                                    <a href="${pageContext.request.contextPath}/inquiry/write">1:1 문의</a>
+                                    <a id="write" href="${pageContext.request.contextPath}/inquiry/write">1:1 문의</a>
                                     <a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문</a>
                                 </div>
                             </div>
@@ -882,6 +882,7 @@ function setListFocus(swiper, selector) {
 <script type="text/javascript" src="https://img.cgv.co.kr/R2014//js/system/crypto.js"></script>
 
 <script type="text/javascript">
+var isLoggedIn = ${sessionScope.member_id != null};
     //<![CDATA[
     function closeBanner(){        
         $('#cgv_main_ad').remove();     
@@ -898,6 +899,13 @@ function setListFocus(swiper, selector) {
 
     (function ($) {
         $(function () {
+        	
+        	$('#write').on('click', function(){
+        		if(!isLoggedIn){
+        			alert("로그인이 필요합니다.");
+                	event.preventDefault();
+        		}
+            });
 
         
             $('.movie_player_popup').moviePlayer();     //동영상플레이어

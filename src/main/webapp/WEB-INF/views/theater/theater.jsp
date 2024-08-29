@@ -115,7 +115,7 @@ $(function() {
 		                    <select id="select_region" name="" title="자주가는 지역선택">                        
 		                    	<option value="" selected="selected">지역선택</option>
 		                    </select>	
-		                    <select id="select_theater" name="" title="자주가는 CGV선택">                        
+		                    <select id="select_theater" name="" title="자주가는 극장선택">                        
 		                    	<option value="" selected="selected">극장선택</option>
 	                    	</select> 
 		                    <button id="btn_add_favorite_theater" type="button" class="round inblack on"><span>선호하는 극장 추가</span></button>
@@ -204,6 +204,7 @@ $(document).on('click', '.box-inner>button', function() {
 
 let selectRegion;
 
+// 자주가는 극장 추가할때 사용
 $(document).on('change', '#select_region', function() {
 	selectRegion = $('#select_region').val();
 	$.ajax({
@@ -274,12 +275,11 @@ $(document).on('click', '#btn_add_favorite_theater', function() {
 
 let region;
 $(function() {
+	// 특정 지역 선택시 극장을 띄우기 위해 사용 
 	$('.region').on('click', function() {
 		region = $(this).text();
 		$('.sect-city li').removeClass();
 		$(this).parent('li').addClass('on');
-		
-		
 		
 		$.ajax({
 			type : 'get',
@@ -299,7 +299,7 @@ $(function() {
 			                </a>
 			            </li>
 			            `
-		            
+		            $('.txt-info').html(area.TH_ADDR);
 					$('#ulcontent').append(text);	
 				});
 				
@@ -319,7 +319,7 @@ $(function() {
 var addr;
 var thName;
 var thNum;
-//특정 극장 클릭시
+//극장의 특정 지점 클릭시
 $(document).on('click', '.area-link', function(event, eventText) {
 	thNum = $(this).find('span').text();
 	
@@ -333,6 +333,9 @@ $(document).on('click', '.area-link', function(event, eventText) {
 	$('.sect-showtimes>ul').html('')
 	$('.theater-tit span').text(thName + '점');
 	
+	$('#ulcontent>li').removeClass('on');	
+	$(this).parent('li').addClass('on');
+	
 	addr = $(this).find('input').val();
 	$('.title>span').text(addr);
 	
@@ -345,7 +348,7 @@ $(document).on('click', '.area-link', function(event, eventText) {
 			$('.item').html('');
 			result.forEach(function(resultDate, index) {
 	    		var date = resultDate.DATE.split('-');
-	    		var dayWeek = resultDate.dayWeek
+	    		var dayWeek = resultDate.DAYWEEK
 	    		var text = `		
                     <li style="margin-top: 15px">
                     <div class="day">
@@ -374,7 +377,7 @@ $(document).on('click', '.area-link', function(event, eventText) {
     <h3 id="wrapEvent"><img src="https://img.cgv.co.kr/R2014/images/title/h3_theater.gif" alt="THEATER"></h3>
     <div class="sect-theater ">
         <h4 class="theater-tit"><span></span></h4>
-        <a href="/support/lease/default.aspx" class="round inred btn_lease"><span style="padding:0 14px;">단체/대관문의</span></a>
+<!--         <a href="/support/lease/default.aspx" class="round inred btn_lease"><span style="padding:0 14px;">단체/대관문의</span></a> -->
         
         <div class="wrap-theaterinfo">
             <div class="box-image">
@@ -383,19 +386,19 @@ $(document).on('click', '.area-link', function(event, eventText) {
             <div class="box-contents">
                 <div class="theater-info">
                     <span class="txt-info">
-                        <em>1544-1122</em>
-                        <em>6관 / 874석</em>
+<!--                         <em></em> -->
+<!--                         <em></em> -->
                         <span></span>
                     </span>
                     <!-- 최대 10개까지만 보여집니다 2 -->
-                    <span class="screentype">
-                            <a href="/theaters/special/?regioncode=SCX&amp;theaterCode=0056" class="screenX">SCREENX</a>
-                    </span>
+<!--                     <span class="screentype"> -->
+<!--                             <a href="/theaters/special/?regioncode=SCX&amp;theaterCode=0056" class="screenX">SCREENX</a> -->
+<!--                     </span> -->
                 </div>
                 <div class="noti-theater">
                     <h5>공지사항</h5>
                     <ul>
-                        
+                    	
                     </ul>
                     <a class="link-more" href="${pageContext.request.contextPath}/inquiry/news" target="" title="새창 열림">공지사항 더보기</a>
                 </div>
@@ -575,12 +578,11 @@ $(document).ready(function() {
 </script>
         <div class="sect-guide">
             <div class="descri-timezone">
-                <ul>
-                    <li><span class="early">모닝</span></li>
-                    <li><span class="midnight">심야</span></li>
-                </ul>
-                <p>
-                    * 시간을 클릭하시면 빠른 예매를 하실 수 있습니다.</p>
+<!--                 <ul> -->
+<!--                     <li><span class="early">모닝</span></li> -->
+<!--                     <li><span class="midnight">심야</span></li> -->
+<!--                 </ul> -->
+                <p>* 입장 지연에 따른 관람 불편을 최소화하기 위해 영화는 10분 후 상영이 시작됩니다.</p>
             </div>
         </div>
 
@@ -590,7 +592,7 @@ $(document).ready(function() {
         </div>
       
         <p class="info-noti">
-            </p><p>ㆍ입장 지연에 따른 관람 불편을 최소화하기 위해 영화는 10분 후 상영이 시작됩니다.</p>
+            </p><p></p>
         <p></p>
     </div>
 <!--/ Contents End -->
@@ -668,84 +670,6 @@ $(document).ready(function() {
     <!-- E 예매하기 및 TOP Fixed 버튼 -->
 	
     <!-- S Footer -->
-    <footer>
-		<!-- footer_area (s) -->
-		
-<div id="BottomWrapper" class="sect-ad">
-    <iframe src="https://ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@Bottom" width="100%" height="240" title="" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" name="Bottom" id="Bottom"></iframe>
-</div>
-<ul class="policy_list">
-    <li><a href="http://corp.cgv.co.kr/company/" target="_blank">회사소개</a></li>
-    <li><a href="http://corp.cgv.co.kr/company/sustainabilityStrategy/strategy.aspx" target="_blank">지속가능경영</a></li>
-    <li><a href="http://corp.cgv.co.kr/company/ir/financial/financial_list.aspx" target="_blank">IR</a></li>
-    <li><a href="http://corp.cgv.co.kr/company/recruit/step/default.aspx" target="_blank">채용정보</a></li>
-    <li><a href="http://corp.cgv.co.kr/company/advertize/ad_Default.aspx" target="_blank">광고/제휴/출점문의</a></li>
-    <li><a href="http://www.cgv.co.kr/rules/service.aspx">이용약관</a></li>
-    <li><a href="http://www.cgv.co.kr/rules/organized.aspx">편성기준</a></li>
-    <li><a href="http://www.cgv.co.kr/rules/privacy.aspx"><strong>개인정보처리방침</strong></a></li>
-    <li><a href="http://www.cgv.co.kr/rules/disclaimer.aspx">법적고지</a></li>
-    <li><a href="http://www.cgv.co.kr/rules/emreject.aspx">이메일주소무단수집거부</a></li>
-    <li><a href="http://corp.cgv.co.kr/company/ethicalManagement/ceoMessage.aspx" target="_blank">윤리경영</a></li>
-    <li><a href="/company/cyberAudit.aspx" class="empha-red">사이버감사실</a></li>
-</ul>
-<article class="company_info_wrap">
-    <section class="company_info">
-        <address>(04377)서울특별시 용산구 한강대로 23길 55, 아이파크몰 6층(한강로동)</address>
-        <dl class="company_info_list">
-            <dt>대표이사</dt>
-            <dd>허민회</dd>
-            <dt>사업자등록번호</dt>
-            <dd>104-81-45690</dd>
-            <dt>통신판매업신고번호</dt>
-            <dd>2017-서울용산-0662 <a href="#none" onclick="goFtc()" class="btn_goFtc">사업자정보확인</a><a></a></dd>
-        </dl>
-        <dl class="company_info_list">
-            <dt>호스팅사업자</dt>
-            <dd>CJ올리브네트웍스</dd>
-            <dt>개인정보보호 책임자</dt>
-            <dd>도형구</dd>
-            <dt>대표이메일</dt>
-            <dd>cjcgvmaster@cj.net</dd>
-            
-        </dl>
-        <p class="copyright">© CJ CGV. All Rights Reserved</p>
-    </section>
-    <section class="familysite_wrap">
-        <label for="familysite">CJ그룹 계열사 바로가기</label>
-        <select id="familysite">
-            <option value="" class="familysiteTitle">계열사 바로가기</option>
-            <optgroup label="CJ그룹">
-<option value="http://www.cj.net/">CJ주식회사</option>
-</optgroup><optgroup label="식품 &amp; 식품서비스">
-<option value="https://www.cj.co.kr/kr/index">CJ제일제당</option>
-<option value="https://www.cjfoodville.co.kr/main.asp">CJ푸드빌</option>
-<option value="http://www.cjfreshway.com/index.jsp">CJ프레시웨이</option>
-</optgroup><optgroup label="생명공학">
-<option value="https://www.cj.co.kr/kr/about/business/bio">CJ제일제당 BIO사업부문</option>
-<option value="https://www.cj.co.kr/kr/about/business/bio">CJ Feed&amp;Card</option>
-</optgroup><optgroup label="물류 &amp; 신유통">
-<option value="https://www.cjlogistics.com/ko/main">CJ대한통운</option>
-<option value="http://www.cjenc.co.kr/kr/Default.asp">CJ대한통운 건설부문</option>
-<option value="https://www.oliveyoung.co.kr/store/company/brandStory.do">CJ올리브영</option>
-<option value="https://www.cjolivenetworks.co.kr:449/">CJ올리브네트웍스</option>
-<option value="https://www.cjoshopping.com:9002/index.asp">CJ ENM 커머스부문</option>
-</optgroup><optgroup label="엔터테인먼트 &amp; 미디어">
-<option value="https://www.cjenm.com/ko/">CJ ENM 엔터테인먼트부문</option>
-<option value="http://corp.cgv.co.kr/">CJ CGV</option>
-</optgroup>
-
-        </select>
-        <a href="#none" class="btn_familysite" onclick="goFamilySite()">GO</a>
-    </section>
-</article>
-        <!-- footer_area (e) -->
-
-        <div class="adFloat" style="display:block">
-
-            <iframe src="//ad.cgv.co.kr/NetInsight/html/CGV/CGV_201401/sub@Popicon" width="154" height="182" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" allowtransparency="true" id="ad_float1"></iframe>
-        </div>
-        <!-- //Float Ad -->
-	</footer>
 	<!-- E Footer -->
 
     
