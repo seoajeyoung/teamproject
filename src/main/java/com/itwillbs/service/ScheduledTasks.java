@@ -111,7 +111,7 @@ public class ScheduledTasks {
 //        System.out.println("A: " + (storeTotalSales+movieTotalSales));
         
 //        adminService.insertDailyTotalSales(yesterday, storeTotalSales, movieTotalSales); 
-        
+//        
 	} 
 
 

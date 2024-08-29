@@ -93,10 +93,12 @@ public class AdminController {
 
 		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
 		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+		
+		adminService.noData(yesterday);
 
 		// 요청된 기간의 일별 매출 데이터를 가져옴
 		List<AdminDTO> weekSalesData = adminService.getAllSalesDataForWeek(startDate, endDate);
-
+		
 		// 월별 매출 데이터를 위한 날짜 처리
 		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
 		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
@@ -123,10 +125,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>());
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
-
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
+			
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -640,7 +642,7 @@ public class AdminController {
 
 		// 요청된 기간의 일별 매출 데이터를 가져옴
 		List<AdminDTO> weekSalesData = adminService.getSalesDataForWeek(startDate, endDate);
-
+		
 		// 월별 매출 데이터를 위한 날짜 처리
 		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
 		YearMonth startMonth = (startMonthStr != null) ? YearMonth.parse(startMonthStr) : endMonth.minusMonths(5);
@@ -680,10 +682,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>());
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -730,6 +732,7 @@ public class AdminController {
 
 		// 요청된 기간의 일별 매출 데이터를 가져옴
 		List<AdminDTO> weekSalesData = adminService.getMovieSalesDataForWeek(startDate, endDate);
+		
 
 		// 월별 매출 데이터를 위한 날짜 처리
 		YearMonth endMonth = (endMonthStr != null) ? YearMonth.parse(endMonthStr) : YearMonth.now();
@@ -770,10 +773,10 @@ public class AdminController {
 
 		try {
 			// Java 객체를 JSON 문자열로 변환하여 모델에 추가
-			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData != null ? weekSalesData : new ArrayList<>() );
+			String weekSalesDataJson = new ObjectMapper().writeValueAsString(weekSalesData);
 			model.addAttribute("weekSalesDataJson", weekSalesDataJson);
 
-			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData != null ? monthSalesData : new ArrayList<>());
+			String monthSalesDataJson = new ObjectMapper().writeValueAsString(monthSalesData);
 			model.addAttribute("monthSalesDataJson", monthSalesDataJson);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -458,6 +458,10 @@ public class AdminDAO {
 		return sqlSession.selectList(namespace + ".getTheaterSalesDataForMonth", params);
 	}
 
+	public void noData(LocalDate yesterday) {
+		sqlSession.insert(namespace + ".noData", yesterday);
+	}
+
 	
 	
 
