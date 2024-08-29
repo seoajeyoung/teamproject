@@ -113,7 +113,7 @@ function __doPostBack(eventTarget, eventArgument) {
                     </div>
                 </form>
                 <!-- 팝업끝 -->
-			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/writePro" method="post" novalidate="novalidate" enctype="multipart/form-data">
+			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/writePro" method="post" novalidate="novalidate" enctype="multipart/form-data" onsubmit="return validateForm()">
 					
                     <input type="hidden" id="hIsTemp" name="hIsTemp" value="N">
                     <input type="hidden" id="hIdx" name="hIdx" value="">
@@ -226,7 +226,30 @@ $(function () {
     });
 	
 	$('#inp_textbox').on('keyup', checkByte);
+	
 });
+
+//글 전부 작성하지 않았을 경우 alert()
+function validateForm() {
+    // 필수 입력 필드 값을 가져오기.
+    var title = document.getElementById("inp_title").value.trim();
+    var content = document.getElementById("inp_textbox").value.trim();
+    var fileInput = document.getElementById("voc_upload_file").value.trim();
+
+    // 필수 입력 필드 검증
+    if (title === "") {
+        alert("제목을 입력해 주세요.");
+        return false; // 폼 제출을 막음.
+    }
+    if (content === "") {
+        alert("내용을 입력해 주세요.");
+        return false; // 폼 제출을 막음.
+    }
+
+    return true; // 모든 검증을 통과하면 폼을 제출
+}
+
+
 
 function checkByte() {
 	let maxByte = 5000;

@@ -35,8 +35,8 @@
     <div class="snb">
         <ul>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i></a></li>
-            <li class="on"><a href="${pageContext.request.contextPath}/inquiry/news" title="현재선택">공지/뉴스<i></i></a></li>
+            <li class="on"><a href="${pageContext.request.contextPath}/inquiry/often" title="현재선택">자주찾는 질문<i></i></a></li>
+            <li class=""><a href="${pageContext.request.contextPath}/inquiry/news" >공지/뉴스<i></i></a></li>
             <li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
           
@@ -110,7 +110,7 @@ function __doPostBack(eventTarget, eventArgument) {
                     </div>
                 </form>
                 <!-- 팝업끝 -->
-			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/oftenwritePro" method="post" novalidate="novalidate" enctype="multipart/form-data">
+			    <form id="form1" name="form1" action="${pageContext.request.contextPath}/inquiry/oftenwritePro" method="post" novalidate="novalidate" enctype="multipart/form-data" onsubmit="return validateForm()">
 					
                     <input type="hidden" id="hIsTemp" name="hIsTemp" value="N">
                     <input type="hidden" id="hIdx" name="hIdx" value="">
@@ -127,20 +127,7 @@ function __doPostBack(eventTarget, eventArgument) {
                                     <col style="width:96px">
                                     <col style="width:303px">
 								</colgroup>
-
-<!-- 									<tr> -->
-<!-- 										<th scope="row">공지유형 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></th> -->
-<!-- 										<td colspan="3"> -->
-<!-- 											<ul class="type_list"> -->
-<!-- 												<li id="li_ra_1" class="on"><input type="radio" checked="checked" id="inp_type01" name="NEWS_SECTION" value="SYS"><label for="inp_type01">시스템 점검</label></li> -->
-<!-- 												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="TH"><label for="inp_type02">극장</label></li> -->
-<!-- 												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="EV"><label for="inp_type02">행사/이벤트</label></li> -->
-<!-- 												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="RE"><label for="inp_type02">제휴이벤트</label></li> -->
-<!-- 												<li id="li_ra_2"><input type="radio" id="inp_type02" name="NEWS_SECTION" value="ECT"><label for="inp_type02">기타</label></li> -->
-<!-- 											</ul> -->
-<!-- 										</td> -->
-<!-- 									</tr> -->
-
+								
 									<tr>
 										<th scope="row"><label for="inp_title">제목 <em><img src="http://img.cgv.co.kr/R2014/images/common/ico/ico_redstar.png" alt="필수"></em></label></th>
 										<td colspan="3">
@@ -188,6 +175,24 @@ $(function () {
 		}
     });
 });
+
+function validateForm() {
+    // 필수 입력 필드 값을 가져옵니다.
+    var title = document.getElementById("inp_title").value.trim();
+    var content = document.getElementById("inp_textbox").value.trim();
+
+    // 필수 입력 필드 검증
+    if (title === "") {
+        alert("제목을 입력해 주세요.");
+        return false; // 폼 제출을 막습니다.
+    }
+    if (content === "") {
+        alert("내용을 입력해 주세요.");
+        return false; // 폼 제출을 막습니다.
+    }
+
+    return true; // 모든 검증을 통과하면 폼을 제출합니다.
+}
 
 function checkByte() {
 	let maxByte = 5000;
