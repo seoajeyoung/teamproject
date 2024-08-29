@@ -52,25 +52,25 @@ $( document ).ready(function() {
 
 
 	$('#passck').on('keyup', function() {
-	    let $content = $('#confirmPasswdResult');
-	    let passValue1 = $('#pass').val();
-	    let passValue2 = $('#passck').val();
-	
-	    if (passValue1 === passValue2 && passValue2 !== '') {
-	        $content.text("비밀번호 일치").css('color', 'green');
-	        passCkValid = true;
-	    } else if (passValue2 === '') {
-	        $content.text('');
-	    } else {
-	        $content.text("비밀번호 불일치").css('color', 'red');
-	        passCkValid = false;
-	    }
-	});
+        let $content = $('#confirmPasswdResult');
+        let passValue1 = $('#pass').val();
+        let passValue2 = $('#passck').val();
+
+        if (passValue1 === passValue2 && passValue2 !== '') {
+            $content.text("비밀번호 일치").css('color', 'green');
+            passCkValid = true;
+        } else if (passValue2 === '') {
+            $content.text('');
+            passCkValid = false; // 빈 상태일 때 false로 설정
+        } else {
+            $content.text("비밀번호 불일치").css('color', 'red');
+            passCkValid = false;
+        }
+    });
 
     // 비밀번호 입력 필드의 변화가 있을 때 비밀번호 확인 필드의 상태를 업데이트
     $('#pass').on('keyup', function() {
         $('#passck').trigger('keyup');
-        passCkValid = false;
     });
     
     // 닉네임 입력 필드가 변경될 때 중복 확인 상태 초기화

@@ -403,7 +403,7 @@ public class InquiryController {
 		return "redirect:/inquiry/me";
 	}
 	
-	@GetMapping("/answer")//해당문의글 답변 @@TODO@@@answer jsp에서 if문 admin아이디 대소문자 수정해야함!
+	@GetMapping("/answer")//해당문의글 답변
 	public String answer(@RequestParam("search") String search, InquiryDTO inquiryDTO, Model model, HttpSession session) {
 		String IQ_NUM = inquiryDTO.getIQ_NUM();
 		Map<String, Object> param = new HashMap<String, Object>();
