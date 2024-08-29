@@ -167,7 +167,13 @@ public class MovieController implements WebMvcConfigurer {
 			rMap.put("MEMBER_ID", id);
 			String bookmark = movieService.getBookmark(rMap) ? "favor" : "hate";
 			model.addAttribute("BOOKMARK", bookmark);
-			String showCheck = movieService.getShowCheck(rMap) ? "showChecked" : "notShowChecked";
+			Boolean reviewCheck = movieService.getReviewUser(rMap);
+			String showCheck = "";
+			if(reviewCheck) {
+				showCheck = movieService.getShowCheck(rMap) ? "showChecked" : "notShowChecked";
+			} else {
+				showCheck = "alReview";
+			}
 			model.addAttribute("REVIEWCHECK", showCheck);
 		}
 		

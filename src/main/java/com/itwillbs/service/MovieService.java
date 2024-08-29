@@ -137,8 +137,8 @@ public class MovieService {
 	// ==================================== 리뷰 ==================================
 	// 해당 영화에 유저의 리뷰가 있는지 검색
 	public boolean getReviewUser(Map<String, Object> data) {
-		String str = movieDAO.getReviewUser(data);
-		boolean result = str == null ? false : true;
+		Boolean result = movieDAO.getReviewUser(data);
+		result = result != null ? result : false; 
 		return result;
 	}
 	//평점(리뷰)저장
