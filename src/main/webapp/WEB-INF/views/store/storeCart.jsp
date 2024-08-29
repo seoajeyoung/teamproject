@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>장바구니</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ticket/payment.css">
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -44,8 +45,8 @@
 
         // 상품명 배열을 문자열로 결합
         let st_name_string = st_name.join(",");
-        console.log("상품명:", st_name_string);
-        console.log("총 가격:", product_total_price);
+//         console.log("상품명:", st_name_string);
+//         console.log("총 가격:", product_total_price);
 
         // 이후에 사용할 변수들을 전역으로 설정
         window.st_num = st_num;
@@ -124,7 +125,7 @@
         });
     });
 
-    console.log("Merchant UID:", merchantUid);
+//     console.log("Merchant UID:", merchantUid);
 
     // API 초기화 : 포트원 API를 사용하기 위해 초기화
     var IMP = window.IMP;
@@ -136,8 +137,8 @@
             pay_method: "card",   // 결제 수단
             merchant_uid: merchantUid,   // 생성된 주문번호
             name: window.st_name,  // 상품명
-            //amount: window.product_total_price, // 결제 금액
-            amount: 100, // 결제 금액
+            amount: window.product_total_price, // 결제 금액
+//             amount: 100, // 결제 금액
             buyer_email: "${memberDTO.member_email}", // 사용자 이메일
             buyer_name: "${memberDTO.member_name}",   // 사용자명
             buyer_tel: "${memberDTO.member_phone}" // 사용자 전화번호

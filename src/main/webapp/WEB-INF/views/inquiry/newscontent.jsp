@@ -38,7 +38,7 @@
 					<li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i>
 					</a></li>
 					<li class="on"><a href="${pageContext.request.contextPath}/inquiry/news" title="현재선택">공지/뉴스<i></i></a></li>
-					<li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i>
+					<li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i>
 					</a></li>
 					<li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
         </ul>
@@ -125,6 +125,8 @@
 <script type="text/javascript">
 
 //<![CDATA[
+	
+var isLoggedIn = ${sessionScope.member_id != null};	
 
 $(function(){
 	var urlParams = new URLSearchParams(window.location.search);
@@ -241,6 +243,14 @@ function formatDate(dateString) { //날자 포멧
     $(function () {
         $('#btn_list').on('click', function () {
             Search();
+        });
+        
+      	//로그인
+    	$('#write a').on('click', function(){
+    		if(!isLoggedIn){
+    			alert("로그인이 필요합니다.");
+            	event.preventDefault();
+    		}
         });
 
         function Search() {

@@ -34,7 +34,7 @@ public class MovieService {
 		return movieDAO.getReleseDate();
 	}
 	// 상영 예정작 top3
-	public List<Map<String, String>> getTop3() {
+	public List<Map<String, Object>> getTop3() {
 		return movieDAO.getTop3();
 	}
 	
@@ -43,7 +43,7 @@ public class MovieService {
 	
 	
 	// 상예정인 영화 리스트
-	public List<Map<String, String>> getUpcomingMovies() {
+	public List<Map<String, Object>> getUpcomingMovies() {
 		return movieDAO.getUpcomingMovies();
 	}
 	
@@ -66,22 +66,44 @@ public class MovieService {
 	}
 	
 	// 영화 상세정보
-	public MovieDTO movieInfo(int num) {
-		MovieDTO movieDTO = movieDAO.movieInfo(num);
+	public Map<String, Object> movieInfo(int num) {
+		Map<String, Object> movieDTO = movieDAO.movieInfo(num);
+		String actor = (String)movieDTO.get("ACTORNM");
+		String[] str = actor.split(",");
+		if(str.length >= 10) {
+			actor = str[0]; 
+			for(int i = 1; i < 10; i++) {
+				actor += ", " + str[i];
+			}
+		}
+		movieDTO.put("ACTORNM", actor);
 		return movieDTO;
 	}
+	// 성비, 연령 차트 데이터
+	public Map<String, Object> getChartData(int num) {
+		return movieDAO.getChartData(num);
+	}
+	// 관람여부 확인
+	public boolean getShowCheck(Map<String, Object> rMap) {
+		return movieDAO.getShowCheck(rMap) != null ? movieDAO.getShowCheck(rMap) : false;
+	}
+	
+	
+	
 	// 북마크(찜하기)기록 검색
 	public boolean getBookmark(Map<String, Object> rMap) {
 		return movieDAO.getBookmark(rMap) == 1 ? true : false;
 	}
-	
+	//북마크 기록 저장
 	public void insertBookmark(Map<String, Object> rMap) {
 		movieDAO.insertBookmark(rMap);
 	}
-	
+	// 북마크 기록 삭제
 	public boolean deleteBookmark(Map<String, Object> rMap) {
 		return movieDAO.deleteBookmark(rMap) == 1 ? true : false;
 	}
+	
+	
 	
 	
 	
@@ -115,7 +137,8 @@ public class MovieService {
 	// ==================================== 리뷰 ==================================
 	// 해당 영화에 유저의 리뷰가 있는지 검색
 	public boolean getReviewUser(Map<String, Object> data) {
-		boolean result = movieDAO.getReviewUser(data) == null ? true : false;
+		String str = movieDAO.getReviewUser(data);
+		boolean result = str == null ? false : true;
 		return result;
 	}
 	//평점(리뷰)저장

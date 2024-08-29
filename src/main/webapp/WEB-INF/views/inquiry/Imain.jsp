@@ -37,7 +37,7 @@
             <li class="on"><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often" title="현재선택">자주찾는 질문<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
+            <li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
             
@@ -88,24 +88,24 @@
 				<div class="service_area">
 					<span class="tit">자주찾는 서비스</span>
 					<ul class="list">
-						<li><a href="/user/mycgv/reserve/?g=1#contaniner" target="_blank" title="새창열기">신용카드<br>영수증출력</a></li>
+						<li><a href="${pageContext.request.contextPath}/mypage/myinfo" target="_blank" title="새창열기">나의 정보</a></li>
 
                         <!-- 로그아웃일 경우에만 링크  -->
                           
-						<li><a href="/user/login/find-account.aspx" target="_blank" title="새창열기">아이디/<br>비밀번호 찾기</a></li>
+						<li><a href="${pageContext.request.contextPath}/mypage/mypayment" target="_blank" title="새창열기">나의 결제내역<br>영화</a></li>
                           
                         <!-- 로그아웃일 경우에만 링크  -->
 
-						<li><a href="/user/mycgv/reserve/?g=1#contaniner" target="_blank" title="새창열기">예매/<br>취소내역 확인</a></li>
+						<li><a href="${pageContext.request.contextPath}/mypage/mystorepayment" target="_blank" title="새창열기">나의 결제내역<br>스토어</a></li>
 
                         <!-- 로그아웃일 경우에만 링크  --> 
                             
-						<li><a href="/user/guest/default.aspx" target="_blank" title="새창열기">비회원<br>예매/취소</a></li>
+						<li><a href="${pageContext.request.contextPath}/mypage/mypoint" target="_blank" title="새창열기">마이 포인트내역</a></li>
                          
                         <!-- 로그아웃일 경우에만 링크  -->
 
-						<li><a href="/user/mycgv/cjone-point/pointlist.aspx?g=1#contaniner" target="_blank" title="새창열기">멤버십포인트<br>사용안내</a></li>
-						<li><a href="/user/mycgv/coupon/movie-ticket/list.aspx?g=1#contaniner" target="_blank" title="새창열기">관람권<br>할인쿠폰 등록</a></li>
+						<li><a href="${pageContext.request.contextPath}/mypage/mymain" target="_blank" title="새창열기">마이페이지</a></li>
+						<li><a href="${pageContext.request.contextPath}/movie/myMovie" target="_blank" title="새창열기">나의 선호영화</a></li>
 					</ul>
 				</div>
 				<div class="notice_area">
@@ -130,8 +130,10 @@
 <!-- //Contents Area -->
 <script type="text/javascript">
 //<![CDATA[
+	var isLoggedIn = ${sessionScope.member_id != null}; // 서버 측 변수를 JavaScript 변수로 전달
 
     (function ($) {
+    	
         $(function () {
             $('#btn_search').on('click', function () {
                 if ($('#searchtext').val() == "") {
@@ -154,12 +156,43 @@
 					}
 				}
 			});
+			
+			$('.c_box.email_inquiry a').on('click', function(){
+				if(!isLoggedIn){
+					alert("로그인이 필요합니다.");
+	            	event.preventDefault();
+				}
+            	
+            });
+			
+			$('.c_box.my_advice a').on('click', function(){
+				if(!isLoggedIn){
+					alert("로그인이 필요합니다.");
+	            	event.preventDefault();
+				}
+            });
+			
+			$('#write a').on('click', function(){
+				if(!isLoggedIn){
+					alert("로그인이 필요합니다.");
+	            	event.preventDefault();
+				}
+            });
+			
+			$('.list li a').on('click', function(){
+				if(!isLoggedIn){
+					alert("로그인이 필요합니다.");
+	            	event.preventDefault();
+				}
+            });
 
 
             $('.c_qu').children('a').on("click", function () {
                 location.href = "/support/faq/default.aspx?searchtext=" + escape($(this).html());
                 //return false;
             });
+            
+            
 
 
         });

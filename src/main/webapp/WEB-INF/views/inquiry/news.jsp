@@ -37,7 +37,7 @@
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i></a></li>
             <li class="on"><a href="${pageContext.request.contextPath}/inquiry/news" title="현재선택">공지/뉴스<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
+            <li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
         </ul>
     </div>
@@ -162,6 +162,7 @@
 <!-- //Contents Area -->
 
 <script type="text/javascript">
+var isLoggedIn = ${sessionScope.member_id != null};
 
 $(function(){
 	//페이지 로드 시 모든 데이터 로드
@@ -219,6 +220,14 @@ $(function(){
             searchtext = ''; // 검색어 변수 초기화
         }
         loadNewsData(searchtext, newsSection, pageNum);//ajax호출
+    });
+	
+	//로그인
+	$('#write a').on('click', function(){
+		if(!isLoggedIn){
+			alert("로그인이 필요합니다.");
+        	event.preventDefault();
+		}
     });
 	
 	

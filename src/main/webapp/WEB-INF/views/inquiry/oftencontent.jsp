@@ -38,7 +38,7 @@
 					<li class="on"><a href="${pageContext.request.contextPath}/inquiry/often" title="현재선택">자주찾는 질문<i></i>
 					</a></li>
 					<li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-					<li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i>
+					<li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i>
 					</a></li>
 					<li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
         </ul>
@@ -55,7 +55,7 @@
 
 		<div class="col-detail">
 			<div class="customer_top">
-				<h2 class="tit">공지/뉴스</h2>
+				<h2 class="tit">자주찾는 질문</h2>
 				<p class="stit">CGV의 주요한 이슈 및 여러가지 소식들을 확인하실 수 있습니다.</p>
 			</div>
 			<div class="board_view_area">
@@ -123,7 +123,7 @@
 </div>
 <!-- //Contents Area -->
 <script type="text/javascript">
-
+var isLoggedIn = ${sessionScope.member_id != null};
 //<![CDATA[
 
 // $(function(){
@@ -234,6 +234,14 @@
     $(function () {
         $('#btn_list').on('click', function () {
             Search();
+        });
+        
+      	//로그인
+    	$('#write a').on('click', function(){
+    		if(!isLoggedIn){
+    			alert("로그인이 필요합니다.");
+            	event.preventDefault();
+    		}
         });
 
         function Search() {

@@ -17,8 +17,8 @@ public class KobisApiService {
 	private RestTemplate restTemplate;
 
 	private static final String API_KEY = "6a0692634ee3580edc52c38d43334960";
-	private static final String Kobis_API_URL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key="
-			+ API_KEY;
+	private static final String Kobis_API_URL = "https://kobis.or.kr/kobisopenapi/"
+			+ "webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key="+ API_KEY;
 
 	public List<MovieResponse> fetchMovies(String targetDt) {
 		List<MovieResponse> movieResponses = new ArrayList<MovieResponse>();
@@ -37,7 +37,7 @@ public class KobisApiService {
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode rootNode = mapper.readTree(response);
 
-			// "Data"라는 이름의 자식 노드를 찾기
+			// "boxOfficeResult"라는 이름의 자식 노드를 찾기
 			JsonNode boxOfficeResultNode = rootNode.path("boxOfficeResult");
 			JsonNode weeklyBoxOfficeListArray = boxOfficeResultNode.path("weeklyBoxOfficeList");
 			for (JsonNode weeklyBoxOfficeListNode : weeklyBoxOfficeListArray) {

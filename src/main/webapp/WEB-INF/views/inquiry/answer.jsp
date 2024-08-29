@@ -35,7 +35,7 @@
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-            <li class=""><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
+            <li class="" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class="on"><a href="${pageContext.request.contextPath}/inquiry/list" title="현재선택">문의/답변<i></i></a></li>            
             
@@ -63,7 +63,7 @@
 					<li class="title">${inquiryDTO.IQ_NAME}</li>
 					<li class="stit_area">
 						<span>등록일<em class="regist_day">${inquiryDTO.IQ_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
-						<span class="check_tit_area">닉네임<em class="check_num">${inquiryDTO.MEMBER_NICKNAME}</em></span>
+						<span class="check_tit_area">닉네임<em class="check_num">${inquiryDTO.MEM_NICKNAME}</em></span>
 					</li>
 				</ul>
 				<div class="view_area">
@@ -247,11 +247,19 @@ function cutOverText(obj, maxByte, viewAreaID) {
 
 
 //<![CDATA[
-
+	var isLoggedIn = ${sessionScope.member_id != null};
+	
     (function ($) {
         $(function () {
             $('#btn_list').on('click', function () {
                 Search();
+            });
+            
+            $('#write a').on('click', function(){
+				if(!isLoggedIn){
+					alert("로그인이 필요합니다.");
+	            	event.preventDefault();
+				}
             });
 
             function Search() {

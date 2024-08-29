@@ -89,7 +89,6 @@ public class MemberController {
 			session.setAttribute("member_phone", params.get("MEM_PHONE"));
 			session.setAttribute("member_birth", params.get("MEM_BIRTH"));
 			session.setAttribute("member_name", params.get("MEM_NAME"));
-			System.out.println(params);
 			// 세션에 정보 저장
 
 			// /member/main 주소변경하면서 이동

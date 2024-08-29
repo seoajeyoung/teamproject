@@ -36,7 +36,7 @@
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain" title="현재선택">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-            <li class="on"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
+            <li class="on" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
             
@@ -200,8 +200,18 @@ function __doPostBack(eventTarget, eventArgument) {
 	<!-- //Contents End -->
 </div>
 <script type="text/javascript">
+var isLoggedIn = ${sessionScope.member_id != null};
 
-$(function () {     
+$(function () {
+	
+	//로그인
+	$('#write a').on('click', function(){
+		if(!isLoggedIn){
+			alert("로그인이 필요합니다.");
+        	event.preventDefault();
+		}
+    });
+	
 	$('#inp_textbox').on('keyup', checkByte);
 	
 	const type = '${inquiryDTO.IQ_TYPE}';

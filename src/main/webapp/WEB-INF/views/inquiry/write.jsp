@@ -37,7 +37,7 @@
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/Imain" title="현재선택">고객센터 메인<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/often">자주찾는 질문<i></i></a></li>
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/news">공지/뉴스<i></i></a></li>
-            <li class="on"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
+            <li class="on" id="write"><a href="${pageContext.request.contextPath}/inquiry/write">1 : 1 문의하기<i></i></a></li>
             
             <li class=""><a href="${pageContext.request.contextPath}/inquiry/list">문의/답변<i></i></a></li>            
             
@@ -149,7 +149,7 @@ function __doPostBack(eventTarget, eventArgument) {
                                         <td colspan="4">
                                             <div>
                                                 <strong>※&nbsp;&nbsp;문의에 대한 빠른 답변을 위해&nbsp;회원 가입 시 입력하신 연락처를 확인해주세요.</strong>
-                                                <a href="https://www.cjone.com/cjmweb/member/passwd.do?coopco_cd=7010&amp;brnd_cd=1000" id="A1" class="round gray on" title="수정" target="_blank"><span>수정</span></a>
+                                                <a href="${pageContext.request.contextPath}/mypage/myupdate" id="A1" class="round gray on" title="수정" target="_blank"><span>수정</span></a>
                                             </div>
                                             <div class="desc_miso">
                                                 <p class="desc_txt1">고객님의 문의에 답변하는 직원은 <em>고객 여러분의 가족 중 한 사람</em>일 수 있습니다.</p>
@@ -213,8 +213,18 @@ function __doPostBack(eventTarget, eventArgument) {
 
 
 <script type="text/javascript">
+var isLoggedIn = ${sessionScope.member_id != null};
 
-$(function () {     
+$(function () {
+	
+	//로그인
+	$('#write a').on('click', function(){
+		if(!isLoggedIn){
+			alert("로그인이 필요합니다.");
+        	event.preventDefault();
+		}
+    });
+	
 	$('#inp_textbox').on('keyup', checkByte);
 });
 

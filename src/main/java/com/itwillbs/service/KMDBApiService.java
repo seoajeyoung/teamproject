@@ -68,10 +68,8 @@ public class KMDBApiService {
                     String[] stillUrls = stlls.split("\\|");
                     String[] releaseDates = releaseDate.split("\\|");
                     // 분할된 URL들을 ", "로 연결
-//                    String joinedratings = String.join(", ", ratings);
                     String joinedStillUrls = String.join(", ", stillUrls);
-//                    String joinedreleaseDates = String.join(", ", releaseDates);
-                    // movieResponse의 posterUrl에 설정
+                    
                     movieResponse.setStillUrl(joinedStillUrls);
                     if (releaseDates.length > 0) {
                         movieResponse.setReleaseDate(releaseDates[0]);

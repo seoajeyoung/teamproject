@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.print.DocFlavor.READER;
 import javax.print.DocFlavor.STRING;
 import javax.xml.crypto.Data;
 
@@ -37,13 +38,13 @@ public class MovieDAO {
 		return sqlsession.selectList("movieMapper.getReleseDate");
 	}
 	// 상영 예정작 top3
-	public List<Map<String, String>> getTop3() {
+	public List<Map<String, Object>> getTop3() {
 		return sqlsession.selectList("movieMapper.getTop3");		
 	}
 	
 	
 	// 상영예정 영화 목록
-	public List<Map<String, String>> getUpcomingMovies() {
+	public List<Map<String, Object>> getUpcomingMovies() {
 		return sqlsession.selectList("movieMapper.getUpcomingMovies");
 	}
 	
@@ -61,9 +62,18 @@ public class MovieDAO {
 	
 	
 	// 영화 상세정보
-	public MovieDTO movieInfo(int num) {
+	public Map<String, Object> movieInfo(int num) {
 		return sqlsession.selectOne("movieMapper.movieInfo", num);
 	}
+	// 연령, 성비 차트 데이터
+	public Map<String, Object> getChartData(int MOVIE_NUM) {
+		return sqlsession.selectOne("movieMapper.getChartData", MOVIE_NUM);
+	}
+	public Boolean getShowCheck(Map<String, Object> rMap) {
+		return sqlsession.selectOne("movieMapper.getShowCheck", rMap);
+	}
+	
+	
 	
 	// 북마크(찜하기)기능
 	// 북마크 기록 검색

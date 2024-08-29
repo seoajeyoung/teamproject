@@ -82,7 +82,7 @@
 										결제 내역<i></i>
 								</a></li>
 								<li class=""><a
-									href="${pageContext.request.contextPath}/movie/bookmarkMovie">나의
+									href="${pageContext.request.contextPath}/movie/myMovie">나의
 										선호 영화<i></i>
 								</a></li>
 								<li class=""><a
@@ -254,7 +254,7 @@
 																	<option value="daum.net">daum.net</option>
 																</select>
 															</div> <input type="hidden" name="MEM_EMAIL"
-															id="completeEmail">
+																	id="completeEmail">
 
 														</td>
 													</tr>

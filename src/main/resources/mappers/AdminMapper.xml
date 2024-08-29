@@ -183,11 +183,9 @@
 
 	<update id="resetMovieRank"
 		parameterType="com.itwillbs.domain.AdminDTO">
-
 		UPDATE MOVIE m
 		SET m.rank = null
 		WHERE m.rank is not null;
-
 	</update>
 
 
@@ -207,8 +205,7 @@
 		t1.rank = t2.rank;
 	</update>
 
-
-
+	
 	<!-- ====================================================================================== -->
 
 	<!-- 영화목록 -->
@@ -829,6 +826,15 @@
 		ORDER BY AGE_GROUP
 		ASC
 	</select>
+	
+	<insert id="noData">
+		INSERT INTO REVENUE (SALES_DATE, STORE_TOTALSALES,
+		MOVIE_TOTALSALES, ALL_TOTALSALES)
+		SELECT #{yesterday}, 0, 0, 0
+		WHERE NOT EXISTS (
+		SELECT 1 FROM REVENUE WHERE SALES_DATE = #{yesterday}
+		);
+	</insert>
 
 
 
