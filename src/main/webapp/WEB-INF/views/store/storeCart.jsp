@@ -45,8 +45,8 @@
 
         // 상품명 배열을 문자열로 결합
         let st_name_string = st_name.join(",");
-        console.log("상품명:", st_name_string);
-        console.log("총 가격:", product_total_price);
+//         console.log("상품명:", st_name_string);
+//         console.log("총 가격:", product_total_price);
 
         // 이후에 사용할 변수들을 전역으로 설정
         window.st_num = st_num;
@@ -125,7 +125,7 @@
         });
     });
 
-    console.log("Merchant UID:", merchantUid);
+//     console.log("Merchant UID:", merchantUid);
 
     // API 초기화 : 포트원 API를 사용하기 위해 초기화
     var IMP = window.IMP;

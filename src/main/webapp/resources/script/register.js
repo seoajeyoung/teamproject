@@ -9,6 +9,8 @@ let isIdValid = false; // 아이디 사용가능 유무 확인
 let isNickValid = false; // 닉네임 사용가능 유무 확인
 let isPhoneValid = false; // 핸드폰 사용가능 유무 확인
 
+let passCkValid = false;
+
 
 $( document ).ready(function() {
 	// 엔터 키 입력을 감지하여 기본 폼 제출을 막음
@@ -48,21 +50,22 @@ $( document ).ready(function() {
         });
     }); // 아이디 중복확인 클릭 했을때 메서드 끝
 
-    $('#passck').on('keyup', function() {
-        let $content = $('#confirmPasswdResult'); // jQuery 객체로 변경
-        let passValue1 = $('#pass').val(); // 비밀번호 입력 필드의 값
-        let passValue2 = $('#passck').val(); // 비밀번호 확인 입력 필드의 값
-        let passCkValid = false; // 비밀번호 일치여부
 
-        if (passValue1 === passValue2 && passValue2 !== '') {
-            $content.text("비밀번호 일치").css('color', 'green'); // 비밀번호 일치 시 텍스트와 색상 설정
-            passCkValid = true;
-        } else if (passValue2 === '') {
-            $content.text(''); // 비밀번호 확인 필드가 비어있는 경우 텍스트 제거
-        } else {
-            $content.text("비밀번호 불일치").css('color', 'red'); // 비밀번호 불일치 시 텍스트와 색상 설정
-        }
-    });
+	$('#passck').on('keyup', function() {
+	    let $content = $('#confirmPasswdResult');
+	    let passValue1 = $('#pass').val();
+	    let passValue2 = $('#passck').val();
+	
+	    if (passValue1 === passValue2 && passValue2 !== '') {
+	        $content.text("비밀번호 일치").css('color', 'green');
+	        passCkValid = true;
+	    } else if (passValue2 === '') {
+	        $content.text('');
+	    } else {
+	        $content.text("비밀번호 불일치").css('color', 'red');
+	        passCkValid = false;
+	    }
+	});
 
     // 비밀번호 입력 필드의 변화가 있을 때 비밀번호 확인 필드의 상태를 업데이트
     $('#pass').on('keyup', function() {
@@ -73,6 +76,7 @@ $( document ).ready(function() {
     // 닉네임 입력 필드가 변경될 때 중복 확인 상태 초기화
     $('#nickname').on('input', function () {
         isNickChecked = false; // 아이디 입력 변경 시 중복 확인 상태 초기화
+        isNickValid = false;
         $('#nickck').html(''); // 메시지 초기화
     });
 
@@ -103,6 +107,7 @@ $( document ).ready(function() {
     // 핸드폰 입력 필드가 변경될 때 중복 확인 상태 초기화
     $('#phone').on('input', function () {
         isPhoneChecked = false; // 아이디 입력 변경 시 중복 확인 상태 초기화
+        isPhoneValid = false;
         $('#phoneck').html(''); // 메시지 초기화
     });
 
@@ -228,43 +233,44 @@ $( document ).ready(function() {
             }
         }
 
-        if (!idPattern.test(id)) {
-            // 아이디 검사
-            alert('아이디에는 영문, 숫자가 하나 이상 포함되어야 합니다.(5~20자)');
-            isValid = false;
-            isIdChecked = false;
-        } else if (!passPattern.test(pass)) {
-            alert('비밀번호에는 영문, 숫자, 특수문자가 하나 이상 포함되어야 합니다.(5~20자)');
-            isValid = false;
-        } else if (!nicknamePattern.test(nickname)) {
-        	alert('닉네임에는 한글,영문,숫자만 사용가능합니다.(2~10자)');
-        	isValid = false;
-    	} else if (!namePattern.test(name)) {
-            alert('이름은 한글만 사용 가능합니다.(2~5자)');
-            isValid = false;
-        } else if (!phonePattern.test(phone)) {
-            alert('유효하지 않은 전화번호입니다.');
-            isValid = false;
-        } else if (!birthPattern.test(birth)) {
-            alert('유효하지 않은 생년월일입니다.');
-            isValid = false;
-        } else if (!isIdChecked || !isIdValid) {
-            // 아이디 중복 확인 여부 확인
-            alert('아이디 중복 확인 결과를 확인해주세요.');
-            isValid = false;
-        } else if (!passConfirmValid) {
-            // 비밀번호 확인 검사
-            alert('비밀번호가 일치하지 않습니다.');
-            isValid = false;
-        } else if (!isNickChecked || !isNickValid) {
-            // 닉네임 중복 확인 여부 확인
-            alert('닉네임 중복 확인 결과를 확인해주세요.');
-            isValid = false;
-        } else if (!isPhoneChecked || !isPhoneValid) {
-            // 닉네임 중복 확인 여부 확인
-            alert('전화번호 중복 확인 결과를 확인해주세요.');
-            isValid = false;
-        } 
+	        // 패턴 검사
+	    if (!idPattern.test(id)) {
+	        alert('아이디에는 영문, 숫자가 하나 이상 포함되어야 합니다.(5~20자)');
+	        isValid = false;
+	        isIdChecked = false;
+	    } else if (!passPattern.test(pass)) {
+	        alert('비밀번호에는 영문, 숫자, 특수문자가 하나 이상 포함되어야 합니다.(5~20자)');
+	        isValid = false;
+	    } else if (!nicknamePattern.test(nickname)) {
+	        alert('닉네임에는 한글, 영문, 숫자만 사용 가능합니다.(2~10자)');
+	        isValid = false;
+	        isNickChecked = false;
+	    } else if (!namePattern.test(name)) {
+	        alert('이름은 한글만 사용 가능합니다.(2~5자)');
+	        isValid = false;
+	    } else if (!phonePattern.test(phone)) {
+	        alert('유효하지 않은 전화번호입니다.');
+	        isValid = false;
+	        isPhoneChecked = false;
+	    } else if (!birthPattern.test(birth)) {
+	        alert('유효하지 않은 생년월일입니다.');
+	        isValid = false;
+	    } else if (!passCkValid) {
+	        alert('비밀번호가 일치하지 않습니다.');
+	        isValid = false;
+	    } 
+	    
+	    // 중복 확인 검사
+	    if (!isIdChecked || !isIdValid) {
+	        alert('아이디 중복 확인 결과를 확인해주세요.');
+	        isValid = false;
+	    } else if (!isNickChecked || !isNickValid) {
+	        alert('닉네임 중복 확인 결과를 확인해주세요.');
+	        isValid = false;
+	    } else if (!isPhoneChecked || !isPhoneValid) {
+	        alert('전화번호 중복 확인 결과를 확인해주세요.');
+	        isValid = false;
+	    }
         
 
         if (!isValid) {
