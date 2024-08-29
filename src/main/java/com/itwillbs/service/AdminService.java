@@ -447,6 +447,11 @@ public class AdminService {
 		return adminDAO.getTheaterSalesDataForMonth(endMonth);
 	}
 
+	public void noData(LocalDate yesterday) {
+		adminDAO.noData(yesterday);
+		
+	}
+
 	
 	
 

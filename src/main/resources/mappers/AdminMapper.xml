@@ -826,6 +826,15 @@
 		ORDER BY AGE_GROUP
 		ASC
 	</select>
+	
+	<insert id="noData">
+		INSERT INTO REVENUE (SALES_DATE, STORE_TOTALSALES,
+		MOVIE_TOTALSALES, ALL_TOTALSALES)
+		SELECT #{yesterday}, 0, 0, 0
+		WHERE NOT EXISTS (
+		SELECT 1 FROM REVENUE WHERE SALES_DATE = #{yesterday}
+		);
+	</insert>
 
 
 
