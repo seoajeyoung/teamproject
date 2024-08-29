@@ -451,7 +451,8 @@
 				   	ON T.SC_NUM = S.SC_NUM
 				   JOIN CINEMA C
 				   	ON S.CI_NUM = C.CI_NUM
-			   WHERE T.MEM_NUM = M.MEM_NUM)	AS CHECKEDMOVIE
+			   WHERE T.MEM_NUM = M.MEM_NUM
+			   AND NOW() > S.SC_TIME_END) AS CHECKEDMOVIE
 		FROM MEMBERS M
 		LEFT OUTER JOIN REVIEW R
 		ON M.MEM_NUM = R.MEM_NUM
@@ -466,6 +467,8 @@
 	</select>
 	
 	<select id="getMyMovieList" resultType="java.util.LinkedHashMap">
+		SELECT * 
+		FROM (
     <choose>
 	    <when test="LABEL.equals('bookmark')">
 	        SELECT M.MOVIE_NUM
@@ -517,14 +520,16 @@
 			WHERE T.MEM_NUM in (SELECT MEM_NUM
 								FROM MEMBERS
 								WHERE MEM_ID = #{MEMBER_ID})
+			AND NOW() > S.SC_TIME_END
 	    </when>
 	</choose>
+		) AS SORT
 	<choose>
 	    <when test="SORTTYPE.equals('savedDate')">
-	        ORDER BY SAVEDDATE
+	        ORDER BY SORT.SAVEDDATE
 	    </when>
 	    <when test="SORTTYPE.equals('releaseDate')">
-	        ORDER BY RELEASEDATE
+	        ORDER BY SORT.RELEASEDATE
 	    </when>
 	</choose>
 	</select>

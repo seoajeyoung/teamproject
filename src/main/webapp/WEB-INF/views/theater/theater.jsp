@@ -62,11 +62,11 @@ let sessionId;
 
 $(function() {
 	$('#favoriteTheaters a').on('click', function() {
+		$('.sect-city').find('li').removeClass('on');
 		document.getElementById('wrapEvent').scrollIntoView({ behavior: 'smooth' });
         var dataTh = $(this).data('th');
-        $('.sect-city li').removeClass('on');
-        
-        $('.area-link').trigger('click', dataTh);
+        $('.area-link').trigger('click', [dataTh]);
+        $('#ulcontent>li').removeClass('on');
 	});
 });
 
@@ -129,7 +129,6 @@ $(function() {
 		                </div>
 		            </div>
 					<div class="set-btn fix-width">
-		                <button type="button" id="btnCancel" class="round gray"><span>취소</span></button>
 		                <button type="submit" id="btnSave" class="round inred"><span>등록하기</span></button> 
 		            </div>
 	
@@ -167,6 +166,10 @@ $(function() {
 		
 	});
 });
+
+$(document).on('click', '#btnSave', function() {
+	$('.btn-close').trigger('click');
+})
 
 $(document).on('click', '.box-inner>button', function() {
 	var thList = $('.box-inner>button').not($(this)).map(function() {
@@ -322,13 +325,11 @@ var thNum;
 //극장의 특정 지점 클릭시
 $(document).on('click', '.area-link', function(event, eventText) {
 	thNum = $(this).find('span').text();
-	
 	if(eventText == null) {
 		thName = $(this).attr('title');
 	} else {
 		thName = eventText;
 	}
-	
 	
 	$('.sect-showtimes>ul').html('')
 	$('.theater-tit span').text(thName + '점');
@@ -681,7 +682,7 @@ $(function() {
 		var text = `<div class="layer-wrap" style="">
 						<div class="layer-contents" style="width:650px;">
 					    <div class="popwrap">
-				        <h5>CGV 관람 등급 안내</h5>
+				        <h5>관람 등급 안내</h5>
 				        <div class="pop-contents">
 				            <div class="tbl-list">
 				                <table summary="CGV 등급별 관람 안내">
@@ -738,6 +739,7 @@ $(function() {
 });
 $(document).on('click', '.btn-close', function() {
 	$('.layer-wrap').remove();
+	location.reload();
 });
 </script>
 </head>

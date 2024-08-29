@@ -10,6 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import javax.inject.Inject;
 import javax.print.DocFlavor.READER;
 import javax.print.DocFlavor.STRING;
+import javax.print.attribute.standard.Destination;
 import javax.xml.crypto.Data;
 
 import org.springframework.stereotype.Service;
@@ -68,6 +69,8 @@ public class MovieService {
 	// 영화 상세정보
 	public Map<String, Object> movieInfo(int num) {
 		Map<String, Object> movieDTO = movieDAO.movieInfo(num);
+		
+		// 배우 이름 제한.
 		String actor = (String)movieDTO.get("ACTORNM");
 		String[] str = actor.split(",");
 		if(str.length >= 10) {
@@ -77,6 +80,23 @@ public class MovieService {
 			}
 		}
 		movieDTO.put("ACTORNM", actor);
+		
+		String nation = (String)movieDTO.get("NATION");
+		if(nation.contains("한국") || nation.contains("대한민국")) {
+			movieDTO.put("SEARCHTITLE", movieDTO.get("TITLE"));
+		} else {
+			movieDTO.put("SEARCHTITLE", movieDTO.get("TITLEENG"));
+		}
+		String sound = (String)movieDTO.get("SOUNDTRACK");
+		if(sound != null) {
+			String[] soundtrack = sound.split(",");
+			movieDTO.put("SOUNDTRACK", soundtrack);
+		}
+		
+		
+		
+		
+		
 		return movieDTO;
 	}
 	// 성비, 연령 차트 데이터

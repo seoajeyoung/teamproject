@@ -136,7 +136,6 @@ public class MovieController implements WebMvcConfigurer {
 			vodUrl = new String[0];
 		}
 
-		
 		// 트레일러 이미지
 		ArrayList<String> trailerTeaser = new ArrayList<String>();
 		if(vodUrl.length != 0 && !vodUrl[0].trim().equals("")) {
@@ -148,7 +147,6 @@ public class MovieController implements WebMvcConfigurer {
 				trailerTeaser.add(url);
 			}
 		}
-		
 		
 		// 성비, 연령 차트
 		Map<String, Object> chartData = movieService.getChartData(num);

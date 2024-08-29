@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <link href="${pageContext.request.contextPath}/resources/css/mypage/base.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/mypage/content.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/giftstore.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/newinsert.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/participate.css" rel="stylesheet">
@@ -21,8 +20,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/movie/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel="stylesheet">
 
-
-
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 
 
@@ -33,7 +30,7 @@
 	font-size: 14px;
 	padding: 5px;
 	background-color: #fb4357;
-	font-weight: 900;  
+	font-weight: 700;  
 	color: white;
 	border-radius: 5px;
 }
@@ -50,6 +47,10 @@
 }
 .title {
 	overflow: visible;
+	
+}
+.title>* {
+	margin-bottom: 5px;
 }
 .rContent>a {
 	position: absolute;
@@ -71,7 +72,6 @@
             <!-- Contents Start -->
 			
 <div class="cols-content">
-    
 <div class="col-aside">
 	<h2>프로필 및 서브메뉴</h2>
 	<div class="box-round-dgray">
@@ -134,8 +134,10 @@ $(function() {
 		$('#sortBtn').trigger('click');
 	});
 	
+	// go 버튼
 	$('#sortBtn').on('click', function() {
 		var sortType = $('#order_type').val();
+		
 		$.ajax({
 			type: 'GET',
 			url: '${pageContext.request.contextPath}/movie/myMovieList',
@@ -147,7 +149,7 @@ $(function() {
 				
 				$('.watched_list_container').html('');
 				result.forEach(function(movieDTO) {
-					var text = `<li class="movie_info">
+					var text = `<li class="movie_info"  style="margin-top: 15px; padding-bottom: 15px; border-bottom: 1px solid #d6d4ca;">
 								<input type="hidden" class="movieNum" value="\${movieDTO.MOVIE_NUM}">
 								<div class="article-movie-info" style="height:160px; margin-bottom: 10px;">
 									<div class="box-image" style="height:100%"> 
@@ -345,10 +347,10 @@ $(document).on('click', '.bookmark_del', function() {
 				
 				</ul>
 			</div>
-            <div class="sect-wishlist-lst none">
-		       <p>기대되는 영화가 없습니다.<br>영화 상세 프리에그에서 '기대돼요!'를 선택하여 영화를 추가해보세요.</p>
-               <a href="/movies/" class="round black"><span>무비차트</span></a>
-		    </div>
+<!--             <div class="sect-wishlist-lst none"> -->
+<!-- 		       <p>기대되는 영화가 없습니다.<br>영화 상세 프리에그에서 '기대돼요!'를 선택하여 영화를 추가해보세요.</p> -->
+<!--                <a href="/movies/" class="round black"><span>무비차트</span></a> -->
+<!-- 		    </div> -->
             
 	    </div>
 	</div>
@@ -413,4 +415,5 @@ $(document).on('click', '.bookmark_del', function() {
     <!-- S Footer -->
 
 </body>
+<link href="${pageContext.request.contextPath}/resources/css/movie/content.css" rel="stylesheet">
 </html>

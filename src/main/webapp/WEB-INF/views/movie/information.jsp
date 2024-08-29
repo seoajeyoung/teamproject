@@ -317,9 +317,16 @@ function pointChart() {
                 &nbsp;${movieDTO.RUNTIME}분,&nbsp;${movieDTO.NATION}</dd>
                 <dt>개봉 :&nbsp;</dt>
                 <dd class="on releaseDate">${movieDTO.RELEASEDATE}</dd>
-                <c:if test="${movieDTO.SOUNDTRACK != null}">
-	                <dt>OST : </dt>
-	                <dd>${movieDTO.SOUNDTRACK}</dd>
+                <c:if test="${movieDTO.SOUNDTRACK != null && SOUNDTRACK.length != 0}">
+	                <dt>OST&nbsp;:&nbsp;</dt>
+	                <dd>
+	                	<c:forEach var="TRACK" items="${movieDTO.SOUNDTRACK}" varStatus="Status">
+	                		<c:if test="${Status.index != 0}">/ </c:if>
+		                	<a href="https://www.youtube.com/results?search_query=${movieDTO.SEARCHTITLE} ${TRACK}">
+		                		${TRACK}
+		                	</a>
+	                	</c:forEach>
+	                </dd>
                 </c:if>
             </dl>
         </div>
@@ -1201,6 +1208,7 @@ $(document).on('click', '#regBtn', function() {
 	        </div> 
 	    `)
 });
+
 
 $(document).on('click', '.set-btn>button', function() {
 	let ckMap = {};
