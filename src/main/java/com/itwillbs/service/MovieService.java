@@ -89,6 +89,7 @@ public class MovieService {
 	}
 	
 	
+	
 	// 북마크(찜하기)기록 검색
 	public boolean getBookmark(Map<String, Object> rMap) {
 		return movieDAO.getBookmark(rMap) == 1 ? true : false;
