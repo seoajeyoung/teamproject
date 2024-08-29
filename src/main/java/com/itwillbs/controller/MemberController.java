@@ -96,7 +96,7 @@ public class MemberController {
 		} else {
 			// 아이디 비밀번호 틀림 => 주소변경하면서 /member/login 이동
 			// /member/login 주소변경하면서 이동
-			redirectAttributes.addFlashAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			redirectAttributes.addFlashAttribute("errorMessage", "존재하지 않는 계정이거나 아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/member/login";
 		}
 	}

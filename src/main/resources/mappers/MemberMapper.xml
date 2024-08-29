@@ -16,7 +16,7 @@
 	<select id="memberCheck"
 		resultType="Map"> <!-- 아이디 비밀번호 일치 조회 -->
 		SELECT * FROM MEMBERS
-		WHERE MEM_ID = #{member_id} AND MEM_PASS = #{member_pass}
+		WHERE MEM_ID = #{member_id} AND MEM_PASS = #{member_pass} AND MEM_STATUS is null
 	</select>
 
 
