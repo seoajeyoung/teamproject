@@ -48,132 +48,200 @@
 	src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						// 초기 로드 시 ST_NAME과 ST_DETAIL 값이 이 상품의 것인지 확인
-						var originalName = $('#ST_NAME').val();
-						var originalDetail = $('#ST_DETAIL').val();
+$(document).ready(function() {
+    // 초기 로드 시 ST_NAME과 ST_DETAIL 값이 이 상품의 것인지 확인
+    var originalName = $('#ST_NAME').val();
+    var originalDetail = $('#ST_DETAIL').val();
 
-						// 초기 상태에서 '이 상품의 상품이름입니다.' 또는 '이 상품의 상품내용입니다.'로 표시
-						$('#nameCheckMessage').text('이 상품의 상품이름입니다.').css(
-								'color', 'blue');
-						$('#detailCheckMessage').text('이 상품의 상품내용입니다.').css(
-								'color', 'blue');
+    // 초기 상태에서 '이 상품의 상품이름입니다.' 또는 '이 상품의 상품내용입니다.'로 표시
+    $('#nameCheckMessage').text('이 상품의 상품이름입니다.').css('color', 'blue');
+    $('#detailCheckMessage').text('이 상품의 상품내용입니다.').css('color', 'blue');
 
-						function checkStoreDetails() {
-							var storeDetails = {
-								ST_NUM : $('#ST_NUM').val(),
-								ST_NAME : $('#ST_NAME').val(),
-								ST_DETAIL : $('#ST_DETAIL').val()
-							};
+    function checkStoreDetails(storeDetails, callback) {
+        $.ajax({
+            url: '${pageContext.request.contextPath}/admin/store/check-store-details',
+            type: 'POST',
+            data: $.param(storeDetails),
+            success: function(response) {
+                callback(null, response);
+            },
+            error: function() {
+                callback('서버 요청 중 오류가 발생했습니다. 다시 시도해 주세요.', null);
+            }
+        });
+    }
 
-							$
-									.ajax({
-										url : '${pageContext.request.contextPath}/admin/store/check-store-details',
-										type : 'POST',
-										data : $.param(storeDetails),
-										success : function(response) {
-											console.log("Response:", response);
+    // 폼 제출 핸들러
+    $('#storeForm').on('submit', function(event) {
+        event.preventDefault(); // 기본 폼 제출 막기
 
-											// ST_NAME 검사
-											if (storeDetails.ST_NAME === "") {
-												$('#nameCheckMessage').text('');
-											} else if (storeDetails.ST_NAME === originalName) {
-												$('#nameCheckMessage').text(
-														'이 상품의 상품이름입니다.').css(
-														'color', 'blue');
-											} else if (response.nameExists) {
-												$('#nameCheckMessage').text(
-														'이미 사용중인 상품이름입니다.')
-														.css('color', 'red');
-											} else {
-												$('#nameCheckMessage').text(
-														'사용가능한 상품이름입니다.').css(
-														'color', 'green');
-											}
+        var isValid = true;
 
-											// ST_DETAIL 검사
-											if (storeDetails.ST_DETAIL === "") {
-												$('#detailCheckMessage').text(
-														'');
-											} else if (storeDetails.ST_DETAIL === originalDetail) {
-												$('#detailCheckMessage').text(
-														'이 상품의 상품내용입니다.').css(
-														'color', 'blue');
-											} else if (response.detailExists) {
-												$('#detailCheckMessage').text(
-														'이미 사용중인 상품내용입니다.')
-														.css('color', 'red');
-											} else {
-												$('#detailCheckMessage').text(
-														'사용가능한 상품내용입니다.').css(
-														'color', 'green');
-											}
-										}
-									});
-						}
+        // 입력 필드 가져오기
+        var stName = $('#ST_NAME');
+        var stPrice = $('#ST_PRICE');
+        var stType = $('#ST_TYPE');
+        var stDetail = $('#ST_DETAIL');
 
-						$('#ST_NUM, #ST_NAME, #ST_DETAIL').on('blur',
-								checkStoreDetails);
+        // 이전 메시지 초기화
+        $('#nameCheckMessage').text('');
+        $('#detailCheckMessage').text('');
 
-						$('#typeList').change(
-								function() {
-									var selectedType = $(this).val();
-									if (selectedType) {
-										// 선택된 값이 있을 때: 값을 설정하고 읽기 전용으로 설정
-										$('#ST_TYPE').val(selectedType).prop(
-												'readonly', true);
-									} else {
-										// 선택된 값이 기본값(빈 문자열)일 때: 읽기 전용 해제 및 입력 필드를 비움
-										$('#ST_TYPE').val('').prop('readonly',
-												false);
-									}
-								});
+        // 빈 칸 검증 - 첫 번째 빈 칸에 대해 경고 후 중지
+        if (!stName.val().trim()) {
+            alert('상품이름을 입력하세요.');
+            stName.focus();
+            return false;
+        }
 
-						document
-								.getElementById('file-upload')
-								.addEventListener(
-										'change',
-										function(event) {
-											var file = event.target.files[0]; // 사용자가 선택한 파일
-											if (file) {
-												var reader = new FileReader(); // FileReader 객체 생성
+        if (!stPrice.val().trim()) {
+            alert('상품가격을 입력하세요.');
+            stPrice.focus();
+            return false;
+        }
 
-												reader.onload = function(e) {
-													// 이미지 미리보기를 위한 <img> 요소 생성
-													var imgElement = document
-															.createElement('img');
-													imgElement.src = e.target.result;
-													imgElement.style.maxWidth = '100%'; // 이미지의 최대 너비를 <td>에 맞춤
-													imgElement.style.height = 'auto'; // 높이를 자동으로 조절
-													imgElement.style.display = 'block'; // block 요소로 설정하여 중앙 정렬 가능하게 함
-													imgElement.style.margin = 'auto'; // 자동으로 중앙 정렬
+        if (!stType.val().trim()) {
+            alert('상품타입을 선택하세요.');
+            stType.focus();
+            return false;
+        }
 
-													// 기존의 이미지 미리보기를 제거하고 새로 추가
-													var imagePreview = document
-															.getElementById('image-preview');
-													imagePreview.innerHTML = ''; // <td> 안의 기존 내용을 지움
-													imagePreview
-															.appendChild(imgElement); // 새 이미지를 <td> 안에 추가
-												}
+        if (!stDetail.val().trim()) {
+            alert('상품설명을 입력하세요.');
+            stDetail.focus();
+            return false;
+        }
 
-												reader.readAsDataURL(file); // 파일을 읽고 결과를 Data URL로 변환
-											}
-										});
+        // 중복 검사 데이터 준비
+        var storeDetails = {
+            ST_NUM: $('#ST_NUM').val(), // 기존 상품번호
+            ST_NAME: stName.val().trim(),
+            ST_DETAIL: stDetail.val().trim()
+        };
 
-						document
-								.getElementById("NEW_DATE")
-								.addEventListener(
-										"change",
-										function() {
-											var selectedDate = this.value;
-											document
-													.getElementById("ST_PERIOD").value = selectedDate;
-										});
+        // AJAX를 통한 중복 검사
+        checkStoreDetails(storeDetails, function(error, response) {
+            if (error) {
+                alert(error);
+                return false;
+            }
 
-					});
+            var canSubmit = true;
+
+            // 상품 이름 중복 검사
+            if (storeDetails.ST_NAME !== originalName && response.nameExists) {
+                $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.').css('color', 'red');
+                canSubmit = false;
+            } else if (storeDetails.ST_NAME === originalName) {
+                $('#nameCheckMessage').text('이 상품의 상품이름입니다.').css('color', 'blue');
+            } else {
+                $('#nameCheckMessage').text('사용가능한 상품이름입니다.').css('color', 'green');
+            }
+
+            // 상품 설명 중복 검사
+            if (storeDetails.ST_DETAIL !== originalDetail && response.detailExists) {
+                $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.').css('color', 'red');
+                canSubmit = false;
+            } else if (storeDetails.ST_DETAIL === originalDetail) {
+                $('#detailCheckMessage').text('이 상품의 상품내용입니다.').css('color', 'blue');
+            } else {
+                $('#detailCheckMessage').text('사용가능한 상품내용입니다.').css('color', 'green');
+            }
+
+            if (canSubmit) {
+                // 모든 검증이 통과되면 폼 제출
+                $('#storeForm')[0].submit();
+            } else {
+                alert('이미 사용중인 상품이름 또는 설명이 있습니다.');
+            }
+        });
+    });
+
+    // 기존의 중복 검사 (blur 이벤트)
+    $('#ST_NAME, #ST_DETAIL').on('blur', function() {
+        var storeDetails = {
+            ST_NUM: $('#ST_NUM').val(), // 기존 상품번호
+            ST_NAME: $('#ST_NAME').val().trim(),
+            ST_DETAIL: $('#ST_DETAIL').val().trim()
+        };
+
+        // 필드에 값이 있을 경우에만 검사 수행
+        if (storeDetails.ST_NAME || storeDetails.ST_DETAIL) {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/admin/store/check-store-details',
+                type: 'POST',
+                data: $.param(storeDetails),
+                success: function(response) {
+                    // 상품 이름 검사
+                    if (storeDetails.ST_NAME === "") {
+                        $('#nameCheckMessage').text('');
+                    } else if (storeDetails.ST_NAME === originalName) {
+                        $('#nameCheckMessage').text('이 상품의 상품이름입니다.').css('color', 'blue');
+                    } else if (response.nameExists) {
+                        $('#nameCheckMessage').text('이미 사용중인 상품이름입니다.').css('color', 'red');
+                    } else {
+                        $('#nameCheckMessage').text('사용가능한 상품이름입니다.').css('color', 'green');
+                    }
+
+                    // 상품 설명 검사
+                    if (storeDetails.ST_DETAIL === "") {
+                        $('#detailCheckMessage').text('');
+                    } else if (storeDetails.ST_DETAIL === originalDetail) {
+                        $('#detailCheckMessage').text('이 상품의 상품내용입니다.').css('color', 'blue');
+                    } else if (response.detailExists) {
+                        $('#detailCheckMessage').text('이미 사용중인 상품설명입니다.').css('color', 'red');
+                    } else {
+                        $('#detailCheckMessage').text('사용가능한 상품설명입니다.').css('color', 'green');
+                    }
+                },
+                error: function() {
+                    alert('서버 요청 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                }
+            });
+        }
+    });
+
+    // 기타 기존 핸들러들
+    $('#typeList').change(function() {
+        var selectedType = $(this).val();
+        if (selectedType) {
+            $('#ST_TYPE').val(selectedType).prop('readonly', true);
+        } else {
+            $('#ST_TYPE').val('').prop('readonly', false);
+        }
+    });
+
+    $('#file-upload').on('change', function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var imgElement = $('<img>').attr('src', e.target.result).css({
+                    'max-width': '100%',
+                    'height': 'auto',
+                    'display': 'block',
+                    'margin': 'auto'
+                });
+                $('#image-preview').empty().append(imgElement);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $('#reset-button').on('click', function() {
+        $('#image-preview').empty();
+        $('#file-upload').val('');
+        // 다른 필드 초기화가 필요하면 추가
+    });
+
+    $('#NEW_DATE').on('change', function() {
+        var selectedDate = $(this).val();
+        $('#ST_PERIOD').val(selectedDate);
+    });
+});
 </script>
+
+
 
 
 
@@ -217,7 +285,7 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<form
+								<form id="storeForm"
 									action="${pageContext.request.contextPath}/admin/store/storeinfoPro"
 									method="post" enctype="multipart/form-data">
 									<input type="hidden" name="ST_NUM" value="${adminDTO.ST_NUM}">
