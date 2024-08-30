@@ -94,8 +94,6 @@ public class AdminController {
 		// 이번 달의 마지막 날 (예: 2024-08-31 23:59:59)
 		LocalDateTime endOfMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
 		
-		adminService.noData(yesterday);
-
 		// 요청된 기간의 일별 매출 데이터를 가져옴
 		List<AdminDTO> weekSalesData = adminService.getAllSalesDataForWeek(startDate, endDate);
 		
@@ -133,6 +131,8 @@ public class AdminController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		adminService.noData(yesterday);
 
 		return "/admin/member/index";
 	}
