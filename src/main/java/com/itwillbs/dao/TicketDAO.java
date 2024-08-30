@@ -178,6 +178,18 @@ public class TicketDAO {
 		sqlSession.delete(namespace + ".deletemseat", request);
 	}
 
+	public void insertperson(Map<String, Object> request) {
+		sqlSession.insert(namespace + ".insertperson", request);
+	}
+
+	public Map<String, Object> selectperson(Map<String, Object> request) {
+		return sqlSession.selectOne(namespace +".selectperson", request);
+	}
+
+	public void deleteperson(Map<String, Object> request) {
+		sqlSession.delete(namespace +".deleteperson", request);
+	}
+
 
 	
 	

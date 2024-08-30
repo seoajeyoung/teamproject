@@ -291,38 +291,38 @@ public class TicketController {
 
 	@PostMapping("/SEATPAYMENT")
 	public ResponseEntity<Map<String, Object>> SEATPAYMENT(@RequestBody Map<String, Object> request,
-			HttpSession session) {
-		int checkseat = ticketService.checkseat(request);
-		
-		request.put("member_num", session.getAttribute("member_num"));
-		
-		if (checkseat == 0) {
+	                                                      HttpSession session) {
+	    
+	    int checkseat = ticketService.checkseat(request);
+	    
+	    request.put("member_num", session.getAttribute("member_num"));
+	    
+	    Map<String, Object> responseBody = new HashMap<>();
+	    
+	    // 좌석이 사용 가능할 때
+	    if (checkseat == 0) {
+	        ticketService.insertticketpayment(request);
 
-			ticketService.insertticketpayment(request);
+	        List<Map<String, String>> tp_num = ticketService.selectticketpayment(request);
+	        List<Object> tpNumList = new ArrayList<>();
 
-			List<Map<String, String>> tp_num = ticketService.selectticketpayment(request);
+	        for (Map<String, String> tpNumMap : tp_num) {
+	            tpNumList.add(tpNumMap.get("TP_NUM"));
+	        }
 
-			List<Object> tpNumList = new ArrayList<>();
+	        request.put("tp_num", tpNumList);
+	        ticketService.insertselectseat(request);
 
-			for (Map<String, String> tpNumMap : tp_num) {
-				tpNumList.add(tpNumMap.get("TP_NUM"));
-			}
-
-			request.put("tp_num", tpNumList);
-
-			ticketService.insertselectseat(request);
-
-			Map<String, Object> responseBody = new HashMap<>();
-			responseBody.put("status", "success");
-			responseBody.put("tpNumList", tpNumList);
-
-			return ResponseEntity.ok(responseBody);
-		} else {
-			Map<String, Object> errorResponse = new HashMap<>();
-			errorResponse.put("status", "error");
-			errorResponse.put("message", "이미 선택된 좌석입니다. 다른 좌석을 선택해주세요.");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-		}
+	        responseBody.put("status", "success");
+	        responseBody.put("tpNumList", tpNumList);
+	        
+	    } else {
+	        // 좌석이 이미 사용 중일 때
+	        responseBody.put("status", "error");
+	        responseBody.put("message", "이미 선택된 좌석입니다. 다른 좌석을 선택해주세요.");
+	    }
+	    
+	    return ResponseEntity.ok(responseBody);
 	}
 
 	
@@ -335,11 +335,43 @@ public class TicketController {
 
 	}
 
-	@PostMapping("/UPDATEPAYMENT") // 결제화면에서 이전누르면 전에 선택한 좌석 지우는 맵핑
+	@PostMapping("/UPDATEPAYMENT") // 결제되면 tp_payment t로 업데이트
 	public void INSERTPAYMENT(@RequestBody Map<String, Object> request) {
 
 		ticketService.updatepayment(request);
 
 	}
+	
+	
+	@PostMapping("/INSERTPERSON") // 좌석 선택 최대 인원 조절 
+	public void INSERTPERSON(@RequestBody Map<String, Object> request, Model model) {
+		Map<String, Object> selectperson =  ticketService.selectperson(request);
+		
+		if(selectperson != null) {
+			ticketService.deleteperson(request);
+		}
+			ticketService.insertperson(request);
+		
+		
+		
+		
 
+	}
+	
+
+	@PostMapping("/SELECTPERSON")
+	public ResponseEntity<Map<String, Object>> SELECTPERSON(@RequestBody Map<String, Object> request) {
+
+	    Map<String, Object> person = ticketService.selectperson(request);
+
+	    
+	    ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(person,
+				HttpStatus.OK);
+	    
+	    return entity;
+	}
+	
+	
+	
+	
 }

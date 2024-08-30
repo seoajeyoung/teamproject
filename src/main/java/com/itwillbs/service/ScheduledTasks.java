@@ -89,9 +89,9 @@ public class ScheduledTasks {
 //		System.out.println("일정지난 스케쥴 삭제");
 	}
 	
-	// (cron = "0 0 0 * * ?")
-	// (fixedRate = 86400000)
-	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
+	// (cron = "0 0 0 * * ?") -> 자정
+	// (fixedRate = 86400000) -> 24시간마다 / 대신 서버 껐다키면 다시 한번 실행
+	@Scheduled(fixedRate = 86400000) // 원래는 매일 자정에 실행 
 	
 	public void insertSales() {
 

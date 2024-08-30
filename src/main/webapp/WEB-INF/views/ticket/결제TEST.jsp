@@ -27,6 +27,7 @@
         var title = "${param.movieTitle}";
         var fullDate= "${param.fullDate}" ;
         var sc_time = "${param.starttime}" ; 
+        var person = "${param.person}";
     </script>
 
 <!-- 	<h1 style="font-size: 35px; text-align: center; padding-top: 20px">좌석 선택</h1> -->
@@ -46,7 +47,7 @@
                     </table>
                 </th>
                 <td id="DiscountInformation">
-                    <div>*최대 8명 선택 가능</div>
+                    <div>*최대 ${param.person}명 선택 가능</div>
                     <div id="popup">
                         <input type="button" id="DiscountInfo" value="관람할인안내">
                     </div>

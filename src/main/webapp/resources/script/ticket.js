@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var MovieRating ='';
 	var MovieUrl = '';
 	var ratingtext = '';
+	var person = '';
     var isTHRegionInProgress = false; // TH_REGION 호출 진행 상태 플래그
     var isSelected = false;	// 영화 클릭하고 예매 페이지 왔을때 자동 클릭 // 채현
     
@@ -735,16 +736,36 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.info.movie .placeholder').css('display', 'none');
 	}
 
+
     //좌석 버튼 선택 버튼 클릭 이벤트  @click@
-     $(document).off('click', '#tnb_step_btn_right').on('click', '#tnb_step_btn_right', function(event) {
-        event.preventDefault();
+    $(document).off('click', '#tnb_step_btn_right').on('click', '#tnb_step_btn_right', function(event) {
+    event.preventDefault();
 
-        var movieTitle = $('.info.movie .data.letter-spacing-min.ellipsis-line2 a').attr('title');
-        var theaterTitle = $('.info.theater .data.letter-spacing-min.ellipsis-line1 a').attr('title');
+    // AJAX 요청
+    $.ajax({
+        url: '/teamproject/SELECTPERSON',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            th_region: selectRegionName,
+            th_name: selectTheaterName,
+            th_number: th_number
+        }),
+        success: function(response) {
+              person =response.PERSON 
+            handleSeatSelection();
+        },
+    });
+});
 
-        var dateSpan = $('.info.theater .data').eq(2).attr('title'); 
-			
-		 if (!movieTitle) {
+// 나머지 코드를 실행하는 함수
+function handleSeatSelection() {
+    var movieTitle = $('.info.movie .data.letter-spacing-min.ellipsis-line2 a').attr('title');
+    var theaterTitle = $('.info.theater .data.letter-spacing-min.ellipsis-line1 a').attr('title');
+    var dateSpan = $('.info.theater .data').eq(2).attr('title');
+
+    // 각종 유효성 검사
+    if (!movieTitle) {
         alert("영화를 선택해주세요");
         return; 
     }
@@ -758,43 +779,46 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("시간을 선택해주세요");
         return; 
     }
-	var param = 'movieTitle=' + movieTitle +
-                   '&theaterTitle=' + theaterTitle +
-                   '&fullDate=' + fullDate +
-                   '&th_number=' + th_number + 
-                   '&starttime=' + starttime +
-                   '&endtime=' + endtime +
-                   '&se_count=' + se_count +
-                   '&now_count=' + now_count + 
-                   '&selectRegionName=' + selectRegionName + 
-                   '&MovieRating=' + MovieRating +
-                   '&MovieUrl=' + encodeURIComponent(MovieUrl);
-                   ;
-    // 모든 값이 유효한 경우
-        var member_num = $('#member_num').data('member-num');
-        var member_birth = $('#member_birth').data('member-birth');
-         if (typeof member_birth === 'number') {
-      		  member_birth = member_birth.toString();
-   		 }
-   		var mem_year = parseInt(member_birth.substring(0, 4), 10);  
-        var currentyear = new Date().getFullYear();
-	    var age = currentyear - mem_year;	
-	    if (age < ratingtext) {
+debugger;
+    var param = 'movieTitle=' + encodeURIComponent(movieTitle) +
+            '&theaterTitle=' + encodeURIComponent(theaterTitle) +
+            '&fullDate=' + encodeURIComponent(fullDate) +
+            '&th_number=' + encodeURIComponent(th_number) + 
+            '&starttime=' + encodeURIComponent(starttime) +
+            '&endtime=' + encodeURIComponent(endtime) +
+            '&se_count=' + encodeURIComponent(se_count) +
+            '&now_count=' + encodeURIComponent(now_count) + 
+            '&selectRegionName=' + encodeURIComponent(selectRegionName) + 
+            '&MovieRating=' + encodeURIComponent(MovieRating) +
+            '&person=' + encodeURIComponent(person) +
+            '&MovieUrl=' + encodeURIComponent(MovieUrl);
+                
+    // 나머지 코드 실행
+    var member_num = $('#member_num').data('member-num');
+    var member_birth = $('#member_birth').data('member-birth');
+    
+    if (typeof member_birth === 'number') {
+        member_birth = member_birth.toString();
+    }
+
+    var mem_year = parseInt(member_birth.substring(0, 4), 10);  
+    var currentyear = new Date().getFullYear();
+    var age = currentyear - mem_year;	
+
+    if (age < ratingtext) {
         alert(ratingtext + "세 이상 관람 가능한 영화입니다.");
         return;
-    	}
-		
-        
-        if (!member_num) {	
-         var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
-        	 if (confirmLogin) {
-            	window.location.href = `/teamproject/member/login`; // 로그인 페이지로 이동
-        	}
-        } else {
-           window.location.href = '/teamproject/결제TEST?' + param;
+    }
+    
+    if (!member_num) {	
+        var confirmLogin = confirm('로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?');
+        if (confirmLogin) {
+            window.location.href = `/teamproject/member/login`; // 로그인 페이지로 이동
         }
-   
-    });
+    } else {
+        window.location.href = '/teamproject/결제TEST?' + param;
+    }
+}
     
     // 상단 버튼들 함수 
         $('.button-reservation-restart').click(function(event) {

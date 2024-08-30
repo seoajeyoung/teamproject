@@ -475,8 +475,7 @@
 		DELETE S
 		FROM SEATPAYMENT S
 		LEFT JOIN TICKETPAYMENT T
-		ON S.TP_NUM =
-		T.TP_NUM
+		ON S.TP_NUM = T.TP_NUM
 		WHERE S.TP_NUM IN
 		<foreach collection="tp_num" item="tpNum" open="("
 			separator="," close=")">
@@ -618,8 +617,34 @@
 	</delete>
 
 
+	<insert id="insertperson" parameterType="map">
+		INSERT INTO SCREENPERSON(TH_NUM, PERSON)
+   		VALUES ( (SELECT TH_NUM 
+   				  FROM THEATER 
+   				  WHERE TH_REGION = #{th_region}
+   				  AND TH_NAME = #{th_name} 
+   				  AND TH_NUMBER = #{th_number}), #{person} )
+	
+	</insert>
 
-
+	<select id="selectperson" resultType="map" parameterType="map">
+		SELECT PERSON 
+		FROM SCREENPERSON 
+		WHERE TH_NUM = (SELECT TH_NUM 
+						FROM THEATER 
+						WHERE TH_REGION = #{th_region}
+						AND TH_NAME = #{th_name}
+						AND TH_NUMBER = #{th_number})
+	</select>
+	
+	<delete id="deleteperson" parameterType="map">
+		DELETE FROM SCREENPERSON 
+		WHERE TH_NUM = (SELECT TH_NUM 
+						FROM THEATER 
+						WHERE TH_REGION = #{th_region}
+						AND TH_NAME = #{th_name}
+						AND TH_NUMBER = #{th_number}) 
+	</delete>
 
 
 

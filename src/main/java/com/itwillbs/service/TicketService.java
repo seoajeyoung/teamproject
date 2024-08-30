@@ -139,6 +139,18 @@ public class TicketService {
 		ticketDAO.deletemseat(request);
 	}
 
+	public void insertperson(Map<String, Object> request) {
+		ticketDAO.insertperson(request);
+	}
+
+	public Map<String, Object> selectperson(Map<String, Object> request) {
+		return ticketDAO.selectperson(request);
+	}
+
+	public void deleteperson(Map<String, Object> request) {
+		ticketDAO.deleteperson(request);
+	}
+
 
 
 }
