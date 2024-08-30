@@ -306,7 +306,7 @@ $(document).ready(function() {
 												value="${adminDTO.ST_NAME}" style="margin-right: 5px;">
 												<span id="nameCheckMessage"></span></td>
 											<td rowspan="8" id="image-preview">
-												<!-- 												이미지 업로드 경로 되면 사용하기!!!! --> <%-- 											<img src="${pageContext.request.contextPath}/resources/upload/${adminDTO.ST_PICTURE}"> --%>
+												<img src="${pageContext.request.contextPath}/resources/img/${adminDTO.ST_PICTURE}" alt="${storeDTO.ST_NAME }">								
 											</td>
 										<tr>
 											<th>상품타입</th>
