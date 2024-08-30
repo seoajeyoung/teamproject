@@ -18,6 +18,10 @@
 
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+<script async src="https://cse.google.com/cse.js?cx=a4b73f30266b34add">
+</script>
+<div class="gcse-search"></div>
 <!-- 비디오 -->
 <link href="https://vjs.zencdn.net/7.21.0/video-js.css" rel="stylesheet">
 <script src="https://vjs.zencdn.net/7.21.0/video.min.js"></script>
@@ -1068,11 +1072,11 @@ $(document).on('click', '.link-gradewrite', function() {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
+	
 	let reviewUser
 	
 	if($('#reviewCk').val() == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
-		return;
 	} else if($('#showCheck').val() == "notShowChecked") {
 		alert('평점은 7일 이내에 관람 기록이 있는 회원만 작성 가능합니다.')
 		return;
@@ -1081,6 +1085,8 @@ $(document).on('click', '.link-gradewrite', function() {
 	if(reviewUser) {
 		$('.link-reviewwrite').trigger('click');
 		return;	
+	} else {
+		return;
 	}
 	
 	

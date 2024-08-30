@@ -65,7 +65,7 @@ $(function() {
 		$('.sect-city').find('li').removeClass('on');
 		document.getElementById('wrapEvent').scrollIntoView({ behavior: 'smooth' });
         var dataTh = $(this).data('th');
-        $('.area-link').trigger('click', [dataTh]);
+        $('.area-link').trigger('click', [dataTh, ]);
         $('#ulcontent>li').removeClass('on');
 	});
 });
@@ -322,23 +322,46 @@ $(function() {
 var addr;
 var thName;
 var thNum;
+var click = false;
 //극장의 특정 지점 클릭시
 $(document).on('click', '.area-link', function(event, eventText) {
+	if(click) return;
+		
+	click = true;
+	
+	
+	
 	thNum = $(this).find('span').text();
 	if(eventText == null) {
 		thName = $(this).attr('title');
+		addr = $(this).find('input').val();
+		$('.txt-info').text(addr);
 	} else {
-		thName = eventText;
+		thName = eventText.trim();
+		$.ajax({
+			type: 'GET',
+			url: '${pageContext.request.contextPath}/theater/getArea',
+		    data: {'TH_NAME': thName},
+		    dataType: 'json',
+		    success: function(result) {
+		    	addr = result[0].TH_ADDR;
+		    	$('.txt-info').text(addr);
+			},
+			error: function() {
+				
+			}
+		});
 	}
+	
+	
 	
 	$('.sect-showtimes>ul').html('')
 	$('.theater-tit span').text(thName + '점');
 	
+	
 	$('#ulcontent>li').removeClass('on');	
 	$(this).parent('li').addClass('on');
 	
-	addr = $(this).find('input').val();
-	$('.title>span').text(addr);
 	
 	$.ajax({
 		type: 'GET',
@@ -372,6 +395,7 @@ $(document).on('click', '.area-link', function(event, eventText) {
 	});// ajax 끝
 	
 	
+	click = false;
 });
 </script>
 <div class="wrap-theater">

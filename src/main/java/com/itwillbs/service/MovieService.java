@@ -108,9 +108,8 @@ public class MovieService {
 		}
 		
 		
-		
 		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
-		String apiKey = "AIzaSyAFSmxbMZejzy-fN7Xz7evPYsy-kAyJazg";
+		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
 		
 		try {
 			ArrayList<String> videoLink = new ArrayList<String>();
@@ -128,7 +127,6 @@ public class MovieService {
 				    videoLink.add(videoId);
 				}
 			}
-			
 			movieDTO.put("VIDEOID", videoLink);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -215,7 +213,7 @@ public class MovieService {
 	
 	// 추천한 유저정보 검색
 	public boolean reUserCheck(Map<String, Object> rMap) {
-		if(rMap.get("MEMBER_ID") == null && rMap.get("MEMBER_ID").equals("")) return false;
+		if(rMap.get("MEMBER_ID") == null || rMap.get("MEMBER_ID").equals("")) return false;
 		boolean result = movieDAO.reUserCheck(rMap) == 0 ? true : false;
 		return result;
 	}
