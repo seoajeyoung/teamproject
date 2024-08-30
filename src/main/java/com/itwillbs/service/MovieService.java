@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
@@ -108,29 +109,29 @@ public class MovieService {
 		}
 		
 		
-		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
-		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
-		
-		try {
-			ArrayList<String> videoLink = new ArrayList<String>();
-			for(int i = 0; i < soundTrackList.size(); i++) {
-				
-				String query = searchTitle + " " + soundTrackList.get(i);
-				String url = apiUrl + "?part=snippet&q=" + query + "&type=video&key=" + apiKey;
-				RestTemplate restTemplate = new RestTemplate();
-				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
-				JSONArray items = jsonResponse.getJSONArray("items");
-				
-				if (items.length() > 0) {
-				    String videoId = items.getJSONObject(0).getJSONObject("id").getString("videoId");
-				    videoLink.add(videoId);
-				}
-			}
-			movieDTO.put("VIDEOID", videoLink);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
+//		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
+//		
+//		try {
+//			ArrayList<String> videoLink = new ArrayList<String>();
+//			for(int i = 0; i < soundTrackList.size(); i++) {
+//				
+//				String query = searchTitle + " " + soundTrackList.get(i);
+//				String url = apiUrl + "?part=snippet&q=" + query + "&type=video&key=" + apiKey;
+//				RestTemplate restTemplate = new RestTemplate();
+//				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+//				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
+//				JSONArray items = jsonResponse.getJSONArray("items");
+//				
+//				if (items.length() > 0) {
+//				    String videoId = items.getJSONObject(0).getJSONObject("id").getString("videoId");
+//				    videoLink.add(videoId);
+//				}
+//			}
+//			movieDTO.put("VIDEOID", videoLink);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		return movieDTO;
 	}
@@ -164,7 +165,9 @@ public class MovieService {
 	
 	//광고페이지
 	public Map<String, String> getAdMovie() {
-		return movieDAO.getAdMovie();
+		Random random = new Random();
+		int num = (int)random.nextInt(10) + 1;
+		return movieDAO.getAdMovie(num);
 	}
 	
 	//포인트 차트 데이터

@@ -19,9 +19,7 @@
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
-<script async src="https://cse.google.com/cse.js?cx=a4b73f30266b34add">
-</script>
-<div class="gcse-search"></div>
+<script async src="https://cse.google.com/cse.js?cx=a4b73f30266b34add"></script>
 <!-- 비디오 -->
 <link href="https://vjs.zencdn.net/7.21.0/video-js.css" rel="stylesheet">
 <script src="https://vjs.zencdn.net/7.21.0/video.min.js"></script>

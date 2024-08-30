@@ -238,10 +238,11 @@
 	
 	<!-- 예매1위 영화 광고 ifream -->
 	<select id="getAdMovie" resultType="map">
-		SELECT MOVIE_NUM
-			 , SUBSTRING_INDEX(POSTERURL, '|', 1) AS POSTERURL
-		FROM MOVIE 
+		SELECT M.MOVIE_NUM
+			 , SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
+		FROM MOVIE M 
 		WHERE POSTERURL IS NOT NULL
+		AND M.RANK = #{rNum} 
 		ORDER BY MOVIE_NUM DESC
 		LIMIT 0, 1
 	</select>
@@ -313,9 +314,10 @@
 							  FROM MOVIE
 							  WHERE MOVIE_NUM IN (SELECT MOVIE_NUM
 											      FROM BOOKMARK
-												  WHERE MEM_NUM = #{MEMBER_NUM})
+												  WHERE MEM_NUM = #{MEMBER_NUM}
+												  )
 							  GROUP BY GENRE
-							  ORDER BY COUNT(GENRE) DESC
+							  ORDER BY RAND()
 					   		  limit 1)
 			ORDER BY M.RANK
 			LIMIT 10

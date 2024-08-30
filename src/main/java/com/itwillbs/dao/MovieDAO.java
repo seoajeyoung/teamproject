@@ -101,8 +101,8 @@ public class MovieDAO {
 	}
 	
 	//광고 ifream
-	public Map<String, String> getAdMovie() {
-		return sqlsession.selectOne("movieMapper.getAdMovie");
+	public Map<String, String> getAdMovie(int rNum) {
+		return sqlsession.selectOne("movieMapper.getAdMovie", rNum);
 	}
 	
 	
