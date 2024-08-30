@@ -288,7 +288,7 @@ function pointChart() {
             <p>${movieDTO.TITLEENG}</p>
         </div>
         <div class="score"> 
-            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE}%</span></strong>
+            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE != null ? movieDTO.RATE : 0.0}%</span></strong>
             <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 -->            
 <!--             <div class="egg-gage small"> -->
 <!-- 		    	<span class="sprite_preegg default"></span> -->

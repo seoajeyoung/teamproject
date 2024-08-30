@@ -135,7 +135,7 @@ $(function() {
                                 </a>
 
                                 <div class="score">
-                                    <strong class="percent">예매율<span>\${movieDTO.RATE}</span>%</strong>
+                                    <strong class="percent">예매율<span>\${movieDTO.RATE != null ? movieDTO.RATE : 0.0}</span>%</strong>
                                     <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 (적용 범위1~ 3위)-->
         <!--                             <div class="egg-gage small"> -->
         <!--                                             <span class="sprite_preegg default"></span> -->
@@ -392,7 +392,7 @@ $(function() {
 					                        </a>
 					
 					                        <div class="score">
-						                            <strong class="percent">예매율<span>\${top3.RATE}%</span></strong>
+						                            <strong class="percent">예매율<span>\${top3.RATE != null ? top3.RATE : 0.0}%</span></strong>
 					                        </div>
 					
 					                        <span class="txt-info">
@@ -427,7 +427,7 @@ $(function() {
 				                            <strong class="title">\${movieDTO.TITLE}</strong>
 				                        </a>
 				                        <div class="score">
-				                            <strong class="percent">예매율<span>\${movieDTO.RATE}%</span></strong>
+				                            <strong class="percent">예매율<span>\${movieDTO.RATE != null ? movieDTO.RATE : 0.0}%</span></strong>
 				                        </div>
 			
 				                        <span class="txt-info">
