@@ -520,7 +520,7 @@ $(function() {
 <!--                         DB 작성 후 매퍼에서 임시 테이블 만들어서 성비 계산후 변수로 삽입 -->
                         <div style="width: 100%; height: 200px; padding: 0; display: flex; justify-content: center; align-items: flex-end;">
 							<div class="bar" style="background-color: #3A3735; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
-								<span class="age">10대</span>
+								<span class="age">청소년</span>
 								<span class="percent">${chartData.AGE10S != null ? chartData.AGE10S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #A8684C; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
@@ -1068,7 +1068,6 @@ $(document).on('click', '.link-gradewrite', function() {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
-	debugger;
 	let reviewUser
 	if($('#reviewCk').val() == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");

@@ -289,7 +289,6 @@ public class MovieController implements WebMvcConfigurer {
 	@PostMapping("/updateReview")
 	@ResponseBody
 	public ResponseEntity<String> updateReview(@RequestParam Map<String, Object> rMap) {
-		System.out.println(rMap);
 		boolean result = movieService.updateReview(rMap);
 		if(result) {
 			return ResponseEntity.status(HttpStatus.OK).body("OK");

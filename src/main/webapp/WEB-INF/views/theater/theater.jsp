@@ -520,7 +520,7 @@ $(document).on('click', '.day>a', function() {
 						    		    <a href="${pageContext.request.contextPath}/ticket?num=\${scList.MOVIE_NUM}" target="">
 							    	        <em>\${scList.SC_TIME}</em>
 							    	        <span class="txt-lightblue">
-							    	            <span class="hidden">잔여좌석</span>113석
+							    	            <span class="hidden">잔여좌석</span>\${scList.RELEASECOUNT != null ? scList.RELEASECOUNT : scList.SE_COUNT}석
 							    	        </span>
 							    	    </a>
 							    	</li>`
@@ -620,43 +620,43 @@ $(document).ready(function() {
     <!-- E Contaniner -->
     
     <!-- S Popup -->
-    <div class="com_pop_wrap">
-        <div class="com_pop_fog"></div>
-    </div>
-    <div class="pop_wrap">
-    <!-- S > [팝업] 지원 OS 업데이트 유도-->
-        <div id="pop_supportOS" class="popup" style="display:none">
-            <div class="pop_iexp_wrap" style="position:fixed; left:50%; top:50%; width:600px; margin:-165px 0 0 -300px; z-index:1000;">
-                <div class="pi_headline">
-                    <img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_headline2.jpg" alt="CGV 홈페이지는 고객님께서 사용중인 MS Windows XP에서 정상적인 서비스 이용이 어려울 수 있으며, OS업데이트를 권장합니다.">
-                </div>
-                <div class="down_app">
-                    <p><img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_downtxt.jpg" alt="OS 업데이트가 어려운 경우 모바일앱을 이용하세요!!!"></p>
-                    <a class="btn" href="https://itunes.apple.com/kr/app/id370441190?mt=8" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ios.jpg" alt="Ios down"></a>
-                    <a class="btn" href="https://play.google.com/store/apps/details?id=com.cgv.android.movieapp" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_android.jpg" alt="Android down"></a>
-                </div>
-                <a class="btn_close">닫기</a>
-            </div>
-         </div>
-    <!-- S > [팝업] 지원 브라우저 다운로드 유도-->
-         <div id="pop_supportBrower" class="popup" style="display:none">
-            <div class="pop_iexp_wrap" style="position:fixed; left:50%; top:50%; width:600px; margin:-265px 0 0 -300px; z-index:1000;">
-                <div class="pi_headline">
-                    <img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_headline1.jpg" alt="CGV 홈페이지는 Internet Explorer 9이상에서 최적의 서비스 이용이 가능합니다. IE9 이하 브라우저에서 이용 시 정상적인 서비스 이용이 어려울 수 있으며, 브라우저 업그레이드 하시기를 권장합니다.">
-                </div>
-                <ul class="down_browser">
-                    <li><a href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ie.jpg" alt="Internet Explorer 다운받기"></a></li>
-                    <li><a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_chrome.jpg" alt="Chrome 다운받기"></a></li>
-                </ul>
-                <div class="down_app">
-                    <p><img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_downtxt.jpg" alt="OS 업데이트가 어려운 경우 모바일앱을 이용하세요!"></p>
-                    <a class="btn" href="https://itunes.apple.com/kr/app/id370441190?mt=8" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ios.jpg" alt="Ios down"></a>
-                    <a class="btn" href="https://play.google.com/store/apps/details?id=com.cgv.android.movieapp " target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_android.jpg" alt="Android down"></a>
-                </div>
-                <a class="btn_close">닫기</a>
-            </div>
-        </div>
-	</div>
+<!--     <div class="com_pop_wrap"> -->
+<!--         <div class="com_pop_fog"></div> -->
+<!--     </div> -->
+<!--     <div class="pop_wrap"> -->
+<!--     S > [팝업] 지원 OS 업데이트 유도 -->
+<!--         <div id="pop_supportOS" class="popup" style="display:none"> -->
+<!--             <div class="pop_iexp_wrap" style="position:fixed; left:50%; top:50%; width:600px; margin:-165px 0 0 -300px; z-index:1000;"> -->
+<!--                 <div class="pi_headline"> -->
+<!--                     <img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_headline2.jpg" alt="CGV 홈페이지는 고객님께서 사용중인 MS Windows XP에서 정상적인 서비스 이용이 어려울 수 있으며, OS업데이트를 권장합니다."> -->
+<!--                 </div> -->
+<!--                 <div class="down_app"> -->
+<!--                     <p><img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_downtxt.jpg" alt="OS 업데이트가 어려운 경우 모바일앱을 이용하세요!!!"></p> -->
+<!--                     <a class="btn" href="https://itunes.apple.com/kr/app/id370441190?mt=8" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ios.jpg" alt="Ios down"></a> -->
+<!--                     <a class="btn" href="https://play.google.com/store/apps/details?id=com.cgv.android.movieapp" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_android.jpg" alt="Android down"></a> -->
+<!--                 </div> -->
+<!--                 <a class="btn_close">닫기</a> -->
+<!--             </div> -->
+<!--          </div> -->
+<!--     S > [팝업] 지원 브라우저 다운로드 유도 -->
+<!--          <div id="pop_supportBrower" class="popup" style="display:none"> -->
+<!--             <div class="pop_iexp_wrap" style="position:fixed; left:50%; top:50%; width:600px; margin:-265px 0 0 -300px; z-index:1000;"> -->
+<!--                 <div class="pi_headline"> -->
+<!--                     <img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_headline1.jpg" alt="CGV 홈페이지는 Internet Explorer 9이상에서 최적의 서비스 이용이 가능합니다. IE9 이하 브라우저에서 이용 시 정상적인 서비스 이용이 어려울 수 있으며, 브라우저 업그레이드 하시기를 권장합니다."> -->
+<!--                 </div> -->
+<!--                 <ul class="down_browser"> -->
+<!--                     <li><a href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ie.jpg" alt="Internet Explorer 다운받기"></a></li> -->
+<!--                     <li><a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_chrome.jpg" alt="Chrome 다운받기"></a></li> -->
+<!--                 </ul> -->
+<!--                 <div class="down_app"> -->
+<!--                     <p><img src="https://img.cgv.co.kr/images/popup/1606_iexp/pop_iexp_downtxt.jpg" alt="OS 업데이트가 어려운 경우 모바일앱을 이용하세요!"></p> -->
+<!--                     <a class="btn" href="https://itunes.apple.com/kr/app/id370441190?mt=8" target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_ios.jpg" alt="Ios down"></a> -->
+<!--                     <a class="btn" href="https://play.google.com/store/apps/details?id=com.cgv.android.movieapp " target="_blank"><img src="https://img.cgv.co.kr/images/popup/1606_iexp/btn_down_android.jpg" alt="Android down"></a> -->
+<!--                 </div> -->
+<!--                 <a class="btn_close">닫기</a> -->
+<!--             </div> -->
+<!--         </div> -->
+<!-- 	</div> -->
 
     <!-- E Popup -->
     

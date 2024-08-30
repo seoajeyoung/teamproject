@@ -196,14 +196,13 @@ $(function() {
 								 `
 						$('.btn-del:last').addClass('review_del');		 
 					} else if(label == 'watched') {
-						text2 = `<b>관람일: \${movieDTO.SAVEDDATE} / \${movieDTO.COUNTSEAT}석</b>`
+						text2 = `<b>관람일: \${movieDTO.DATEMOVIE} / \${movieDTO.COUNTSEAT}석</b>`
 						$('.btn-del').remove();
 					}
 					$('.title:last').append(text2);	
 				});
 			},
 			error: function() {
-				
 			}
 		});// ajax 종료
 	});
