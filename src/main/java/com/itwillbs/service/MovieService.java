@@ -1,6 +1,10 @@
 package com.itwillbs.service;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,7 +17,13 @@ import javax.print.DocFlavor.STRING;
 import javax.print.attribute.standard.Destination;
 import javax.xml.crypto.Data;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.itwillbs.dao.MovieDAO;
 import com.itwillbs.domain.AdminDTO;
@@ -82,20 +92,47 @@ public class MovieService {
 		movieDTO.put("ACTORNM", actor);
 		
 		String nation = (String)movieDTO.get("NATION");
+		String searchTitle = "";
 		if(nation.contains("한국") || nation.contains("대한민국")) {
-			movieDTO.put("SEARCHTITLE", movieDTO.get("TITLE"));
+			searchTitle = (String)movieDTO.get("TITLE");
 		} else {
-			movieDTO.put("SEARCHTITLE", movieDTO.get("TITLEENG"));
+			searchTitle = (String)movieDTO.get("TITLEENG");
 		}
 		String sound = (String)movieDTO.get("SOUNDTRACK");
+		
+		ArrayList<String> soundTrackList = null;
 		if(sound != null) {
 			String[] soundtrack = sound.split(",");
 			movieDTO.put("SOUNDTRACK", soundtrack);
+			soundTrackList = new ArrayList<String>(Arrays.asList(soundtrack));
 		}
 		
 		
 		
+		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
+		String apiKey = "AIzaSyAFSmxbMZejzy-fN7Xz7evPYsy-kAyJazg";
 		
+		try {
+			ArrayList<String> videoLink = new ArrayList<String>();
+			for(int i = 0; i < soundTrackList.size(); i++) {
+				
+				String query = searchTitle + " " + soundTrackList.get(i);
+				String url = apiUrl + "?part=snippet&q=" + query + "&type=video&key=" + apiKey;
+				RestTemplate restTemplate = new RestTemplate();
+				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
+				JSONArray items = jsonResponse.getJSONArray("items");
+				
+				if (items.length() > 0) {
+				    String videoId = items.getJSONObject(0).getJSONObject("id").getString("videoId");
+				    videoLink.add(videoId);
+				}
+			}
+			
+			movieDTO.put("VIDEOID", videoLink);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return movieDTO;
 	}

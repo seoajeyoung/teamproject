@@ -377,8 +377,9 @@
 					   FROM MEMBERS
 					   WHERE MEM_ID = #{MEMBER_ID})
 		</if>
-		AND MOVIE_NUM = #{MOVIE_NUM}
+		
 		<if test="MEMBER_ID == null and MOVIE_NUM != null">
+		AND MOVIE_NUM = #{MOVIE_NUM}
 		<choose>
             <when test="SORT_TAB.equals('most')">
                 ORDER BY REVIEW_DATE

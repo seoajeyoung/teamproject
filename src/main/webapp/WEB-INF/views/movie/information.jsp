@@ -322,7 +322,7 @@ function pointChart() {
 	                <dd>
 	                	<c:forEach var="TRACK" items="${movieDTO.SOUNDTRACK}" varStatus="Status">
 	                		<c:if test="${Status.index != 0}">/ </c:if>
-		                	<a href="https://www.youtube.com/results?search_query=${movieDTO.SEARCHTITLE} ${TRACK}">
+		                	<a href="https://www.youtube.com/watch?v=${movieDTO.VIDEOID[Status.index]}">
 		                		${TRACK}
 		                	</a>
 	                	</c:forEach>
