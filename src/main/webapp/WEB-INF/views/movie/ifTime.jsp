@@ -58,7 +58,7 @@ $(function() {
 						             <div class="day">
 				                        <a href="javascript:void(0)" title="현재 선택">
 				                            <span> \${date[1]}월</span>
-				                            <em>\${result.dayWeek}</em>
+				                            <em>\${result.DAYWEEK}</em>
 				                            <strong>\${date[2]}</strong>
 				                            <input type="hidden" value="\${result.DATE}">
 				                        </a>
@@ -129,7 +129,7 @@ $(document).on('click', '.day>a', function() {
 							  <a href="${pageContext.request.contextPath}/ticket?num=\${movieNum}" target="_balnk">
 							    <em>\${thList.SC_TIME}</em>
 							    <span class="txt-lightblue">
-							      <span class="hidden">잔여좌석</span>24석
+							      <span class="hidden">잔여좌석</span>\${thList.RELEASECOUNT}석
 							    </span>
 							  </a>
 							</li>
@@ -138,7 +138,6 @@ $(document).on('click', '.day>a', function() {
 			});
 		},
 		error: function(e) {
-			debugger;
 		}
 	});//ajax 종료
 });// $('.day>a').on('click)

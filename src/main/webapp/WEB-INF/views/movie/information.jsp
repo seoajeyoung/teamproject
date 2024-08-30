@@ -288,7 +288,7 @@ function pointChart() {
             <p>${movieDTO.TITLEENG}</p>
         </div>
         <div class="score"> 
-            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE}%</span></strong>
+            <strong class="percent">예매율&nbsp;<span>${movieDTO.RATE != null ? movieDTO.RATE : 0.0}%</span></strong>
             <!-- 2020.05.07 개봉전 프리에그 노출, 개봉후 골든에그지수 노출변경 -->            
 <!--             <div class="egg-gage small"> -->
 <!-- 		    	<span class="sprite_preegg default"></span> -->
@@ -317,9 +317,16 @@ function pointChart() {
                 &nbsp;${movieDTO.RUNTIME}분,&nbsp;${movieDTO.NATION}</dd>
                 <dt>개봉 :&nbsp;</dt>
                 <dd class="on releaseDate">${movieDTO.RELEASEDATE}</dd>
-                <c:if test="${movieDTO.SOUNDTRACK != null}">
-	                <dt>OST : </dt>
-	                <dd>${movieDTO.SOUNDTRACK}</dd>
+                <c:if test="${movieDTO.SOUNDTRACK != null && SOUNDTRACK.length != 0}">
+	                <dt>OST&nbsp;:&nbsp;</dt>
+	                <dd>
+	                	<c:forEach var="TRACK" items="${movieDTO.SOUNDTRACK}" varStatus="Status">
+	                		<c:if test="${Status.index != 0}">/ </c:if>
+		                	<a href="https://www.youtube.com/watch?v=${movieDTO.VIDEOID[Status.index]}">
+		                		${TRACK}
+		                	</a>
+	                	</c:forEach>
+	                </dd>
                 </c:if>
             </dl>
         </div>
@@ -513,7 +520,7 @@ $(function() {
 <!--                         DB 작성 후 매퍼에서 임시 테이블 만들어서 성비 계산후 변수로 삽입 -->
                         <div style="width: 100%; height: 200px; padding: 0; display: flex; justify-content: center; align-items: flex-end;">
 							<div class="bar" style="background-color: #3A3735; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
-								<span class="age">10대</span>
+								<span class="age">청소년</span>
 								<span class="percent">${chartData.AGE10S != null ? chartData.AGE10S : 0}</span>
 							</div>
 							<div class="bar" style="background-color: #A8684C; transition: all 1s linear; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);">
@@ -1061,7 +1068,6 @@ $(document).on('click', '.link-gradewrite', function() {
 		alert('비회원은 평점 작성 불가');
 		return;
 	};
-	debugger;
 	let reviewUser
 	if($('#reviewCk').val() == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
@@ -1201,6 +1207,7 @@ $(document).on('click', '#regBtn', function() {
 	        </div> 
 	    `)
 });
+
 
 $(document).on('click', '.set-btn>button', function() {
 	let ckMap = {};

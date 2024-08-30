@@ -11,7 +11,7 @@
 .pop-contents>.sect-address-search .tab-com a>em{width:66px;padding-right:10px}
 .pop-contents>.sect-address-search>.article-descri{width:424px;margin-bottom:18px;padding:0 0 0 18px;color:#222}
 .pop-contents>.sect-address-search>.article-descri>p{margin-bottom:8px}
-.pop-contents>.sect-address-search>.article-descri>ul>li{margin-top:5px;padding-left:10px;background:url(../images/common/ico/ico_dash.gif) no-repeat 1px 6px;line-height:1.4}
+.pop-contents>.sect-address-search>.article-descri>ul>li{margin-top:5px;padding-left:10px;background:url(https://img.cgv.co.kr/r2014/images/common/ico/ico_dash.gif) no-repeat 1px 6px;line-height:1.4}
 .pop-contents>.sect-address-search>.article-descri>ul>li:first-child,.pop-contents>.sect-address-search>.article-input>.box-polaroid dd>p:first-child,.pop-contents>.sect-address-search>.article-result>.box-polaroid ul>li:first-child{margin-top:0}
 .pop-contents>.sect-address-search>.article-input>.box-polaroid{width:396px;padding:22px 0 22px 28px;background-color:#e9e9e8;border:0}
 .pop-contents>.sect-address-search>.article-input>.box-polaroid dl label{vertical-align:middle}
@@ -68,7 +68,7 @@
 .pop-contents [class^=sect][class$=favorite-control] li.none .box-polaroid{border:2px dashed #333}
 .pop-contents [class^=sect][class$=favorite-control] li .box-inner{position:relative;padding:0}
 .pop-contents [class^=sect][class$=favorite-control] li .box-inner>.theater{width:125px;height:37px;padding:0 20px 0 7px;font-size:11px;line-height:37px}
-.pop-contents [class^=sect][class$=favorite-control] li .box-inner>button{position:absolute;top:0;left:inherit;right:0;width:20px;height:37px;background:#e2e2e0 url(../images/common/ico/ico_close.png) no-repeat 6px 50%;border:0;font:0/0 a;zoom:1}
+.pop-contents [class^=sect][class$=favorite-control] li .box-inner>button{position:absolute;top:0;left:inherit;right:0;width:20px;height:37px;background:#e2e2e0 url(https://img.cgv.co.kr/r2014/images/common/ico/ico_close.png) no-repeat 6px 50%;border:0;font:0/0 a;zoom:1}
 .pop-contents .sect-box-descri{margin-top:15px}
 .pop-contents .sect-box-descri .box-polaroid{background-color:#ececea;border:0}
 .pop-contents .sect-box-descri .box-inner{width:auto;padding:20px}
@@ -97,13 +97,13 @@
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>p:first-child{margin-top:0}
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>p>label{font:0/0 a;zoom:1}
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image{float:left;width:73px;height:73px;margin-right:15px}
-.pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image>.profile-mask{display:block;position:absolute;left:0;top:0;width:73px;height:73px;background:url(../images/common/bg/bg_photocircle05.png) 0 0 no-repeat}
+.pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image>.profile-mask{display:block;position:absolute;left:0;top:0;width:73px;height:73px;background:url(https://img.cgv.co.kr/r2014/images/common/bg/bg_photocircle05.png) 0 0 no-repeat}
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image>img{width:73px;height:73px}
-.pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image>.btn-del{position:absolute;top:0;right:-12px;width:9px;height:9px;background:url(../images/common/ico/ico_close.png) no-repeat;font:0/0 a}
+.pop-contents .sect-profile-modify>.profile-modify>dl>dd>.thumb-image>.btn-del{position:absolute;top:0;right:-12px;width:9px;height:9px;background:url(https://img.cgv.co.kr/r2014/images/common/ico/ico_close.png) no-repeat;font:0/0 a}
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>.profile-search{float:left}
 .pop-contents .sect-profile-modify>.profile-modify>dl>dd>.profile-search>p{margin:10px 0 7px}
 .pop-contents .sect-qualification{width:100%}
-.pop-contents .sect-qualification>.qualification-descri{margin-bottom:20px;padding-top:75px;background:url(../images/common/ico/ico_ticket.gif) no-repeat 50% 0;text-align:center}
+.pop-contents .sect-qualification>.qualification-descri{margin-bottom:20px;padding-top:75px;background:url(https://img.cgv.co.kr/r2014/images/common/ico/ico_ticket.gif) no-repeat 50% 0;text-align:center}
 .pop-contents .sect-qualification>.qualification-descri>p{margin-top:10px;color:#222;font-size:13px}
 .pop-contents .sect-qualification>.qualification-descri>p:first-child{margin-top:0;font-size:22px}
 .pop-contents .sect-qualification>.qualification-input>.box-polaroid{padding:38px 0 28px;background-color:#e9e9e8;border:0;text-align:center}
@@ -146,7 +146,7 @@
 .pop-contents .sect-viw-rated>.box-contents>.title{margin:5px 0 18px;color:#222;font-weight:500;font-size:17px;line-height:17px}
 .pop-contents .sect-viw-rated>.box-contents>.point{margin-bottom:5px;padding-left:5px}
 .pop-contents .sect-viw-rated>.box-contents>p{margin-bottom:25px;padding-left:5px;line-height:1.4}
-.pop-contents .sect-viw-rated>.box-contents>.writerinfo>li>.position{padding-left:11px;background:url(../images/common/ico/ico_check.gif) no-repeat 0 1px;color:#e71a0f}
+.pop-contents .sect-viw-rated>.box-contents>.writerinfo>li>.position{padding-left:11px;background:url(https://img.cgv.co.kr/r2014/images/common/ico/ico_check.gif) no-repeat 0 1px;color:#e71a0f}
 .pop-contents .sect-email-blocked{text-align:center}
 .pop-contents .sect-email-blocked>p{margin-bottom:20px;font-size:14px;line-height:1.4}
 .pop-contents .sect-email-blocked>p>.txt-red{font-size:19px}
@@ -204,8 +204,8 @@
 .tbl-data td.nodata>p{margin-top:15px}
 .tbl-data td.spread a,.tbl-data td.unfold a{display:inline-block}
 .tbl-data td.spread a>span,.tbl-data td.unfold a>span{display:inline-block;width:12px;height:7px;margin-left:25px;font:0/0 a;background-repeat:no-repeat;background-position:100% 0;vertical-align:middle;zoom:1}
-.tbl-data td.spread a>span{background-image:url(../images/common/ico/ico-spread.png)}
-.tbl-data td.unfold a>span{background-image:url(../images/common/ico/ico-unfold.png)}
+.tbl-data td.spread a>span{background-image:url(https://img.cgv.co.kr/r2014/images/common/ico/ico-spread.png)}
+.tbl-data td.unfold a>span{background-image:url(https://img.cgv.co.kr/r2014/images/common/ico/ico-unfold.png)}
 .tbl-data td.non-padding{padding:0}
 .tbl-breakdown thead th{border-bottom:1px dotted #b8b6aa;text-align:center}
 .tbl-breakdown tbody th{color:#222}

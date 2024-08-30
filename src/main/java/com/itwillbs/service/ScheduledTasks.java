@@ -48,14 +48,14 @@ public class ScheduledTasks {
 //		System.out.println("스케줄 실행");
 	}
 
-	@Scheduled(fixedRate = 1296000000) // 15일마다 실행 (15일 = 1296000000 milliseconds)
+	@Scheduled(fixedRate = 2592000000L) // 30일마다 실행
 	public void selectAndSaveMoives() {
 
 		
 		LocalDate today = LocalDate.now();
           
-        LocalDate releaseDts = today.minusDays(15); // 오늘로부터 15일전
-        LocalDate releaseDte = today.plusDays(15); // 오늘루부터 15일후
+        LocalDate releaseDts = today.minusDays(1); // 오늘로부터 15일전
+        LocalDate releaseDte = today.plusDays(30); // 오늘루부터 15일후
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String releaseDtsStr = releaseDts.format(formatter);
@@ -89,9 +89,9 @@ public class ScheduledTasks {
 //		System.out.println("일정지난 스케쥴 삭제");
 	}
 	
-	// (cron = "0 0 0 * * ?")
-	// (fixedRate = 86400000)
-	@Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행 
+	// (cron = "0 0 0 * * ?") -> 자정
+	// (fixedRate = 86400000) -> 24시간마다 / 대신 서버 껐다키면 다시 한번 실행
+	@Scheduled(fixedRate = 86400000) // 원래는 매일 자정에 실행 
 	
 	public void insertSales() {
 

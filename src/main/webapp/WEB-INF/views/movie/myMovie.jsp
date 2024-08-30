@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <link href="${pageContext.request.contextPath}/resources/css/mypage/base.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/mypage/content.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/giftstore.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/newinsert.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/mypage/participate.css" rel="stylesheet">
@@ -21,8 +20,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/movie/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/movie/cgv.min.css" rel="stylesheet">
 
-
-
 <script src="${pageContext.request.contextPath}/resources/script/jquery-3.6.0.js"></script>
 
 
@@ -33,7 +30,7 @@
 	font-size: 14px;
 	padding: 5px;
 	background-color: #fb4357;
-	font-weight: 900;  
+	font-weight: 700;  
 	color: white;
 	border-radius: 5px;
 }
@@ -50,6 +47,10 @@
 }
 .title {
 	overflow: visible;
+	
+}
+.title>* {
+	margin-bottom: 5px;
 }
 .rContent>a {
 	position: absolute;
@@ -71,7 +72,6 @@
             <!-- Contents Start -->
 			
 <div class="cols-content">
-    
 <div class="col-aside">
 	<h2>프로필 및 서브메뉴</h2>
 	<div class="box-round-dgray">
@@ -126,16 +126,21 @@ let title;
 let count;
 $(function() {
 	$('.box-round-wgray a, .box-round-on a').on('click', function() {
+		$('.box-round-on').removeClass().addClass('box-round-wgray');
+		$(this).parents('.box-round-wgray, .box-round-on').removeClass().addClass('box-round-on');
+		
 		label = $(this).data('label'); // 클릭된 영역을 구분하기위한 라벨 data-label
 		title = $(this).find('strong').text(); //소제목
 		count = $(this).find('em').text(); // 건수
-		$('.box-round-on').removeClass().addClass('box-round-wgray');
-		$(this).parents('.box-round-wgray, .box-round-on').removeClass().addClass('box-round-on');
-		$('#sortBtn').trigger('click');
+		
+		$('#sortBtn').trigger('click'); // GO 버튼 클릭 이벤트
+		
 	});
 	
+	// go 버튼
 	$('#sortBtn').on('click', function() {
 		var sortType = $('#order_type').val();
+		
 		$.ajax({
 			type: 'GET',
 			url: '${pageContext.request.contextPath}/movie/myMovieList',
@@ -147,7 +152,7 @@ $(function() {
 				
 				$('.watched_list_container').html('');
 				result.forEach(function(movieDTO) {
-					var text = `<li class="movie_info">
+					var text = `<li class="movie_info"  style="margin-top: 15px; padding-bottom: 15px; border-bottom: 1px solid #d6d4ca;">
 								<input type="hidden" class="movieNum" value="\${movieDTO.MOVIE_NUM}">
 								<div class="article-movie-info" style="height:160px; margin-bottom: 10px;">
 									<div class="box-image" style="height:100%"> 
@@ -166,7 +171,7 @@ $(function() {
 											<span class="txt-info">
 				                            <i>\${movieDTO.RELEASEDATE} 개봉</i>
 				                        	</span>
-				                        	<ol>
+				                        	<ol style="margin-bottom:0;">
 				                        		<li>장르 : \${movieDTO.GENRE}</dt>
 				                        		<li>\${movieDTO.RATING}<dt>
 				                        	</ol>
@@ -184,70 +189,91 @@ $(function() {
 						text2 = `<a href="${pageContext.request.contextPath}/movie/information?num=\${movieDTO.MOVIE_NUM}" class="link-info">상세정보</a>`;
 						$('.btn-del:last').addClass('bookmark_del');
 					} else if(label == 'review') {
-						text2 = `<div class="rContent">
-									<span data-code="\${movieDTO.REVIEW_NUM}">\${movieDTO.REVIEW_CONTENT}</span>
+						text2 = `<div class="rContent" style="margin-bottom: 0;">
+									<textarea maxlength="200" rows="2" cols="88" data-code="\${movieDTO.REVIEW_NUM}" style="border: 1px solid gray;">\${movieDTO.REVIEW_CONTENT}</textarea>
 									<a href="javascript:void(0);"> 수정</a>
 								 </div>
 								 `
 						$('.btn-del:last').addClass('review_del');		 
 					} else if(label == 'watched') {
-						text2 = `<b>관람일: \${movieDTO.SAVEDDATE} / \${movieDTO.COUNTSEAT}석</b>`
+						text2 = `<b>관람일: \${movieDTO.DATEMOVIE} / \${movieDTO.COUNTSEAT}석</b>`
 						$('.btn-del').remove();
 					}
 					$('.title:last').append(text2);	
 				});
 			},
 			error: function() {
-				
 			}
 		});// ajax 종료
 	});
 	$('.inner-contents-log>a:first').trigger('click');
 });
 let reviewNum;
+// 수정 버튼 클릭
 $(document).on('click', '.rContent>a', function() {
 	var title = $(this).parents('.movie_info').find('#strong_id').text();
-	var content = $(this).parents('.rContent').find('span').text();
-	reviewNum = $(this).parents('.rContent').find('span').data('code');
+	var content = $(this).parents('.rContent').find('textarea').val();
+	reviewNum = $(this).parents('.rContent').find('textarea').data('code');
 	
-	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
-				<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
-					<div class="popup-general">
-					<div class="popwrap">
-						<h1>평점수정</h1>
-						<div class="pop-contents write-mygrade">
-							<div class="mygrade-cont">
-								<div class="movietit"><strong id="regTitle">\${title}</strong></div>
-								<div class="likeornot">
-									<div class="writerinfo">
-										<div class="box-image">
-											<span class="thumb-image">   
-												<img id="regUserPro" src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif" alt="사용자 프로필" onerror="errorImage(this, {'type':'profile'})">                                            
-												<span class="profile-mask"></span>
-											</span>
-										</div>
-										<span class="round red on"><span class="position"><em class="see">${sessionScope.id}</em></span></span>
-										<span class="writer-name" id="regUserName"></span>
-									</div>
-								</div>
+	$.ajax({
+		type: 'POST',
+		url: '${pageContext.request.contextPath}/movie/updateReview',
+		data: {"REVIEW_NUM":reviewNum, "REVIEW_CONTENT": content},
+		success: function() {
+			alert('리뷰 수정 완료');
+		},
+		error: function(str) {
+			if(str == "notOK"){
+				alert('업데이트실패')
+			} else {
+				alert('오류')
+			}
+		}
+	});
+	$('.btn-close').trigger('click');
 	
-								<div class="textbox">
-									<textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280">\${content}</textarea>
-								</div>
 	
-								<div class="footbox">
-									<div class="rbox">
-										<span class="count"><strong id="text_count">0</strong>/280(byte)</span>
-										<button type="button" class="round red on" id="regUpBtn"><span>수정완료!</span></button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<button type="button" class="btn-close" id="regLayerClose">평점작성 팝업 닫기</button>
-					</div>
-				</div>
-			</div>`
-	$('body').append(text);		
+	
+	
+	
+// 	var text = `<div class="mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100; background-color: rgba(0, 0, 0, 0.8);"></div>
+// 				<div class="layer-wrap" style="margin-top: -207px; margin-left: -355px; position: fixed;" tabindex="0"><div class="layer-contents on-shadow" style="width:710px;">
+// 					<div class="popup-general">
+// 					<div class="popwrap">
+// 						<h1>평점수정</h1>
+// 						<div class="pop-contents write-mygrade">
+// 							<div class="mygrade-cont">
+// 								<div class="movietit"><strong id="regTitle">\${title}</strong></div>
+// 								<div class="likeornot">
+// 									<div class="writerinfo">
+// 										<div class="box-image">
+// 											<span class="thumb-image">   
+// 												<img id="regUserPro" src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif" alt="사용자 프로필" onerror="errorImage(this, {'type':'profile'})">                                            
+// 												<span class="profile-mask"></span>
+// 											</span>
+// 										</div>
+// 										<span class="round red on"><span class="position"><em class="see">${sessionScope.id}</em></span></span>
+// 										<span class="writer-name" id="regUserName"></span>
+// 									</div>
+// 								</div>
+	
+// 								<div class="textbox">
+// 									<textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2" maxlength="280">\${content}</textarea>
+// 								</div>
+	
+// 								<div class="footbox">
+// 									<div class="rbox">
+// 										<span class="count"><strong id="text_count">0</strong>/280(byte)</span>
+// 										<button type="button" class="round red on" id="regUpBtn"><span>수정완료!</span></button>
+// 									</div>
+// 								</div>
+// 							</div>
+// 						</div>
+// 						<button type="button" class="btn-close" id="regLayerClose">평점작성 팝업 닫기</button>
+// 					</div>
+// 				</div>
+// 			</div>`
+// 	$('body').append(text);		
 });
 //리뷰 길이
 $(document).on('input', '#textReviewContent', function() {
@@ -261,26 +287,26 @@ $(document).on('click', '.btn-close', function() {
 
 // 수정완료 버튼 수정
 $(document).on('click', '#regUpBtn', function() {
-	var content = $('#textReviewContent').val();
-	$.ajax({
-		type: 'POST',
-		url: '${pageContext.request.contextPath}/movie/updateReview',
-		data: {"REVIEW_NUM":reviewNum, "REVIEW_CONTENT": content},
-		success: function() {
-			alert('리뷰 수정 완료');
-			$('.box-round-on').find('a').trigger('click');
-		},
-		error: function(str) {
-			if(str == "notOK"){
-				alert('업데이트실패')
-			}
-		}
-	});
-	$('.btn-close').trigger('click');
+// 	var content = $('#textReviewContent').val();
+// 	$.ajax({
+// 		type: 'POST',
+// 		url: '${pageContext.request.contextPath}/movie/updateReview',
+// 		data: {"REVIEW_NUM":reviewNum, "REVIEW_CONTENT": content},
+// 		success: function() {
+// 			alert('리뷰 수정 완료');
+// 			$('.box-round-on').find('a').trigger('click');
+// 		},
+// 		error: function(str) {
+// 			if(str == "notOK"){
+// 				alert('업데이트실패')
+// 			}
+// 		}
+// 	});
+// 	$('.btn-close').trigger('click');
 });
 
 $(document).on('click', '.review_del', function() {
-	reviewNum = $(this).parents('.movie_info').find('.rContent>span').data('code');
+	reviewNum = $(this).parents('.movie_info').find('.rContent>textarea').data('code');
 	$.ajax({
 		type: 'POST',
 		url: '${pageContext.request.contextPath}/movie/deleteReview',
@@ -345,10 +371,10 @@ $(document).on('click', '.bookmark_del', function() {
 				
 				</ul>
 			</div>
-            <div class="sect-wishlist-lst none">
-		       <p>기대되는 영화가 없습니다.<br>영화 상세 프리에그에서 '기대돼요!'를 선택하여 영화를 추가해보세요.</p>
-               <a href="/movies/" class="round black"><span>무비차트</span></a>
-		    </div>
+<!--             <div class="sect-wishlist-lst none"> -->
+<!-- 		       <p>기대되는 영화가 없습니다.<br>영화 상세 프리에그에서 '기대돼요!'를 선택하여 영화를 추가해보세요.</p> -->
+<!--                <a href="/movies/" class="round black"><span>무비차트</span></a> -->
+<!-- 		    </div> -->
             
 	    </div>
 	</div>
@@ -413,4 +439,5 @@ $(document).on('click', '.bookmark_del', function() {
     <!-- S Footer -->
 
 </body>
+<link href="${pageContext.request.contextPath}/resources/css/movie/content.css" rel="stylesheet">
 </html>

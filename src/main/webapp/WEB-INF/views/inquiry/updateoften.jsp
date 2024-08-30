@@ -155,7 +155,7 @@ function __doPostBack(eventTarget, eventArgument) {
 										<td colspan="3">
 											<textarea cols="60" rows="5" id="inp_textbox" name="OF_DETAIL" class="inp_txtbox01" 
 													  style=" height:94px !important;" 
-													  placeholder="${often.OF_DETAIL}"></textarea>
+													  >${often.OF_DETAIL}</textarea>
 											<p class="byte_info"><span id="sp_ad_content_size_1">0</span>/5000BYTE <span>(<span id="sp_ad_content_size_2">0</span>/2500자)</span></p>
 										</td>
 									</tr>
@@ -165,7 +165,7 @@ function __doPostBack(eventTarget, eventArgument) {
 						</div>
 						<div class="box-btn qna_email">
 							<a style="margin-left:5px" href="${pageContext.request.contextPath}/inquiry/often" class="round gray"><span style="padding:0 14px;">취소</span></a>
-                            <button style="width:80px" class="round inred" type="submit" id="emailsubmit"><span>등록하기</span></button>
+                            <button style="width:80px" class="round inred" type="submit" id="emailsubmit"><span>수정하기</span></button>
 						</div>
 					</fieldset>
 				</form>
