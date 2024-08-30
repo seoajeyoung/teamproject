@@ -1070,10 +1070,10 @@ $(document).on('click', '.link-gradewrite', function() {
 	};
 	let reviewUser
 	
-	debugger;
 	if($('#reviewCk').val() == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
-	} else if($('#reviewCk').val() == "notShowChecked") {
+		return;
+	} else if($('#showCheck').val() == "notShowChecked") {
 		alert('평점은 7일 이내에 관람 기록이 있는 회원만 작성 가능합니다.')
 		return;
 	}
@@ -1319,7 +1319,8 @@ $(document).on('click', '#regUpBtn', function() {
 
 
 <input type="hidden" class="sessionId" value="${sessionScope.member_id}">
-<input type="hidden" id="reviewCk" value="${REVIEWCHECK}">
+<input type="hidden" id="reviewCk" value="${REVIEWCK}">
+<input type="hidden" id="showCheck" value="${SHOWCHECK}"> 
 
 </body>
 </html>
