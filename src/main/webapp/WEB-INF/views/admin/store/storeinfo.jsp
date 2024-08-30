@@ -305,7 +305,7 @@ $(document).ready(function() {
 											<td><input type="text" id="ST_NAME" name="ST_NAME"
 												value="${adminDTO.ST_NAME}" style="margin-right: 5px;">
 												<span id="nameCheckMessage"></span></td>
-											<td rowspan="8" id="image-preview">
+											<td rowspan="8" id="image-preview" style="text-align: center; vertical-align: middle;">
 												<img src="${pageContext.request.contextPath}/resources/img/${adminDTO.ST_PICTURE}" alt="${storeDTO.ST_NAME }">								
 											</td>
 										<tr>
