@@ -28,7 +28,7 @@
 			 ), 'showMovie', 'notShow') AS 'show'
 			 , a.rn AS 'rn'
 		FROM (
-		    SELECT *, RANK() OVER (ORDER BY M.RANK) AS RN
+		    SELECT *, RANK() OVER (ORDER BY IFNULL(M.RANK, 999)) AS rn
 		    FROM MOVIE M
 		) a
 		ORDER BY a.rn
@@ -607,7 +607,7 @@
 			, DATEDIFF(m.RELEASEDATE, CURRENT_DATE()) AS D_DAY
 		FROM MOVIE m
 		WHERE current_date() &lt; RELEASEDATE
-		ORDER BY RELEASEDATE, m.RANK
+		ORDER BY RELEASEDATE
 	</select>
 	
 	

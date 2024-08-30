@@ -129,7 +129,7 @@ $(document).on('click', '.day>a', function() {
 							  <a href="${pageContext.request.contextPath}/ticket?num=\${movieNum}" target="_balnk">
 							    <em>\${thList.SC_TIME}</em>
 							    <span class="txt-lightblue">
-							      <span class="hidden">잔여좌석</span>\${thList.RELEASECOUNT}석
+							      <span class="hidden">잔여좌석</span>\${thList.RELEASECOUNT != null ? thList.RELEASECOUNT : thList.SE_COUNT}석
 							    </span>
 							  </a>
 							</li>

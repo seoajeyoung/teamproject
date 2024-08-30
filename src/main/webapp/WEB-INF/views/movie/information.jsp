@@ -1069,6 +1069,8 @@ $(document).on('click', '.link-gradewrite', function() {
 		return;
 	};
 	let reviewUser
+	
+	debugger;
 	if($('#reviewCk').val() == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
 	} else if($('#reviewCk').val() == "notShowChecked") {
@@ -1079,8 +1081,6 @@ $(document).on('click', '.link-gradewrite', function() {
 	if(reviewUser) {
 		$('.link-reviewwrite').trigger('click');
 		return;	
-	} else {
-		return;
 	}
 	
 	
