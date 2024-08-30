@@ -155,7 +155,7 @@ function __doPostBack(eventTarget, eventArgument) {
 										<td colspan="3">
 											<textarea cols="60" rows="5" id="inp_textbox" name="NEWS_CONTENT" class="inp_txtbox01" 
 													  style=" height:94px !important;" 
-													  placeholder="${news.NEWS_CONTENT}"></textarea>
+													  >${news.NEWS_CONTENT}</textarea>
 											<p class="byte_info"><span id="sp_ad_content_size_1">0</span>/5000BYTE <span>(<span id="sp_ad_content_size_2">0</span>/2500자)</span></p>
 										</td>
 									</tr>
