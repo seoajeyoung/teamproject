@@ -36,17 +36,29 @@ var tp_num = "${param.tp_num}";
 <jsp:include page="/WEB-INF/views/ticket/top.jsp" />
 <section id="content">
 			<div class="store_progress">
-				<div id="prog_img"><img src="/iTicket/resources/img/pay2.png"></div><div id="progress_red"><span class="step">STEP 01</span><br>결제하기</div>
-				<div> <span class="bracket"> &gt; </span> </div>
-				<div id="prog_img"><img src="/iTicket/resources/img/finish1.png"></div><div><span class="step">STEP 02</span><br>예매완료</div>
+			<div id="prog_img">
+				<img src="http://c5d2308t1.itwillbs.com/iTicket/resources/img/cart2.png">
 			</div>
+			<div id="progress_red">
+				<span class="step">STEP 01</span><br>결제하기
+			</div>
+			<div>
+				<span class="bracket"> &gt; </span>
+			</div>
+			<div id="prog_img">
+				<img src="http://c5d2308t1.itwillbs.com/iTicket/resources/img/pay1.png">
+			</div>
+			<div>
+				<span class="step">STEP 02</span><br>결제완료
+			</div>
+		</div>
 			
 			<!-- 구매 상품 정보 테이블 -->
 			<div class="store_pay">
 				<div class="store_pay_box">
 					<div class="store_subject">구매상품 정보</div>
 					<table class="store_pay_table">
-						<tbody><tr class="store_table_box01">
+						<tbody><tr class="store_table_box01" style="text-align: center;">
 							<!-- 이미지와 상품정보 두칸 합치기 위해 상품명 colspan2 사용 -->
 							<th>영화정보</th>
 							<th>극장정보</th>

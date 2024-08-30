@@ -1,6 +1,5 @@
 $(document).ready(function() {
     // 설정할 인원 수
-    var person = 8; // 이 값을 변경하여 인원 수 조정 가능
     var selectedPerCategory = {};
     var selectsenum = [];
     var totalSelected ='';
@@ -33,6 +32,7 @@ $(document).ready(function() {
                 .text(i);
             td.append(div);
             tr.append(td);
+            debugger;
         }
 
         // 행을 tbody에 추가
@@ -217,7 +217,6 @@ $('#tnb_step_btn_right').on('click', function(event) {
     confirmMessage += `총합: ${totalPrice} 원\n\n결제하시겠습니까?`;	
     
     if (confirm(confirmMessage)) {
-        // 사용자가 '확인'을 클릭한 경우, AJAX 요청을 보냅니다.
         $.ajax({
             url: '/teamproject/SEATPAYMENT', 
             method: 'POST', 
@@ -255,13 +254,6 @@ $('#tnb_step_btn_right').on('click', function(event) {
                	 location.reload();
            		 }
             },
-            error: function(xhr) {
-                // 서버가 에러 상태를 반환했을 때 처리
-                var response = JSON.parse(xhr.responseText);
-                alert(response.message);
-                location.reload();
-                
-            }
         });
     } else {
     	totalPrice = 0;

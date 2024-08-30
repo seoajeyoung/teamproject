@@ -16,7 +16,7 @@
 
 <title>OSTicket - schedule list</title>
 
-    <link rel="stylesheet"
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/admin/common.css">
 
 <link rel="stylesheet"
@@ -113,16 +113,17 @@
 											</select></td>
 											<td id="TD_REGIONEng"><select id="th_name"
 												name="th_name">
-													<option value="" disabled selected>극장 이름 선택해주세요</option>
+													<option value="" disabled selected>지역 먼저 등록해주세요</option>
 											</select></td>
 											<td><select id="theater-insert" class="theater-select">
-													<option value="" disabled selected>등록할관 선택해주세요</option>
+													<option value="" disabled selected>극장 먼저 등록해주세요</option>
 											</select></td>
 										</tr>
 									</tbody>
 								</table>
 								<div class="button-container">
-									<button type="submit" id="btn-open-modal" class="btn btn-danger btn-user same-size">등록</button>
+									<button type="submit" id="btn-open-modal"
+										class="btn btn-danger btn-user same-size">등록</button>
 								</div>
 
 							</div>
@@ -132,38 +133,91 @@
 					</div>
 					<!-- card shadow mb-4 -->
 
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-danger">결제 최대 인원 등록</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table theater-bordered" id="dataTable2"
+									width="100%" cellspacing="0">
+									<tbody>
+										<tr>
+											<th>지역</th>
+											<th>극장</th>
+											<th>관</th>
+											<th>최대 인원</th>
+										</tr>
+										<tr>
+											<td><select id="region2" name="region2">
+													<option value="" disabled selected>지역 선택해주세요</option>
+													<c:forEach var="region" items="${th_region}">
+														<c:forEach var="region" items="${region}">
+															<option value="${region.value}">${region.value}</option>
+														</c:forEach>
+													</c:forEach>
+											</select></td>
+											<td id="TD_REGIONEng"><select id="th_name2"
+												name="th_name2">
+													<option value="" disabled selected>지역 먼저 등록해주세요</option>
+											</select></td>
+											<td><select id="theater-insert2" class="theater-select2">
+													<option value="" disabled selected>극장 먼저 등록해주세요</option>
+											</select></td>
+											<td><input type="number" class="selectpeople"
+												style="color: #888; border: 1px solid #b5b5b5; border-radius: 5px; padding: 5px;">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="button-container">
+									<button type="submit" id="btnperson"
+										class="btn btn-danger btn-user same-size">등록</button>
+								</div>
+
+							</div>
+							<!-- table-responsive  -->
+						</div>
+						<!-- card-body -->
+					</div>
+
+
+
 				</div>
 				<!-- modal -->
 				<div class="modal">
-        <div class="modal_body">
-            <span class="close">&times;</span>
-            <form id="register-form">
-                <div class="input-container">
-                    <label id = "namecinema" class= "namecinema"></label>
-                     <select id="theater-select" class="theater-select">
-                    </select>
-                </div>
-                <div class="input-container">
-                    <label for="rows">세로</label>
-                    <button type="button" id="decrease-rows" class="mbutton">-</button>
-                    <input type="number" id="rows" name="rows" value="15" min="1" readonly>
-                    <button type="button" id="increase-rows" class="mbutton">+</button>
-                    <label for="cols">가로</label>
-                    <button type="button" id="decrease-cols" class="mbutton">-</button>
-                    <input type="number" id="cols" name="cols" value="15" min="1" readonly>
-                    <button type="button" id="increase-cols" class="mbutton">+</button>
-                </div>
-                <button type="button" id="btn-create-seats" class="mbutton">생성</button>
-            </form>
-            <div id="seat-container">
-                <div class="seat-table" id="seat-table"></div>
-                <div class="button-container2">
-                     <button type="button" id="onetouch" class="hidden">마우스 올리면 삭제</button>
-                    <button type="button" id="btn-save" class="hidden">저장</button>
-                </div>
-            </div>
-        </div>
-    </div>
+					<div class="modal_body">
+						<span class="close">&times;</span>
+						<form id="register-form">
+							<div class="input-container">
+								<label id="namecinema" class="namecinema"></label> <select
+									id="theater-select" class="theater-select">
+								</select>
+							</div>
+							<div class="input-container">
+								<label for="rows">세로</label>
+								<button type="button" id="decrease-rows" class="mbutton">-</button>
+								<input type="number" id="rows" name="rows" value="15" min="1"
+									readonly>
+								<button type="button" id="increase-rows" class="mbutton">+</button>
+								<label for="cols">가로</label>
+								<button type="button" id="decrease-cols" class="mbutton">-</button>
+								<input type="number" id="cols" name="cols" value="15" min="1"
+									readonly>
+								<button type="button" id="increase-cols" class="mbutton">+</button>
+							</div>
+							<button type="button" id="btn-create-seats" class="mbutton">생성</button>
+						</form>
+						<div id="seat-container">
+							<div class="seat-table" id="seat-table"></div>
+							<div class="button-container2">
+								<button type="button" id="onetouch" class="hidden">마우스
+									올리면 삭제</button>
+								<button type="button" id="btn-save" class="hidden">저장</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 			</div>

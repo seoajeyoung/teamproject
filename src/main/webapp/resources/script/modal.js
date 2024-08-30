@@ -1,8 +1,11 @@
 $(document).ready(function() {
     const seatData = [];
     var regionvalue = '';
+    var regionvalue2 = '';
     var th_namevalue = '';
+    var th_namevalue2 = '';
     var ci_number = '';
+    var ci_number2 = '';
     var rows = '';
     var cols = '';
     var saveci_number ='';
@@ -53,7 +56,6 @@ $(document).ready(function() {
         return; 
    		}
    		 $('.modal').css('display', 'flex');
-   		 debugger;
    		 getci_number();
     });
     
@@ -317,6 +319,81 @@ $(document).ready(function() {
     });
     
     
+
+    
+    
+   // 인원쪽 기능들 
+   $('#region2').change(function() {
+    regionvalue2 = $(this).val();
+    if(regionvalue2){
+        $.ajax({
+            url: '/teamproject/MODALTH_NAME',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                region: regionvalue2
+            },
+            success: function(theaters) {
+                $('#th_name2').empty();
+                $('#th_name2').append('<option value="" disabled selected>극장 이름 선택해주세요</option>');
+                theaters.forEach(function(theater) {
+                    $('#th_name2').append('<option value="' + theater.TH_NAME + '">' + theater.TH_NAME + '</option>');
+                });
+            },
+        });
+    }
+}); 
+    
+    // 극장이름2 클릭시 값 저장 함수 
+     $('#th_name2').change(function() {
+     	th_namevalue2 = $(this).val();
+     	getci_number2();
+     });
+    
+    //관 불러오는함수2
+    function getci_number2() {
+    $.ajax({
+        url: '/teamproject/CI_NUMBER',  
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            region: regionvalue2,
+            th_name: th_namevalue2
+        },
+        success: function(response) {
+            $('.theater-select2').empty(); // 기존 옵션 제거
+            $('.theater-select2').append('<option value="" disabled selected>저장된 극장 불러오기</option>'); // 기본 옵션 추가
+            response.forEach(function(theater) {
+       		$('.theater-select2').append('<option value="' + theater.TH_NUMBER + '">' + theater.TH_NUMBER + '</option>');
+            });
+        }
+    });
+	}
+	
+		$('#theater-insert2').on('change', function() {
+            ci_number2 = $(this).val();
+            $('#namecinema').text(th_namevalue  + "극장 " + ci_number);
+        });  
+	
+    	// 최대인원 등록 버튼
+      $('#btnperson').on('click', function() {
+      var person = $('.selectpeople').val();
+  		  $.ajax({
+      		  url: '/teamproject/INSERTPERSON', 
+      		  method: 'POST', 
+       		 contentType: 'application/json', 
+       		 data: JSON.stringify({
+       		  person: person,
+        	  th_region: regionvalue2,
+        	  th_name: th_namevalue2,
+       		  th_number: ci_number2
+        		 }),  
+        		success: function(response) {
+       			}
+       			
+    });
+    alert('인원이 설정되었습니다.');
+});
     
     
     
