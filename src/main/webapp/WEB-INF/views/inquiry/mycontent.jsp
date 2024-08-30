@@ -62,7 +62,7 @@
 					<li class="title">${content.IQ_NAME}</li>
 					<li class="stit_area">
 						<span>등록일<em class="regist_day">${content.IQ_DATE_FORMAT}<span><em class="regist_day"></em></span></em></span>
-						<span class="check_tit_area">닉네임<em class="check_num">${content.MEMBER_NICKNAME}</em></span>
+						<span class="check_tit_area">닉네임<em class="check_num">${content.MEM_NICKNAME}</em></span>
 					</li>
 				</ul>
 				<div class="view_area">
