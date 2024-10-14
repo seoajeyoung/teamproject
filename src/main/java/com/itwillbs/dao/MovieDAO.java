@@ -108,7 +108,7 @@ public class MovieDAO {
 	
 	
 	//리뷰 작성한 유저 검색
-	public Boolean getReviewUser(Map<String, Object> data) {
+	public Integer getReviewUser(Map<String, Object> data) {
 		return sqlsession.selectOne("movieMapper.getReviewUser", data);
 	}
 	//평점(리뷰) 저장

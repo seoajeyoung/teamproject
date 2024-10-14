@@ -25,6 +25,7 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.itwillbs.dao.MovieDAO;
 import com.itwillbs.domain.AdminDTO;
@@ -94,6 +95,8 @@ public class MovieService {
 		
 		String nation = (String)movieDTO.get("NATION");
 		String searchTitle = "";
+		String searchTrack = "";
+		
 		if(nation.contains("한국") || nation.contains("대한민국")) {
 			searchTitle = (String)movieDTO.get("TITLE");
 		} else {
@@ -109,29 +112,65 @@ public class MovieService {
 		}
 		
 		
-		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
+//		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
+//		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
+//		
+//		try {
+//			ArrayList<String> videoLink = new ArrayList<String>();
+//			for(int i = 0; i < soundTrackList.size(); i++) {
+//				
+//				String query = searchTitle + " " + soundTrackList.get(i);
+//				String url = apiUrl + "?part=snippet&q=" + query + "&type=video&key=" + apiKey;
+//				RestTemplate restTemplate = new RestTemplate();
+//				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+//				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
+//				JSONArray items = jsonResponse.getJSONArray("items");
+//				
+//				if (items.length() > 0) {
+//				    String videoId = items.getJSONObject(0).getJSONObject("id").getString("videoId");
+//				    videoLink.add(videoId);
+//				}
+//			}
+//			movieDTO.put("VIDEOID", videoLink);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		
+		// 구글 커스텀 서치 API 사용
+		String apiUrl = "https://www.googleapis.com/customsearch/v1";
 		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
+		String cx = "a4b73f30266b34add";
 		
 		try {
 			ArrayList<String> videoLink = new ArrayList<String>();
 			for(int i = 0; i < soundTrackList.size(); i++) {
 				
-				String query = searchTitle + " " + soundTrackList.get(i);
-				String url = apiUrl + "?part=snippet&q=" + query + "&type=video&key=" + apiKey;
+				String query = searchTitle + " OST " + soundTrackList.get(i);
+	            // URL 구성
+				String url = String.format("https://www.googleapis.com/customsearch/v1?q=%s&key=%s&cx=%s", 
+                        query, apiKey, cx);
+                
+                System.out.println(url);
+                
 				RestTemplate restTemplate = new RestTemplate();
 				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+				
 				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
 				JSONArray items = jsonResponse.getJSONArray("items");
 				
-				if (items.length() > 0) {
-				    String videoId = items.getJSONObject(0).getJSONObject("id").getString("videoId");
-				    videoLink.add(videoId);
-				}
+				 if (items != null && items.length() > 0) {
+                     String videoId = items.getJSONObject(0).optString("link", null);
+                     System.out.println(videoId);
+                     videoLink.add(videoId);
+                 }
 			}
-			movieDTO.put("VIDEOID", videoLink);
+			movieDTO.put("VIDEOLINK", videoLink);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		
 		return movieDTO;
 	}
@@ -194,9 +233,9 @@ public class MovieService {
 	
 	// ==================================== 리뷰 ==================================
 	// 해당 영화에 유저의 리뷰가 있는지 검색
+	
 	public boolean getReviewUser(Map<String, Object> data) {
-		Boolean result = movieDAO.getReviewUser(data);
-		result = result != null ? result : false; 
+		boolean result = movieDAO.getReviewUser(data) != null ? true : false;
 		return result;
 	}
 	//평점(리뷰)저장

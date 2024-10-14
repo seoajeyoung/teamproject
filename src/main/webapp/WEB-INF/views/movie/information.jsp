@@ -324,7 +324,7 @@ function pointChart() {
 	                <dd>
 	                	<c:forEach var="TRACK" items="${movieDTO.SOUNDTRACK}" varStatus="Status">
 	                		<c:if test="${Status.index != 0}">/ </c:if>
-		                	<a href="https://www.youtube.com/watch?v=${movieDTO.VIDEOID[Status.index]}">
+		                	<a href="${movieDTO.VIDEOLINK[Status.index]}">
 		                		${TRACK}
 		                	</a>
 	                	</c:forEach>
@@ -1071,21 +1071,23 @@ $(document).on('click', '.link-gradewrite', function() {
 		return;
 	};
 	
-	let reviewUser
+	let reviewUser = false;
 	
-	if($('#reviewCk').val() == "alReview") {
+	var ckValue = $('#showCheck').val();
+	if(ckValue == "alReview") {
 		reviewUser = confirm("이미 리뷰를 작성한 영화입니다. 내 평점 수정 페이지로 이동 하시겠습니까?");
-	} else if($('#showCheck').val() == "notShowChecked") {
+		
+		if(reviewUser) {
+			$('.link-reviewwrite').trigger('click');
+		}
+		
+		return;
+	} else if(ckValue == "notShowChecked") {
 		alert('평점은 7일 이내에 관람 기록이 있는 회원만 작성 가능합니다.')
 		return;
 	}
 	
-	if(reviewUser) {
-		$('.link-reviewwrite').trigger('click');
-		return;	
-	} else {
-		return;
-	}
+	
 	
 	
 	var title = $('.movieTitle>strong').text();
@@ -1227,7 +1229,8 @@ $(document).on('click', '.set-btn>button', function() {
 			alert('리뷰 저장 완료');
 			$('.tab-menu>li.on').find('a').trigger('click');
 		},
-		error: function() {
+		error: function(e) {
+			debugger;
 			alert('리뷰 저장 실패(이미 리뷰를 작성한 영화입니다)');
 		}
 	});

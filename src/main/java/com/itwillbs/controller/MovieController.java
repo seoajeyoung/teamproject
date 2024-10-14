@@ -165,12 +165,11 @@ public class MovieController implements WebMvcConfigurer {
 			rMap.put("MEMBER_ID", id);
 			String bookmark = movieService.getBookmark(rMap) ? "favor" : "hate";
 			model.addAttribute("BOOKMARK", bookmark);
-			Boolean reviewCheck = movieService.getReviewUser(rMap);
 			String showCheck = "";
 			showCheck = movieService.getShowCheck(rMap) ? "showChecked" : "notShowChecked";
-			String reviewCK = reviewCheck ? "alReview" : "";
+			showCheck = movieService.getReviewUser(rMap) ? "alReview" : showCheck;
+			
 			model.addAttribute("SHOWCHECK", showCheck);
-			model.addAttribute("REVIEWCK", reviewCK);
 		}
 		
 		return "/movie/information";
@@ -226,10 +225,9 @@ public class MovieController implements WebMvcConfigurer {
 	@ResponseBody
 	@PostMapping("/insertReview")
 	public ResponseEntity<Boolean> insertReview(@RequestParam Map<String, Object> data) {
-		boolean result = movieService.getReviewUser(data);
+		Boolean result = movieService.insertReview(data);
 		
 		if(result) {
-			movieService.insertReview(data);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);

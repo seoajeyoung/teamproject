@@ -328,8 +328,8 @@
 	
 	
 	<!-- 리뷰 검색 -->
-	<select id="getReviewUser" resultType="java.lang.Boolean">
-		SELECT IF(REVIEW_NUM IS NOT NULL, true, false)
+	<select id="getReviewUser" resultType="java.lang.Integer">
+		SELECT REVIEW_NUM
 		FROM REVIEW
 		WHERE MOVIE_NUM = #{MOVIE_NUM}
 		AND MEM_NUM = (SELECT MEM_NUM
