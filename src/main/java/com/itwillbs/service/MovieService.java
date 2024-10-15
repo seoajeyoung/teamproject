@@ -111,7 +111,7 @@ public class MovieService {
 			soundTrackList = new ArrayList<String>(Arrays.asList(soundtrack));
 		}
 		
-		
+		// 사용량 부족
 //		String apiUrl = "https://www.googleapis.com/youtube/v3/search";
 //		String apiKey = "AIzaSyBgNgsIuHeH8khaa31xOU9zdEJAyYV0-_k";
 //		
@@ -145,7 +145,6 @@ public class MovieService {
 		try {
 			ArrayList<String> videoLink = new ArrayList<String>();
 			for(int i = 0; i < soundTrackList.size(); i++) {
-				
 				String query = searchTitle + " OST " + soundTrackList.get(i);
 	            // URL 구성
 				String url = String.format("https://www.googleapis.com/customsearch/v1?q=%s&key=%s&cx=%s", 
@@ -155,7 +154,6 @@ public class MovieService {
                 
 				RestTemplate restTemplate = new RestTemplate();
 				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-				
 				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());
 				JSONArray items = jsonResponse.getJSONArray("items");
 				

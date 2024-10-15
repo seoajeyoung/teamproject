@@ -141,15 +141,15 @@
  		WHERE C.MOVIE_NUM IS NOT NULL
 		GROUP BY M.MOVIE_NUM
 		<choose>
-		<when test="SORTSTR == 'SORTRATE'">
-			ORDER BY RATE DESC, M.RANK DESC
-		</when>
-		<when test="SORTSTR == 'SORTLIKED'">
-			ORDER BY SUM(IFNULL(R.MOVIE_LIKED, 0)) DESC
-		</when>
-		<when test="SORTSTR == 'SORTRANK'">
-			ORDER BY RANKING
-		</when>
+			<when test="SORTSTR == 'SORTRATE'">
+				ORDER BY RATE DESC, M.RANK DESC
+			</when>
+			<when test="SORTSTR == 'SORTLIKED'">
+				ORDER BY SUM(IFNULL(R.MOVIE_LIKED, 0)) DESC
+			</when>
+			<when test="SORTSTR == 'SORTRANK'">
+				ORDER BY RANKING
+			</when>
 		</choose>
 	</select>
 	
@@ -167,6 +167,7 @@
 	        , M.STILLURL
 	        , M.VODURL
 	        , M.SOUNDTRACK
+	        , M.PLOT
 	        , CAST(DATE_FORMAT(M.RELEASEDATE, '%Y-%m-%d') AS CHAR) AS RELEASEDATE
 	        , SUBSTRING_INDEX(M.POSTERURL, '|', 1) AS POSTERURL
 	        , M.RUNTIME

@@ -386,7 +386,7 @@ $(function() {
                 <li><a class="runningTime" href="javascript:void(0)">상영시간표</a></li>
             </ul>
             <div class="sect-story-movie" id="sect-story-movie">
-            	${movieDTO.plot}
+            	${movieDTO.PLOT}
 			</div>
             <!-- .sect-story -->
 <!-- 탭 -->            
