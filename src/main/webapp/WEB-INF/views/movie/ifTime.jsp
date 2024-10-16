@@ -43,7 +43,7 @@ $(function() {
 	$('.regionLink').on('click', function() {
 		thRegion = $(this).text();
 
-		$('.region>li').removeClass('on')
+		$(this).parents('ul').find('li').removeClass('on')
 		$(this).parents('li').addClass('on');
 		$.ajax({
 			type: 'get',

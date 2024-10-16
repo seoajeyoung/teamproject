@@ -146,12 +146,8 @@ public class MovieService {
 			ArrayList<String> videoLink = new ArrayList<String>();
 			for(int i = 0; i < soundTrackList.size(); i++) {
 				String query = searchTitle + " OST " + soundTrackList.get(i);
-	            // URL 구성
 				String url = String.format("https://www.googleapis.com/customsearch/v1?q=%s&key=%s&cx=%s", 
                         query, apiKey, cx);
-                
-                System.out.println(url);
-                
 				RestTemplate restTemplate = new RestTemplate();
 				ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 				JSONObject jsonResponse = new JSONObject(responseEntity.getBody());

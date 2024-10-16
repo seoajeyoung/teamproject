@@ -304,19 +304,20 @@
         <choose>
 	        <when test="MOVIE_NUM != null">
 	        AND MOVIE_NUM &lt;&gt; #{MOVIE_NUM}
-	        AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
+	        AND GENRE REGEXP (SELECT REPLACE(GENRE, ',', '|') AS GENRE
 			        		  FROM MOVIE
 			        		  WHERE MOVIE_NUM = #{MOVIE_NUM})
 	        ORDER BY M.RANK
 	        LIMIT 6
 	        </when>
 	        <when test="MEMBER_NUM != null">
-			AND GENRE REGEXP (SELECT REPLACE(genre, ',', '|') AS GENRE
+			AND GENRE REGEXP (SELECT REPLACE(GENRE, ',', '|') AS GENRE
 							  FROM MOVIE
-							  WHERE MOVIE_NUM IN (SELECT MOVIE_NUM
-											      FROM BOOKMARK
-												  WHERE MEM_NUM = #{MEMBER_NUM}
-												  )
+							  WHERE MOVIE_NUM
+							   IN
+							    (SELECT MOVIE_NUM
+							      FROM BOOKMARK
+								  WHERE MEM_NUM = #{MEMBER_NUM})
 							  GROUP BY GENRE
 							  ORDER BY RAND()
 					   		  limit 1)

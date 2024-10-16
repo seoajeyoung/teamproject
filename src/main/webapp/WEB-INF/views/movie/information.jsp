@@ -484,7 +484,7 @@ $(function() {
 	});
 	
 	$(".runningTime").on('click', function() {
-		$('.day').parent('li').removeClass('on');
+		$('.tab-menu').find('li').removeClass('on');
 		$(this).parents('li').addClass('on');
 		
 		var text2 =`<iframe id="ifrm_movie_time_table" src="${pageContext.request.contextPath}/movie/ifTime?MOVIE_NUM=\${movieNum}" title="" width="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" style="min-height: 100px; height: 1500px;"></iframe>`;
@@ -1065,6 +1065,7 @@ $(document).on('click', '.btn-close', function() {
 });
 
 // 평점 작성 버튼 클릭
+let reviewCkB = false;
 $(document).on('click', '.link-gradewrite', function() {
 	if(memberId == null || memberId == "") {
 		alert('비회원은 평점 작성 불가');
@@ -1087,6 +1088,7 @@ $(document).on('click', '.link-gradewrite', function() {
 		return;
 	}
 	
+	reviewCkB = true;
 	
 	
 	
@@ -1232,6 +1234,9 @@ $(document).on('click', '.set-btn>button', function() {
 		error: function(e) {
 			debugger;
 			alert('리뷰 저장 실패(이미 리뷰를 작성한 영화입니다)');
+		},
+		complete: () => {
+			reviewCkB = false;
 		}
 	});
 	

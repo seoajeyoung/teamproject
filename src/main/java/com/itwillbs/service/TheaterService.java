@@ -56,7 +56,7 @@ public class TheaterService {
 			String[] str = deleteName.split(",");
 			updateTh = new LinkedHashSet<String>(Arrays.asList(str));
 		}
-		
+			
 		updateTh.removeIf(String::isBlank);
 		if(updateTh.size() > 5) return true;
 		
